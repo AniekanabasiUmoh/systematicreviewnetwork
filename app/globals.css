@@ -1,0 +1,142 @@
+@import "tailwindcss";
+
+/* =============================================================================
+   SRN design tokens — Design.md §3
+   Single light institutional palette. No dark mode in v1 (not in scope).
+   ========================================================================== */
+
+@theme {
+  /* --- §3.1 Palette ---------------------------------------------------------
+     [PLACEHOLDER: hexes unconfirmed] --brand is an estimate. Sprint 1.1 samples
+     the EXACT value from the SRN logo vector (§12.1, still awaited from
+     Fortune). When it arrives, change it HERE and nowhere else. */
+  --color-brand: #24276e; /* SRN navy — headings, nav, footer, overlays */
+  --color-ink: #191c45; /* darkened navy — body text, ink sections */
+  --color-evidence: #1f6f5c; /* THE action color — CTAs, links, focus rings */
+  --color-gold: #c9a227; /* impact numbers + max ONE highlighted CTA/page */
+  --color-paper: #ffffff; /* base background */
+  --color-mist: #f4f6f8; /* alternating section background */
+  --color-slate: #5a6b7b; /* secondary text, captions, metadata */
+  --color-evidence-tint: #e8f2ef; /* card hovers, tag backgrounds */
+  --color-hairline: #e3e8ed; /* card borders (§3.3) */
+
+  /* Category tag hues — the ONE sanctioned echo of the logo's four mark colors
+     (§3.1). Tinted background + dark text. Used nowhere else on the site. */
+  --color-tag-blue: #1f5fa9;
+  --color-tag-blue-tint: #e7effa;
+  --color-tag-orange: #c2452a;
+  --color-tag-orange-tint: #fbeae6;
+  --color-tag-yellow: #9a7b12;
+  --color-tag-yellow-tint: #fbf3dc;
+  --color-tag-green: #1f6f5c;
+  --color-tag-green-tint: #e8f2ef;
+
+  /* --- §3.2 Typography ---------------------------------------------------- */
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* Type scale, desktop values. Mobile steps applied per-component (§3.2):
+     hero 56→36 · h2 36→28 · h3 24→20 · body 17→16 · small 14 · eyebrow 13 */
+  --text-hero: 3.5rem; /* 56px */
+  --text-hero--line-height: 1.05;
+  --text-hero-mobile: 2.25rem; /* 36px */
+  --text-hero-mobile--line-height: 1.1;
+  --text-h2: 2.25rem; /* 36px */
+  --text-h2--line-height: 1.15;
+  --text-h2-mobile: 1.75rem; /* 28px */
+  --text-h2-mobile--line-height: 1.2;
+  --text-h3: 1.5rem; /* 24px */
+  --text-h3--line-height: 1.25;
+  --text-h3-mobile: 1.25rem; /* 20px */
+  --text-h3-mobile--line-height: 1.3;
+  --text-body: 1.0625rem; /* 17px */
+  --text-body--line-height: 1.65;
+  --text-body-mobile: 1rem; /* 16px */
+  --text-body-mobile--line-height: 1.6;
+  --text-small: 0.875rem; /* 14px */
+  --text-small--line-height: 1.5;
+  --text-eyebrow: 0.8125rem; /* 13px */
+  --text-eyebrow--line-height: 1.2;
+
+  /* --- §3.3 Layout system ------------------------------------------------- */
+  --container-content: 1200px; /* max content width */
+  --container-prose: 720px; /* prose column */
+
+  --spacing-section: 6rem; /* 96px desktop section padding */
+  --spacing-section-mobile: 3.5rem; /* 56px mobile */
+  --spacing-gap: 1.5rem; /* 24px grid gap + card padding */
+
+  --radius-card: 12px;
+}
+
+/* --- Base -----------------------------------------------------------------
+   §3.5 quality floor: no layout shift, visible focus, AA contrast. */
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-body-mobile);
+    line-height: var(--text-body-mobile--line-height);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  @media (min-width: 768px) {
+    body {
+      font-size: var(--text-body);
+      line-height: var(--text-body--line-height);
+    }
+  }
+
+  /* §3.5 — visible keyboard focus, 2px evidence outline, everywhere. */
+  :focus-visible {
+    outline: 2px solid var(--color-evidence);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* §3.3 — motion is an enhancement only; reduced motion kills all of it. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer utilities {
+  /* §3.2 — the "eyebrow" label above every section headline. */
+  .text-eyebrow-style {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: var(--text-eyebrow);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* §3.2 — prose line-length cap. */
+  .prose-measure {
+    max-width: 68ch;
+  }
+
+  /* §3.3 — navy multiply overlay so white text sits legibly on real photos,
+     and photos of mixed quality (Zoom screenshots, phone photos) unify. */
+  .photo-overlay::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: var(--color-ink);
+    opacity: 0.62; /* §3.3 specifies 55–70% */
+    mix-blend-mode: multiply;
+    pointer-events: none;
+  }
+}
