@@ -458,7 +458,8 @@ PAYSTACK_WEBHOOK_SECRET          (server only — x-paystack-signature HMAC)
 2. ~~Paid events?~~ **RESOLVED (2026-07-24, Thorpeboss): YES — paid via Paystack.** See §13.
 3. ~~Donations~~ **RESOLVED (2026-07-24, Thorpeboss): live Paystack processing in v1**, not contact-based. See §13.
 4. Final country list + impact numbers (Phase 0.3 checklist).
-5. **Paystack multi-currency approval** — USD pricing (§13) requires multi-currency enabled on SRN's Paystack account; it is not on by default. Needs confirming with Fortune/Paystack. Until approved, USD-priced events cannot check out; the schema supports it regardless.
+5. **Palette — open, revisit at Sprint 2.1.** Thorpeboss flagged uncertainty about the colour choices (2026-07-24). Deliberately NOT changed yet: swatches judge badly in isolation, and the palette should be reviewed on the real homepage with real photography behind it. All colour lives in the `@theme` block of `app/globals.css`, so a revision is a single-file edit. Revisit once Sprint 2.1 is viewable.
+6. **Paystack multi-currency approval** — USD pricing (§13) requires multi-currency enabled on SRN's Paystack account; it is not on by default. Needs confirming with Fortune/Paystack. Until approved, USD-priced events cannot check out; the schema supports it regardless.
 
 ---
 
