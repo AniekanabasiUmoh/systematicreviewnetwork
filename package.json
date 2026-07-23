@@ -12,7 +12,9 @@
     "format:check": "prettier --check .",
     "db:migrate": "node supabase/migrate.mjs",
     "db:status": "node supabase/migrate.mjs --status",
-    "gen:types": "node supabase/gen-types.mjs"
+    "gen:types": "node supabase/gen-types.mjs",
+    "db:seed": "node supabase/seed.mjs",
+    "db:seed:reset": "node supabase/seed.mjs --reset"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.110.8",

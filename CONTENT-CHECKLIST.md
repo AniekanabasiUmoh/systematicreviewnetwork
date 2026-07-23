@@ -16,11 +16,11 @@ Real photos of real SRN training are what will make this site credible. A visito
 
 **Please don't buy stock photos.** A generic photo of strangers in a meeting room reads as fake immediately, and for an evidence organisation that is a particularly bad look. Real photos taken on a phone are far better than polished stock.
 
-| What | How many | What it needs to be |
-| --- | --- | --- |
-| **Main photo for the front page** | 1 | A wide (landscape) photo of an actual SRN training session. People doing something — talking, working, presenting — not lined up smiling at the camera. As large a file as you have; at least 2400 pixels across. |
-| **Other event photos** | 4–6 | Workshops, presentations, group shots. **Zoom screenshots are fine** — a grid of participants from an online session works well. At least 1600 pixels across. |
-| **Photos of people** | Every person listed on the site | One per team member. Square if possible, at least 800 pixels. Different backgrounds and lighting are fine — the site treats them consistently. |
+| What                              | How many                        | What it needs to be                                                                                                                                                                                               |
+| --------------------------------- | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Main photo for the front page** | 1                               | A wide (landscape) photo of an actual SRN training session. People doing something — talking, working, presenting — not lined up smiling at the camera. As large a file as you have; at least 2400 pixels across. |
+| **Other event photos**            | 4–6                             | Workshops, presentations, group shots. **Zoom screenshots are fine** — a grid of participants from an online session works well. At least 1600 pixels across.                                                     |
+| **Photos of people**              | Every person listed on the site | One per team member. Square if possible, at least 800 pixels. Different backgrounds and lighting are fine — the site treats them consistently.                                                                    |
 
 **If you're unsure whether a photo is good enough, send it anyway.** It's easier for us to say "this one works" than for you to guess.
 
@@ -140,4 +140,4 @@ If anything here is unclear or seems like more than you have, tell us — there'
 
 ---
 
-*Prepared for the SRN website build · Design.md Sprint 0.3 · 24 July 2026*
+_Prepared for the SRN website build · Design.md Sprint 0.3 · 24 July 2026_
