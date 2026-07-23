@@ -4,27 +4,34 @@ Hi Fortune,
 
 The website is being built now. Everything on this list is something only you can provide — we can build every page without it, but **we cannot launch without it.** Right now the site is running on obvious placeholder content, which is deliberate: it means nothing fake can accidentally go live.
 
-Please send whatever you have as you get it, rather than waiting to have everything. Photos first if you can — they matter most.
+Please send whatever you have as you get it, rather than waiting to have everything.
+
+**Good news first:** we've been able to pull a lot from your current WordPress site automatically — **191 usable images**, including around 27 high-resolution photos from real workshops, plus your team list and all your existing posts. So several things we'd normally have to ask you for are already covered. What's left below is genuinely the gap.
+
+Two things we still need on the photos, though, and they matter:
+
+1. **Which ones are current?** We have the files, not the context. We don't know which photos are recent, which events they show, or which you'd be happy to lead the site with.
+2. **Permission.** Same as before — we need to know the people shown are content to appear on a public site.
 
 **Send to:** [PLACEHOLDER: agree a shared Drive folder or email]
 
 ---
 
-## 1. Photographs — the most important item
+## 1. Photographs — mostly covered, but we need your eye
 
-Real photos of real SRN training are what will make this site credible. A visitor decides in about five seconds whether an organisation is substantial, and photography does most of that work. This is the single biggest difference between a site that looks established and one that looks new.
+We already have **191 images** from your current site, including roughly 27 real workshop photos at high resolution. That's the bulk of what we need. What we can't work out on our own:
 
-**Please don't buy stock photos.** A generic photo of strangers in a meeting room reads as fake immediately, and for an evidence organisation that is a particularly bad look. Real photos taken on a phone are far better than polished stock.
+- **Pick your best training photo.** Look through your site's media library and tell us the one or two photos you'd most want a visitor to see first. We're looking for people mid-activity — talking, working, presenting — rather than lined up for the camera. If the one you want isn't on the old site, send it.
+- **Confirm they're still representative.** Some photos may be from events you'd rather not lead with now.
+- **Permission.** Confirmation that the people shown are happy to appear publicly.
 
-| What                              | How many                        | What it needs to be                                                                                                                                                                                               |
-| --------------------------------- | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Main photo for the front page** | 1                               | A wide (landscape) photo of an actual SRN training session. People doing something — talking, working, presenting — not lined up smiling at the camera. As large a file as you have; at least 2400 pixels across. |
-| **Other event photos**            | 4–6                             | Workshops, presentations, group shots. **Zoom screenshots are fine** — a grid of participants from an online session works well. At least 1600 pixels across.                                                     |
-| **Photos of people**              | Every person listed on the site | One per team member. Square if possible, at least 800 pixels. Different backgrounds and lighting are fine — the site treats them consistently.                                                                    |
+**One thing we noticed:** your current site has around **60 stock photos** in its media library — generic images that came with the WordPress theme. We're not using any of them. A generic photo of strangers in a meeting room reads as fake immediately, and for an evidence organisation that's a particularly bad look. Your real photos are much stronger, and there are plenty of them.
+
+**If a photo you want isn't on the old site, send it.** Real photos taken on a phone beat polished stock every time.
+
+**Still missing — headshots.** We found photos for some of the team, but not everyone on your team page has one, and we can't reliably tell which photo belongs to which person. So: **one photo per team member**, square if possible, at least 800 pixels. Different backgrounds and lighting are fine — the site treats them consistently. Name each file with the person's name so there's no guesswork.
 
 **If you're unsure whether a photo is good enough, send it anyway.** It's easier for us to say "this one works" than for you to guess.
-
-**One thing we need in writing:** confirmation that the people in these photos are happy to appear on a public website. A short note saying so is enough.
 
 ---
 
@@ -58,7 +65,9 @@ Please also tell us **what period each number covers** (for example, "since 2022
 
 The site includes a map of the countries SRN has reached. Please send the full list.
 
-We know about: Nigeria, Rwanda, Ghana, Cameroon, Pakistan, Brazil. Please correct anything wrong and add what's missing.
+From your team page we can already infer: **Nigeria, Rwanda, Cameroon, Ghana, Pakistan, Uganda, Brazil, Bangladesh**. Please correct anything wrong and add what's missing.
+
+Worth separating two different things, because the map should show the second: countries where your **team** is based, versus countries where you've **actually delivered training or have members**. Tell us which is which.
 
 ---
 
@@ -114,11 +123,11 @@ You've confirmed courses are paid, so we're building payment into the site using
 
 We're rewriting all the text rather than copying from the old site, but we need the facts right. Please confirm:
 
-- **The SRN story** — how it started, when, the connection to ACSRM and AuthorAID, why it was founded
-- **What SRN is trying to achieve** — mission and vision, in your own words
-- **Every team member**: full name, role, institution, and whether they want their LinkedIn or ORCID linked
-- **Contact details** — the email address for enquiries, and which social media accounts are current
-- **Any documents** you want available for download, such as annual reports
+- **The SRN story** — how it started, when, the connection to ACSRM and AuthorAID, why it was founded. We have your two 2023 posts on ACSRM and on international review networks, which give us the background; we need to know what's still accurate.
+- **What SRN is trying to achieve** — mission and vision, in your own words.
+- **The team list.** We've pulled the names and roles from your current team page — Fortune Effiong, Roseline Dzekem Dine, Prof Ejaz Ahmad Khan, Dr Leonard Uzairue, Dr Frank Kyei Arthur, Moses Asori, Dr Uzma Kazmi, Andy Nobes, Julia Ribeiro, Nafisa Elehamer, Dr Adekunle Adeleke, Prof Ngozi Eunice Osadebe, Dr Edward Mawejje, Kingsley Achi, Uzoma Emmanuella Adebayo, Md Atiqur Rahman Mollick, Msughaondo Check Isho, Dr Jamila Abdullhamid Atata, Precious Nengak, Wazhi Godsave Binlak, and others. **Please confirm this is current** — who has left, who is new, and whether every name is spelled the way they want it. Also each person's **institution**, and whether they want LinkedIn or ORCID linked.
+- **Contact details** — the email address for enquiries, and which social media accounts are current.
+- **Any documents** you want available for download, such as annual reports.
 
 ---
 

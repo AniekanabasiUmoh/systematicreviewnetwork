@@ -14,7 +14,8 @@
     "db:status": "node supabase/migrate.mjs --status",
     "gen:types": "node supabase/gen-types.mjs",
     "db:seed": "node supabase/seed.mjs",
-    "db:seed:reset": "node supabase/seed.mjs --reset"
+    "db:seed:reset": "node supabase/seed.mjs --reset",
+    "wp:export": "node supabase/import-wordpress.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.110.8",

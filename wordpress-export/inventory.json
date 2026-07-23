@@ -1,0 +1,3263 @@
+{
+  "source": "https://systematicreviewsnetwork.org",
+  "fetched_at": "2026-07-23T23:55:34.939Z",
+  "counts": {
+    "posts": 13,
+    "pages": 7,
+    "images_total": 268,
+    "stock_excluded": 61,
+    "chrome_excluded": 16,
+    "usable": 191
+  },
+  "hero_candidates": [
+    {
+      "id": 1691,
+      "slug": "rising-scholar",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/09/rising-scholar.png",
+      "alt": "",
+      "width": 12441,
+      "height": 4168,
+      "ratio": 2.98,
+      "date": "2025-09-26T16:17:14"
+    },
+    {
+      "id": 877,
+      "slug": "new-acsrm-certificate-template-for-web-1",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/06/new-acsrm-Certificate-template-for-web-1-scaled.jpg",
+      "alt": "",
+      "width": 2560,
+      "height": 1440,
+      "ratio": 1.78,
+      "date": "2024-06-09T20:15:33"
+    },
+    {
+      "id": 782,
+      "slug": "acsrm-certificate-template-word-1",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/05/ACSRM-Certificate-Template-Word-1.jpg",
+      "alt": "",
+      "width": 2667,
+      "height": 1500,
+      "ratio": 1.78,
+      "date": "2024-05-14T22:30:30"
+    },
+    {
+      "id": 689,
+      "slug": "img_7038_compressed",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/02/IMG_7038_compressed.jpg",
+      "alt": "",
+      "width": 3000,
+      "height": 2000,
+      "ratio": 1.5,
+      "date": "2024-02-17T19:17:58"
+    },
+    {
+      "id": 688,
+      "slug": "img_7030-1_compressed",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/02/IMG_7030-1_compressed.jpg",
+      "alt": "",
+      "width": 3000,
+      "height": 2000,
+      "ratio": 1.5,
+      "date": "2024-02-17T19:17:54"
+    },
+    {
+      "id": 685,
+      "slug": "photo_33_compressed",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/02/photo_33_compressed.jpg",
+      "alt": "",
+      "width": 6000,
+      "height": 4000,
+      "ratio": 1.5,
+      "date": "2024-02-17T19:07:53"
+    },
+    {
+      "id": 684,
+      "slug": "photo_31_compressed",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/02/photo_31_compressed.jpg",
+      "alt": "",
+      "width": 6000,
+      "height": 4000,
+      "ratio": 1.5,
+      "date": "2024-02-17T19:07:43"
+    },
+    {
+      "id": 683,
+      "slug": "photo_46_compressed",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/02/photo_46_compressed.jpg",
+      "alt": "",
+      "width": 2560,
+      "height": 1920,
+      "ratio": 1.33,
+      "date": "2024-02-17T19:07:25"
+    },
+    {
+      "id": 419,
+      "slug": "photo_3",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/photo_3.jpg",
+      "alt": "",
+      "width": 6000,
+      "height": 4000,
+      "ratio": 1.5,
+      "date": "2023-12-29T17:34:20"
+    },
+    {
+      "id": 418,
+      "slug": "photo_2",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/photo_2.jpg",
+      "alt": "",
+      "width": 6000,
+      "height": 4000,
+      "ratio": 1.5,
+      "date": "2023-12-29T17:34:18"
+    },
+    {
+      "id": 417,
+      "slug": "photo_55-2",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/photo_55-1.jpg",
+      "alt": "",
+      "width": 2560,
+      "height": 1920,
+      "ratio": 1.33,
+      "date": "2023-12-29T17:34:17"
+    },
+    {
+      "id": 416,
+      "slug": "photo_30",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/photo_30.jpg",
+      "alt": "",
+      "width": 5484,
+      "height": 4000,
+      "ratio": 1.37,
+      "date": "2023-12-29T17:34:13"
+    },
+    {
+      "id": 415,
+      "slug": "photo_21",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/photo_21.jpg",
+      "alt": "",
+      "width": 5328,
+      "height": 4000,
+      "ratio": 1.33,
+      "date": "2023-12-29T17:34:11"
+    },
+    {
+      "id": 414,
+      "slug": "photo_17",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/photo_17.jpg",
+      "alt": "",
+      "width": 6000,
+      "height": 4000,
+      "ratio": 1.5,
+      "date": "2023-12-29T17:34:07"
+    },
+    {
+      "id": 413,
+      "slug": "photo_16",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/photo_16.jpg",
+      "alt": "",
+      "width": 6000,
+      "height": 4000,
+      "ratio": 1.5,
+      "date": "2023-12-29T17:34:05"
+    },
+    {
+      "id": 412,
+      "slug": "photo_13",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/photo_13.jpg",
+      "alt": "",
+      "width": 5440,
+      "height": 4000,
+      "ratio": 1.36,
+      "date": "2023-12-29T17:34:03"
+    },
+    {
+      "id": 411,
+      "slug": "photo_55",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/photo_55.jpg",
+      "alt": "",
+      "width": 2560,
+      "height": 1920,
+      "ratio": 1.33,
+      "date": "2023-12-29T17:33:35"
+    },
+    {
+      "id": 410,
+      "slug": "img_20221208_125959_332_compressed",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/IMG_20221208_125959_332_compressed.jpg",
+      "alt": "",
+      "width": 3000,
+      "height": 2000,
+      "ratio": 1.5,
+      "date": "2023-12-29T16:22:30"
+    },
+    {
+      "id": 409,
+      "slug": "img_20221208_102419_285_compressed",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/IMG_20221208_102419_285_compressed.jpg",
+      "alt": "",
+      "width": 3000,
+      "height": 2000,
+      "ratio": 1.5,
+      "date": "2023-12-29T16:22:29"
+    },
+    {
+      "id": 408,
+      "slug": "dsc_6225_compressed",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/DSC_6225_compressed.jpg",
+      "alt": "",
+      "width": 3000,
+      "height": 2000,
+      "ratio": 1.5,
+      "date": "2023-12-29T16:22:25"
+    },
+    {
+      "id": 407,
+      "slug": "dsc_6179_compressed",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/DSC_6179_compressed.jpg",
+      "alt": "",
+      "width": 3000,
+      "height": 2000,
+      "ratio": 1.5,
+      "date": "2023-12-29T16:22:22"
+    },
+    {
+      "id": 406,
+      "slug": "dsc_6146_compressed",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/DSC_6146_compressed.jpg",
+      "alt": "",
+      "width": 3000,
+      "height": 2000,
+      "ratio": 1.5,
+      "date": "2023-12-29T16:22:20"
+    },
+    {
+      "id": 405,
+      "slug": "dsc_6019_compressed",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/DSC_6019_compressed.jpg",
+      "alt": "",
+      "width": 3000,
+      "height": 2000,
+      "ratio": 1.5,
+      "date": "2023-12-29T16:22:18"
+    },
+    {
+      "id": 404,
+      "slug": "dsc_5959_compressed",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/DSC_5959_compressed.jpg",
+      "alt": "",
+      "width": 3000,
+      "height": 2000,
+      "ratio": 1.5,
+      "date": "2023-12-29T16:22:15"
+    },
+    {
+      "id": 403,
+      "slug": "dsc_5899_compressed",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/DSC_5899_compressed.jpg",
+      "alt": "",
+      "width": 3000,
+      "height": 2000,
+      "ratio": 1.5,
+      "date": "2023-12-29T16:22:13"
+    },
+    {
+      "id": 402,
+      "slug": "dsc_5887_compressed",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/DSC_5887_compressed.jpg",
+      "alt": "",
+      "width": 3000,
+      "height": 2000,
+      "ratio": 1.5,
+      "date": "2023-12-29T16:22:10"
+    },
+    {
+      "id": 400,
+      "slug": "dsc_5791_compressed",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/DSC_5791_compressed.jpg",
+      "alt": "",
+      "width": 3000,
+      "height": 2000,
+      "ratio": 1.5,
+      "date": "2023-12-29T16:21:28"
+    },
+    {
+      "id": 385,
+      "slug": "dsc_5794_compressed",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/DSC_5794_compressed.jpg",
+      "alt": "",
+      "width": 3000,
+      "height": 2000,
+      "ratio": 1.5,
+      "date": "2023-12-29T16:10:52"
+    },
+    {
+      "id": 384,
+      "slug": "dsc_5701_compressed",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/DSC_5701_compressed.jpg",
+      "alt": "",
+      "width": 3000,
+      "height": 2000,
+      "ratio": 1.5,
+      "date": "2023-12-29T16:10:20"
+    }
+  ],
+  "event_photo_candidates": [
+    {
+      "id": 582,
+      "slug": "zz-newsletter-1-jpg",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/01/zz-newsletter-1.jpg",
+      "alt": "",
+      "width": 2100,
+      "height": 1538,
+      "ratio": 1.37,
+      "date": "2024-01-17T13:37:51"
+    },
+    {
+      "id": 577,
+      "slug": "blue-ocean-water-5412-jpg",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/01/blue-ocean-water-5412.jpg",
+      "alt": "",
+      "width": 1920,
+      "height": 1280,
+      "ratio": 1.5,
+      "date": "2024-01-17T13:37:10"
+    },
+    {
+      "id": 162,
+      "slug": "photo-1501147830916-ce44a6359892-jpeg",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/photo-1501147830916-ce44a6359892.jpeg",
+      "alt": "",
+      "width": 1950,
+      "height": 1300,
+      "ratio": 1.5,
+      "date": "2023-12-15T18:48:55"
+    },
+    {
+      "id": 140,
+      "slug": "photo-1456964513482-f21a68af77ee-jpeg",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/photo-1456964513482-f21a68af77ee.jpeg",
+      "alt": "",
+      "width": 1955,
+      "height": 1295,
+      "ratio": 1.51,
+      "date": "2023-12-15T18:20:19"
+    },
+    {
+      "id": 49,
+      "slug": "architecture-building-clouds-207648-jpg",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/architecture-building-clouds-207648.jpg",
+      "alt": "",
+      "width": 1600,
+      "height": 943,
+      "ratio": 1.7,
+      "date": "2023-12-15T11:49:15"
+    }
+  ],
+  "portrait_candidates": [
+    {
+      "id": 2026,
+      "slug": "0ca51e9c-c8d5-4e4b-b689-ea44385c19c4-1",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/01/0ca51e9c-c8d5-4e4b-b689-ea44385c19c4-1.jpeg",
+      "alt": "",
+      "width": 2073,
+      "height": 2560,
+      "ratio": 0.81,
+      "date": "2026-02-19T14:45:49"
+    },
+    {
+      "id": 2025,
+      "slug": "systematicreviewsforbeginnersefeb19",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/01/systematicreviewsforbeginnersefeb19.jpeg",
+      "alt": "",
+      "width": 874,
+      "height": 1080,
+      "ratio": 0.81,
+      "date": "2026-02-19T12:56:36"
+    },
+    {
+      "id": 2024,
+      "slug": "355a3d55-96fa-42ca-8714-68c8a3e8c2b5",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/01/355A3D55-96FA-42CA-8714-68C8A3E8C2B5.jpg",
+      "alt": "",
+      "width": 1024,
+      "height": 1024,
+      "ratio": 1,
+      "date": "2026-02-19T12:54:28"
+    },
+    {
+      "id": 2021,
+      "slug": "668b3f3e-e59f-4e25-9cfd-1e5381e04dd9",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/01/668b3f3e-e59f-4e25-9cfd-1e5381e04dd9.jpeg",
+      "alt": "",
+      "width": 2073,
+      "height": 2560,
+      "ratio": 0.81,
+      "date": "2026-02-19T12:31:20"
+    },
+    {
+      "id": 2015,
+      "slug": "1da0ea83-10ce-401c-8547-a2f2a1ce4b2f",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/02/1da0ea83-10ce-401c-8547-a2f2a1ce4b2f.jpeg",
+      "alt": "",
+      "width": 1810,
+      "height": 2560,
+      "ratio": 0.71,
+      "date": "2026-02-10T09:42:50"
+    },
+    {
+      "id": 2014,
+      "slug": "806128b6-6b76-4412-bc82-8f4d997023b3",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/02/806128b6-6b76-4412-bc82-8f4d997023b3.jpeg",
+      "alt": "",
+      "width": 1810,
+      "height": 2560,
+      "ratio": 0.71,
+      "date": "2026-02-10T09:42:49"
+    },
+    {
+      "id": 2013,
+      "slug": "4eb159ba-91e8-48cf-8636-290afdf03fe0",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/02/4eb159ba-91e8-48cf-8636-290afdf03fe0.jpeg",
+      "alt": "",
+      "width": 1810,
+      "height": 2560,
+      "ratio": 0.71,
+      "date": "2026-02-10T09:42:47"
+    },
+    {
+      "id": 2012,
+      "slug": "df884940-514e-42c2-980b-b20995ca6be4",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/02/df884940-514e-42c2-980b-b20995ca6be4.jpeg",
+      "alt": "",
+      "width": 1810,
+      "height": 2560,
+      "ratio": 0.71,
+      "date": "2026-02-10T09:42:44"
+    },
+    {
+      "id": 2011,
+      "slug": "aa78e606-3990-4a2c-90cd-9c92d0117024",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/02/aa78e606-3990-4a2c-90cd-9c92d0117024.jpeg",
+      "alt": "",
+      "width": 1810,
+      "height": 2560,
+      "ratio": 0.71,
+      "date": "2026-02-10T09:42:40"
+    },
+    {
+      "id": 2010,
+      "slug": "17bff910-a1db-4d1d-ada3-d407f87710d9",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/02/17bff910-a1db-4d1d-ada3-d407f87710d9.jpeg",
+      "alt": "",
+      "width": 1810,
+      "height": 2560,
+      "ratio": 0.71,
+      "date": "2026-02-10T09:42:17"
+    },
+    {
+      "id": 2009,
+      "slug": "2ece7613-cc60-49df-8a78-97cce33cde0a",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/02/2ece7613-cc60-49df-8a78-97cce33cde0a.jpeg",
+      "alt": "",
+      "width": 1810,
+      "height": 2560,
+      "ratio": 0.71,
+      "date": "2026-02-10T09:42:15"
+    },
+    {
+      "id": 2008,
+      "slug": "b8ee175d-f9be-4746-bc2e-b879a469f725",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/02/b8ee175d-f9be-4746-bc2e-b879a469f725.jpeg",
+      "alt": "",
+      "width": 1810,
+      "height": 2560,
+      "ratio": 0.71,
+      "date": "2026-02-10T09:42:12"
+    },
+    {
+      "id": 2000,
+      "slug": "srnmentorshiprogramme",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/01/srnmentorshiprogramme.jpeg",
+      "alt": "",
+      "width": 2073,
+      "height": 2560,
+      "ratio": 0.81,
+      "date": "2026-02-01T21:02:37"
+    },
+    {
+      "id": 1999,
+      "slug": "joinourteamandmakeimpact",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/01/joinourteamandmakeimpact.jpeg",
+      "alt": "",
+      "width": 2073,
+      "height": 2560,
+      "ratio": 0.81,
+      "date": "2026-02-01T21:01:24"
+    },
+    {
+      "id": 1998,
+      "slug": "srforbeginners",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/01/srforbeginners.jpeg",
+      "alt": "",
+      "width": 2073,
+      "height": 2560,
+      "ratio": 0.81,
+      "date": "2026-02-01T20:59:38"
+    },
+    {
+      "id": 1983,
+      "slug": "download-srn",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/01/download-srn.jpeg",
+      "alt": "Did you know SRN flier",
+      "width": 1024,
+      "height": 1024,
+      "ratio": 1,
+      "date": "2026-01-22T05:26:50"
+    },
+    {
+      "id": 1980,
+      "slug": "fc97a606-334b-4019-97a4-8c74a6d85397",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/01/fc97a606-334b-4019-97a4-8c74a6d85397.jpeg",
+      "alt": "",
+      "width": 1024,
+      "height": 1024,
+      "ratio": 1,
+      "date": "2026-01-22T00:39:17"
+    },
+    {
+      "id": 1921,
+      "slug": "srn-1",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/01/srn-1.jpeg",
+      "alt": "Call for membership",
+      "width": 874,
+      "height": 1080,
+      "ratio": 0.81,
+      "date": "2026-01-18T21:53:56"
+    },
+    {
+      "id": 1920,
+      "slug": "srn-2",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/01/srn-2.jpeg",
+      "alt": "",
+      "width": 874,
+      "height": 1080,
+      "ratio": 0.81,
+      "date": "2026-01-18T21:53:54"
+    },
+    {
+      "id": 1919,
+      "slug": "srn-3",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/01/srn-3.jpeg",
+      "alt": "Systematic Reviews Mentorship Programme",
+      "width": 874,
+      "height": 1080,
+      "ratio": 0.81,
+      "date": "2026-01-18T21:53:53"
+    },
+    {
+      "id": 1918,
+      "slug": "srn-4",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/01/srn-4.jpeg",
+      "alt": "Getting started with systematic reviews a practical guide",
+      "width": 874,
+      "height": 1080,
+      "ratio": 0.81,
+      "date": "2026-01-18T21:53:51"
+    },
+    {
+      "id": 1910,
+      "slug": "getting-started-with-systematic-reviews-a-practical-course-2025b",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/09/Getting-Started-With-Systematic-Reviews-A-Practical-Course-2025B.jpg",
+      "alt": "",
+      "width": 3010,
+      "height": 3612,
+      "ratio": 0.83,
+      "date": "2025-10-13T06:27:25"
+    },
+    {
+      "id": 1845,
+      "slug": "adebayo-uzoma-1-1",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/Adebayo-Uzoma-1-1.jpg",
+      "alt": "",
+      "width": 2311,
+      "height": 3082,
+      "ratio": 0.75,
+      "date": "2025-10-07T03:58:06"
+    },
+    {
+      "id": 1827,
+      "slug": "sagir-tambuwal-muhammad",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/Sagir-Tambuwal-Muhammad.jpg",
+      "alt": "",
+      "width": 2311,
+      "height": 2481,
+      "ratio": 0.93,
+      "date": "2025-10-07T03:07:16"
+    },
+    {
+      "id": 1811,
+      "slug": "wazhi-godsave-binlak",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/Wazhi-Godsave-Binlak-.jpg",
+      "alt": "",
+      "width": 1614,
+      "height": 1512,
+      "ratio": 1.07,
+      "date": "2025-10-07T01:32:49"
+    },
+    {
+      "id": 1810,
+      "slug": "roseline-2",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/roseline-1.jpeg",
+      "alt": "",
+      "width": 800,
+      "height": 800,
+      "ratio": 1,
+      "date": "2025-10-07T01:32:45"
+    },
+    {
+      "id": 1809,
+      "slug": "profile-pic-3-obim-2",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/PROFILE-PIC-3-OBIM-.jpg",
+      "alt": "",
+      "width": 1169,
+      "height": 1097,
+      "ratio": 1.07,
+      "date": "2025-10-07T01:32:43"
+    },
+    {
+      "id": 1808,
+      "slug": "hubz-studio",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/M-Check-Isho.jpg",
+      "alt": "",
+      "width": 1965,
+      "height": 2750,
+      "ratio": 0.71,
+      "date": "2025-10-07T01:32:34"
+    },
+    {
+      "id": 1806,
+      "slug": "jamila-abdulhamid-atata",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/Jamila-Abdulhamid-Atata.jpg",
+      "alt": "",
+      "width": 1170,
+      "height": 1429,
+      "ratio": 0.82,
+      "date": "2025-10-07T01:32:19"
+    },
+    {
+      "id": 1805,
+      "slug": "headshot-ngozi-osadebe",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/Headshot-Ngozi-Osadebe.jpg",
+      "alt": "",
+      "width": 964,
+      "height": 1080,
+      "ratio": 0.89,
+      "date": "2025-10-07T01:32:17"
+    },
+    {
+      "id": 1803,
+      "slug": "gaspard-junior-ayissi",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/Gaspard-Junior-AYISSI.jpg",
+      "alt": "",
+      "width": 859,
+      "height": 998,
+      "ratio": 0.86,
+      "date": "2025-10-07T01:32:15"
+    },
+    {
+      "id": 1802,
+      "slug": "frank-kyei-arthur_1oct25",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/Frank-Kyei-Arthur_1Oct25.jpg",
+      "alt": "",
+      "width": 2259,
+      "height": 2015,
+      "ratio": 1.12,
+      "date": "2025-10-07T01:32:13"
+    },
+    {
+      "id": 1801,
+      "slug": "fortune-boo-2",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/fortune-boo-1.jpeg",
+      "alt": "",
+      "width": 800,
+      "height": 800,
+      "ratio": 1,
+      "date": "2025-10-07T01:32:05"
+    },
+    {
+      "id": 1800,
+      "slug": "emmanuella-ben",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/Emmanuella-Ben.jpg",
+      "alt": "",
+      "width": 962,
+      "height": 1363,
+      "ratio": 0.71,
+      "date": "2025-10-07T01:32:04"
+    },
+    {
+      "id": 1799,
+      "slug": "anthony_godswill_imolele-2",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/Anthony_Godswill_Imolele-2.jpeg",
+      "alt": "",
+      "width": 864,
+      "height": 1184,
+      "ratio": 0.73,
+      "date": "2025-10-07T01:32:01"
+    },
+    {
+      "id": 1795,
+      "slug": "roseline",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/roseline.jpeg",
+      "alt": "",
+      "width": 800,
+      "height": 800,
+      "ratio": 1,
+      "date": "2025-10-07T01:23:24"
+    },
+    {
+      "id": 1791,
+      "slug": "fortune-boo",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/fortune-boo.jpeg",
+      "alt": "",
+      "width": 800,
+      "height": 800,
+      "ratio": 1,
+      "date": "2025-10-07T01:16:38"
+    },
+    {
+      "id": 1674,
+      "slug": "systematic-reviewc",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/09/Systematic-ReviewC.jpeg",
+      "alt": "",
+      "width": 1296,
+      "height": 1600,
+      "ratio": 0.81,
+      "date": "2025-09-24T19:21:44"
+    },
+    {
+      "id": 1667,
+      "slug": "systematic-review",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/09/Systematic-Review.jpeg",
+      "alt": "",
+      "width": 1296,
+      "height": 1600,
+      "ratio": 0.81,
+      "date": "2025-09-23T23:21:03"
+    },
+    {
+      "id": 1656,
+      "slug": "systematicreview",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/09/SystematicReview.jpg",
+      "alt": "",
+      "width": 1249,
+      "height": 1600,
+      "ratio": 0.78,
+      "date": "2025-09-23T21:57:27"
+    },
+    {
+      "id": 1653,
+      "slug": "systematic-review-new1",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/09/Systematic-Review-NEW1.jpg",
+      "alt": "",
+      "width": 1296,
+      "height": 1600,
+      "ratio": 0.81,
+      "date": "2025-09-23T20:53:37"
+    },
+    {
+      "id": 1648,
+      "slug": "systematicreview2025b",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/09/SystematicReview2025B.jpg",
+      "alt": "",
+      "width": 1333,
+      "height": 1600,
+      "ratio": 0.83,
+      "date": "2025-09-23T18:46:25"
+    },
+    {
+      "id": 1639,
+      "slug": "systematic-review-webinar-seriesi-1",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/02/Systematic-Review-Webinar-SeriesI-1.jpg",
+      "alt": "",
+      "width": 3010,
+      "height": 3733,
+      "ratio": 0.81,
+      "date": "2025-03-06T02:45:15"
+    },
+    {
+      "id": 1623,
+      "slug": "systematic-review-workshoppp",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/02/systematic-review-workshoppp.jpg",
+      "alt": "",
+      "width": 2133,
+      "height": 2560,
+      "ratio": 0.83,
+      "date": "2025-02-09T19:58:28"
+    },
+    {
+      "id": 1578,
+      "slug": "srn-mentorshippp",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/01/SRN-mentorshippp.jpg",
+      "alt": "",
+      "width": 1100,
+      "height": 1280,
+      "ratio": 0.86,
+      "date": "2025-01-22T05:04:40"
+    },
+    {
+      "id": 1575,
+      "slug": "join-the-srn-teammmm-2",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/01/Join-the-SRN-teammmm-1.jpg",
+      "alt": "",
+      "width": 1080,
+      "height": 1080,
+      "ratio": 1,
+      "date": "2025-01-22T05:02:51"
+    },
+    {
+      "id": 1574,
+      "slug": "join-the-srn-teammmm",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/01/Join-the-SRN-teammmm.jpg",
+      "alt": "",
+      "width": 1080,
+      "height": 1080,
+      "ratio": 1,
+      "date": "2025-01-22T05:01:56"
+    },
+    {
+      "id": 1539,
+      "slug": "img_4543",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/01/IMG_4543.jpg",
+      "alt": "",
+      "width": 3786,
+      "height": 4733,
+      "ratio": 0.8,
+      "date": "2025-01-10T21:33:34"
+    },
+    {
+      "id": 1516,
+      "slug": "image-png",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/01/image.png",
+      "alt": "",
+      "width": 2000,
+      "height": 2000,
+      "ratio": 1,
+      "date": "2025-01-10T04:06:31"
+    },
+    {
+      "id": 1433,
+      "slug": "whatsapp-image-2024-07-22-at-15-43-32",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/07/WhatsApp-Image-2024-07-22-at-15.43.32.jpeg",
+      "alt": "",
+      "width": 1080,
+      "height": 1080,
+      "ratio": 1,
+      "date": "2024-07-22T13:06:48"
+    },
+    {
+      "id": 846,
+      "slug": "questions-tab",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/05/Questions-Tab.png",
+      "alt": "",
+      "width": 1366,
+      "height": 1869,
+      "ratio": 0.73,
+      "date": "2024-05-22T13:38:02"
+    },
+    {
+      "id": 844,
+      "slug": "option-page",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/05/Option-Page.png",
+      "alt": "",
+      "width": 1366,
+      "height": 1206,
+      "ratio": 1.13,
+      "date": "2024-05-22T13:38:00"
+    },
+    {
+      "id": 843,
+      "slug": "email-page",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/05/email-page.png",
+      "alt": "",
+      "width": 1366,
+      "height": 1781,
+      "ratio": 0.77,
+      "date": "2024-05-22T13:37:59"
+    },
+    {
+      "id": 842,
+      "slug": "result-page-2",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/05/Result-Page-2.png",
+      "alt": "",
+      "width": 1366,
+      "height": 1571,
+      "ratio": 0.87,
+      "date": "2024-05-22T13:37:57"
+    },
+    {
+      "id": 841,
+      "slug": "certificate-page",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/05/Certificate-Page.png",
+      "alt": "",
+      "width": 1366,
+      "height": 1673,
+      "ratio": 0.82,
+      "date": "2024-05-22T13:37:56"
+    },
+    {
+      "id": 834,
+      "slug": "wworkshop000024578newwewezzz-1",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/05/WWORKSHOP000024578NEWWEWEZZZ-1.jpg",
+      "alt": "",
+      "width": 1200,
+      "height": 1452,
+      "ratio": 0.83,
+      "date": "2024-05-16T16:27:41"
+    },
+    {
+      "id": 827,
+      "slug": "wworkshop000024578newwewezzz",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/05/WWORKSHOP000024578NEWWEWEZZZ.jpg",
+      "alt": "",
+      "width": 1200,
+      "height": 1452,
+      "ratio": 0.83,
+      "date": "2024-05-16T14:28:39"
+    },
+    {
+      "id": 743,
+      "slug": "acsrm_mentorship_programme_flyer-2",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/02/acsrm_mentorship_programme_flyer-1.jpg",
+      "alt": "",
+      "width": 1200,
+      "height": 1562,
+      "ratio": 0.77,
+      "date": "2024-02-19T20:28:32"
+    },
+    {
+      "id": 742,
+      "slug": "acsrm_mentorship_programme_flyer",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/02/acsrm_mentorship_programme_flyer.jpg",
+      "alt": "",
+      "width": 1200,
+      "height": 1562,
+      "ratio": 0.77,
+      "date": "2024-02-19T20:28:13"
+    },
+    {
+      "id": 602,
+      "slug": "3",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/01/3.jpg",
+      "alt": "",
+      "width": 2481,
+      "height": 3508,
+      "ratio": 0.71,
+      "date": "2024-01-17T14:09:18"
+    },
+    {
+      "id": 601,
+      "slug": "2",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/01/2.jpg",
+      "alt": "",
+      "width": 2481,
+      "height": 3508,
+      "ratio": 0.71,
+      "date": "2024-01-17T14:09:17"
+    },
+    {
+      "id": 600,
+      "slug": "1",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/01/1.jpg",
+      "alt": "",
+      "width": 2481,
+      "height": 3508,
+      "ratio": 0.71,
+      "date": "2024-01-17T14:09:16"
+    },
+    {
+      "id": 599,
+      "slug": "8",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/01/8.jpg",
+      "alt": "",
+      "width": 2481,
+      "height": 3508,
+      "ratio": 0.71,
+      "date": "2024-01-17T14:09:15"
+    },
+    {
+      "id": 598,
+      "slug": "7",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/01/7.jpg",
+      "alt": "",
+      "width": 2481,
+      "height": 3508,
+      "ratio": 0.71,
+      "date": "2024-01-17T14:09:09"
+    },
+    {
+      "id": 597,
+      "slug": "6",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/01/6.jpg",
+      "alt": "",
+      "width": 2481,
+      "height": 3508,
+      "ratio": 0.71,
+      "date": "2024-01-17T14:09:07"
+    },
+    {
+      "id": 596,
+      "slug": "5",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/01/5.jpg",
+      "alt": "",
+      "width": 2481,
+      "height": 3508,
+      "ratio": 0.71,
+      "date": "2024-01-17T14:09:05"
+    },
+    {
+      "id": 595,
+      "slug": "4-1",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/01/4-1.jpg",
+      "alt": "",
+      "width": 2481,
+      "height": 3508,
+      "ratio": 0.71,
+      "date": "2024-01-17T14:09:01"
+    },
+    {
+      "id": 461,
+      "slug": "woocommerce-placeholder",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/woocommerce-placeholder.png",
+      "alt": "",
+      "width": 1200,
+      "height": 1200,
+      "ratio": 1,
+      "date": "2024-01-03T17:17:37"
+    },
+    {
+      "id": 378,
+      "slug": "rdnic6k5bjb16ctgpuzl_compressed",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/rdnic6k5bjb16ctgpuzl_compressed.jpg",
+      "alt": "",
+      "width": 2569,
+      "height": 2322,
+      "ratio": 1.11,
+      "date": "2023-12-29T15:43:24"
+    },
+    {
+      "id": 285,
+      "slug": "image_placeholder_hero-jpeg",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/Image_Placeholder_Hero.jpeg",
+      "alt": "",
+      "width": 1027,
+      "height": 835,
+      "ratio": 1.23,
+      "date": "2023-12-24T16:59:42"
+    },
+    {
+      "id": 179,
+      "slug": "a1-jpg",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/a1.jpg",
+      "alt": "",
+      "width": 800,
+      "height": 800,
+      "ratio": 1,
+      "date": "2023-12-15T18:54:35"
+    },
+    {
+      "id": 165,
+      "slug": "photo-1498568584133-7b76cea38337-jpeg",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/photo-1498568584133-7b76cea38337.jpeg",
+      "alt": "",
+      "width": 1900,
+      "height": 2375,
+      "ratio": 0.8,
+      "date": "2023-12-15T18:49:32"
+    },
+    {
+      "id": 127,
+      "slug": "photo-1542033474370-d28774f3338d-jpeg",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/photo-1542033474370-d28774f3338d.jpeg",
+      "alt": "",
+      "width": 1875,
+      "height": 2500,
+      "ratio": 0.75,
+      "date": "2023-12-15T17:51:28"
+    },
+    {
+      "id": 111,
+      "slug": "action-athlete-athletes-267761-jpg",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/action-athlete-athletes-267761.jpg",
+      "alt": "",
+      "width": 1500,
+      "height": 2100,
+      "ratio": 0.71,
+      "date": "2023-12-15T13:36:31"
+    }
+  ],
+  "all_usable": [
+    {
+      "id": 2026,
+      "slug": "0ca51e9c-c8d5-4e4b-b689-ea44385c19c4-1",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/01/0ca51e9c-c8d5-4e4b-b689-ea44385c19c4-1.jpeg",
+      "alt": "",
+      "width": 2073,
+      "height": 2560,
+      "ratio": 0.81,
+      "date": "2026-02-19T14:45:49"
+    },
+    {
+      "id": 2025,
+      "slug": "systematicreviewsforbeginnersefeb19",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/01/systematicreviewsforbeginnersefeb19.jpeg",
+      "alt": "",
+      "width": 874,
+      "height": 1080,
+      "ratio": 0.81,
+      "date": "2026-02-19T12:56:36"
+    },
+    {
+      "id": 2024,
+      "slug": "355a3d55-96fa-42ca-8714-68c8a3e8c2b5",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/01/355A3D55-96FA-42CA-8714-68C8A3E8C2B5.jpg",
+      "alt": "",
+      "width": 1024,
+      "height": 1024,
+      "ratio": 1,
+      "date": "2026-02-19T12:54:28"
+    },
+    {
+      "id": 2021,
+      "slug": "668b3f3e-e59f-4e25-9cfd-1e5381e04dd9",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/01/668b3f3e-e59f-4e25-9cfd-1e5381e04dd9.jpeg",
+      "alt": "",
+      "width": 2073,
+      "height": 2560,
+      "ratio": 0.81,
+      "date": "2026-02-19T12:31:20"
+    },
+    {
+      "id": 2015,
+      "slug": "1da0ea83-10ce-401c-8547-a2f2a1ce4b2f",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/02/1da0ea83-10ce-401c-8547-a2f2a1ce4b2f.jpeg",
+      "alt": "",
+      "width": 1810,
+      "height": 2560,
+      "ratio": 0.71,
+      "date": "2026-02-10T09:42:50"
+    },
+    {
+      "id": 2014,
+      "slug": "806128b6-6b76-4412-bc82-8f4d997023b3",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/02/806128b6-6b76-4412-bc82-8f4d997023b3.jpeg",
+      "alt": "",
+      "width": 1810,
+      "height": 2560,
+      "ratio": 0.71,
+      "date": "2026-02-10T09:42:49"
+    },
+    {
+      "id": 2013,
+      "slug": "4eb159ba-91e8-48cf-8636-290afdf03fe0",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/02/4eb159ba-91e8-48cf-8636-290afdf03fe0.jpeg",
+      "alt": "",
+      "width": 1810,
+      "height": 2560,
+      "ratio": 0.71,
+      "date": "2026-02-10T09:42:47"
+    },
+    {
+      "id": 2012,
+      "slug": "df884940-514e-42c2-980b-b20995ca6be4",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/02/df884940-514e-42c2-980b-b20995ca6be4.jpeg",
+      "alt": "",
+      "width": 1810,
+      "height": 2560,
+      "ratio": 0.71,
+      "date": "2026-02-10T09:42:44"
+    },
+    {
+      "id": 2011,
+      "slug": "aa78e606-3990-4a2c-90cd-9c92d0117024",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/02/aa78e606-3990-4a2c-90cd-9c92d0117024.jpeg",
+      "alt": "",
+      "width": 1810,
+      "height": 2560,
+      "ratio": 0.71,
+      "date": "2026-02-10T09:42:40"
+    },
+    {
+      "id": 2010,
+      "slug": "17bff910-a1db-4d1d-ada3-d407f87710d9",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/02/17bff910-a1db-4d1d-ada3-d407f87710d9.jpeg",
+      "alt": "",
+      "width": 1810,
+      "height": 2560,
+      "ratio": 0.71,
+      "date": "2026-02-10T09:42:17"
+    },
+    {
+      "id": 2009,
+      "slug": "2ece7613-cc60-49df-8a78-97cce33cde0a",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/02/2ece7613-cc60-49df-8a78-97cce33cde0a.jpeg",
+      "alt": "",
+      "width": 1810,
+      "height": 2560,
+      "ratio": 0.71,
+      "date": "2026-02-10T09:42:15"
+    },
+    {
+      "id": 2008,
+      "slug": "b8ee175d-f9be-4746-bc2e-b879a469f725",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/02/b8ee175d-f9be-4746-bc2e-b879a469f725.jpeg",
+      "alt": "",
+      "width": 1810,
+      "height": 2560,
+      "ratio": 0.71,
+      "date": "2026-02-10T09:42:12"
+    },
+    {
+      "id": 2007,
+      "slug": "img_2787",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/02/IMG_2787.jpg",
+      "alt": "",
+      "width": 828,
+      "height": 482,
+      "ratio": 1.72,
+      "date": "2026-02-10T09:30:48"
+    },
+    {
+      "id": 2006,
+      "slug": "workshop063-1",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/02/Workshop063-1.jpg",
+      "alt": "",
+      "width": 1500,
+      "height": 1000,
+      "ratio": 1.5,
+      "date": "2026-02-10T09:19:02"
+    },
+    {
+      "id": 2004,
+      "slug": "workshop184-2",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/02/Workshop184-2.jpg",
+      "alt": "",
+      "width": 1500,
+      "height": 1000,
+      "ratio": 1.5,
+      "date": "2026-02-10T09:15:49"
+    },
+    {
+      "id": 2003,
+      "slug": "workshop184-1",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/02/Workshop184-1.jpg",
+      "alt": "",
+      "width": 1500,
+      "height": 1000,
+      "ratio": 1.5,
+      "date": "2026-02-10T09:15:47"
+    },
+    {
+      "id": 2002,
+      "slug": "workshop-153",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/02/Workshop-153.jpg",
+      "alt": "",
+      "width": 1486,
+      "height": 991,
+      "ratio": 1.5,
+      "date": "2026-02-10T09:09:54"
+    },
+    {
+      "id": 2000,
+      "slug": "srnmentorshiprogramme",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/01/srnmentorshiprogramme.jpeg",
+      "alt": "",
+      "width": 2073,
+      "height": 2560,
+      "ratio": 0.81,
+      "date": "2026-02-01T21:02:37"
+    },
+    {
+      "id": 1999,
+      "slug": "joinourteamandmakeimpact",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/01/joinourteamandmakeimpact.jpeg",
+      "alt": "",
+      "width": 2073,
+      "height": 2560,
+      "ratio": 0.81,
+      "date": "2026-02-01T21:01:24"
+    },
+    {
+      "id": 1998,
+      "slug": "srforbeginners",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/01/srforbeginners.jpeg",
+      "alt": "",
+      "width": 2073,
+      "height": 2560,
+      "ratio": 0.81,
+      "date": "2026-02-01T20:59:38"
+    },
+    {
+      "id": 1983,
+      "slug": "download-srn",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/01/download-srn.jpeg",
+      "alt": "Did you know SRN flier",
+      "width": 1024,
+      "height": 1024,
+      "ratio": 1,
+      "date": "2026-01-22T05:26:50"
+    },
+    {
+      "id": 1980,
+      "slug": "fc97a606-334b-4019-97a4-8c74a6d85397",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/01/fc97a606-334b-4019-97a4-8c74a6d85397.jpeg",
+      "alt": "",
+      "width": 1024,
+      "height": 1024,
+      "ratio": 1,
+      "date": "2026-01-22T00:39:17"
+    },
+    {
+      "id": 1921,
+      "slug": "srn-1",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/01/srn-1.jpeg",
+      "alt": "Call for membership",
+      "width": 874,
+      "height": 1080,
+      "ratio": 0.81,
+      "date": "2026-01-18T21:53:56"
+    },
+    {
+      "id": 1920,
+      "slug": "srn-2",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/01/srn-2.jpeg",
+      "alt": "",
+      "width": 874,
+      "height": 1080,
+      "ratio": 0.81,
+      "date": "2026-01-18T21:53:54"
+    },
+    {
+      "id": 1919,
+      "slug": "srn-3",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/01/srn-3.jpeg",
+      "alt": "Systematic Reviews Mentorship Programme",
+      "width": 874,
+      "height": 1080,
+      "ratio": 0.81,
+      "date": "2026-01-18T21:53:53"
+    },
+    {
+      "id": 1918,
+      "slug": "srn-4",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2026/01/srn-4.jpeg",
+      "alt": "Getting started with systematic reviews a practical guide",
+      "width": 874,
+      "height": 1080,
+      "ratio": 0.81,
+      "date": "2026-01-18T21:53:51"
+    },
+    {
+      "id": 1910,
+      "slug": "getting-started-with-systematic-reviews-a-practical-course-2025b",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/09/Getting-Started-With-Systematic-Reviews-A-Practical-Course-2025B.jpg",
+      "alt": "",
+      "width": 3010,
+      "height": 3612,
+      "ratio": 0.83,
+      "date": "2025-10-13T06:27:25"
+    },
+    {
+      "id": 1850,
+      "slug": "prof-ejaz",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/prof-ejaz-.jpg",
+      "alt": "",
+      "width": 512,
+      "height": 512,
+      "ratio": 1,
+      "date": "2025-10-08T21:24:45"
+    },
+    {
+      "id": 1845,
+      "slug": "adebayo-uzoma-1-1",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/Adebayo-Uzoma-1-1.jpg",
+      "alt": "",
+      "width": 2311,
+      "height": 3082,
+      "ratio": 0.75,
+      "date": "2025-10-07T03:58:06"
+    },
+    {
+      "id": 1827,
+      "slug": "sagir-tambuwal-muhammad",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/Sagir-Tambuwal-Muhammad.jpg",
+      "alt": "",
+      "width": 2311,
+      "height": 2481,
+      "ratio": 0.93,
+      "date": "2025-10-07T03:07:16"
+    },
+    {
+      "id": 1811,
+      "slug": "wazhi-godsave-binlak",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/Wazhi-Godsave-Binlak-.jpg",
+      "alt": "",
+      "width": 1614,
+      "height": 1512,
+      "ratio": 1.07,
+      "date": "2025-10-07T01:32:49"
+    },
+    {
+      "id": 1810,
+      "slug": "roseline-2",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/roseline-1.jpeg",
+      "alt": "",
+      "width": 800,
+      "height": 800,
+      "ratio": 1,
+      "date": "2025-10-07T01:32:45"
+    },
+    {
+      "id": 1809,
+      "slug": "profile-pic-3-obim-2",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/PROFILE-PIC-3-OBIM-.jpg",
+      "alt": "",
+      "width": 1169,
+      "height": 1097,
+      "ratio": 1.07,
+      "date": "2025-10-07T01:32:43"
+    },
+    {
+      "id": 1808,
+      "slug": "hubz-studio",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/M-Check-Isho.jpg",
+      "alt": "",
+      "width": 1965,
+      "height": 2750,
+      "ratio": 0.71,
+      "date": "2025-10-07T01:32:34"
+    },
+    {
+      "id": 1807,
+      "slug": "julia-d-ribeiro-srn-headshot-photo",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/Julia-D.-Ribeiro-SRN-Headshot-photo.png",
+      "alt": "",
+      "width": 461,
+      "height": 479,
+      "ratio": 0.96,
+      "date": "2025-10-07T01:32:21"
+    },
+    {
+      "id": 1806,
+      "slug": "jamila-abdulhamid-atata",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/Jamila-Abdulhamid-Atata.jpg",
+      "alt": "",
+      "width": 1170,
+      "height": 1429,
+      "ratio": 0.82,
+      "date": "2025-10-07T01:32:19"
+    },
+    {
+      "id": 1805,
+      "slug": "headshot-ngozi-osadebe",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/Headshot-Ngozi-Osadebe.jpg",
+      "alt": "",
+      "width": 964,
+      "height": 1080,
+      "ratio": 0.89,
+      "date": "2025-10-07T01:32:17"
+    },
+    {
+      "id": 1803,
+      "slug": "gaspard-junior-ayissi",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/Gaspard-Junior-AYISSI.jpg",
+      "alt": "",
+      "width": 859,
+      "height": 998,
+      "ratio": 0.86,
+      "date": "2025-10-07T01:32:15"
+    },
+    {
+      "id": 1802,
+      "slug": "frank-kyei-arthur_1oct25",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/Frank-Kyei-Arthur_1Oct25.jpg",
+      "alt": "",
+      "width": 2259,
+      "height": 2015,
+      "ratio": 1.12,
+      "date": "2025-10-07T01:32:13"
+    },
+    {
+      "id": 1801,
+      "slug": "fortune-boo-2",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/fortune-boo-1.jpeg",
+      "alt": "",
+      "width": 800,
+      "height": 800,
+      "ratio": 1,
+      "date": "2025-10-07T01:32:05"
+    },
+    {
+      "id": 1800,
+      "slug": "emmanuella-ben",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/Emmanuella-Ben.jpg",
+      "alt": "",
+      "width": 962,
+      "height": 1363,
+      "ratio": 0.71,
+      "date": "2025-10-07T01:32:04"
+    },
+    {
+      "id": 1799,
+      "slug": "anthony_godswill_imolele-2",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/Anthony_Godswill_Imolele-2.jpeg",
+      "alt": "",
+      "width": 864,
+      "height": 1184,
+      "ratio": 0.73,
+      "date": "2025-10-07T01:32:01"
+    },
+    {
+      "id": 1798,
+      "slug": "aladejana-abdulrahman-headshot",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/Aladejana-Abdulrahman-headshot.png",
+      "alt": "",
+      "width": 705,
+      "height": 660,
+      "ratio": 1.07,
+      "date": "2025-10-07T01:32:00"
+    },
+    {
+      "id": 1797,
+      "slug": "adekunle-adeleke-dr",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/Adekunle-Adeleke-Dr.jpg",
+      "alt": "",
+      "width": 771,
+      "height": 1080,
+      "ratio": 0.71,
+      "date": "2025-10-07T01:31:55"
+    },
+    {
+      "id": 1795,
+      "slug": "roseline",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/roseline.jpeg",
+      "alt": "",
+      "width": 800,
+      "height": 800,
+      "ratio": 1,
+      "date": "2025-10-07T01:23:24"
+    },
+    {
+      "id": 1791,
+      "slug": "fortune-boo",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/fortune-boo.jpeg",
+      "alt": "",
+      "width": 800,
+      "height": 800,
+      "ratio": 1,
+      "date": "2025-10-07T01:16:38"
+    },
+    {
+      "id": 1776,
+      "slug": "wpspeedo-team-12",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/wpspeedo-team-12.jpg",
+      "alt": "",
+      "width": 400,
+      "height": 480,
+      "ratio": 0.83,
+      "date": "2025-10-07T00:59:42"
+    },
+    {
+      "id": 1775,
+      "slug": "wpspeedo-team-11",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/wpspeedo-team-11.jpg",
+      "alt": "",
+      "width": 400,
+      "height": 480,
+      "ratio": 0.83,
+      "date": "2025-10-07T00:59:42"
+    },
+    {
+      "id": 1774,
+      "slug": "wpspeedo-team-10",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/wpspeedo-team-10.jpg",
+      "alt": "",
+      "width": 400,
+      "height": 480,
+      "ratio": 0.83,
+      "date": "2025-10-07T00:59:42"
+    },
+    {
+      "id": 1773,
+      "slug": "wpspeedo-team-09",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/wpspeedo-team-09.jpg",
+      "alt": "",
+      "width": 400,
+      "height": 480,
+      "ratio": 0.83,
+      "date": "2025-10-07T00:59:42"
+    },
+    {
+      "id": 1772,
+      "slug": "wpspeedo-team-08",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/wpspeedo-team-08.jpg",
+      "alt": "",
+      "width": 400,
+      "height": 480,
+      "ratio": 0.83,
+      "date": "2025-10-07T00:59:42"
+    },
+    {
+      "id": 1771,
+      "slug": "wpspeedo-team-07",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/wpspeedo-team-07.jpg",
+      "alt": "",
+      "width": 400,
+      "height": 480,
+      "ratio": 0.83,
+      "date": "2025-10-07T00:59:42"
+    },
+    {
+      "id": 1770,
+      "slug": "wpspeedo-team-06",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/wpspeedo-team-06.jpg",
+      "alt": "",
+      "width": 400,
+      "height": 480,
+      "ratio": 0.83,
+      "date": "2025-10-07T00:59:42"
+    },
+    {
+      "id": 1769,
+      "slug": "wpspeedo-team-05",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/wpspeedo-team-05.jpg",
+      "alt": "",
+      "width": 400,
+      "height": 480,
+      "ratio": 0.83,
+      "date": "2025-10-07T00:59:42"
+    },
+    {
+      "id": 1768,
+      "slug": "wpspeedo-team-04",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/wpspeedo-team-04.jpg",
+      "alt": "",
+      "width": 400,
+      "height": 480,
+      "ratio": 0.83,
+      "date": "2025-10-07T00:59:42"
+    },
+    {
+      "id": 1767,
+      "slug": "wpspeedo-team-03",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/wpspeedo-team-03.jpg",
+      "alt": "",
+      "width": 400,
+      "height": 480,
+      "ratio": 0.83,
+      "date": "2025-10-07T00:59:42"
+    },
+    {
+      "id": 1766,
+      "slug": "wpspeedo-team-02",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/wpspeedo-team-02.jpg",
+      "alt": "",
+      "width": 400,
+      "height": 480,
+      "ratio": 0.83,
+      "date": "2025-10-07T00:59:42"
+    },
+    {
+      "id": 1765,
+      "slug": "wpspeedo-team-01",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/10/wpspeedo-team-01.jpg",
+      "alt": "",
+      "width": 400,
+      "height": 480,
+      "ratio": 0.83,
+      "date": "2025-10-07T00:59:42"
+    },
+    {
+      "id": 1691,
+      "slug": "rising-scholar",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/09/rising-scholar.png",
+      "alt": "",
+      "width": 12441,
+      "height": 4168,
+      "ratio": 2.98,
+      "date": "2025-09-26T16:17:14"
+    },
+    {
+      "id": 1674,
+      "slug": "systematic-reviewc",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/09/Systematic-ReviewC.jpeg",
+      "alt": "",
+      "width": 1296,
+      "height": 1600,
+      "ratio": 0.81,
+      "date": "2025-09-24T19:21:44"
+    },
+    {
+      "id": 1667,
+      "slug": "systematic-review",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/09/Systematic-Review.jpeg",
+      "alt": "",
+      "width": 1296,
+      "height": 1600,
+      "ratio": 0.81,
+      "date": "2025-09-23T23:21:03"
+    },
+    {
+      "id": 1656,
+      "slug": "systematicreview",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/09/SystematicReview.jpg",
+      "alt": "",
+      "width": 1249,
+      "height": 1600,
+      "ratio": 0.78,
+      "date": "2025-09-23T21:57:27"
+    },
+    {
+      "id": 1653,
+      "slug": "systematic-review-new1",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/09/Systematic-Review-NEW1.jpg",
+      "alt": "",
+      "width": 1296,
+      "height": 1600,
+      "ratio": 0.81,
+      "date": "2025-09-23T20:53:37"
+    },
+    {
+      "id": 1648,
+      "slug": "systematicreview2025b",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/09/SystematicReview2025B.jpg",
+      "alt": "",
+      "width": 1333,
+      "height": 1600,
+      "ratio": 0.83,
+      "date": "2025-09-23T18:46:25"
+    },
+    {
+      "id": 1639,
+      "slug": "systematic-review-webinar-seriesi-1",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/02/Systematic-Review-Webinar-SeriesI-1.jpg",
+      "alt": "",
+      "width": 3010,
+      "height": 3733,
+      "ratio": 0.81,
+      "date": "2025-03-06T02:45:15"
+    },
+    {
+      "id": 1623,
+      "slug": "systematic-review-workshoppp",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/02/systematic-review-workshoppp.jpg",
+      "alt": "",
+      "width": 2133,
+      "height": 2560,
+      "ratio": 0.83,
+      "date": "2025-02-09T19:58:28"
+    },
+    {
+      "id": 1578,
+      "slug": "srn-mentorshippp",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/01/SRN-mentorshippp.jpg",
+      "alt": "",
+      "width": 1100,
+      "height": 1280,
+      "ratio": 0.86,
+      "date": "2025-01-22T05:04:40"
+    },
+    {
+      "id": 1575,
+      "slug": "join-the-srn-teammmm-2",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/01/Join-the-SRN-teammmm-1.jpg",
+      "alt": "",
+      "width": 1080,
+      "height": 1080,
+      "ratio": 1,
+      "date": "2025-01-22T05:02:51"
+    },
+    {
+      "id": 1574,
+      "slug": "join-the-srn-teammmm",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/01/Join-the-SRN-teammmm.jpg",
+      "alt": "",
+      "width": 1080,
+      "height": 1080,
+      "ratio": 1,
+      "date": "2025-01-22T05:01:56"
+    },
+    {
+      "id": 1539,
+      "slug": "img_4543",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/01/IMG_4543.jpg",
+      "alt": "",
+      "width": 3786,
+      "height": 4733,
+      "ratio": 0.8,
+      "date": "2025-01-10T21:33:34"
+    },
+    {
+      "id": 1538,
+      "slug": "download",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/01/download.png",
+      "alt": "",
+      "width": 352,
+      "height": 143,
+      "ratio": 2.46,
+      "date": "2025-01-10T21:31:14"
+    },
+    {
+      "id": 1517,
+      "slug": "logo36w-png",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/01/logo36w.png",
+      "alt": "",
+      "width": 400,
+      "height": 400,
+      "ratio": 1,
+      "date": "2025-01-10T04:06:32"
+    },
+    {
+      "id": 1516,
+      "slug": "image-png",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/01/image.png",
+      "alt": "",
+      "width": 2000,
+      "height": 2000,
+      "ratio": 1,
+      "date": "2025-01-10T04:06:31"
+    },
+    {
+      "id": 1510,
+      "slug": "whatsapp_image_2025-01-09_at_22",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/01/WhatsApp_Image_2025-01-09_at_22.png",
+      "alt": "",
+      "width": 512,
+      "height": 512,
+      "ratio": 1,
+      "date": "2025-01-10T03:54:32"
+    },
+    {
+      "id": 1509,
+      "slug": "whatsapp_image_2025-01-09_at_22-44-27_22d593e3-removebg-preview-1",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/01/WhatsApp_Image_2025-01-09_at_22.44.27_22d593e3-removebg-preview-1.png",
+      "alt": "",
+      "width": 592,
+      "height": 421,
+      "ratio": 1.41,
+      "date": "2025-01-10T03:53:04"
+    },
+    {
+      "id": 1508,
+      "slug": "untitled-design",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/01/Untitled-design.png",
+      "alt": "",
+      "width": 592,
+      "height": 421,
+      "ratio": 1.41,
+      "date": "2025-01-10T03:49:44"
+    },
+    {
+      "id": 1495,
+      "slug": "whatsapp_image_2025-01-09_at_22-44-27_22d593e3-removebg-preview",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/01/WhatsApp_Image_2025-01-09_at_22.44.27_22d593e3-removebg-preview.png",
+      "alt": "",
+      "width": 592,
+      "height": 421,
+      "ratio": 1.41,
+      "date": "2025-01-10T03:32:27"
+    },
+    {
+      "id": 1469,
+      "slug": "whatsapp-image-2025-01-09-at-22-44-27_22d593e3",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2025/01/WhatsApp-Image-2025-01-09-at-22.44.27_22d593e3.jpg",
+      "alt": "",
+      "width": 1078,
+      "height": 767,
+      "ratio": 1.41,
+      "date": "2025-01-09T21:45:49"
+    },
+    {
+      "id": 1433,
+      "slug": "whatsapp-image-2024-07-22-at-15-43-32",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/07/WhatsApp-Image-2024-07-22-at-15.43.32.jpeg",
+      "alt": "",
+      "width": 1080,
+      "height": 1080,
+      "ratio": 1,
+      "date": "2024-07-22T13:06:48"
+    },
+    {
+      "id": 1396,
+      "slug": "christelle-photo",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/06/christelle-photo.jpg",
+      "alt": "",
+      "width": 487,
+      "height": 461,
+      "ratio": 1.06,
+      "date": "2024-06-28T17:55:04"
+    },
+    {
+      "id": 877,
+      "slug": "new-acsrm-certificate-template-for-web-1",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/06/new-acsrm-Certificate-template-for-web-1-scaled.jpg",
+      "alt": "",
+      "width": 2560,
+      "height": 1440,
+      "ratio": 1.78,
+      "date": "2024-06-09T20:15:33"
+    },
+    {
+      "id": 847,
+      "slug": "result-page",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/05/Result-Page.png",
+      "alt": "",
+      "width": 1366,
+      "height": 3155,
+      "ratio": 0.43,
+      "date": "2024-05-22T13:38:04"
+    },
+    {
+      "id": 846,
+      "slug": "questions-tab",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/05/Questions-Tab.png",
+      "alt": "",
+      "width": 1366,
+      "height": 1869,
+      "ratio": 0.73,
+      "date": "2024-05-22T13:38:02"
+    },
+    {
+      "id": 845,
+      "slug": "contact-page",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/05/Contact-Page.png",
+      "alt": "",
+      "width": 1366,
+      "height": 838,
+      "ratio": 1.63,
+      "date": "2024-05-22T13:38:01"
+    },
+    {
+      "id": 844,
+      "slug": "option-page",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/05/Option-Page.png",
+      "alt": "",
+      "width": 1366,
+      "height": 1206,
+      "ratio": 1.13,
+      "date": "2024-05-22T13:38:00"
+    },
+    {
+      "id": 843,
+      "slug": "email-page",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/05/email-page.png",
+      "alt": "",
+      "width": 1366,
+      "height": 1781,
+      "ratio": 0.77,
+      "date": "2024-05-22T13:37:59"
+    },
+    {
+      "id": 842,
+      "slug": "result-page-2",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/05/Result-Page-2.png",
+      "alt": "",
+      "width": 1366,
+      "height": 1571,
+      "ratio": 0.87,
+      "date": "2024-05-22T13:37:57"
+    },
+    {
+      "id": 841,
+      "slug": "certificate-page",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/05/Certificate-Page.png",
+      "alt": "",
+      "width": 1366,
+      "height": 1673,
+      "ratio": 0.82,
+      "date": "2024-05-22T13:37:56"
+    },
+    {
+      "id": 834,
+      "slug": "wworkshop000024578newwewezzz-1",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/05/WWORKSHOP000024578NEWWEWEZZZ-1.jpg",
+      "alt": "",
+      "width": 1200,
+      "height": 1452,
+      "ratio": 0.83,
+      "date": "2024-05-16T16:27:41"
+    },
+    {
+      "id": 830,
+      "slug": "call-for-expression-of-interest-liason-officer",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/05/Call-for-Expression-of-Interest-Liason-Officer.jpg",
+      "alt": "",
+      "width": 275,
+      "height": 183,
+      "ratio": 1.5,
+      "date": "2024-05-16T14:34:44"
+    },
+    {
+      "id": 827,
+      "slug": "wworkshop000024578newwewezzz",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/05/WWORKSHOP000024578NEWWEWEZZZ.jpg",
+      "alt": "",
+      "width": 1200,
+      "height": 1452,
+      "ratio": 0.83,
+      "date": "2024-05-16T14:28:39"
+    },
+    {
+      "id": 784,
+      "slug": "1669915066304-removebg-preview",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/1669915066304-removebg-preview.png",
+      "alt": "",
+      "width": 200,
+      "height": 200,
+      "ratio": 1,
+      "date": "2024-05-14T22:44:38"
+    },
+    {
+      "id": 782,
+      "slug": "acsrm-certificate-template-word-1",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/05/ACSRM-Certificate-Template-Word-1.jpg",
+      "alt": "",
+      "width": 2667,
+      "height": 1500,
+      "ratio": 1.78,
+      "date": "2024-05-14T22:30:30"
+    },
+    {
+      "id": 781,
+      "slug": "1669915066304",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/1669915066304.jpeg",
+      "alt": "",
+      "width": 200,
+      "height": 200,
+      "ratio": 1,
+      "date": "2024-05-14T22:22:58"
+    },
+    {
+      "id": 743,
+      "slug": "acsrm_mentorship_programme_flyer-2",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/02/acsrm_mentorship_programme_flyer-1.jpg",
+      "alt": "",
+      "width": 1200,
+      "height": 1562,
+      "ratio": 0.77,
+      "date": "2024-02-19T20:28:32"
+    },
+    {
+      "id": 742,
+      "slug": "acsrm_mentorship_programme_flyer",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/02/acsrm_mentorship_programme_flyer.jpg",
+      "alt": "",
+      "width": 1200,
+      "height": 1562,
+      "ratio": 0.77,
+      "date": "2024-02-19T20:28:13"
+    },
+    {
+      "id": 709,
+      "slug": "img-20231213-wa0009-removebg-preview-1-1",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/02/IMG-20231213-WA0009-removebg-preview-1-1.png",
+      "alt": "",
+      "width": 512,
+      "height": 456,
+      "ratio": 1.12,
+      "date": "2024-02-17T23:08:10"
+    },
+    {
+      "id": 693,
+      "slug": "sysrev_evidence-heirarchy",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/SysRev_Evidence-Heirarchy.png",
+      "alt": "",
+      "width": 1513,
+      "height": 835,
+      "ratio": 1.81,
+      "date": "2024-02-17T19:51:36"
+    },
+    {
+      "id": 689,
+      "slug": "img_7038_compressed",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/02/IMG_7038_compressed.jpg",
+      "alt": "",
+      "width": 3000,
+      "height": 2000,
+      "ratio": 1.5,
+      "date": "2024-02-17T19:17:58"
+    },
+    {
+      "id": 688,
+      "slug": "img_7030-1_compressed",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/02/IMG_7030-1_compressed.jpg",
+      "alt": "",
+      "width": 3000,
+      "height": 2000,
+      "ratio": 1.5,
+      "date": "2024-02-17T19:17:54"
+    },
+    {
+      "id": 686,
+      "slug": "makerere-workshop-screenshot-2",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/02/makerere-workshop-screenshot-2.jpg",
+      "alt": "",
+      "width": 1363,
+      "height": 768,
+      "ratio": 1.77,
+      "date": "2024-02-17T19:09:55"
+    },
+    {
+      "id": 685,
+      "slug": "photo_33_compressed",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/02/photo_33_compressed.jpg",
+      "alt": "",
+      "width": 6000,
+      "height": 4000,
+      "ratio": 1.5,
+      "date": "2024-02-17T19:07:53"
+    },
+    {
+      "id": 684,
+      "slug": "photo_31_compressed",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/02/photo_31_compressed.jpg",
+      "alt": "",
+      "width": 6000,
+      "height": 4000,
+      "ratio": 1.5,
+      "date": "2024-02-17T19:07:43"
+    },
+    {
+      "id": 683,
+      "slug": "photo_46_compressed",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/02/photo_46_compressed.jpg",
+      "alt": "",
+      "width": 2560,
+      "height": 1920,
+      "ratio": 1.33,
+      "date": "2024-02-17T19:07:25"
+    },
+    {
+      "id": 665,
+      "slug": "makerere-workshop-screenshot",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/01/makerere-workshop-screenshot.jpg",
+      "alt": "",
+      "width": 1359,
+      "height": 761,
+      "ratio": 1.79,
+      "date": "2024-01-29T19:54:41"
+    },
+    {
+      "id": 602,
+      "slug": "3",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/01/3.jpg",
+      "alt": "",
+      "width": 2481,
+      "height": 3508,
+      "ratio": 0.71,
+      "date": "2024-01-17T14:09:18"
+    },
+    {
+      "id": 601,
+      "slug": "2",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/01/2.jpg",
+      "alt": "",
+      "width": 2481,
+      "height": 3508,
+      "ratio": 0.71,
+      "date": "2024-01-17T14:09:17"
+    },
+    {
+      "id": 600,
+      "slug": "1",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/01/1.jpg",
+      "alt": "",
+      "width": 2481,
+      "height": 3508,
+      "ratio": 0.71,
+      "date": "2024-01-17T14:09:16"
+    },
+    {
+      "id": 599,
+      "slug": "8",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/01/8.jpg",
+      "alt": "",
+      "width": 2481,
+      "height": 3508,
+      "ratio": 0.71,
+      "date": "2024-01-17T14:09:15"
+    },
+    {
+      "id": 598,
+      "slug": "7",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/01/7.jpg",
+      "alt": "",
+      "width": 2481,
+      "height": 3508,
+      "ratio": 0.71,
+      "date": "2024-01-17T14:09:09"
+    },
+    {
+      "id": 597,
+      "slug": "6",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/01/6.jpg",
+      "alt": "",
+      "width": 2481,
+      "height": 3508,
+      "ratio": 0.71,
+      "date": "2024-01-17T14:09:07"
+    },
+    {
+      "id": 596,
+      "slug": "5",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/01/5.jpg",
+      "alt": "",
+      "width": 2481,
+      "height": 3508,
+      "ratio": 0.71,
+      "date": "2024-01-17T14:09:05"
+    },
+    {
+      "id": 595,
+      "slug": "4-1",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/01/4-1.jpg",
+      "alt": "",
+      "width": 2481,
+      "height": 3508,
+      "ratio": 0.71,
+      "date": "2024-01-17T14:09:01"
+    },
+    {
+      "id": 590,
+      "slug": "linebgoverlay-png",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/01/linebgoverlay.png",
+      "alt": "",
+      "width": 1200,
+      "height": 900,
+      "ratio": 1.33,
+      "date": "2024-01-17T13:39:33"
+    },
+    {
+      "id": 585,
+      "slug": "photo-1495706891067-35a06798dbca-jpeg",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/01/photo-1495706891067-35a06798dbca.jpeg",
+      "alt": "",
+      "width": 2134,
+      "height": 3201,
+      "ratio": 0.67,
+      "date": "2024-01-17T13:38:08"
+    },
+    {
+      "id": 582,
+      "slug": "zz-newsletter-1-jpg",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/01/zz-newsletter-1.jpg",
+      "alt": "",
+      "width": 2100,
+      "height": 1538,
+      "ratio": 1.37,
+      "date": "2024-01-17T13:37:51"
+    },
+    {
+      "id": 577,
+      "slug": "blue-ocean-water-5412-jpg",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/01/blue-ocean-water-5412.jpg",
+      "alt": "",
+      "width": 1920,
+      "height": 1280,
+      "ratio": 1.5,
+      "date": "2024-01-17T13:37:10"
+    },
+    {
+      "id": 511,
+      "slug": "quotes-01-png",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/01/quotes-01.png",
+      "alt": "",
+      "width": 512,
+      "height": 512,
+      "ratio": 1,
+      "date": "2024-01-14T16:56:23"
+    },
+    {
+      "id": 508,
+      "slug": "zz-testimonial3-png",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2024/01/zz-testimonial3.png",
+      "alt": "",
+      "width": 32,
+      "height": 28,
+      "ratio": 1.14,
+      "date": "2024-01-14T16:54:49"
+    },
+    {
+      "id": 461,
+      "slug": "woocommerce-placeholder",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/woocommerce-placeholder.png",
+      "alt": "",
+      "width": 1200,
+      "height": 1200,
+      "ratio": 1,
+      "date": "2024-01-03T17:17:37"
+    },
+    {
+      "id": 419,
+      "slug": "photo_3",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/photo_3.jpg",
+      "alt": "",
+      "width": 6000,
+      "height": 4000,
+      "ratio": 1.5,
+      "date": "2023-12-29T17:34:20"
+    },
+    {
+      "id": 418,
+      "slug": "photo_2",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/photo_2.jpg",
+      "alt": "",
+      "width": 6000,
+      "height": 4000,
+      "ratio": 1.5,
+      "date": "2023-12-29T17:34:18"
+    },
+    {
+      "id": 417,
+      "slug": "photo_55-2",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/photo_55-1.jpg",
+      "alt": "",
+      "width": 2560,
+      "height": 1920,
+      "ratio": 1.33,
+      "date": "2023-12-29T17:34:17"
+    },
+    {
+      "id": 416,
+      "slug": "photo_30",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/photo_30.jpg",
+      "alt": "",
+      "width": 5484,
+      "height": 4000,
+      "ratio": 1.37,
+      "date": "2023-12-29T17:34:13"
+    },
+    {
+      "id": 415,
+      "slug": "photo_21",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/photo_21.jpg",
+      "alt": "",
+      "width": 5328,
+      "height": 4000,
+      "ratio": 1.33,
+      "date": "2023-12-29T17:34:11"
+    },
+    {
+      "id": 414,
+      "slug": "photo_17",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/photo_17.jpg",
+      "alt": "",
+      "width": 6000,
+      "height": 4000,
+      "ratio": 1.5,
+      "date": "2023-12-29T17:34:07"
+    },
+    {
+      "id": 413,
+      "slug": "photo_16",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/photo_16.jpg",
+      "alt": "",
+      "width": 6000,
+      "height": 4000,
+      "ratio": 1.5,
+      "date": "2023-12-29T17:34:05"
+    },
+    {
+      "id": 412,
+      "slug": "photo_13",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/photo_13.jpg",
+      "alt": "",
+      "width": 5440,
+      "height": 4000,
+      "ratio": 1.36,
+      "date": "2023-12-29T17:34:03"
+    },
+    {
+      "id": 411,
+      "slug": "photo_55",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/photo_55.jpg",
+      "alt": "",
+      "width": 2560,
+      "height": 1920,
+      "ratio": 1.33,
+      "date": "2023-12-29T17:33:35"
+    },
+    {
+      "id": 410,
+      "slug": "img_20221208_125959_332_compressed",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/IMG_20221208_125959_332_compressed.jpg",
+      "alt": "",
+      "width": 3000,
+      "height": 2000,
+      "ratio": 1.5,
+      "date": "2023-12-29T16:22:30"
+    },
+    {
+      "id": 409,
+      "slug": "img_20221208_102419_285_compressed",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/IMG_20221208_102419_285_compressed.jpg",
+      "alt": "",
+      "width": 3000,
+      "height": 2000,
+      "ratio": 1.5,
+      "date": "2023-12-29T16:22:29"
+    },
+    {
+      "id": 408,
+      "slug": "dsc_6225_compressed",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/DSC_6225_compressed.jpg",
+      "alt": "",
+      "width": 3000,
+      "height": 2000,
+      "ratio": 1.5,
+      "date": "2023-12-29T16:22:25"
+    },
+    {
+      "id": 407,
+      "slug": "dsc_6179_compressed",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/DSC_6179_compressed.jpg",
+      "alt": "",
+      "width": 3000,
+      "height": 2000,
+      "ratio": 1.5,
+      "date": "2023-12-29T16:22:22"
+    },
+    {
+      "id": 406,
+      "slug": "dsc_6146_compressed",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/DSC_6146_compressed.jpg",
+      "alt": "",
+      "width": 3000,
+      "height": 2000,
+      "ratio": 1.5,
+      "date": "2023-12-29T16:22:20"
+    },
+    {
+      "id": 405,
+      "slug": "dsc_6019_compressed",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/DSC_6019_compressed.jpg",
+      "alt": "",
+      "width": 3000,
+      "height": 2000,
+      "ratio": 1.5,
+      "date": "2023-12-29T16:22:18"
+    },
+    {
+      "id": 404,
+      "slug": "dsc_5959_compressed",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/DSC_5959_compressed.jpg",
+      "alt": "",
+      "width": 3000,
+      "height": 2000,
+      "ratio": 1.5,
+      "date": "2023-12-29T16:22:15"
+    },
+    {
+      "id": 403,
+      "slug": "dsc_5899_compressed",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/DSC_5899_compressed.jpg",
+      "alt": "",
+      "width": 3000,
+      "height": 2000,
+      "ratio": 1.5,
+      "date": "2023-12-29T16:22:13"
+    },
+    {
+      "id": 402,
+      "slug": "dsc_5887_compressed",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/DSC_5887_compressed.jpg",
+      "alt": "",
+      "width": 3000,
+      "height": 2000,
+      "ratio": 1.5,
+      "date": "2023-12-29T16:22:10"
+    },
+    {
+      "id": 400,
+      "slug": "dsc_5791_compressed",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/DSC_5791_compressed.jpg",
+      "alt": "",
+      "width": 3000,
+      "height": 2000,
+      "ratio": 1.5,
+      "date": "2023-12-29T16:21:28"
+    },
+    {
+      "id": 385,
+      "slug": "dsc_5794_compressed",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/DSC_5794_compressed.jpg",
+      "alt": "",
+      "width": 3000,
+      "height": 2000,
+      "ratio": 1.5,
+      "date": "2023-12-29T16:10:52"
+    },
+    {
+      "id": 384,
+      "slug": "dsc_5701_compressed",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/DSC_5701_compressed.jpg",
+      "alt": "",
+      "width": 3000,
+      "height": 2000,
+      "ratio": 1.5,
+      "date": "2023-12-29T16:10:20"
+    },
+    {
+      "id": 380,
+      "slug": "d_9v5ke9_400x400",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/D_9v5ke9_400x400.jpg",
+      "alt": "",
+      "width": 400,
+      "height": 400,
+      "ratio": 1,
+      "date": "2023-12-29T15:44:58"
+    },
+    {
+      "id": 379,
+      "slug": "university-of-lagos-logo-38976cb",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/university-of-lagos-logo-38976CB.jpg",
+      "alt": "",
+      "width": 300,
+      "height": 294,
+      "ratio": 1.02,
+      "date": "2023-12-29T15:44:22"
+    },
+    {
+      "id": 378,
+      "slug": "rdnic6k5bjb16ctgpuzl_compressed",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/rdnic6k5bjb16ctgpuzl_compressed.jpg",
+      "alt": "",
+      "width": 2569,
+      "height": 2322,
+      "ratio": 1.11,
+      "date": "2023-12-29T15:43:24"
+    },
+    {
+      "id": 376,
+      "slug": "tropical-institution",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/tropical-institution.jpg",
+      "alt": "",
+      "width": 225,
+      "height": 225,
+      "ratio": 1,
+      "date": "2023-12-29T15:40:49"
+    },
+    {
+      "id": 375,
+      "slug": "uniport",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/Uniport.jpg",
+      "alt": "",
+      "width": 232,
+      "height": 218,
+      "ratio": 1.06,
+      "date": "2023-12-29T15:40:03"
+    },
+    {
+      "id": 374,
+      "slug": "federal-university-ekiti",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/Federal-University-Ekiti.jpg",
+      "alt": "",
+      "width": 218,
+      "height": 231,
+      "ratio": 0.94,
+      "date": "2023-12-29T15:39:17"
+    },
+    {
+      "id": 373,
+      "slug": "untitled",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/Untitled.jpg",
+      "alt": "",
+      "width": 225,
+      "height": 225,
+      "ratio": 1,
+      "date": "2023-12-29T15:38:38"
+    },
+    {
+      "id": 286,
+      "slug": "image-contact-1-jpg",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/Image-Contact-1.jpg",
+      "alt": "",
+      "width": 853,
+      "height": 430,
+      "ratio": 1.98,
+      "date": "2023-12-24T16:59:43"
+    },
+    {
+      "id": 285,
+      "slug": "image_placeholder_hero-jpeg",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/Image_Placeholder_Hero.jpeg",
+      "alt": "",
+      "width": 1027,
+      "height": 835,
+      "ratio": 1.23,
+      "date": "2023-12-24T16:59:42"
+    },
+    {
+      "id": 281,
+      "slug": "donation-for-psf-research-v1-1-1",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/Donation-for-PSF-research-V1-1-1.png",
+      "alt": "",
+      "width": 1024,
+      "height": 456,
+      "ratio": 2.25,
+      "date": "2023-12-24T16:53:28"
+    },
+    {
+      "id": 262,
+      "slug": "inasp-logo",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/INASP-logo.jpg",
+      "alt": "",
+      "width": 232,
+      "height": 80,
+      "ratio": 2.9,
+      "date": "2023-12-15T22:18:38"
+    },
+    {
+      "id": 261,
+      "slug": "authoraid-logo-web",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/authoraid-logo-web.png",
+      "alt": "",
+      "width": 391,
+      "height": 87,
+      "ratio": 4.49,
+      "date": "2023-12-15T22:17:27"
+    },
+    {
+      "id": 248,
+      "slug": "img-20231213-wa0009-removebg-preview",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/IMG-20231213-WA0009-removebg-preview.png",
+      "alt": "",
+      "width": 547,
+      "height": 456,
+      "ratio": 1.2,
+      "date": "2023-12-15T22:04:29"
+    },
+    {
+      "id": 246,
+      "slug": "img-20231213-wa0009",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/IMG-20231213-WA0009.jpg",
+      "alt": "",
+      "width": 720,
+      "height": 601,
+      "ratio": 1.2,
+      "date": "2023-12-15T21:56:36"
+    },
+    {
+      "id": 22,
+      "slug": "castle",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/card-blog5.jpg",
+      "alt": "",
+      "width": 800,
+      "height": 533,
+      "ratio": 1.5,
+      "date": "2023-12-15T21:55:25"
+    },
+    {
+      "id": 21,
+      "slug": "tourism",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/card-blog4.jpg",
+      "alt": "",
+      "width": 752,
+      "height": 500,
+      "ratio": 1.5,
+      "date": "2023-12-15T21:55:25"
+    },
+    {
+      "id": 20,
+      "slug": "convertible",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/card-blog3.jpg",
+      "alt": "",
+      "width": 752,
+      "height": 500,
+      "ratio": 1.5,
+      "date": "2023-12-15T21:55:25"
+    },
+    {
+      "id": 19,
+      "slug": "drone",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/card-blog2.jpg",
+      "alt": "",
+      "width": 800,
+      "height": 534,
+      "ratio": 1.5,
+      "date": "2023-12-15T21:55:25"
+    },
+    {
+      "id": 18,
+      "slug": "landscape",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/card-blog1.jpg",
+      "alt": "",
+      "width": 800,
+      "height": 533,
+      "ratio": 1.5,
+      "date": "2023-12-15T21:55:25"
+    },
+    {
+      "id": 17,
+      "slug": "first-slide",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/slider1.jpg",
+      "alt": "",
+      "width": 1104,
+      "height": 621,
+      "ratio": 1.78,
+      "date": "2023-12-15T21:55:25"
+    },
+    {
+      "id": 16,
+      "slug": "featured-image-homepage",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/contact.jpg",
+      "alt": "",
+      "width": 1024,
+      "height": 683,
+      "ratio": 1.5,
+      "date": "2023-12-15T21:55:25"
+    },
+    {
+      "id": 202,
+      "slug": "matheus-ferrero-216385-jpg",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/matheus-ferrero-216385.jpg",
+      "alt": "",
+      "width": 1200,
+      "height": 1800,
+      "ratio": 0.67,
+      "date": "2023-12-15T20:35:20"
+    },
+    {
+      "id": 198,
+      "slug": "zz-teammember2-jpg",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/zz-teammember2.jpg",
+      "alt": "",
+      "width": 1000,
+      "height": 1474,
+      "ratio": 0.68,
+      "date": "2023-12-15T20:35:05"
+    },
+    {
+      "id": 196,
+      "slug": "zz-teammember-jpg",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/zz-teammember.jpg",
+      "alt": "",
+      "width": 1000,
+      "height": 1474,
+      "ratio": 0.68,
+      "date": "2023-12-15T20:35:04"
+    },
+    {
+      "id": 182,
+      "slug": "av4-jpg",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/av4.jpg",
+      "alt": "",
+      "width": 800,
+      "height": 600,
+      "ratio": 1.33,
+      "date": "2023-12-15T18:54:37"
+    },
+    {
+      "id": 181,
+      "slug": "av2-jpg",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/av2.jpg",
+      "alt": "",
+      "width": 800,
+      "height": 600,
+      "ratio": 1.33,
+      "date": "2023-12-15T18:54:36"
+    },
+    {
+      "id": 180,
+      "slug": "av1-jpg",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/av1.jpg",
+      "alt": "",
+      "width": 800,
+      "height": 600,
+      "ratio": 1.33,
+      "date": "2023-12-15T18:54:36"
+    },
+    {
+      "id": 179,
+      "slug": "a1-jpg",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/a1.jpg",
+      "alt": "",
+      "width": 800,
+      "height": 800,
+      "ratio": 1,
+      "date": "2023-12-15T18:54:35"
+    },
+    {
+      "id": 169,
+      "slug": "client2-e1542225278285-png",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/client2-e1542225278285.png",
+      "alt": "",
+      "width": 900,
+      "height": 600,
+      "ratio": 1.5,
+      "date": "2023-12-15T18:49:34"
+    },
+    {
+      "id": 168,
+      "slug": "client01-png",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/client01.png",
+      "alt": "",
+      "width": 1024,
+      "height": 682,
+      "ratio": 1.5,
+      "date": "2023-12-15T18:49:34"
+    },
+    {
+      "id": 167,
+      "slug": "client3-png",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/client3.png",
+      "alt": "",
+      "width": 1024,
+      "height": 679,
+      "ratio": 1.51,
+      "date": "2023-12-15T18:49:33"
+    },
+    {
+      "id": 166,
+      "slug": "client4-png",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/client4.png",
+      "alt": "",
+      "width": 900,
+      "height": 600,
+      "ratio": 1.5,
+      "date": "2023-12-15T18:49:33"
+    },
+    {
+      "id": 165,
+      "slug": "photo-1498568584133-7b76cea38337-jpeg",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/photo-1498568584133-7b76cea38337.jpeg",
+      "alt": "",
+      "width": 1900,
+      "height": 2375,
+      "ratio": 0.8,
+      "date": "2023-12-15T18:49:32"
+    },
+    {
+      "id": 163,
+      "slug": "client-light-02-png",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/client-light-02.png",
+      "alt": "",
+      "width": 630,
+      "height": 420,
+      "ratio": 1.5,
+      "date": "2023-12-15T18:48:56"
+    },
+    {
+      "id": 162,
+      "slug": "photo-1501147830916-ce44a6359892-jpeg",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/photo-1501147830916-ce44a6359892.jpeg",
+      "alt": "",
+      "width": 1950,
+      "height": 1300,
+      "ratio": 1.5,
+      "date": "2023-12-15T18:48:55"
+    },
+    {
+      "id": 161,
+      "slug": "client-light-01-png",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/client-light-01.png",
+      "alt": "",
+      "width": 630,
+      "height": 420,
+      "ratio": 1.5,
+      "date": "2023-12-15T18:48:54"
+    },
+    {
+      "id": 158,
+      "slug": "bolier-png",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/bolier.png",
+      "alt": "",
+      "width": 200,
+      "height": 150,
+      "ratio": 1.33,
+      "date": "2023-12-15T18:48:21"
+    },
+    {
+      "id": 157,
+      "slug": "darkside-png",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/darkside.png",
+      "alt": "",
+      "width": 200,
+      "height": 150,
+      "ratio": 1.33,
+      "date": "2023-12-15T18:48:20"
+    },
+    {
+      "id": 156,
+      "slug": "armond-png",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/armond.png",
+      "alt": "",
+      "width": 200,
+      "height": 150,
+      "ratio": 1.33,
+      "date": "2023-12-15T18:47:31"
+    },
+    {
+      "id": 155,
+      "slug": "bastil-png",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/bastil.png",
+      "alt": "",
+      "width": 200,
+      "height": 150,
+      "ratio": 1.33,
+      "date": "2023-12-15T18:47:30"
+    },
+    {
+      "id": 154,
+      "slug": "digit-png",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/digit.png",
+      "alt": "",
+      "width": 200,
+      "height": 150,
+      "ratio": 1.33,
+      "date": "2023-12-15T18:47:29"
+    },
+    {
+      "id": 140,
+      "slug": "photo-1456964513482-f21a68af77ee-jpeg",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/photo-1456964513482-f21a68af77ee.jpeg",
+      "alt": "",
+      "width": 1955,
+      "height": 1295,
+      "ratio": 1.51,
+      "date": "2023-12-15T18:20:19"
+    },
+    {
+      "id": 139,
+      "slug": "photo-1518050525699-24ac415af7af-jpeg",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/photo-1518050525699-24ac415af7af.jpeg",
+      "alt": "",
+      "width": 1764,
+      "height": 3136,
+      "ratio": 0.56,
+      "date": "2023-12-15T18:20:19"
+    },
+    {
+      "id": 127,
+      "slug": "photo-1542033474370-d28774f3338d-jpeg",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/photo-1542033474370-d28774f3338d.jpeg",
+      "alt": "",
+      "width": 1875,
+      "height": 2500,
+      "ratio": 0.75,
+      "date": "2023-12-15T17:51:28"
+    },
+    {
+      "id": 115,
+      "slug": "boxking_about_img_3-jpg",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/boxking_about_img_3.jpg",
+      "alt": "",
+      "width": 540,
+      "height": 300,
+      "ratio": 1.8,
+      "date": "2023-12-15T13:39:05"
+    },
+    {
+      "id": 114,
+      "slug": "boxking_about_img_2-jpg",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/boxking_about_img_2.jpg",
+      "alt": "",
+      "width": 540,
+      "height": 300,
+      "ratio": 1.8,
+      "date": "2023-12-15T13:39:04"
+    },
+    {
+      "id": 113,
+      "slug": "boxking_about_img_11-jpg",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/boxking_about_img_11.jpg",
+      "alt": "",
+      "width": 538,
+      "height": 300,
+      "ratio": 1.79,
+      "date": "2023-12-15T13:39:04"
+    },
+    {
+      "id": 111,
+      "slug": "action-athlete-athletes-267761-jpg",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/action-athlete-athletes-267761.jpg",
+      "alt": "",
+      "width": 1500,
+      "height": 2100,
+      "ratio": 0.71,
+      "date": "2023-12-15T13:36:31"
+    },
+    {
+      "id": 50,
+      "slug": "ad4-jpg",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/ad4.jpg",
+      "alt": "",
+      "width": 600,
+      "height": 400,
+      "ratio": 1.5,
+      "date": "2023-12-15T11:49:16"
+    },
+    {
+      "id": 49,
+      "slug": "architecture-building-clouds-207648-jpg",
+      "url": "https://systematicreviewsnetwork.org/wp-content/uploads/2023/12/architecture-building-clouds-207648.jpg",
+      "alt": "",
+      "width": 1600,
+      "height": 943,
+      "ratio": 1.7,
+      "date": "2023-12-15T11:49:15"
+    }
+  ],
+  "stock_excluded": [
+    "pexels-photo-871495-jpeg",
+    "aleksandar-jason-137349-unsplash-jpg",
+    "edgar-chaparro-1056818-unsplash-jpg",
+    "jamie-street-105287-unsplash-jpg",
+    "jean-philippe-delberghe-660138-unsplash-jpg",
+    "ellyot-588064-unsplash-jpg",
+    "alice-donovan-rouse-66062-unsplash-jpg",
+    "andris-romanovskis-267865-unsplash-jpg",
+    "pexels-photo-250400-jpeg",
+    "pexels-photo-606676-jpeg",
+    "pexels-photo-889839-jpeg",
+    "pexels-photo-127873-jpeg",
+    "pexels-photo-1292998-jpeg",
+    "alex-dukhanov-800154-unsplash-jpg",
+    "chuttersnap-510131-unsplash-jpg",
+    "markus-spiske-1083420-unsplash-jpg",
+    "lee-miller-47629-unsplash-jpg",
+    "kane-reinholdtsen-188778-unsplash-jpg",
+    "pexels-photo-667205-jpeg",
+    "hin-bong-yeung-210244-unsplash-jpg",
+    "zhang-kaiyv-411983-unsplash-jpg",
+    "franck-v-512278-unsplash-jpg",
+    "marion-michele-464759-unsplash-jpg",
+    "louis-magnotti-27204-unsplash-jpg",
+    "rawpixel-752537-unsplash-1-jpg",
+    "pierre-chatel-innocenti-2513842-unsplash-jpg",
+    "daniel-monteiro-643335-unsplash-jpg",
+    "rawpixel-693037-unsplash-jpg",
+    "jurica-koletic-317414-unsplash-jpg",
+    "rawpixel-683571-unsplash-jpg",
+    "sean-kong-501282-unsplash-jpg",
+    "mimi-thian-736996-unsplash-jpg",
+    "james-gillespie-714755-unsplash-jpg",
+    "ux-indonesia-qc2n6rqu4vw-unsplash-1",
+    "windows-v94mlgvsza4-unsplash",
+    "ux-indonesia-8mikj83lmsq-unsplash",
+    "kaleidico-3v8xo5gbusk-unsplash-1",
+    "hans-reniers-lqgjcmy5qcm-unsplash-1",
+    "pexels-photo-556068-jpeg",
+    "pexels-photo-220453-jpeg",
+    "pexels-photo-774909-jpeg",
+    "nasa-43979-unsplash-jpg",
+    "ellyot-623921-unsplash-jpg",
+    "nasa-45076-unsplash-jpg",
+    "nicola-gypsicola-73977-unsplash-jpg",
+    "fabian-moller-401639-unsplash-jpg",
+    "oladimeji-odunsi-367505-unsplash-jpg",
+    "austin-johnson-275715-unsplash-jpg",
+    "rawpixel-558597-unsplash-jpg",
+    "pexels-photo-341523-jpeg",
+    "nesa-by-makers-701360-unsplash-jpg",
+    "mimi-thian-737711-unsplash-jpg",
+    "adrian-226109-unsplash-jpg",
+    "fabian-kozdon-271993-unsplash-jpg",
+    "foto-sushi-128246-unsplash-jpg",
+    "thought-catalog-655495-unsplash-jpg",
+    "naassom-azevedo-541451-unsplash-jpg",
+    "aaron-burden-25846-unsplash-jpg",
+    "hector-martinez-110928-unsplash-jpg",
+    "andres-gerlotti-560529-unsplash-jpg",
+    "rawpixel-804732-unsplash-jpg"
+  ],
+  "posts": [
+    {
+      "id": 1666,
+      "slug": "ask-the-expert-ask-your-questions-get-practical-answers",
+      "title": "Systematic Reviews Q & A: Ask Your Questions, Get Practical Answers",
+      "date": "2025-09-23T23:22:47",
+      "link": "https://systematicreviewsnetwork.org/2025/09/23/ask-the-expert-ask-your-questions-get-practical-answers/",
+      "excerpt": "Session 1: Basics of Systematic Reviews Session 2: Meta-Analysis & Interpretation; GRADE Assessments Registration 👉 https://bit.ly/srnATE25 Venue 📍 Zoom Contact 📧 info@systematicreviewsnetwork.org Follow Us:",
+      "word_count": 63,
+      "text": "Session 1: Basics of Systematic Reviews Date: 3rd October, 2025 Time: 3:00 – 4:00 P.M. WAT Facilitator: Precious Anyakorah (Centicini Team LTD) Session 2: Meta-Analysis & Interpretation; GRADE Assessments Date: 4th December, 2025 Time: 3:00 – 4:00 P.M. WAT Facilitator: David Innocent (Founder, Centicini Team LTD) Registration 👉 https://bit.ly/srnATE25 Venue 📍 Zoom Contact 📧 info@systematicreviewsnetwork.org Follow Us: LinkedIn: thesrn Facebook: thesrn Twitter/X: thesrnofficial"
+    },
+    {
+      "id": 1655,
+      "slug": "systematic-review-webinar-series-2",
+      "title": "Systematic Review Webinar Series",
+      "date": "2025-09-23T21:58:29",
+      "link": "https://systematicreviewsnetwork.org/2025/09/23/systematic-review-webinar-series-2/",
+      "excerpt": "Session 1: Basics for Conducting Bibliometric Analysis Session 2: GRADE vs. Risk of Bias vs. Quality Assessment: What’s the Difference? Registration 👉 https://bit.ly/srnoctober25 More Events 👉 www.systematicreviewsnetwork.org/events Contact 📧 info@systematicreviewsnetwork.org Follow Us:",
+      "word_count": 73,
+      "text": "Session 1: Basics for Conducting Bibliometric Analysis Date: 17th October, 2025 Time: 3:00 P.M. WAT Facilitator: Dr. Ahsan Riaz (Government College University, Faisalabad, Pakistan) Session 2: GRADE vs. Risk of Bias vs. Quality Assessment: What’s the Difference? Date: 31st October, 2025 Time: 3:00 P.M. WAT Facilitator: Dr. Carlos Alexandre Soares Andrade (Ministry of Health, Brazil) Registration 👉 https://bit.ly/srnoctober25 More Events 👉 www.systematicreviewsnetwork.org/events Contact 📧 info@systematicreviewsnetwork.org Follow Us: Twitter/X: @thesrnofficial Facebook: thesrn Linkedin: thesrn"
+    },
+    {
+      "id": 1652,
+      "slug": "conducting-the-systematic-literature-search-a-free-practical-workshop",
+      "title": "Conducting the Systematic Literature Search: A Free Practical Workshop",
+      "date": "2025-09-23T20:59:11",
+      "link": "https://systematicreviewsnetwork.org/2025/09/23/conducting-the-systematic-literature-search-a-free-practical-workshop/",
+      "excerpt": "📅 Dates: December 5, 12 & 19, 2025⏰ Time: 2:00 – 4:00 PM WAT💻 Format: Online | Hands-on | Interactive🆓 Fee: FreeVenue: Zoom ✨ Why Attend? 📖 Course Structure 🗓️ Session Highlights🔹 Dec 5: Basics of Systematic Literature Search — PICO, Boolean logic, truncations, wildcards, MeSH terms 🔹 Dec 12:",
+      "word_count": 135,
+      "text": "📅 Dates: December 5, 12 & 19, 2025 ⏰ Time: 2:00 – 4:00 PM WAT 💻 Format: Online | Hands-on | Interactive 🆓 Fee: Free Venue: Zoom ✨ Why Attend? Understand the basics of systematic literature searching Build effective search strategies in key databases Hands-on practice after every lecture 📖 Course Structure 1 Hour Lecture/Demonstration 1 Hour Guided Individual Activity 🗓️ Session Highlights 🔹 Dec 5: Basics of Systematic Literature Search — PICO, Boolean logic, truncations, wildcards, MeSH terms 🔹 Dec 12: Searching PubMed & CENTRAL — Building, running, and documenting search strategies 🔹 Dec 19: Searching Scopus & Web of Science — Building, running, and documenting search strategies 🔗 Registration & Details Register here: https://bit.ly/srndecember25 More details: https://www.systematicreviewsnetwork.org/events Registration Deadline: November 21, 2025 Contact 📧 info@systematicreviewsnetwork.org Follow Us: LinkedIn: thesrn Facebook: thesrn Twitter/X: thesrnofficial"
+    },
+    {
+      "id": 1647,
+      "slug": "getting-started-with-systematic-reviews-a-practical-workshop-2025b",
+      "title": "Getting Started with Systematic Reviews: A Practical Workshop (2025B)",
+      "date": "2025-09-23T18:47:49",
+      "link": "https://systematicreviewsnetwork.org/2025/09/23/getting-started-with-systematic-reviews-a-practical-workshop-2025b/",
+      "excerpt": "November 1 – 29, 2025 Course Overview: 📌 Course Format: Facilitators: 🔗 Registration & Details Fee: 20usd (Limited to 50 participants) The $20 USD fee covers operational costs such as platform access, training materials, and facilitation. This is not for profit, and no part of the fee goes to INAS",
+      "word_count": 172,
+      "text": "November 1 – 29, 2025 Course Overview: Developing a Systematic Topic and Research Question Defining Eligibility Criteria for Systematic Reviews Designing a Literature Search Strategy Screening and Selecting Studies Conducting Quality Assessment, Risk of Bias, and GRADE 📌 Course Format: Live sessions & group practical activities Weekly individual formative assessments Final practical activity at the end Live Session Dates: November 1, 8, 15, 22, 29 Live Session Time: 3:00 PM – 5:00 PM WAT Venue: Zoom Facilitators: Prof Ejaz Ahmed Khan (Health Service Academy, Pakistan) Dr Leonard Uzairue (De Montfort University, UK) Dr Moses Ocan (Makerere University, Uganda) Dr Reginald Quansah (University of Ghana, Ghana) Adrine Nyamwiza (Makerere University, Uganda) 🔗 Registration & Details Register here: https://bit.ly/srnnovember25 Registration Deadline: October 11, 2025 Fee: 20usd (Limited to 50 participants) The $20 USD fee covers operational costs such as platform access, training materials, and facilitation. This is not for profit , and no part of the fee goes to INASP or Rising Scholars. Contact 📧 info@systematicreviewsnetwork.org Follow Us: LinkedIn: thesrn Facebook: thesrn Twitter/X: thesrnofficial"
+    },
+    {
+      "id": 1577,
+      "slug": "join-the-systematic-reviews-mentorship-programme",
+      "title": "Join the Systematic Reviews Mentorship Programme!",
+      "date": "2025-01-22T05:07:12",
+      "link": "https://systematicreviewsnetwork.org/2025/01/22/join-the-systematic-reviews-mentorship-programme/",
+      "excerpt": "Are you ready to take your systematic review to the next level? Whether you’re looking for expert guidance or eager to share your expertise, the Systematic Reviews Mentorship Programme is your opportunity to grow and make an impact in the field of evidence synthesis! 🔍 About the Programme The Syste",
+      "word_count": 209,
+      "text": "Are you ready to take your systematic review to the next level? Whether you’re looking for expert guidance or eager to share your expertise, the Systematic Reviews Mentorship Programme is your opportunity to grow and make an impact in the field of evidence synthesis! 🔍 About the Programme The Systematic Reviews Network (SRN) is committed to supporting researchers at every stage of their systematic review journey. 💡 Apply as a Mentee If you have a systematic review protocol but need guidance to conduct and publish your review, this programme is for you. Get personalized support from experienced mentors to overcome challenges and achieve your research goals. 💡 Apply as a Mentor Share your expertise and help others navigate the complexities of systematic reviews. It’s a great way to give back to the research community while enhancing your professional profile. 🗓 Key Details Application Deadline: February 10, 2025 Mentee Application Link: https://bit.ly/srnmentee2025 Mentor Application Link: https://bit.ly/srnmentor2025 📧 Have Questions? We’re here to help! Reach out to us at info@systematicreviewsnetwork.org . 🚀 Don’t Miss Out! Whether you’re seeking guidance or ready to mentor others, this programme is the perfect opportunity to grow your skills and contribute to the world of evidence-based research. Apply today and join the thriving community at SRN!"
+    },
+    {
+      "id": 1573,
+      "slug": "be-a-part-of-the-systematic-reviews-network-srn-team",
+      "title": "Be a Part of the Systematic Reviews Network (SRN) Team!",
+      "date": "2025-01-22T05:02:55",
+      "link": "https://systematicreviewsnetwork.org/2025/01/22/be-a-part-of-the-systematic-reviews-network-srn-team/",
+      "excerpt": "Are you passionate about advancing systematic reviews and evidence synthesis? Join the Systematic Reviews Network (SRN) and become part of a dynamic team dedicated to making a meaningful impact in the research community. 🚀 Why Join SRN? Collaborate with like-minded individuals, contribute to innova",
+      "word_count": 172,
+      "text": "Are you passionate about advancing systematic reviews and evidence synthesis? Join the Systematic Reviews Network (SRN) and become part of a dynamic team dedicated to making a meaningful impact in the research community. 🚀 Why Join SRN? Collaborate with like-minded individuals, contribute to innovative projects, and play a key role in shaping the future of evidence synthesis. 📌 We’re Currently Looking for Enthusiastic Individuals to Join: ✅ Communications Team Help us amplify our message and engage with the global evidence synthesis community. ✅ Programmes Committee Contribute to the planning and execution of impactful workshops, webinars, and mentorship programmes. ✅ Scientific Committee Join our growing team of facilitators, and contribute to our mentorship programmes as a mentor. 📅 Key Details Application Deadline: January 31, 2025 Learn More & Apply: https://bit.ly/srncall25 🌟 Seize This Opportunity! This is your chance to collaborate, learn, and make a lasting difference with SRN. Join us and help shape the future of evidence synthesis. For inquiries, reach out to us at info@systematicreviewsnetwork.org . Together, we can make a difference!"
+    },
+    {
+      "id": 1437,
+      "slug": "systematic-review-webinar-series",
+      "title": "Systematic Review Webinar Series",
+      "date": "2024-08-17T09:42:00",
+      "link": "https://systematicreviewsnetwork.org/2024/08/17/systematic-review-webinar-series/",
+      "excerpt": "Africa Evidence Week | August 19 – 23, 2024 Event 1 Evaluating Systematic Review Training Programs: Insights, Challenges & Future Directions About the Event Join us for an engaging webinar as we delve into an evaluation of the African Community for Systematic Reviews and Meta-analysis (ACSRM) traini",
+      "word_count": 494,
+      "text": "Africa Evidence Week | August 19 – 23, 2024 Event 1 Evaluating Systematic Review Training Programs: Insights, Challenges & Future Directions About the Event Join us for an engaging webinar as we delve into an evaluation of the African Community for Systematic Reviews and Meta-analysis (ACSRM) training programs. Since our inception in 2022, ACSRM has been dedicated to building capacity in evidence synthesis across Low-and Middle-income countries, especially in the African continent. In this session, we will share key insights from our evaluation, highlighting the challenges faced, successes achieved, and future directions for our programs. We will begin with the findings of our systematic review and meta-analysis needs assessment conducted in 2022. We will then present an overview of our evaluation process, including the methodologies and tools used to assess the impact of our training programs. Participants will learn about common challenges encountered in organising and delivering these programs, such as resource constraints, participant engagement, and curriculum customisation. Additionally, we will celebrate our successes, showcasing positive outcomes and participant testimonials that reflect the transformative impact of our training efforts. Looking ahead, we will outline strategic improvements and new initiatives aimed at enhancing our capacity-building activities. This webinar will feature a dynamic panel discussion with experts who will provide their insights on the evaluation findings and share best practices in capacity building. Interactive polls and a Q&A session will offer participants the opportunity to engage actively and share their experiences. This is an opportunity to gain valuable insights and contribute to the conversation on advancing evidence synthesis training in Africa. Event Date and Time Date: August 20, 2024 Time: 1:30 pm – 2:30 pm GMT Event Links https://shorturl.at/0ODZi https://x.com/ACSRMofficial https://systematicreviewsnetwork.org Event 2 Communicating Evidence: Hand-On Workshop on Translation & Dissemination About The Event The African Community for Systematic Reviews and Meta-analysis (ACSRM) invites researchers to participate in a hands-on workshop aimed at enhancing skills in communicating and translating evidence synthesis findings. This interactive session is designed to provide practical strategies for improving the impact of research through effective dissemination. The workshop will commence with an introduction to the principles of knowledge translation, focusing on how to transform complex evidence into clear, actionable insights for diverse audiences. Techniques for crafting impactful research summaries and targeting specific groups, such as academics, policymakers, and practitioners, will be covered. Participants will engage in practical exercises, including writing research summaries and developing dissemination plans tailored to different stakeholders. The workshop will also showcase the use of digital tools and platforms, such as social media and blogs, to expand the reach and influence of research findings. The session will feature interactive Q&A and discussions, allowing participants to share their experiences and seek advice on overcoming their own dissemination challenges. By the end of this workshop, attendees will be better prepared to communicate their evidence synthesis findings effectively and maximise their impact. Event Date and Time Date: August 23, 2024 Time: 1:30 pm – 3:30 pm GMT Event Links https://shorturl.at/0ODZi https://x.com/ACSRMofficial https://systematicreviewsnetwork.org"
+    },
+    {
+      "id": 1431,
+      "slug": "registration-is-open-systematic-review-meta-analysis-workshop",
+      "title": "Registration is Open! Systematic Review & Meta-Analysis Workshop",
+      "date": "2024-07-22T13:09:24",
+      "link": "https://systematicreviewsnetwork.org/2024/07/22/registration-is-open-systematic-review-meta-analysis-workshop/",
+      "excerpt": "Introduction The African Community for Systematic Reviews and Meta-analyses (ACSRM) announces the open registration for a hybrid systematic review and meta-analysis workshop. The workshop will be hosted at the Kwame Nkrumah University of Science and Technology (KNUST). At the end of this workshop, y",
+      "word_count": 123,
+      "text": "Introduction The African Community for Systematic Reviews and Meta-analyses (ACSRM) announces the open registration for a hybrid systematic review and meta-analysis workshop. The workshop will be hosted at the Kwame Nkrumah University of Science and Technology (KNUST). At the end of this workshop, you will be able to: Formulate systematic review research questions. Develop eligibility criteria for systematic reviews. Conduct systematic literature searches. Screen and select studies. Perform quality assessment and data extraction. Do meta-analysis. Gain a certificate. Workshop Details: 📅 Date: 29th July – 1st August, 2024 🕒 Time: 8:00 AM GMT 📍 Format: Hybrid (Virtual and In-person) Fees: Non-KNUST Participant (In-person): $10 USD Non-KNUST Participant (Virtual): $5 USD Scholarships available for KNUST staff/faculty/students Register at: https://bit.ly/knustsrworkshop24 Registration Deadline: 26th July, 2024"
+    },
+    {
+      "id": 824,
+      "slug": "applications-open-be-a-postgraduate-school-liaison",
+      "title": "Applications Open! Be a Postgraduate School Liaison",
+      "date": "2024-05-16T14:36:01",
+      "link": "https://systematicreviewsnetwork.org/2024/05/16/applications-open-be-a-postgraduate-school-liaison/",
+      "excerpt": "Introduction: African Community for Systematic Reviews and Meta-analyses (ACSRM) is a community of practice established to support the production and use of Systematic Reviews and Meta-analyses (SRM) in LMICs. Leveraging the success of our prior webinars and workshops, we're excited to announce a fo",
+      "word_count": 342,
+      "text": "Introduction: African Community for Systematic Reviews and Meta-analyses (ACSRM) is a community of practice established to support the production and use of Systematic Reviews and Meta-analyses (SRM) in LMICs. Leveraging the success of our prior webinars and workshops, we're excited to announce a four-day intensive systematic review workshop at Kwame Nkrumah University of Science and Technology in Kumasi, Ghana. The workshop will be held from July 1st to 5th, 2024. This workshop is designed to equip participants with the practical skills to conduct systematic reviews. Participants will benefit from expert instruction, build valuable connections with fellow researchers, and earn a certificate upon completion Calling All Postgraduate Research Champions! Are you a dedicated faculty member or student leader passionate about empowering your postgraduate program in evidence-based research methodologies, particularly systematic reviews? Become a Postgraduate School Liaison and Bridge the Gap! We are seeking passionate faculty members or research students at postgraduate schools to join our team as Systematic Review Workshop Liaisons. In this vital role, you will facilitate a successful collaboration between our workshops and relevant departments within your school, such as research methods, public health, or epidemiology. What You Will Do: Raise Awareness: Spread the word about the workshop within your postgraduate program through various channels (e.g., emails, student presentations, faculty meetings). Collaboration Champion: Act as a liaison between your postgraduate program and our organization in our forthcoming systematic review workshop. Benefits for You and Your Program: Increased Engagement: Boost postgraduate student and faculty participation in systematic reviews training opportunities. Branding and Recognition: Your postgraduate program and your name will be featured as a valued partner on our workshop materials and website. Networking Opportunities: Connect with other research enthusiasts across different postgraduate programs. Join the Movement! By becoming a Postgraduate School Liaison, you'll directly contribute to strengthening research capacity within your postgraduate program and the broader academic community. How to Apply: Visit our website for more details about the workshop . Contact us at acsrm.int@gmail.com to express your interest and apply for the Liaison role. Deadline to express interest: May 31, 2024"
+    },
+    {
+      "id": 826,
+      "slug": "hands-on-systematic-review-and-meta-analysis-workshop-in-ghana-virtual-in-person",
+      "title": "Hands-on Systematic Review and Meta-analysis Workshop in Ghana (Virtual/Hybrid)",
+      "date": "2024-05-16T14:29:33",
+      "link": "https://systematicreviewsnetwork.org/2024/05/16/hands-on-systematic-review-and-meta-analysis-workshop-in-ghana-virtual-in-person/",
+      "excerpt": "Feeling overwhelmed by systematic reviews? We've got you covered! Join our upcoming workshop. We are happy to announce that we will be hosting our next systematic review workshop at the Kwamme Nkrumah University of Science and Technology, Kumasi, Ghana. Date: 1st – 5th July, 2024 Format: Virtual and",
+      "word_count": 106,
+      "text": "Feeling overwhelmed by systematic reviews? We've got you covered! Join our upcoming workshop. We are happy to announce that we will be hosting our next systematic review workshop at the Kwamme Nkrumah University of Science and Technology, Kumasi, Ghana. Date: 1st – 5th July, 2024 Format: Virtual and hybrid. Why Attend? Gain hands-on experience conducting systematic reviews. Learn from expert instructors in a supportive environment. Network with other researchers interested in evidence-based practice. Earn a certificate of completion upon successful participation. Fees: In-person participation: $10 USD (catering and certificate) Virtual participation: $5 USD (certificate) Registration opens soon. Join our waitlist to be notified when registration opens!"
+    },
+    {
+      "id": 737,
+      "slug": "register-for-our-systematic-reviews-and-meta-analyses-mentorship-programme-srm-mp",
+      "title": "Register for our Systematic Reviews and Meta-analyses Mentorship Programme (SRM-MP).",
+      "date": "2024-02-19T20:34:08",
+      "link": "https://systematicreviewsnetwork.org/2024/02/19/register-for-our-systematic-reviews-and-meta-analyses-mentorship-programme-srm-mp/",
+      "excerpt": "Register for our Systematic Reviews and Meta-analyses Mentorship Programme (SRM-MP). Additional Information: The goal of the mentorship programme is to provide support for review teams to conduct and publish their systematic reviews. Apply as a mentee: Apply as a mentor:",
+      "word_count": 40,
+      "text": "Register for our Systematic Reviews and Meta-analyses Mentorship Programme (SRM-MP). Additional Information: The goal of the mentorship programme is to provide support for review teams to conduct and publish their systematic reviews. Apply as a mentee: Apply as a mentor:"
+    },
+    {
+      "id": 274,
+      "slug": "advancing-systematic-reviews-production-and-use-the-evolution-of-international-systematic-review-networks",
+      "title": "Advancing Systematic Reviews Production and Use: The Evolution of International Systematic Rview Network",
+      "date": "2023-12-23T03:27:17",
+      "link": "https://systematicreviewsnetwork.org/2023/12/23/advancing-systematic-reviews-production-and-use-the-evolution-of-international-systematic-review-networks/",
+      "excerpt": "Written by: Fortune Effiong Systematic reviews of research are increasingly recognized as important for informing decisions across policy sectors and for setting priorities for research. Over the years, several international organizations have been created to support the production and use of system",
+      "word_count": 691,
+      "text": "Written by: Fortune Effiong Systematic reviews of research are increasingly recognized as important for informing decisions across policy sectors and for setting priorities for research. Over the years, several international organizations have been created to support the production and use of systematic reviews around the world. These International organizations have a shared interest of strengthening systematic review production and use in both HICs and LMICs. Efforts to establish systematic review networks began with the founding of The Cochrane Collaboration in 1993. Cochrane is an international network of researchers and healthcare advocates that supports the production and use of systematic reviews for evidence-based healthcare. The cochrane library contains different types of high-quality evidence to inform healthcare decision making. The Cochrane Collaboration is the largest systematic review network in terms of skilled workforce and established centers. The Cochrane Collaboration has developed review groups and centers in both HICs and LMICS, often hosted by higher education institutions, to foster the production of systematic reviews. Cochrane members and supporters come from more than 190 countries. Similar to Cochrane, The Joanna Briggs Institute (JBI) in 1996 to support evidence-based health care. The Joanna Briggs Institute Evidence-Based Practice Database provides systematic reviews, practice guidelines, and consumer information to assist evidence-based practice in healthcare. JBI's critical appraisal instruments allow researchers to evaluate the reliability, applicability, and outcomes of published articles. The JBI Collaboration has more than 75 Collaborating entities across 40 countries. The Campbell Collaboration was created in 1999, and they support reviews that are focussed on education, behavioral science, social justice and social welfare. The Campbell Collaboration establishes coordinating groups to facilitate systematic reviews and production in various areas of practice. Campbell Collaboration Coordinating Groups (CGs) include: Ageing GC; Business and Management GCs; Children and Young Persons Wellbeing GC; Climate Solutions GC; Social Welfare GC; Crime and Justice GC; Disability GC; Education GC; International Development GC; Knowledge, Translation and Implementation GC; and Methods GC. In 2000, the Evidence for Policy and Practice Information and Coordinating Centre (EPPI Centre) began supporting review teams in education. EPPI Center develops methods for systematic reviews, supports the training and development of methodological skills for systematic reviewers, and produces systematic reviews across various disciplines and policy sectors. EPPI Center also provides and supports databases containing primary research studies. Alliance for Health Policy and Systems Research (AHPSR), hosted by the World Health Organization, supports the generation and synthesis of policy-relevant health systems evidence, tools and methods. AHPSR also provides support for systematic review training, dissemination, and use in order to facilitate evidence-based healthcare. AHPSR established systematic review centers in four low-and middle-income countries (LMICs) in 2007. The same year, the Collaboration for Environmental Evidence (CEE) was registered. CEE seeks to promote and deliver evidence synthesis on issues of environmental management. CEE hosts an open access journal that facilitates the publication of evidence synthesis on issues of environmental management; a library that contains all systematic reviews that have been approved by CEE; and guidelines for planning and conducting environmental management systematic reviews. CEE collaboration has a network of centers around the world. Centers support CEE by promoting evidence based practice and systematic reviews in their region. Currently, there are seven national CEE Centers, based in Canada, France, South Africa, Sweden, and the United Kingdom. The United States of America is host to one international CEE Centre (SEI). More recently, the International Initiative for Impact Evaluation (3ie) was founded in 2008. 3ie produces, synthesizes and promotes evidence on impact evaluation for various developmental projects. Members of the 3ie include NGOs, public and private funders, as well as government agencies from low- and middle-income countries. Together, they make up a diversified global community connected by the common goal of using evidence from rigorous impact evaluations and systematic reviews to improve their policies and programs. The most recent systematic review network is the African Community for Systematic Reviews and Meta-analyses (ACSRM). The ACSRM was established in May, 2022 to promote the production and use of systematic reviews and meta-analyses in low-and middle-income countries. The ACSRM community comprises members from more than 25 countries. The focus of the community has been on systematic reviews related to public health."
+    },
+    {
+      "id": 272,
+      "slug": "the-need-for-the-african-community-for-systematic-reviews-and-meta-analyses-acsrm",
+      "title": "The Need for The African Community for Systematic Reviews and Meta-analyses (ACSRM)",
+      "date": "2023-12-23T03:20:23",
+      "link": "https://systematicreviewsnetwork.org/2023/12/23/the-need-for-the-african-community-for-systematic-reviews-and-meta-analyses-acsrm/",
+      "excerpt": "Written by: Fortune B. Effiong In recent times, the use of evidence in making decisions about professional practice and public policy is becoming more common. It started in health care in high-income countries (HICs), and it is gradually expanding to other policy areas and across international borde",
+      "word_count": 330,
+      "text": "Written by: Fortune B. Effiong In recent times, the use of evidence in making decisions about professional practice and public policy is becoming more common. It started in health care in high-income countries (HICs), and it is gradually expanding to other policy areas and across international borders. Systematic reviews are scientific approaches to generating systematic and transparent quality-assessed syntheses of research. They are often produced in HICs and are increasingly sought after by clinicians, service consumers, professional bodies, funding agencies, and policymakers to inform decision making. International systematic review networks have developed a variety of strategies to increase researchers' capacity to produce systematic reviews, such as training sessions at conferences; training at reviewing centers; skills-based workshops; accredited face-to-face learning, and online learning. The majority of members in these networks, however, are from high-income countries. Systematic reviews do not adequately benefit Low and Middle Income Countries (LMICs) since they include few LMICs-based authors and studies. Hence, the ability of LMICs to produce reliable evidence for influencing policies is questioned, given the uneven capacity for undertaking this type of research. For instance, from the Systematic Review and Meta-Analyses (SRM)needs assessment survey that we conducted, 78% of LMICs researchers have never conducted a systematic review. The most prominent reason for that was lack of training and skills in SRM (98% of responses). About 36% of them revealed that skill development has been constrained by lack of experienced collaborators and platforms. This means that skills training for individuals will have limited utility if not allied to opportunities for review teams to practice the skills. The training and production of systematic reviews in a country or region, irrespective of income status, is positively correlated with the presence of systematic review networks in that country or region. Hence, the African Community for Systematic Reviews and Meta-analyses leverages on the framework established by international systematic review organizations and addresses two key gaps left by their interventions: getting more LMICs based scholars and getting more studies from LMICs."
+    }
+  ],
+  "pages": [
+    {
+      "id": 1746,
+      "slug": "the-team-2",
+      "title": "The Team",
+      "link": "https://systematicreviewsnetwork.org/the-team-2/",
+      "word_count": 487,
+      "text": "Meet the Systematic Reviews Network (SRN) Team Systematic Reviews Network (SRN), formerly known as the African Community for Systematic Reviews and Meta-analyses (ACSRM), is a community of practice established to support the production and use of SRM in LMICs. Executive Team Fortune Effiong Executive Director Bridging the Research Gap: One Researcher at a Time | Executive Director, The SRN Read More Roseline Dzekem DINE Public Health Specialist/Social Scientist/Open Science and Access Advocate Read More No Results Found Scientific Committee Prof Ejaz Ahmad Khan Research and Scientific Director Medical Doctor & Public Health Academician, Health Services Academy, Islamabad, Pakistan Read More Roseline Dzekem DINE Public Health Specialist/Social Scientist/Open Science and Access Advocate Read More Dr Leonard Uzairue Academic|Medical Microbiologist| HCPC-Registered Biomedical Scientist|Public Health Scientist|AMR and... Read More Dr Frank Kyei Arthur Lecturer at University of Environment and Sustainable Development Read More Moses Asori PhD Student, University of North Carolina at Charlotte, USA Read More Dr Uzma Kazmi Guideline Methodologist | Public Health | Clinical Research | Dentistry Read More Fortune Effiong Executive Director Bridging the Research Gap: One Researcher at a Time | Executive Director, The SRN Read More No Results Found Technical Advisor Andy Nobes Authoraid Manager Read More No Results Found Programmes Committee Fortune Effiong Executive Director Bridging the Research Gap: One Researcher at a Time | Executive Director, The SRN Read More Roseline Dzekem DINE Public Health Specialist/Social Scientist/Open Science and Access Advocate Read More Julia Ribeiro Julia Ribeiro Read More Nafisa Elehamer PhD Candidate-Public Health & Epidemiology | a lecturer(Teaching) @UofK | Steward @INASP | Former... Read More Dr Adekunle Adeleke BDS, PD- HIV/AIDS Mgt, PD- Higher Education, MPH, PhD (Candidate)- Injury Epidemiology and Prevention... Read More Prof. Ngozi Eunice Osadebe Doctor of Philosophy - PhD at University of Nigeria, Nsukka Read More Dr. Edward Mawejje D.PHARM,MD, MPH Read More Kingsley Achi Freelance Medical, Technical, & Scientific Writer | Molecular Genetics, Biotech, BMLS, & Mole... Read More Uzoma Emmanuella Adebayo PT, MPH Read More Md. Atiqur Rahman Mollick Environment Specialist at O.CREEDS LTD. (OCL) Read More Msughaondo Check Isho Public health professional | Global Health and Tropical Medicine Read More Dr. Jamila Abdullhamid Atata Jamila, Abdullhamid Atata Read More No Results Found Communications Team Fortune Effiong Executive Director Bridging the Research Gap: One Researcher at a Time | Executive Director, The SRN Read More Precious Nengak Public Health Scientist | AMR & Genomic Surveillance | Infectious Disease Control | Health Data A... Read More Wazhi Godsave Binlak Medical Laboratory Scientist | Infectious Disease surveillance | AMR | Public Health Advocate Read More Dr Ify Obim Lecturer in the Department of Library and Information Science at the University of Nigeria, Nsukka Read More Chukwuagoziem Iloanusi Research Associate | Program Manager | Emerging Physician-Scientist Read More Godswill Imole Computational scientist and bioinformatician at the intersection of AI engineering and precision medi... Read More Aladejana Abdulrahman Health content writer and community manager Read More No Results Found"
+    },
+    {
+      "id": 795,
+      "slug": "fortune-quiz",
+      "title": "Fortune Quiz",
+      "link": "https://systematicreviewsnetwork.org/fortune-quiz/",
+      "word_count": 31,
+      "text": "Welcome to your testbyFortune Consequences of Plagiarism grants jail promotion more papers None Ways of Avoiding Plagiarism Upgrading oneself Cheating Finding a conference to provide scholarship Sleeping None Full Name Email"
+    },
+    {
+      "id": 25,
+      "slug": "news",
+      "title": "Event/News",
+      "link": "https://systematicreviewsnetwork.org/news/",
+      "word_count": 1,
+      "text": ""
+    },
+    {
+      "id": 23,
+      "slug": "home",
+      "title": "Home",
+      "link": "https://systematicreviewsnetwork.org/",
+      "word_count": 131,
+      "text": "Systematic Reviews Network Supporting systematic review research and use in low-and middle-income countries About Us Partners Rising Scholars INASP Systematic Reviews Network Events From webinars to workshops, we've hosted successful events for thousands of researchers in various countries Better Evidence, Smarter Decisions; Improved Health and Development Outcome Systematic Reviews Network Our Mission Empower Researchers Provide skills, tools, and resources needed to successfully conduct systematic reviews and meta-analyses Empower systematic review users Empower systematic review users with the skills needed to use systematic reviews and meta-analyses collaborate with Stakeholders To cooperate and work with partners, stakeholders, research institutions, and academic institutions to promote and improve the use and production of systematic reviews and meta-analyses Events Contact Us Let's Get in Touch Email Address systematicreviewsnetwork@gmail.com Call Us +2348109310688, +237651470540 Twitter Linkedin Facebook Youtube"
+    },
+    {
+      "id": 44,
+      "slug": "contact-us",
+      "title": "Contact Us",
+      "link": "https://systematicreviewsnetwork.org/contact-us/",
+      "word_count": 20,
+      "text": "Contact Us Let's Get in Touch Email Address systematicreviewsnetwork@gmail.com WhatsApp/Call WhatsApp: +2349097015368; +237651470540; Call: +2348109310688, +250783835984 Twitter Linkedin Facebook Youtube"
+    },
+    {
+      "id": 38,
+      "slug": "donate",
+      "title": "Donate",
+      "link": "https://systematicreviewsnetwork.org/donate/",
+      "word_count": 157,
+      "text": "Donate to Us Did you know? A large share of public policies and development programmes are implemented without being grounded in rigorous evidence of what works. Across health, education, agriculture, and social protection, this gap between research and decision-making leads to inefficient use of resources and missed opportunities to improve lives. SRN works to change this. We train researchers and policymakers in low- and middle-income countries to generate, understand, and apply systematic reviews and meta-analyses—turning evidence into smarter decisions that improve health systems, strengthen economies, and save lives. Want to Donate? You can support our work through local (NGN), international (USD), or online donations. 1. Bank Transfer (NGN – Nigeria) Account Name: The Systematic Reviews Network Ltd/Gte Bank: First Bank of Nigeria Account Number: 2046271367 2. Bank Transfer (USD – International Donations) Account Name: The Systematic Reviews Network Ltd/Gte Bank: First Bank of Nigeria Account Number: 2046261487 Sort Code: 011150000 SWIFT Code: FBNINLAG 3. Online Donation https://selar.com/showlove/srn"
+    },
+    {
+      "id": 36,
+      "slug": "about-us",
+      "title": "About Us",
+      "link": "https://systematicreviewsnetwork.org/about-us/",
+      "word_count": 382,
+      "text": "About US Systematic Reviews Network (SRN), formerly known as the African Community for Systematic Reviews and Meta-analyses (ACSRM), is a registered charity established to support the production, dissemination, and use of systematic reviews and meta-analyses across low- and middle-income countries (LMICs). SRN is incorporated as a company limited by guarantee and registered in Nigeria, while operating across Africa and other LMICs through capacity-building programmes, research collaborations, and knowledge-sharing initiatives. SRN was officially launched on 8 December 2022 at the University of Rwanda, Rwanda, and on 19 December 2022 at the University of Lagos, Nigeria, through seed funding received from the International Network for Adavancing Science and Policy (INASP). Our Vision To bridge evidence gaps in LMICs and transform lives by guiding decisions with robust, context-specific evidence. Our Mission To empower researchers from the academia and research institutions especially early career researchers with skills, tools, and resources needed to successfully conduct systematic reviews and meta-analyses. To empower systematic review users (scientists, government agencies, expert panels, patients, policy-makers, health-care advocates) with the knowledge and skills needed to critique, understand, interpret and use systematic reviews and meta-analyses. To cooperate and work with partners, stakeholders, research institutions, and academic institutions to promote and improve the use and production of systematic reviews and meta-analyses. Our Core Values Passsion We have a sense of enthusiasm for our work and for the people around us Teamwork We operate on the principle of teamwork because we believe people are capable of building something bigger than themselves when they unite. Integrity Everyone who represents our team is committed to acting in a way that is consistent with our values. Accountability We accept responsibility for our actions (and inactions) because it is the best way to build trust internally and externally. Quality We uphold the highest standards because we understand that, how well an organization crafts its goods and services determines how successful it is. Diverty and Inclusion We prosper by integrating a variety of backgrounds and experiences into a setting where everyone has an equal opportunity Collaboration We understand the importance of evidence in shaping practice in the global community. Thus, we promote working with different stakeholders towards achieving this aim. Equity We are determined to ensure fairness in all that we do at all times. Our Partners Rising Scholars INASP"
+    }
+  ]
+}
