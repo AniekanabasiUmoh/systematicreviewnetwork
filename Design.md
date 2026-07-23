@@ -150,7 +150,7 @@ Nav: `Home · About · Programmes · Resources · Impact · Team · News & Event
 
 **Content** (staff-edited, public reads published rows only)
 
-- `events` — id, title, slug, description_rich, type (webinar|course|mentorship|workshop), starts_at, ends_at, location_type (online|in_person), location_or_link, registration_opens, registration_closes, capacity, banner_url, recording_url, status (draft|published), created_at
+- `events` — id, title, slug, description_rich, type (webinar|course|mentorship|workshop), starts_at, ends_at, location_type (online|in_person), location_or_link, registration_opens, registration_closes, capacity, banner_url, recording_url, status (draft|published), **price_kobo (int, nullable — null/0 = free), currency (NGN|USD, default NGN)** (§13.1), created_at
 - `news` — id, title, slug, body_rich, excerpt, featured_image_url, author, published_at, status
 - `team_members` — id, name, role, photo_url, bio, affiliation, linkedin_url, orcid_url, group (executive|scientific|country_lead|mentor), sort_order
 - `resources` — id, title, description, category (guide|template|webinar|tool|publication), body_rich (nullable — used when the resource is an on-site article), file_url, external_url, thumbnail_url, created_at
@@ -163,7 +163,8 @@ Nav: `Home · About · Programmes · Resources · Impact · Team · News & Event
 
 **Submissions** (server-action writes only; staff read)
 
-- `registrations` — id, event_id fk, full_name, email, institution, country, created_at
+- `registrations` — id, event_id fk, full_name, email, institution, country, **payment_status (not_required|pending|paid|failed|expired|refunded), paystack_reference (unique, nullable), amount_kobo, currency, paid_at** (§13.2), created_at
+- `donations` — id, amount_kobo, currency, donor_name (nullable — anonymous allowed), email, message, paystack_reference (unique), payment_status, created_at  *(§13.5)*
 - `applications` — id, programme, full_name, email, institution, country, motivation, status (received|under_review|accepted|waitlisted|rejected), internal_notes, created_at
 - `newsletter_signups` — id, email, created_at
 - `contact_messages` — id, name, email, subject, message, type (general|partnership), created_at
@@ -433,6 +434,10 @@ SUPABASE_SERVICE_ROLE_KEY        (server only — never exposed)
 RESEND_API_KEY
 NEXT_PUBLIC_SITE_URL
 PLAUSIBLE_DOMAIN                 (launch)
+
+NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY  (browser-safe)
+PAYSTACK_SECRET_KEY              (server only — initialize + verify)
+PAYSTACK_WEBHOOK_SECRET          (server only — x-paystack-signature HMAC)
 ```
 
 ---
@@ -440,6 +445,41 @@ PLAUSIBLE_DOMAIN                 (launch)
 ## 12. Open items (need Fortune / Thorpeboss)
 
 1. ~~Brand assets~~ **RESOLVED:** SRN keeps its existing logo (navy wordmark + four-color knot). Palette in §3.1 is now anchored to it. Still needed from Fortune: the **vector file**, so exact hexes are sampled in Sprint 1.1.
-2. **Paid events?** — are any courses paid (ESI has a cancellation policy, implying paid training)? If yes, registration needs a payment step (Paystack for Nigeria + card support for international) and that changes Sprint 4.1 materially. Current build assumes **all free**.
-3. **Donations** — does Donate need live payment processing in v1, or "contact us / bank transfer details" for now? Current build assumes **no payment processing** (contact-based), with Paystack/Stripe as a fast follow.
+2. ~~Paid events?~~ **RESOLVED (2026-07-24, Thorpeboss): YES — paid via Paystack.** See §13.
+3. ~~Donations~~ **RESOLVED (2026-07-24, Thorpeboss): live Paystack processing in v1**, not contact-based. See §13.
 4. Final country list + impact numbers (Phase 0.3 checklist).
+5. **Paystack multi-currency approval** — USD pricing (§13) requires multi-currency enabled on SRN's Paystack account; it is not on by default. Needs confirming with Fortune/Paystack. Until approved, USD-priced events cannot check out; the schema supports it regardless.
+
+---
+
+## 13. Payments (resolves §12.2 and §12.3)
+
+**Provider:** Paystack. Server-side initialize → hosted checkout → webhook confirmation.
+
+**13.1 Pricing model — per event, mixed**
+`events` gains `price_kobo` (int, nullable) and `currency` (`NGN|USD`, default `NGN`). Null or `0` means **free** and the payment step is skipped entirely — the original free-registration flow in Sprint 4.1 stays intact for webinars. Amounts are stored in the **minor unit** (kobo/cents) as integers; never floats, never a display string.
+
+**13.2 Seats are held only by confirmed payment**
+For a paid event, capacity is consumed only once payment confirms. The registration lifecycle:
+
+```
+submit form  → registrations row, payment_status = 'pending'   (NO seat held)
+             → Paystack transaction initialized, reference stored
+             → user completes hosted checkout
+             → charge.success webhook → payment_status = 'paid' (SEAT HELD)
+```
+
+Unpaid `pending` rows older than **30 minutes** are expired by a scheduled job and never count toward capacity. This prevents abandoned checkouts from silently blocking a sold-out course. Capacity checks count `paid` rows only.
+
+**13.3 Trust rule — the webhook is the only source of truth**
+Payment is confirmed **only** by a verified Paystack webhook, or by an explicit server-side `/transaction/verify` call. The browser redirect back from checkout is a UX signal, never proof of payment — a user can reach the success URL without paying. Nothing is fulfilled on the redirect alone.
+
+**13.4 Webhook security (non-negotiable)**
+- Verify the `x-paystack-signature` header: HMAC **SHA512** of the **raw, unparsed** request body, keyed with the Paystack secret key, compared in constant time. Next.js must not have parsed the body first.
+- Reject any request failing verification with 401, before any DB write.
+- **Idempotent by Paystack reference** (unique index): Paystack retries events, so the same `charge.success` must be safely processable more than once and never double-fulfil or double-email.
+- Return 200 quickly; do slow work (email) after acknowledging.
+
+**13.5 Donations** — live Paystack processing. New `donations` table: id, amount_kobo, currency, donor_name (nullable — anonymous giving allowed), email, message, reference, payment_status, created_at. Same webhook path and the same §13.3/§13.4 rules; separate receipt email. Admin gets a donations view with CSV export.
+
+**13.6 Refunds/cancellations** — out of scope for v1, handled manually in the Paystack dashboard. Registrations carry `payment_status = 'refunded'` so staff can reflect it, but the site initiates no refunds.
