@@ -1,22 +1,16 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
-/* §3.2 — Display: Fraunces, optical size axis on, weights 550–650.
-   Used ONLY for hero/h2/page titles/pull quotes/impact numbers. */
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
-  subsets: ["latin"],
-  display: "swap",
-  axes: ["opsz"],
-});
-
-/* §3.2 — Body & UI: Inter 400/500/600. Everything else, including admin. */
+/* §3.2 — Inter throughout. Display and body are distinguished by weight and
+   tracking, not by family: 700 with tight leading and -0.02em tracking for
+   headings, 400/500 for body. One family means one set of metrics, so there
+   is no mismatched-fallback layout shift. */
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
   display: "swap",
-  weight: ["400", "500", "600"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -34,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${fraunces.variable} ${inter.variable} h-full`}>
+    <html lang="en" className={`${inter.variable} h-full`}>
       <body className="flex min-h-full flex-col">{children}</body>
     </html>
   );

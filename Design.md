@@ -80,9 +80,17 @@ SRN keeps its logo: navy "SRN" wordmark + a four-color knot mark (blue, orange-r
 
 ### 3.2 Typography (committed)
 
-- **Display: Fraunces** — optical size axis on, tight leading, weights 550–650. Used ONLY for: hero headline, section headlines (h2), page titles, pull quotes, impact numbers. A scholarly serif with real character; on this navy/green institutional palette it reads academic-international, not cream-template.
+**REVISED 2026-07-24 (Thorpeboss): Inter only — no display serif.** Fraunces was rejected on sight after a side-by-side comparison of eight pairings rendered in context. The hierarchy is now carried by **weight and tracking, not by family**.
+
+- **Display: Inter 700**, tight leading, negative tracking (`-0.02em`, or `-0.03em` at hero/impact-number scale — large sans set at serif sizes reads loose otherwise). Used for: hero headline, section headlines (h2), page titles, pull quotes, impact numbers. Applied via the `.text-display` / `.text-display-tight` utilities so weight and tracking live in one place.
 - **Body & UI: Inter** — 400/500/600. Everything else: paragraphs, cards, nav, forms, admin.
 - **Utility labels:** Inter 600, 12–13px, +0.08em letter-spacing, uppercase, `--evidence` or `--slate` — the "eyebrow" above every section headline.
+
+**Consequences of dropping the serif, to be watched during Phase 2:**
+
+- One family means one set of font metrics, so there is no mismatched-fallback layout shift and one fewer font to load.
+- The scholarly signal a serif carries is now gone. The institutional register has to come from **layout discipline, generous whitespace, and photography** instead. If the site starts reading generic or SaaS-like, that is the cause — the fix is spacing and imagery, not reintroducing a serif.
+- `--font-display` is retained as a CSS token aliased to `--font-sans`, so a display face can be reintroduced in exactly one place if that judgement changes.
 
 Type scale (desktop → mobile): hero 56→36 · h2 36→28 · h3 24→20 · body 17→16 · small 14 · eyebrow 13. Line-length cap on prose: 68ch.
 

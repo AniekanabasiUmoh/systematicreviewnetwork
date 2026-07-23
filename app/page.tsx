@@ -9,7 +9,7 @@ export default function Home() {
       <p className="text-eyebrow-style text-evidence">
         Systematic Reviews Network
       </p>
-      <h1 className="font-display text-ink mt-3 text-[length:var(--text-hero-mobile)] leading-[1.1] font-[650] md:text-[length:var(--text-hero)] md:leading-[1.05]">
+      <h1 className="text-display-tight text-ink mt-3 text-[length:var(--text-hero-mobile)] leading-[1.1] md:text-[length:var(--text-hero)] md:leading-[1.05]">
         Better evidence. Smarter decisions.
       </h1>
       <p className="text-slate prose-measure mt-5">

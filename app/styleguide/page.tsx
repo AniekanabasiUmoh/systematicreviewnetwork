@@ -111,7 +111,7 @@ export default function StyleguidePage() {
     <main className="mx-auto max-w-[var(--container-content)] px-6 py-16">
       <header className="mb-4">
         <p className="text-eyebrow-style text-slate">Internal</p>
-        <h1 className="font-display text-ink mt-2 text-[length:var(--text-hero-mobile)] leading-[1.1] font-[650] md:text-[length:var(--text-hero)] md:leading-[1.05]">
+        <h1 className="text-display-tight text-ink mt-2 text-[length:var(--text-hero-mobile)] leading-[1.1] md:text-[length:var(--text-hero)] md:leading-[1.05]">
           SRN Styleguide
         </h1>
         <p className="text-slate prose-measure mt-4">
@@ -162,17 +162,17 @@ export default function StyleguidePage() {
         <div className="space-y-8">
           <div>
             <p className="text-slate text-small mb-2">
-              Fraunces 650 · hero · 56→36px
+              Inter 700 · hero · 56→36px · -0.03em
             </p>
-            <p className="font-display text-ink text-[length:var(--text-hero-mobile)] leading-[1.1] font-[650] md:text-[length:var(--text-hero)] md:leading-[1.05]">
+            <p className="text-display-tight text-ink text-[length:var(--text-hero-mobile)] leading-[1.1] md:text-[length:var(--text-hero)] md:leading-[1.05]">
               Better evidence. Smarter decisions.
             </p>
           </div>
           <div>
             <p className="text-slate text-small mb-2">
-              Fraunces 600 · h2 · 36→28px
+              Inter 700 · h2 · 36→28px · -0.02em
             </p>
-            <p className="font-display text-ink text-[length:var(--text-h2-mobile)] leading-[1.2] font-[600] md:text-[length:var(--text-h2)] md:leading-[1.15]">
+            <p className="text-display text-ink text-[length:var(--text-h2-mobile)] leading-[1.2] md:text-[length:var(--text-h2)] md:leading-[1.15]">
               What we do
             </p>
           </div>
@@ -205,9 +205,9 @@ export default function StyleguidePage() {
           </div>
           <div>
             <p className="text-slate text-small mb-2">
-              Fraunces 650 · impact number · gold
+              Inter 700 · impact number · gold
             </p>
-            <p className="font-display text-gold text-[3rem] leading-none font-[650]">
+            <p className="text-display-tight text-gold text-[3rem] leading-none">
               19,500
             </p>
           </div>
@@ -279,7 +279,7 @@ export default function StyleguidePage() {
           forbids stock stand-ins.
         </p>
         <div className="photo-overlay bg-slate relative flex h-56 items-center justify-center overflow-hidden rounded-[var(--radius-card)]">
-          <span className="text-paper font-display relative z-10 text-[length:var(--text-h2-mobile)] font-[600]">
+          <span className="text-paper text-display relative z-10 text-[length:var(--text-h2-mobile)]">
             White text on photo
           </span>
           <span className="text-paper/70 text-small absolute bottom-3 left-4 z-10">

@@ -31,9 +31,17 @@
   --color-tag-green: #1f6f5c;
   --color-tag-green-tint: #e8f2ef;
 
-  /* --- §3.2 Typography ---------------------------------------------------- */
-  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+  /* --- §3.2 Typography ----------------------------------------------------
+     Inter throughout. `--font-display` is kept as a token (rather than
+     removed) so headings have a single named hook if a display face is ever
+     reintroduced; today it resolves to the same family as body. */
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-sans);
+
+  /* Large sans headings need negative tracking or they read loose and
+     oversized next to the same size set in a serif. */
+  --tracking-display: -0.02em;
+  --tracking-display-tight: -0.03em;
 
   /* Type scale, desktop values. Mobile steps applied per-component (§3.2):
      hero 56→36 · h2 36→28 · h3 24→20 · body 17→16 · small 14 · eyebrow 13 */
@@ -114,6 +122,23 @@
 }
 
 @layer utilities {
+  /* §3.2 — headings. Inter 700 with tight leading and negative tracking is
+     what carries the institutional weight now that there is no serif. Apply
+     to hero, h2, page titles, pull quotes, and impact numbers. */
+  .text-display {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: var(--tracking-display);
+  }
+
+  /* Hero and impact numbers, where the size is large enough that tracking
+     needs to close further. */
+  .text-display-tight {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: var(--tracking-display-tight);
+  }
+
   /* §3.2 — the "eyebrow" label above every section headline. */
   .text-eyebrow-style {
     font-family: var(--font-sans);
