@@ -15,7 +15,8 @@
     "gen:types": "node supabase/gen-types.mjs",
     "db:seed": "node supabase/seed.mjs",
     "db:seed:reset": "node supabase/seed.mjs --reset",
-    "wp:export": "node supabase/import-wordpress.mjs"
+    "wp:export": "node supabase/import-wordpress.mjs",
+    "test:shell": "node tests/shell-check.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.110.8",
@@ -35,6 +36,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.11",
     "pg": "^8.22.0",
+    "playwright": "^1.61.1",
     "prettier": "^3.9.6",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "tailwindcss": "^4",

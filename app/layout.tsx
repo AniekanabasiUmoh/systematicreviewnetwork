@@ -13,13 +13,26 @@ const inter = Inter({
   weight: ["400", "500", "600", "700"],
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
     default: "Systematic Reviews Network",
     template: "%s · Systematic Reviews Network",
   },
   description:
-    "Better evidence. Smarter decisions. Capacity building in evidence synthesis.",
+    "Better evidence. Smarter decisions. Capacity building in evidence synthesis across Africa and beyond.",
+  openGraph: {
+    type: "website",
+    siteName: "Systematic Reviews Network",
+    locale: "en_GB",
+    url: siteUrl,
+  },
+  twitter: { card: "summary_large_image" },
+  /* Kept out of search until launch (Sprint 6.2 turns this on deliberately).
+     A half-built site indexed early is hard to undo. */
+  robots: { index: false, follow: false },
 };
 
 export default function RootLayout({
