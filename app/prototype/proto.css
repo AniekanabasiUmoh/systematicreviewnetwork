@@ -171,19 +171,28 @@
   height: 100%;
   object-fit: cover;
 }
-/* Ink gradient from the bottom-left where the text sits — legible without
-   flattening the whole photo. */
+/* Two scrims. The vertical one darkens the bottom where the headline sits;
+   the separate top band guarantees the transparent nav always sits on
+   darkness, whatever the photo does in its top corners (some source photos
+   have bright walls or baked-in logo boxes up there). A faint flat wash lifts
+   overall contrast so no bright patch of photo ever fights white text. */
 .p-hero-scrim {
   position: absolute;
   inset: 0;
   background:
     linear-gradient(
+      to bottom,
+      rgba(22, 24, 43, 0.72) 0%,
+      rgba(22, 24, 43, 0) 22%
+    ),
+    linear-gradient(
       to top,
-      rgba(22, 24, 43, 0.92) 0%,
-      rgba(22, 24, 43, 0.55) 38%,
-      rgba(22, 24, 43, 0.15) 70%,
-      rgba(22, 24, 43, 0.25) 100%
-    );
+      rgba(22, 24, 43, 0.94) 0%,
+      rgba(22, 24, 43, 0.68) 34%,
+      rgba(22, 24, 43, 0.34) 62%,
+      rgba(22, 24, 43, 0.22) 100%
+    ),
+    rgba(22, 24, 43, 0.18);
 }
 .p-hero-inner {
   position: relative;
@@ -212,14 +221,31 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 28px 32px;
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 26px 32px;
   color: var(--paper);
 }
 .p-nav-links {
   display: flex;
-  gap: 30px;
+  gap: 32px;
+  margin-left: auto;
+  margin-right: 8px;
   font-size: 0.9rem;
   font-weight: 500;
+}
+/* Ghost-outline on the photo — reads on any brightness, unlike a solid white
+   button that vanishes over a light patch. */
+.p-nav .p-btn-on-photo {
+  background: transparent;
+  color: var(--white);
+  border-color: rgba(255, 255, 255, 0.55);
+}
+.p-nav .p-btn-on-photo:hover {
+  background: var(--white);
+  color: var(--ink);
+  border-color: var(--white);
 }
 .p-nav a {
   color: rgba(246, 243, 236, 0.9);
