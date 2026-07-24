@@ -49,3 +49,6 @@ yarn-error.log*
 # stray root-level scratch scripts (build/upload/test helpers live in supabase/ and tests/)
 /*.mjs
 !/*.config.mjs
+
+.playwright-cli/
+output/

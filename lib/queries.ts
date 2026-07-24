@@ -113,6 +113,21 @@ export async function getMedia(storagePath: string) {
   };
 }
 
+/**
+ * Resolves a stored public media URL back to its media row so the alt text
+ * always describes the image actually shown. Used where the displayed image can
+ * differ from a hardcoded fallback (e.g. homepage.hero_image_url): pass the URL,
+ * get the matching alt. Falls back to null if the URL isn't a media object.
+ */
+export async function getMediaByUrl(publicUrl: string | null | undefined) {
+  if (!publicUrl) return null;
+  const marker = "/storage/v1/object/public/media/";
+  const i = publicUrl.indexOf(marker);
+  if (i === -1) return null;
+  const storagePath = publicUrl.slice(i + marker.length);
+  return getMedia(storagePath);
+}
+
 export async function getLatestNews(limit = 3) {
   const { data } = await db
     .from("news")
