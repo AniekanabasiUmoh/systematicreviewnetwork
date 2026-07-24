@@ -18,7 +18,7 @@
 | Admin               | **Custom `/admin` in Next.js**       | No third-party CMS.                                                                                         |
 | Email               | **Resend + React Email**             | Transactional confirmations. Newsletter emails captured to DB for v1; campaigns via a marketing tool later. |
 | Icons               | **Lucide**                           | Single icon family, 1.5px stroke, brand colors only.                                                        |
-| Fonts               | **next/font (Google)**               | Fraunces + Inter (§3). Self-hosted via next/font, no layout shift.                                          |
+| Fonts               | **next/font (Google)**               | Archivo (display) + Inter (body) — §3.2, revised 2026-07-24. Self-hosted via next/font, no layout shift.    |
 | Analytics           | **Plausible**                        | Privacy-friendly, added at launch.                                                                          |
 
 **Locked decisions:** fixed registration fields (no per-event form builder in v1) · anonymous public submissions (no end-user accounts) · accounts/members area = phase 2 · staff are non-technical, the admin UX is a first-class deliverable.
@@ -53,48 +53,72 @@ Reviewed: Cochrane, JBI, Evidence Synthesis Ireland (screenshots + live), Campbe
 
 Goal: **calm institutional authority with warmth.** Must read as an international evidence organisation next to Cochrane/JBI, while feeling African-rooted rather than borrowed. Explicitly avoid the three generative-design defaults (cream+serif+terracotta; near-black+acid accent; broadsheet hairlines).
 
-### 3.1 Palette (Tailwind tokens) — anchored to the existing SRN logo
+### 3.1 Palette (Tailwind tokens) — REVISED 2026-07-24, ESI-informed redesign
 
-SRN keeps its logo: navy "SRN" wordmark + a four-color knot mark (blue, orange-red, yellow, green). The palette derives from it:
+**Direction shipped:** near-monochrome, "simple and elegant." After building the
+site against the earlier navy/gold palette it read generic; Thorpeboss chose
+Evidence Synthesis Ireland as the north star and set the constraints — no gold,
+no green on text, plain white paper (not warm), elegance from type/space/
+photography. The palette is now:
 
 ```
---brand      #24276E   SRN navy (sample the EXACT value from the logo vector in Sprint 1.1)
-                       — headings, nav, footer, strong surfaces, photo overlays
---ink        #191C45   darkened brand navy — body text (AA at text sizes)
---evidence   #1F6F5C   evidence green, harmonized with the mark's green
-                       — THE action color: CTAs, links, active states, focus rings
---gold       #8A6D10   REVISED 2026-07-24. The #C9A227 estimate measured 2.23:1
-                       on --mist, failing WCAG AA even at 48px. This is 4.53:1.
---gold-bright #C9A227  the original lighter yellow — large FILLS on dark surfaces
-                       only (the CTA band button), never text on light.
---tag-yellow #7A6109   REVISED 2026-07-24 from #9A7B12 (3.63:1 on its own tint).
-                       — impact numbers + max one highlighted CTA per page
---paper      #FFFFFF   base background
---mist       #F4F6F8   alternating section background
---slate      #5A6B7B   secondary text, captions, metadata
---evidence-tint #E8F2EF  light green tint — card hovers, tag backgrounds
+--brand      #16182B   ink-navy — wordmark, nav, footer, photo overlays
+                       (folded into --ink; there is no separate lighter navy)
+--ink        #16182B   near-black with a faint navy bias — body AND headings
+--evidence   #1F6F5C   THE action color — button FILLS and focus accent ONLY.
+                       Never on headings, body, links, or eyebrows.
+--evidence-ink #123F34 pressed / hover state for green fills
+--paper      #FFFFFF   plain white — crisp, gallery-like (not warm cream)
+--mist       #F4F5F7   alternating band, cool neutral
+--slate / --ink-soft #494C63  secondary text, captions, metadata (AA on white)
+--evidence-tint #E8F2EF  green button-ghost hover wash only
+--hairline   #E4E5EA   hairline rules + typographic-index rows
 ```
 
-**Rules that keep the logo from turning the site into a carnival:**
+**Retired in this revision:**
 
-- The four mark colors appear together **only in the logo itself**, plus one sanctioned echo: resource/event **category tag hues** may each pick one mark color (tinted backgrounds, dark text). Nowhere else. No multicolor gradients, no rainbow icons.
-- Navy is the institutional anchor (it matches the wordmark, and sits comfortably next to Cochrane/JBI). Green remains the _action_ identity — every button and link reads "evidence green," which still differentiates SRN from the blue-only academic crowd at the interaction level.
-- Photo overlays (§3.3) use `--brand` multiply, so photography carries the brand navy.
-- Contrast: all text pairs pass WCAG AA; `--slate` on `--mist` is metadata only, never body copy; `--gold` never below 20px.
+- **Gold is gone** (`--gold` / `--gold-bright` aliased to `--ink` so any straggler
+  resolves to ink, not a missing token). Impact numbers are now ink on white, or
+  white on the dark impact band.
+- **The four category-tag hues are retired to mono** — every `--tag-*` token
+  resolves to the same ink-outline / slate-text pair, so tags read as quiet
+  labels, not a colour-coding system. `Tag.tsx` needs no structural change.
+- **No green text anywhere.** `Eyebrow` defaults to slate; card audience/role/
+  meta lines are slate/ink. Green survives only as a button fill and the `:hover`
+  interaction accent.
 
-### 3.2 Typography (committed)
+**Rules:**
 
-**REVISED 2026-07-24 (Thorpeboss): Inter only — no display serif.** Fraunces was rejected on sight after a side-by-side comparison of eight pairings rendered in context. The hierarchy is now carried by **weight and tracking, not by family**.
+- One accent, spent in one place: the green button fill. Everything else is ink,
+  slate, and white, so photography and type carry the page.
+- Photo overlays (§3.3) use `--ink` multiply, so photography carries the ink-navy.
+- Contrast: all text pairs pass WCAG AA; `--slate` on `--mist` is metadata only.
+  Focus ring is a two-tone white-halo + ink-core so it clears 3:1 on both the
+  white bands and the dark hero/footer (the single green ring measured 2.91:1 on
+  navy).
 
-- **Display: Inter 700**, tight leading, negative tracking (`-0.02em`, or `-0.03em` at hero/impact-number scale — large sans set at serif sizes reads loose otherwise). Used for: hero headline, section headlines (h2), page titles, pull quotes, impact numbers. Applied via the `.text-display` / `.text-display-tight` utilities so weight and tracking live in one place.
-- **Body & UI: Inter** — 400/500/600. Everything else: paragraphs, cards, nav, forms, admin.
-- **Utility labels:** Inter 600, 12–13px, +0.08em letter-spacing, uppercase, `--evidence` or `--slate` — the "eyebrow" above every section headline.
+### 3.2 Typography — REVISED 2026-07-24, two families (Archivo + Inter)
 
-**Consequences of dropping the serif, to be watched during Phase 2:**
+The Inter-only decision (a serif having been rejected earlier) was superseded by
+the ESI-informed redesign: an Inter-only site read generic. Headings now get a
+**display face**, which is what gives the page its art-directed, institutional
+register.
 
-- One family means one set of font metrics, so there is no mismatched-fallback layout shift and one fewer font to load.
-- The scholarly signal a serif carries is now gone. The institutional register has to come from **layout discipline, generous whitespace, and photography** instead. If the site starts reading generic or SaaS-like, that is the cause — the fix is spacing and imagery, not reintroducing a serif.
-- `--font-display` is retained as a CSS token aliased to `--font-sans`, so a display face can be reintroduced in exactly one place if that judgement changes.
+- **Display: Archivo** (variable, 100–900, with a width axis), set via
+  `--font-display`. Used for: the wordmark, section headlines (h2), page titles,
+  pull quotes, impact numbers, and the typographic index. `.text-display` is
+  Archivo 700 at ~110% width; `.text-display-tight` is 800/112% for hero and
+  impact numbers. Archivo's genuine thin→black range enables the **signature hero
+  move**: `.hero-thin` (300) over `.hero-black` (800) at the same size — thin over
+  black reads as deliberate, not defaulted.
+- **Body & UI: Inter** — 400/500/600. Paragraphs, cards, nav, forms, admin.
+- **Utility labels ("eyebrow"):** Inter 600, 12–13px, +0.08em, uppercase,
+  `--slate` (never green) — above every section headline.
+
+Two families means one webfont more to load, but both use `display:swap` so a
+slow font never blocks paint, and dimensions are always set so there is no
+layout shift. Sharp corners (`--radius-card: 0`) are the rule across cards,
+panels, inputs, and buttons; the pill shape is reserved for small tags.
 
 Type scale (desktop → mobile): hero 56→36 · h2 36→28 · h3 24→20 · body 17→16 · small 14 · eyebrow 13. Line-length cap on prose: 68ch.
 
@@ -102,8 +126,9 @@ Type scale (desktop → mobile): hero 56→36 · h2 36→28 · h3 24→20 · bod
 
 - Max content width 1200px; prose columns 720px. Section vertical padding 96px desktop / 56px mobile. Grid gap 24px.
 - Sections alternate `--paper` / `--mist`; the footer and at most one mid-page CTA band are `--ink` (light text).
-- Cards: white, 1px `#E3E8ED` border, 12px radius, subtle shadow on hover only, 24px padding. No glassmorphism, no gradient borders.
-- Photography treatment: hero and CTA-band images get a **navy multiply overlay (–ink at 55–70%)** so white text always sits legibly on real photos — this also visually unifies photos of mixed quality, which matters when the sources are Zoom screenshots and phone photos (§7).
+- Cards: white, 1px `#E4E5EA` hairline border, **0px radius** (sharp corners are the rule post-redesign — `--radius-card: 0`), subtle shadow on hover only, 24px padding. No glassmorphism, no gradient borders.
+- **Typographic index** (`.index-list` / `.index-row`): programmes and events render as a hairline-ruled list, not a card grid — number · title/who · trailing meta, with a hover shift-right. On mobile it stacks and keeps its metadata (never `display:none`).
+- Photography treatment: hero and CTA-band images get an **ink multiply overlay (55–70%)** so white text always sits legibly on real photos — this also visually unifies photos of mixed quality, which matters when the sources are Zoom screenshots and phone photos (§7). The homepage hero uses a layered scrim (top band + bottom-up gradient + flat wash) so the header always reads over darkness.
 - Motion: impact counters count up on first scroll into view; cards lift 2px on hover; one soft fade-up per section, 300ms, once. Nothing else. `prefers-reduced-motion` disables all of it.
 
 ### 3.4 Signature element — the Reach Map
@@ -112,13 +137,13 @@ A quiet, Africa-centered world map (static inline SVG, no map library) with `--e
 
 ### 3.5 Quality floor (every page, not announced)
 
-Responsive to 360px · visible keyboard focus (2px `--evidence` outline) · semantic headings, one h1 per page · alt text everywhere · WCAG AA contrast · reduced motion respected · no layout shift from fonts or images (dimensions always set).
+Responsive to 360px · visible keyboard focus (two-tone white-halo + ink-core ring, ≥3:1 on light and dark grounds — revised 2026-07-24 from the single green outline) · semantic headings, one h1 per page · alt text everywhere (and hero alt resolves from the rendered image URL, so it always matches the photo) · WCAG AA contrast · reduced motion respected · no layout shift from fonts or images (dimensions always set).
 
 ---
 
 ## 4. Component kit (build once, Sprint 1.1)
 
-`Eyebrow` · `SectionHeader` (eyebrow + h2 + optional lede) · `Button` (primary green / secondary outline-ink / gold, one per page) · `StatCounter` (SSR number + scroll animation) · `EventCard` (type tag, date block, title, capacity/status chip, register CTA) · `ProgrammeCard` (icon, title, blurb, audience line) · `PersonCard` (photo, name, role, affiliation, links) · `ResourceCard` (category tag, title, description, download/external) · `TestimonialBlock` (quote, person, photo) · `CTABand` (ink background, headline, one button) · `PartnerLogoBar` (greyscale logos, color on hover) · `ReachMap` (§3.4) · `FormField` set (input, select, textarea, error/success states written in plain language per the writing rules below) · `Table` + `CSVExportButton` (admin) · `StatusBadge` (application workflow colors).
+`Eyebrow` · `SectionHeader` (eyebrow + h2 + optional lede) · `Button` (primary green fill / secondary outline-ink; sharp corners; the `gold` variant is retired and aliased to green) · `StatCounter` (SSR number + scroll animation) · `EventCard` (type tag, date block, title, capacity/status chip, register CTA) · `ProgrammeCard` (icon, title, blurb, audience line) · `PersonCard` (photo, name, role, affiliation, links) · `ResourceCard` (category tag, title, description, download/external) · `TestimonialBlock` (quote, person, photo) · `CTABand` (ink background, headline, one button) · `PartnerLogoBar` (greyscale logos, color on hover) · `ReachMap` (§3.4) · `FormField` set (input, select, textarea, error/success states written in plain language per the writing rules below) · `Table` + `CSVExportButton` (admin) · `StatusBadge` (application workflow colors).
 
 **Interface writing rules (public + admin):** active voice; buttons say what happens ("Register for this event", "Save changes", "Export CSV"); an action keeps its name through the flow (button "Publish" → toast "Published"); errors say what went wrong and how to fix it, never apologize, never vague; empty states are invitations ("No events yet. Create your first event."); sentence case everywhere except eyebrows.
 
@@ -128,21 +153,27 @@ Responsive to 360px · visible keyboard focus (2px `--evidence` outline) · sema
 
 Nav: `Home · About · Programmes · Resources · Impact · Team · News & Events · Partner with SRN · Contact` — Mentorship lives under Programmes; Community merges into Impact/News for v1 (one less thin page). Donate is a section of Partner with SRN. Mobile: full-screen sheet menu.
 
-### Homepage (order locked)
+### Homepage — REVISED 2026-07-24 (ESI-informed rebuild; order now leads a new visitor)
 
-1. **Hero** — real photo of an SRN training (navy overlay). Eyebrow: "Systematic Reviews Network". H1: **"Better evidence. Smarter decisions."** Sub: the capacity-building sentence from the brief. Buttons: "Explore programmes" (primary) + "Partner with SRN" (secondary). Small reach-map echo.
+The earlier 13-section card-catalogue order was replaced by an editorial layout
+that opens with presence, proves it, then explains. The "Who we serve" pathway
+cards and the standalone "New to systematic reviews?" strip were folded in (the
+second hero CTA now points at the beginner guide); programmes and events became
+typographic indexes rather than card grids.
+
+1. **Hero** — full-bleed real photo (layered ink scrim). Eyebrow: "Systematic Reviews Network". H1 uses the two-weight move: thin **"Better evidence."** over black **"Smarter decisions."** Buttons: "Explore programmes" (green) + "What is a systematic review?" (ghost outline → beginner guide).
 2. **Partner logo bar** — "Supported by / working with", greyscale.
-3. **Impact strip** — 4–6 `StatCounter`s on `--mist` (numbers from Fortune; gold figures, Fraunces).
-4. **About in one paragraph** + "About SRN →".
-5. **What we do** — 4 `ProgrammeCard`s: Training, Mentorship, Resources, Partnerships.
-6. **Who we serve** — 4 audience pathway cards (student / active review team / institution / policymaker), each linking into the site.
-7. **"New to systematic reviews?"** — 3-sentence plain-language explainer + link to the beginner guide (Campbell pattern).
-8. **Featured programmes** — 2–3 cards.
-9. **Upcoming events** — next 3 `EventCard`s + "All events".
+3. **Impact band** — ink, photo-backed; **4 strongest** `StatCounter`s, white Archivo numbers (no gold), counters server-render real figures.
+4. **About in one statement** — "Formerly ACSRM. Launched in 2022…" in bold Archivo + the paragraph + "Read the full story →" (ink, not green).
+5. **Thread divider** — SRN's signature woven line, in hairline ink.
+6. **What we do** — split statement (copy + photo), "All programmes".
+7. **Programmes** — typographic index (`.index-row`), not cards: Training, Mentorship, Resources, Partnerships.
+8. **Mentorship** — full-bleed feature photo with left/bottom scrim + "Learn more".
+9. **Upcoming events** — next 3 as a typographic index + "All events".
 10. **Testimonial** — leader quote over photo (ESI pattern).
 11. **Resource library preview** — 3 `ResourceCard`s.
 12. **Newsletter** — one email field, plain-language consent line.
-13. **CTA band** — "Bring evidence synthesis training to your institution." One gold button.
+13. **CTA band** — "Bring evidence synthesis training to your institution." One green button.
 
 ### Other public pages (structure fixed; copy from brief + Fortune)
 
@@ -236,7 +267,7 @@ Scope discipline: this list **is** v1. No analytics dashboards, no certificate g
 - _Goal:_ Next.js project standing on Vercel with the design tokens live.
 - _Build:_
   - Next.js (App Router, TypeScript, strict), Tailwind configured with every §3.1 token + type scale + spacing from §3.3.
-  - `next/font`: Fraunces (variable, optical size on) + Inter. Wire into Tailwind font families.
+  - `next/font`: display + body faces wired into Tailwind font families. (Historical: this began as Fraunces+Inter, then Inter-only; the shipped pairing is **Archivo + Inter** per the revised §3.2.)
   - Lucide installed; icon wrapper component enforcing 1.5px stroke + brand colors.
   - Repo structure: `app/(site)/`, `app/admin/`, `app/api/`, `components/ui/`, `components/site/`, `components/admin/`, `lib/` (supabase clients, validation, utils), `emails/` (React Email), `supabase/` (migrations, seed).
   - `/styleguide` route rendering: full palette swatches with hex labels, type scale specimens, spacing scale, buttons in all variants/states.
@@ -301,8 +332,8 @@ Scope discipline: this list **is** v1. No analytics dashboards, no certificate g
 
 **Sprint 2.1 — Homepage**
 
-- _Build:_ all 13 sections in §5 order, exactly. Data: homepage singleton, impact_stats, partners, events (next 3 published upcoming), testimonials (first), resources (3 latest). Hero photo with `--brand` overlay; small monochrome ReachMap echo behind the impact strip.
-- _Done when:_ matches §5 section-by-section; counters show real numbers with JS disabled; Lighthouse ≥90 (perf/a11y/SEO) on deployed preview at mobile + desktop.
+- _Build:_ the homepage sections in the revised §5 order (ESI-informed rebuild, 2026-07-24). Data: homepage singleton, impact_stats (4 strongest), partners, events (next 3 published upcoming), testimonials (first), resources (3 latest). Hero photo with layered ink scrim.
+- _Done when:_ matches the revised §5 section-by-section; counters show real numbers with JS disabled; Lighthouse ≥90 (perf/a11y/SEO) on deployed preview at mobile + desktop. **Status: shipped + redesigned.**
 
 **Sprint 2.2 — About, Team, Contact**
 
@@ -462,7 +493,7 @@ PAYSTACK_WEBHOOK_SECRET          (server only — x-paystack-signature HMAC)
 2. ~~Paid events?~~ **RESOLVED (2026-07-24, Thorpeboss): YES — paid via Paystack.** See §13.
 3. ~~Donations~~ **RESOLVED (2026-07-24, Thorpeboss): live Paystack processing in v1**, not contact-based. See §13.
 4. Final country list + impact numbers (Phase 0.3 checklist).
-5. **Palette — open, revisit at Sprint 2.1.** Thorpeboss flagged uncertainty about the colour choices (2026-07-24). Deliberately NOT changed yet: swatches judge badly in isolation, and the palette should be reviewed on the real homepage with real photography behind it. All colour lives in the `@theme` block of `app/globals.css`, so a revision is a single-file edit. Revisit once Sprint 2.1 is viewable.
+5. ~~Palette — open, revisit at Sprint 2.1.~~ **RESOLVED (2026-07-24, Thorpeboss):** reviewed on the real homepage, judged generic, and redesigned. Evidence Synthesis Ireland chosen as the north star; the site is now near-monochrome with an Archivo display face — see the revised §3.1/§3.2/§3.3 and the rebuilt §5 homepage. Constraints set and applied: no gold, no green on text, plain white (not warm), simple and elegant.
 6. **Paystack multi-currency approval** — USD pricing (§13) requires multi-currency enabled on SRN's Paystack account; it is not on by default. Needs confirming with Fortune/Paystack. Until approved, USD-priced events cannot check out; the schema supports it regardless.
 
 ---
