@@ -43,3 +43,4 @@ yarn-error.log*
 # useful as a source list); the downloaded originals are not — 54MB of binaries
 # that can be re-fetched with `npm run wp:export -- --download`.
 /wordpress-export/images/
+/wordpress-export/logos/
