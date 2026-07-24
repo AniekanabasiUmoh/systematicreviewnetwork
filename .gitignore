@@ -45,3 +45,7 @@ yarn-error.log*
 /wordpress-export/images/
 /wordpress-export/logos/
 /wordpress-export/heads/
+
+# stray root-level scratch scripts (build/upload/test helpers live in supabase/ and tests/)
+/*.mjs
+!/*.config.mjs
