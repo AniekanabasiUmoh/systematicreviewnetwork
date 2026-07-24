@@ -61,12 +61,10 @@ const COLUMNS = [
 ];
 
 const NOT_BUILT_YET = new Set([
-  "/about",
   "/programmes",
   "/resources",
   "/impact",
   "/news",
-  "/team",
   "/partner",
   "/contact",
   "/privacy",

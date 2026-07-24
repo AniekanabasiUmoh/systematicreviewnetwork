@@ -1,0 +1,61 @@
+import Image from "next/image";
+import { Container } from "./Section";
+import { Eyebrow } from "./SectionHeader";
+
+/* Interior-page header. Two modes:
+   - plain ink band (default) — a calm dark header for text-led pages;
+   - photo-backed (pass `imageUrl`) — a shorter cousin of the homepage hero,
+     with the same layered ink scrim so a headline reads over any photo.
+   The heading is always the page's single <h1>. */
+
+export function PageHeader({
+  eyebrow,
+  title,
+  lede,
+  imageUrl,
+  imageAlt = "",
+}: {
+  eyebrow?: string;
+  title: string;
+  lede?: string;
+  imageUrl?: string | null;
+  imageAlt?: string;
+}) {
+  return (
+    <header className="relative overflow-hidden bg-ink">
+      {imageUrl ? (
+        <>
+          <Image
+            src={imageUrl}
+            alt={imageAlt}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
+          <div
+            aria-hidden
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(to top, rgba(22,24,43,0.92) 0%, rgba(22,24,43,0.6) 60%, rgba(22,24,43,0.4) 100%)",
+            }}
+          />
+        </>
+      ) : null}
+      <Container className="relative py-20 md:py-28">
+        <div className="max-w-[52ch]">
+          {eyebrow ? <Eyebrow tone="paper">{eyebrow}</Eyebrow> : null}
+          <h1 className="text-display-tight text-paper mt-4 text-[clamp(2.2rem,5vw,3.5rem)] leading-[1.02]">
+            {title}
+          </h1>
+          {lede ? (
+            <p className="text-paper/85 mt-5 max-w-[46ch] text-[1.15rem] leading-relaxed">
+              {lede}
+            </p>
+          ) : null}
+        </div>
+      </Container>
+    </header>
+  );
+}

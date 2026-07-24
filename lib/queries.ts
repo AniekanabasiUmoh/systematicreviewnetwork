@@ -128,6 +128,33 @@ export async function getMediaByUrl(publicUrl: string | null | undefined) {
   return getMedia(storagePath);
 }
 
+/**
+ * A single editable content page (About, FAQ, Privacy, Terms, impact stories)
+ * by slug. `body_rich` is TipTap JSON; render it with <RichText>. Returns null
+ * for an unknown slug so callers can 404.
+ */
+export async function getPageBySlug(slug: string) {
+  const { data } = await db
+    .from("pages")
+    .select("slug, title, body_rich")
+    .eq("slug", slug)
+    .maybeSingle();
+  return data;
+}
+
+/**
+ * All team members, ordered by group then sort_order. Grouping is done by the
+ * caller so the page controls the group order and headings; staff control the
+ * within-group order from `sort_order` alone.
+ */
+export async function getTeamMembers() {
+  const { data } = await db
+    .from("team_members")
+    .select("*")
+    .order("sort_order", { ascending: true });
+  return data ?? [];
+}
+
 export async function getLatestNews(limit = 3) {
   const { data } = await db
     .from("news")
