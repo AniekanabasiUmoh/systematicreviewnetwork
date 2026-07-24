@@ -109,6 +109,77 @@ export function EventCard({
   );
 }
 
+/* ── NewsCard ──────────────────────────────────────────────────────────── */
+
+export function NewsCard({
+  href,
+  title,
+  excerpt,
+  author,
+  published_at,
+  featured_image_url,
+}: {
+  href: string;
+  title: string;
+  excerpt?: string | null;
+  author?: string | null;
+  published_at?: string | null;
+  featured_image_url?: string | null;
+}) {
+  /* Text-forward: an article without a real photo shows no image block at all,
+     rather than a wall of placeholders. When a real image lands it leads. */
+  const date = published_at
+    ? new Date(published_at).toLocaleDateString("en-GB", {
+        timeZone: "Africa/Lagos",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      })
+    : null;
+
+  return (
+    <article className={`${card} relative flex flex-col`}>
+      {featured_image_url ? (
+        <Figure
+          src={featured_image_url}
+          alt={title}
+          width={1200}
+          height={675}
+          label="article image"
+          className="mb-5 w-full"
+          sizes="(max-width: 768px) 100vw, 33vw"
+        />
+      ) : null}
+
+      {(author || date) && (
+        <p className="text-slate text-[0.8125rem] font-semibold tracking-[0.02em]">
+          {[author, date].filter(Boolean).join(" · ")}
+        </p>
+      )}
+
+      <h3 className="text-ink mt-2 text-[1.1875rem] leading-snug font-semibold">
+        <Link
+          href={href}
+          className="hover:text-evidence after:absolute after:inset-0 focus-visible:outline-none"
+        >
+          {title}
+        </Link>
+      </h3>
+
+      {excerpt ? (
+        <p className="text-slate text-small mt-2 flex-1 leading-relaxed">
+          {excerpt}
+        </p>
+      ) : null}
+
+      <span className="text-ink mt-4 inline-flex items-center gap-1.5 text-[0.8125rem] font-semibold">
+        Read the story
+        <Icon icon={ArrowRight} size="sm" />
+      </span>
+    </article>
+  );
+}
+
 /* ── ProgrammeCard ─────────────────────────────────────────────────────── */
 
 export function ProgrammeCard({

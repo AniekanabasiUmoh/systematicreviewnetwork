@@ -83,6 +83,54 @@ export async function getUpcomingEvents(limit = 3) {
 }
 
 /**
+ * Every published event, soonest first. The /news hub splits these into
+ * upcoming and past itself (a single ordered list is cheaper than two queries
+ * and keeps the past/upcoming boundary in one place — the request time). The
+ * explicit status filter is defence-in-depth alongside RLS: a draft event never
+ * reaches the public list even if a policy is loosened.
+ */
+export async function getAllEvents() {
+  const { data } = await db
+    .from("events")
+    .select("*")
+    .eq("status", "published")
+    .order("starts_at", { ascending: true });
+  return data ?? [];
+}
+
+/** A single published event by slug, or null (so the detail route can 404). */
+export async function getEventBySlug(slug: string) {
+  const { data } = await db
+    .from("events")
+    .select("*")
+    .eq("slug", slug)
+    .eq("status", "published")
+    .maybeSingle();
+  return data;
+}
+
+/** Every published news article, newest first, for the /news article list. */
+export async function getAllNews() {
+  const { data } = await db
+    .from("news")
+    .select("*")
+    .eq("status", "published")
+    .order("published_at", { ascending: false });
+  return data ?? [];
+}
+
+/** A single published news article by slug, or null (so the route can 404). */
+export async function getNewsBySlug(slug: string) {
+  const { data } = await db
+    .from("news")
+    .select("*")
+    .eq("slug", slug)
+    .eq("status", "published")
+    .maybeSingle();
+  return data;
+}
+
+/**
  * All resources, newest first, optionally filtered to one category. The filter
  * is applied in the query (not the page) so an unknown category simply returns
  * nothing rather than erroring.
