@@ -27,7 +27,6 @@ const HIGHLIGHT = { href: "/partner", label: "Partner with SRN" };
    item and fills the console. Prefetch is disabled for these until the pages
    land; delete this set as each sprint completes. */
 const NOT_BUILT_YET = new Set([
-  "/impact",
   "/news",
   "/contact",
   "/partner",

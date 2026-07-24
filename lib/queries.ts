@@ -170,6 +170,26 @@ export async function getPageBySlug(slug: string) {
 }
 
 /**
+ * The impact stories, in slug order (impact-story-1, impact-story-2, …). These
+ * live in `pages` under an `impact-story-*` slug convention (§5) rather than a
+ * dedicated table, so staff edit them like any other content page. Returns
+ * slug + title + body for the Impact page's "stories of change" section and the
+ * per-story detail route. Filters empty bodies so a half-written draft never
+ * surfaces as a broken card.
+ */
+export async function getImpactStories() {
+  const { data } = await db
+    .from("pages")
+    .select("slug, title, body_rich")
+    .like("slug", "impact-story-%")
+    .order("slug", { ascending: true });
+  return (data ?? []).filter((row) => {
+    const body = row.body_rich as { content?: unknown[] } | null;
+    return Array.isArray(body?.content) && body.content.length > 0;
+  });
+}
+
+/**
  * All team members, ordered by group then sort_order. Grouping is done by the
  * caller so the page controls the group order and headings; staff control the
  * within-group order from `sort_order` alone.
