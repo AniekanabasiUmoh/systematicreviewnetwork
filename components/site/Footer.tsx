@@ -108,14 +108,14 @@ export function Footer() {
               <a
                 href="#"
                 aria-label="SRN on LinkedIn"
-                className="border-paper/25 text-paper/80 hover:border-paper hover:text-paper inline-flex h-9 w-9 items-center justify-center rounded-lg border transition-colors"
+                className="border-paper/25 text-paper/80 hover:border-paper hover:text-paper inline-flex h-9 w-9 items-center justify-center border transition-colors"
               >
                 <LinkedInMark />
               </a>
               <a
                 href="#"
                 aria-label="SRN on X"
-                className="border-paper/25 text-paper/80 hover:border-paper hover:text-paper inline-flex h-9 w-9 items-center justify-center rounded-lg border transition-colors"
+                className="border-paper/25 text-paper/80 hover:border-paper hover:text-paper inline-flex h-9 w-9 items-center justify-center border transition-colors"
               >
                 <XMark />
               </a>
@@ -159,12 +159,12 @@ export function Footer() {
                   type="email"
                   disabled
                   placeholder="you@example.com"
-                  className="border-paper/25 text-paper placeholder:text-paper/40 w-full min-w-0 flex-1 rounded-lg border bg-transparent px-3 py-2 text-[0.8125rem] disabled:cursor-not-allowed"
+                  className="border-paper/25 text-paper placeholder:text-paper/40 w-full min-w-0 flex-1 border bg-transparent px-3 py-2 text-[0.8125rem] disabled:cursor-not-allowed"
                 />
                 <button
                   type="submit"
                   disabled
-                  className="bg-paper/15 text-paper/60 text-small rounded-lg px-4 py-2 font-semibold disabled:cursor-not-allowed"
+                  className="bg-paper/15 text-paper/60 text-small px-4 py-2 font-semibold disabled:cursor-not-allowed"
                 >
                   Subscribe
                 </button>

@@ -5,13 +5,16 @@ import type { ReactNode } from "react";
 
 export function Eyebrow({
   children,
-  tone = "evidence",
+  tone = "slate",
   className = "",
 }: {
   children: ReactNode;
   tone?: "evidence" | "slate" | "paper";
   className?: string;
 }) {
+  /* Default is slate, not green: the redesign keeps green off text entirely,
+     so eyebrows are quiet ink-soft labels. `evidence` is retained only for the
+     rare deliberate exception. */
   const tones = {
     evidence: "text-evidence",
     slate: "text-slate",
@@ -47,7 +50,7 @@ export function SectionHeader({
       className={`${align === "center" ? "mx-auto text-center" : ""} ${className}`.trim()}
     >
       {eyebrow ? (
-        <Eyebrow tone={isLight ? "paper" : "evidence"}>{eyebrow}</Eyebrow>
+        <Eyebrow tone={isLight ? "paper" : "slate"}>{eyebrow}</Eyebrow>
       ) : null}
       <Heading
         className={`text-display mt-3 text-[length:var(--text-h2-mobile)] leading-[1.2] md:text-[length:var(--text-h2)] md:leading-[1.15] ${

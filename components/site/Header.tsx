@@ -160,7 +160,7 @@ export function Header() {
           <Link
             href={HIGHLIGHT.href}
             prefetch={prefetchFor(HIGHLIGHT.href)}
-            className="bg-evidence text-paper hover:bg-evidence/90 text-small hidden rounded-lg px-4 py-2 font-semibold transition-colors lg:inline-flex"
+            className="bg-evidence text-paper hover:bg-evidence-ink text-small hidden px-4 py-2 font-semibold transition-colors lg:inline-flex"
           >
             {HIGHLIGHT.label}
           </Link>
@@ -224,7 +224,7 @@ export function Header() {
             <Link
               href={HIGHLIGHT.href}
               prefetch={prefetchFor(HIGHLIGHT.href)}
-              className="bg-evidence text-paper mt-6 flex items-center justify-center rounded-lg px-5 py-3 font-semibold"
+              className="bg-evidence text-paper mt-6 flex items-center justify-center px-5 py-3 font-semibold"
             >
               {HIGHLIGHT.label}
             </Link>

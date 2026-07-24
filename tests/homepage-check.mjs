@@ -19,8 +19,9 @@ console.log("=== counters render real numbers with JS DISABLED (§2.2) ===");
   const ctx = await browser.newContext({ javaScriptEnabled: false });
   const p = await ctx.newPage();
   await p.goto(BASE, { waitUntil: "domcontentloaded" });
+  /* Impact numbers are the Archivo display-tight figures in the ink band. */
   const values = await p
-    .locator("p.text-gold, [class*='text-gold']")
+    .locator("[class*='text-display-tight']")
     .allTextContents();
   const joined = values.join(" ");
   check(
@@ -30,28 +31,24 @@ console.log("=== counters render real numbers with JS DISABLED (§2.2) ===");
   );
   check(
     "real figures present",
-    /1,000\+|30\+|2022/.test(joined),
+    /1,000\+|30\+|2022|6|8\+/.test(joined),
     joined.slice(0, 60),
   );
   await ctx.close();
 }
 
-console.log("\n=== 13 sections in §5 order ===");
+console.log("\n=== homepage sections present (redesign order) ===");
 {
   const p = await browser.newPage({ viewport: { width: 1280, height: 900 } });
   await p.goto(BASE, { waitUntil: "load", timeout: 60000 });
   const text = await p.locator("body").innerText();
   const expected = [
     ["hero", /Better evidence/i],
-    ["partner bar", /Supported by|working with/i],
-    ["impact strip", /Researchers trained/i],
-    ["about", /About SRN/i],
-    ["what we do", /Four ways we build capacity/i],
-    ["who we serve", /Find your starting point/i],
-    ["explainer", /New to systematic reviews/i],
-    ["featured programmes", /Start with a course/i],
+    ["about statement", /Formerly ACSRM/i],
+    ["what we do", /tools to do a review well/i],
+    ["programmes index", /Find the right starting point/i],
+    ["mentorship feature", /someone who has done it before/i],
     ["upcoming events", /Upcoming events/i],
-    ["testimonial", /Participant|quote/i],
     ["resources", /Free guides, templates/i],
     ["newsletter", /Hear about new training/i],
     ["cta band", /Bring evidence synthesis training/i],

@@ -1,200 +1,172 @@
 import Link from "next/link";
-import {
-  GraduationCap,
-  Users,
-  BookOpen,
-  Handshake,
-  ArrowRight,
-  Building2,
-  UserRound,
-  Landmark,
-  FlaskConical,
-} from "lucide-react";
+import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 
 import { Section, Container } from "@/components/ui/Section";
 import { SectionHeader, Eyebrow } from "@/components/ui/SectionHeader";
 import { ButtonLink } from "@/components/ui/Button";
 import { StatCounter } from "@/components/ui/StatCounter";
-import { ReachMap } from "@/components/ui/ReachMap";
 import { PartnerLogoBar } from "@/components/ui/PartnerLogoBar";
-import { OverlayImage } from "@/components/ui/Media";
+import { Figure } from "@/components/ui/Media";
+import { Thread } from "@/components/ui/Thread";
 import { Icon } from "@/components/ui/Icon";
 import {
   EventCard,
-  ProgrammeCard,
   ResourceCard,
   TestimonialBlock,
   CTABand,
 } from "@/components/ui/Cards";
-import { registrationState } from "@/lib/events";
+import { registrationState, formatEventDate, formatPrice } from "@/lib/events";
 import {
   getHomepage,
   getImpactStats,
   getPartners,
-  getReachCountries,
   getTestimonials,
   getUpcomingEvents,
   getLatestResources,
   getSeatCounts,
   getMedia,
+  getMediaByUrl,
 } from "@/lib/queries";
 
-/* Sprint 2.1 — the homepage. All 13 sections in Design.md §5 order, exactly.
-   Every read is a server component; ISR revalidates every 60s. */
+/* Homepage — the ESI-informed redesign, built on the real component kit.
 
-/* Must be a literal: Next statically analyses segment config exports, so
-   `export const revalidate = SOME_IMPORT` is rejected at build time. Keep this
-   in step with REVALIDATE in lib/queries.ts. */
+   The direction is editorial, not a card catalogue: a full-bleed two-weight
+   hero, an ink photo-backed impact band, and programmes/events as typographic
+   indexes rather than grids. Near-monochrome — plain white, ink, one green used
+   only on button fills. Every read is a server component; ISR revalidates 60s.
+
+   Order leads a NEW visitor: hero → proof → what we do → where to start →
+   what a review is → mentorship → events → voice → resources → partner. */
+
 export const revalidate = 60;
 
-/* §5.5 — the four things SRN does. Static: these are structural, not content
-   staff edit per-item. */
+/* §5.5 — the four things SRN does, as a typographic index (not cards). */
 const PROGRAMMES = [
   {
     href: "/programmes#training",
-    icon: GraduationCap,
     title: "Training",
-    blurb:
-      "Structured courses that take researchers from first principles to a completed review.",
-    audience: "Beginner to intermediate",
+    who: "Beginner to intermediate",
+    meta: "Structured courses",
   },
   {
     href: "/programmes/mentorship",
-    icon: Users,
     title: "Mentorship",
-    blurb:
-      "Paired guidance from experienced reviewers, through the whole of a live review.",
-    audience: "Active review teams",
+    who: "Active review teams",
+    meta: "Paired, live review",
   },
   {
     href: "/resources",
-    icon: BookOpen,
     title: "Resources",
-    blurb:
-      "Guides, templates, and recorded sessions, free to use and openly available.",
-    audience: "Everyone",
+    who: "Open to everyone",
+    meta: "Guides · templates · recordings",
   },
   {
     href: "/partner",
-    icon: Handshake,
     title: "Partnerships",
-    blurb:
-      "Working with institutions to build evidence synthesis capacity that lasts.",
-    audience: "Institutions and funders",
-  },
-];
-
-/* §5.6 — audience pathways. Each routes into the site rather than dead-ending. */
-const AUDIENCES = [
-  {
-    href: "/programmes#beginner",
-    icon: UserRound,
-    title: "I'm a student",
-    blurb: "New to systematic reviews and looking for a place to start.",
-  },
-  {
-    href: "/programmes/mentorship",
-    icon: FlaskConical,
-    title: "I'm running a review",
-    blurb: "Underway and want methodological support to finish well.",
-  },
-  {
-    href: "/partner",
-    icon: Building2,
-    title: "I'm at an institution",
-    blurb: "Looking to build review capacity across a department or faculty.",
-  },
-  {
-    href: "/impact",
-    icon: Landmark,
-    title: "I make decisions",
-    blurb: "Need evidence you can trust to inform policy or practice.",
+    who: "Institutions & funders",
+    meta: "Capacity that lasts",
   },
 ];
 
 export default async function HomePage() {
-  /* Fetched in parallel: these are independent reads and the page should not
-     wait on them serially. */
   const [
     homepage,
     stats,
     partners,
-    countries,
     testimonials,
     events,
     resources,
     ctaImage,
-    heroMedia,
+    impactPhoto,
+    mentorPhoto,
+    aboutPhoto,
   ] = await Promise.all([
     getHomepage(),
     getImpactStats(),
     getPartners(),
-    getReachCountries(),
     getTestimonials(1),
     getUpcomingEvents(3),
     getLatestResources(3),
     getMedia("workshop-full-room.jpg"),
-    getMedia("hero-facilitator-presenting.jpg"),
+    getMedia("award-of-honour.jpg"),
+    getMedia("award-of-honour.jpg"),
+    getMedia("workshop-full-room.jpg"),
   ]);
 
   const seats = await getSeatCounts(events.map((e) => e.id));
   const testimonial = testimonials[0];
 
+  /* Image and alt must describe the SAME picture: resolve the hero's alt from
+     the URL actually rendered, not a fixed fallback record. */
+  const heroUrl = homepage?.hero_image_url ?? null;
+  const heroMedia = heroUrl
+    ? await getMediaByUrl(heroUrl)
+    : await getMedia("hero-cohort-steps.jpg");
+  const heroSrc = heroUrl ?? heroMedia?.url ?? null;
+
+  /* Four strongest stats — a clean 4-up reads complete; six leaves a ragged
+     second row. */
+  const topStats = stats.slice(0, 4);
+
   return (
     <>
-      {/* ── 1. Hero ─────────────────────────────────────────────────────── */}
-      <OverlayImage
-        src={homepage?.hero_image_url}
-        /* Alt text comes from the media row, so it travels with the image and
-           staff can change both together from the admin (Sprint 5.2). */
-        alt={homepage?.hero_image_url ? (heroMedia?.alt ?? "") : ""}
-        width={2400}
-        height={900}
-        priority
-      >
-        <Container>
-          <div className="relative py-24 md:py-32">
-            {/* §3.4 — the small monochrome reach-map echo, behind the hero. */}
-            {/* Sits above the photo overlay (which is z-0) but below the
-                headline, so it reads as a faint watermark rather than
-                disappearing into the darkened image. */}
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-y-0 right-0 z-0 hidden w-1/2 items-center opacity-40 mix-blend-screen lg:flex"
-            >
-              <ReachMap variant="echo" countries={countries} />
-            </div>
+      {/* ── 1. Hero — full-bleed, two-weight headline ───────────────────── */}
+      <header className="relative flex min-h-[88vh] items-end overflow-hidden bg-ink">
+        {heroSrc ? (
+          <Image
+            src={heroSrc}
+            alt={heroMedia?.alt ?? ""}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
+        ) : null}
+        {/* Layered scrim: darkens the bottom where the headline sits, guarantees
+            the header always reads over darkness, and lifts overall contrast so
+            no bright patch of photo fights white text. */}
+        <div
+          aria-hidden
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to bottom, rgba(22,24,43,0.72) 0%, rgba(22,24,43,0) 22%)," +
+              "linear-gradient(to top, rgba(22,24,43,0.94) 0%, rgba(22,24,43,0.68) 34%, rgba(22,24,43,0.34) 62%, rgba(22,24,43,0.22) 100%)," +
+              "rgba(22,24,43,0.18)",
+          }}
+        />
 
-            <div className="relative max-w-[52ch] lg:max-w-[30ch]">
-              <Eyebrow tone="paper">
-                {homepage?.hero_eyebrow ?? "Systematic Reviews Network"}
-              </Eyebrow>
-              <h1 className="text-display-tight text-paper mt-4 text-[2.25rem] leading-[1.05] md:text-[3.25rem] lg:text-[3.5rem]">
-                {homepage?.hero_heading ??
-                  "Better evidence. Smarter decisions."}
-              </h1>
-              <p className="text-paper/85 mt-5 max-w-[46ch] text-[1.0625rem] leading-relaxed">
-                {homepage?.hero_subheading ??
-                  "We build capacity for systematic reviews and meta-analyses across low- and middle-income countries."}
-              </p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <ButtonLink href="/programmes" prefetch={false} size="lg">
-                  Explore programmes
-                </ButtonLink>
-                <ButtonLink
-                  href="/partner"
-                  prefetch={false}
-                  variant="secondary"
-                  size="lg"
-                  className="border-paper/40 text-paper hover:border-paper hover:bg-paper/10"
-                >
-                  Partner with SRN
-                </ButtonLink>
-              </div>
+        <Container className="relative pt-32 pb-[clamp(48px,7vw,96px)]">
+          <div className="max-w-[46ch]">
+            <Eyebrow tone="paper">
+              {homepage?.hero_eyebrow ?? "Systematic Reviews Network"}
+            </Eyebrow>
+            <h1 className="text-paper mt-5 text-[clamp(2.8rem,7vw,5.5rem)]">
+              <span className="hero-thin">Better evidence.</span>
+              <span className="hero-black">Smarter decisions.</span>
+            </h1>
+            <p className="text-paper/85 mt-6 max-w-[52ch] text-[1.15rem] leading-relaxed">
+              {homepage?.hero_subheading ??
+                "We build capacity for systematic reviews and meta-analyses across low- and middle-income countries — training researchers to produce evidence that stands up to scrutiny."}
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <ButtonLink href="/programmes" prefetch={false} size="lg">
+                Explore programmes
+              </ButtonLink>
+              <ButtonLink
+                href="/resources?category=guide"
+                prefetch={false}
+                variant="secondary"
+                size="lg"
+                className="border-paper/50 text-paper hover:border-paper hover:bg-paper/10"
+              >
+                What is a systematic review?
+              </ButtonLink>
             </div>
           </div>
         </Container>
-      </OverlayImage>
+      </header>
 
       {/* ── 2. Partner logo bar ─────────────────────────────────────────── */}
       {partners.length > 0 ? (
@@ -205,177 +177,206 @@ export default async function HomePage() {
         </Section>
       ) : null}
 
-      {/* ── 3. Impact strip ─────────────────────────────────────────────── */}
-      {stats.length > 0 ? (
-        <Section surface="mist">
-          <Container>
-            <div className="grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-6">
-              {stats.map((s) => (
-                <StatCounter key={s.id} value={s.value} label={s.label} />
+      {/* ── 3. Impact band — ink, photo-backed, real counters ───────────── */}
+      {topStats.length > 0 ? (
+        <section
+          className="relative overflow-hidden bg-ink"
+          aria-labelledby="impact"
+        >
+          {impactPhoto?.url ? (
+            <Image
+              src={impactPhoto.url}
+              alt=""
+              fill
+              sizes="100vw"
+              className="object-cover opacity-[0.18]"
+            />
+          ) : null}
+          <Container className="relative">
+            <h2 id="impact" className="sr-only">
+              Our impact
+            </h2>
+            <div className="grid grid-cols-2 gap-px bg-paper/10 md:grid-cols-4">
+              {topStats.map((s) => (
+                <div key={s.id} className="bg-ink px-7 py-10">
+                  <StatCounter value={s.value} label={s.label} tone="paper" />
+                </div>
               ))}
             </div>
           </Container>
-        </Section>
+        </section>
       ) : null}
 
-      {/* ── 4. About in one paragraph ───────────────────────────────────── */}
+      {/* ── 4. About in one confident statement ─────────────────────────── */}
       <Section surface="paper">
         <Container>
-          <div className="max-w-[var(--container-prose)]">
-            <Eyebrow>About SRN</Eyebrow>
-            <p className="text-ink prose-measure mt-4 text-[1.25rem] leading-[1.55]">
-              {homepage?.about_paragraph ??
-                "The Systematic Reviews Network builds capacity for evidence synthesis across low- and middle-income countries through training, mentorship, and research collaboration."}
-            </p>
-            <Link
-              href="/about"
-              prefetch={false}
-              className="text-evidence mt-6 inline-flex items-center gap-1.5 font-semibold"
-            >
-              About SRN
-              <Icon icon={ArrowRight} size="sm" />
-            </Link>
-          </div>
+          <Eyebrow>About SRN</Eyebrow>
+          <p className="text-display text-ink mt-5 max-w-[24ch] text-[clamp(1.8rem,4vw,3rem)] leading-[1.05]">
+            Formerly ACSRM. Launched in 2022. Working across Africa and beyond.
+          </p>
+          <p className="text-slate prose-measure mt-6 text-[1.15rem] leading-[1.6]">
+            {homepage?.about_paragraph ??
+              "The Systematic Reviews Network builds capacity for evidence synthesis across low- and middle-income countries through training, mentorship, and research collaboration."}
+          </p>
+          <Link
+            href="/about"
+            prefetch={false}
+            className="text-ink hover:text-evidence mt-6 inline-flex items-center gap-1.5 font-semibold"
+          >
+            Read the full story
+            <Icon icon={ArrowRight} size="sm" />
+          </Link>
         </Container>
       </Section>
 
-      {/* ── 5. What we do ───────────────────────────────────────────────── */}
-      <Section surface="mist">
-        <Container>
-          <SectionHeader
-            eyebrow="What we do"
-            heading="Four ways we build capacity"
-          />
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {PROGRAMMES.map((p) => (
-              <ProgrammeCard key={p.title} {...p} />
-            ))}
-          </div>
-        </Container>
-      </Section>
+      {/* ── The thread — signature divider ──────────────────────────────── */}
+      <Container>
+        <Thread />
+      </Container>
 
-      {/* ── 6. Who we serve ─────────────────────────────────────────────── */}
+      {/* ── 5. What we do — split statement (breaks the grid) ───────────── */}
       <Section surface="paper">
         <Container>
-          <SectionHeader
-            eyebrow="Who we serve"
-            heading="Find your starting point"
-          />
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {AUDIENCES.map((a) => (
-              <Link
-                key={a.title}
-                href={a.href}
-                prefetch={false}
-                className="border-hairline hover:border-evidence hover:bg-evidence-tint/40 group rounded-[var(--radius-card)] border p-6 transition-colors"
-              >
-                <Icon icon={a.icon} size="lg" color="evidence" />
-                <h3 className="text-ink mt-4 font-semibold">{a.title}</h3>
-                <p className="text-slate text-small mt-2 leading-relaxed">
-                  {a.blurb}
-                </p>
-                <span className="text-evidence mt-4 inline-flex items-center gap-1.5 text-[0.8125rem] font-semibold">
-                  Start here
-                  <Icon icon={ArrowRight} size="sm" />
-                </span>
-              </Link>
-            ))}
-          </div>
-        </Container>
-      </Section>
-
-      {/* ── 7. New to systematic reviews? (the Campbell pattern) ────────── */}
-      <Section surface="mist">
-        <Container>
-          <div className="grid items-center gap-10 lg:grid-cols-2">
+          <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-[clamp(32px,5vw,72px)]">
             <div>
-              <Eyebrow>New to systematic reviews?</Eyebrow>
-              <h2 className="text-display text-ink mt-3 text-[1.75rem] leading-[1.2] md:text-[2.25rem] md:leading-[1.15]">
-                {homepage?.explainer_heading ?? "What is a systematic review?"}
+              <Eyebrow>What we do</Eyebrow>
+              <h2 className="text-display text-ink mt-4 text-[clamp(1.6rem,3.4vw,2.6rem)] leading-[1.1]">
+                Training, mentorship, and the tools to do a review well.
               </h2>
-              <p className="text-slate prose-measure mt-4 leading-relaxed">
-                {homepage?.explainer_body ??
-                  "A systematic review answers a clear question by finding and appraising all the relevant studies using explicit, reproducible methods. Every decision is documented, so the conclusion can be trusted and repeated."}
+              <p className="text-slate mt-5 leading-relaxed">
+                From a first course to a completed meta-analysis, SRN supports
+                researchers at every stage — with hands-on training, one-to-one
+                mentorship, and open resources anyone can use.
               </p>
               <ButtonLink
-                href="/resources?category=guide"
+                href="/programmes"
                 prefetch={false}
-                className="mt-6"
+                variant="secondary"
+                className="mt-7"
               >
-                Read the beginner guide
+                All programmes
               </ButtonLink>
             </div>
-            <div className="border-hairline bg-paper rounded-[var(--radius-card)] border p-8">
-              <ol className="space-y-5">
-                {[
-                  "Ask a clear, answerable question",
-                  "Search the literature systematically",
-                  "Screen studies against set criteria",
-                  "Appraise, synthesise, and report",
-                ].map((step, i) => (
-                  <li key={step} className="flex gap-4">
-                    <span className="bg-evidence-tint text-evidence text-small flex h-8 w-8 shrink-0 items-center justify-center rounded-full font-semibold">
-                      {i + 1}
-                    </span>
-                    <span className="text-ink text-small pt-1 font-medium">
-                      {step}
-                    </span>
-                  </li>
-                ))}
-              </ol>
-            </div>
+            <Figure
+              src={aboutPhoto?.url}
+              alt={aboutPhoto?.alt ?? ""}
+              width={4}
+              height={3}
+              label="workshop"
+              className="w-full"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+            />
           </div>
         </Container>
       </Section>
 
-      {/* ── 8. Featured programmes ──────────────────────────────────────── */}
-      <Section surface="paper">
-        <Container>
-          <SectionHeader
-            eyebrow="Programmes"
-            heading="Start with a course built for your stage"
-            lede="Courses and programmes built for every stage, from your first review to your most advanced meta-analysis."
-          />
-          <div className="mt-10 grid gap-4 md:grid-cols-3">
-            {PROGRAMMES.slice(0, 3).map((p) => (
-              <ProgrammeCard key={`featured-${p.title}`} {...p} />
-            ))}
-          </div>
-          <ButtonLink
-            href="/programmes"
-            prefetch={false}
-            variant="secondary"
-            className="mt-8"
-          >
-            All programmes
-          </ButtonLink>
-        </Container>
-      </Section>
-
-      {/* ── 9. Upcoming events ──────────────────────────────────────────── */}
+      {/* ── 6. Programmes — typographic index, not cards ────────────────── */}
       <Section surface="mist">
         <Container>
-          <SectionHeader eyebrow="What's on" heading="Upcoming events" />
+          <Eyebrow>Programmes</Eyebrow>
+          <h2 className="text-display text-ink mt-3 mb-8 text-[clamp(1.6rem,3.4vw,2.4rem)] leading-[1.1]">
+            Find the right starting point.
+          </h2>
+          <ul className="index-list">
+            {PROGRAMMES.map((p, i) => (
+              <li key={p.title}>
+                <Link href={p.href} prefetch={false} className="index-row">
+                  <span className="text-display text-slate text-[1.1rem] font-light tabular-nums">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span>
+                    <span className="text-display text-ink block text-[clamp(1.3rem,2.6vw,1.9rem)] font-bold leading-tight">
+                      {p.title}
+                    </span>
+                    <span className="text-slate text-small">{p.who}</span>
+                  </span>
+                  <span className="index-meta-end text-small">{p.meta}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </Container>
+      </Section>
+
+      {/* ── 7. Mentorship — full-bleed feature ──────────────────────────── */}
+      <section
+        className="relative flex min-h-[60vh] items-center overflow-hidden bg-ink"
+        aria-labelledby="mentorship"
+      >
+        {mentorPhoto?.url ? (
+          <Image
+            src={mentorPhoto.url}
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover"
+          />
+        ) : null}
+        <div
+          aria-hidden
+          className="from-ink/90 via-ink/60 to-ink/20 absolute inset-0 bg-gradient-to-r max-md:bg-gradient-to-t"
+        />
+        <Container className="relative">
+          <div className="max-w-[540px] py-16 text-paper">
+            <Eyebrow tone="paper">Mentorship</Eyebrow>
+            <h2
+              id="mentorship"
+              className="text-display text-paper mt-4 text-[clamp(1.6rem,3.4vw,2.4rem)] leading-[1.1]"
+            >
+              Guidance from someone who has done it before.
+            </h2>
+            <p className="text-paper/85 mt-5 leading-relaxed">
+              The Mentorship Programme pairs researchers with experienced
+              reviewers through the whole of a live review — so you stop
+              second-guessing every methodological choice.
+            </p>
+            <ButtonLink
+              href="/programmes/mentorship"
+              prefetch={false}
+              className="mt-7"
+            >
+              Learn more
+            </ButtonLink>
+          </div>
+        </Container>
+      </section>
+
+      {/* ── 8. Upcoming events ──────────────────────────────────────────── */}
+      <Section surface="paper">
+        <Container>
+          <Eyebrow>What&apos;s on</Eyebrow>
+          <h2 className="text-display text-ink mt-3 text-[clamp(1.6rem,3.4vw,2.4rem)] leading-[1.1]">
+            Upcoming events
+          </h2>
           {events.length > 0 ? (
             <>
-              <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {events.map((e) => (
-                  <EventCard
-                    key={e.id}
-                    href={`/news/events/${e.slug}`}
-                    title={e.title}
-                    type={e.type}
-                    starts_at={e.starts_at}
-                    ends_at={e.ends_at}
-                    locationType={e.location_type}
-                    state={registrationState(e, seats[e.id] ?? 0)}
-                    price_kobo={e.price_kobo}
-                    currency={e.currency}
-                    capacity={e.capacity}
-                    seatsTaken={seats[e.id] ?? 0}
-                  />
+              <ul className="index-list mt-8">
+                {events.map((e, i) => (
+                  <li key={e.id}>
+                    <Link
+                      href={`/news/events/${e.slug}`}
+                      prefetch={false}
+                      className="index-row"
+                    >
+                      <span className="text-display text-slate text-[1.1rem] font-light tabular-nums">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span>
+                        <span className="text-display text-ink block text-[clamp(1.15rem,2.2vw,1.5rem)] font-bold leading-tight">
+                          {e.title}
+                        </span>
+                        <span className="text-slate text-small">
+                          {formatEventDate(e.starts_at, e.ends_at)} ·{" "}
+                          {e.location_type === "online" ? "Online" : "In person"}
+                        </span>
+                      </span>
+                      <span className="index-meta-end text-small">
+                        {formatPrice(e.price_kobo, e.currency)}
+                      </span>
+                    </Link>
+                  </li>
                 ))}
-              </div>
+              </ul>
               <ButtonLink
                 href="/news"
                 prefetch={false}
@@ -386,8 +387,7 @@ export default async function HomePage() {
               </ButtonLink>
             </>
           ) : (
-            /* §4 — empty states are invitations, not dead ends. */
-            <div className="border-hairline mt-10 rounded-[var(--radius-card)] border border-dashed p-10 text-center">
+            <div className="border-hairline mt-8 border border-dashed p-10 text-center">
               <p className="text-ink font-semibold">
                 No events scheduled right now
               </p>
@@ -400,9 +400,9 @@ export default async function HomePage() {
         </Container>
       </Section>
 
-      {/* ── 10. Testimonial (the ESI pattern) ───────────────────────────── */}
+      {/* ── 9. Testimonial ──────────────────────────────────────────────── */}
       {testimonial ? (
-        <Section surface="paper">
+        <Section surface="mist">
           <Container>
             <TestimonialBlock
               quote={testimonial.quote}
@@ -414,9 +414,9 @@ export default async function HomePage() {
         </Section>
       ) : null}
 
-      {/* ── 11. Resource library preview ────────────────────────────────── */}
+      {/* ── 10. Resource library preview ────────────────────────────────── */}
       {resources.length > 0 ? (
-        <Section surface="mist">
+        <Section surface="paper">
           <Container>
             <SectionHeader
               eyebrow="Resources"
@@ -456,10 +456,10 @@ export default async function HomePage() {
         </Section>
       ) : null}
 
-      {/* ── 12. Newsletter ──────────────────────────────────────────────── */}
-      <Section surface="paper">
+      {/* ── 11. Newsletter ──────────────────────────────────────────────── */}
+      <Section surface="mist">
         <Container>
-          <div className="border-hairline mx-auto max-w-[var(--container-prose)] rounded-[var(--radius-card)] border p-8 text-center md:p-10">
+          <div className="border-hairline bg-paper mx-auto max-w-[var(--container-prose)] border p-8 text-center md:p-10">
             <Eyebrow>Stay in touch</Eyebrow>
             <h2 className="text-display text-ink mt-3 text-[1.5rem] leading-[1.2] md:text-[1.75rem]">
               Hear about new training first
@@ -479,12 +479,12 @@ export default async function HomePage() {
                 type="email"
                 disabled
                 placeholder="you@example.com"
-                className="border-hairline text-ink placeholder:text-slate/60 text-small disabled:bg-mist min-w-0 flex-1 rounded-lg border px-3.5 py-2.5 disabled:cursor-not-allowed"
+                className="border-hairline text-ink placeholder:text-slate/60 text-small disabled:bg-mist min-w-0 flex-1 border px-3.5 py-2.5 disabled:cursor-not-allowed"
               />
               <button
                 type="submit"
                 disabled
-                className="bg-evidence text-paper text-small rounded-lg px-5 py-2.5 font-semibold disabled:cursor-not-allowed disabled:opacity-50"
+                className="bg-evidence text-paper text-small px-5 py-2.5 font-semibold disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Subscribe
               </button>
@@ -496,7 +496,7 @@ export default async function HomePage() {
         </Container>
       </Section>
 
-      {/* ── 13. CTA band ────────────────────────────────────────────────── */}
+      {/* ── 12. CTA band ────────────────────────────────────────────────── */}
       <Section surface="paper" className="!pt-0">
         <Container>
           <CTABand

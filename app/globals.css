@@ -6,49 +6,50 @@
    ========================================================================== */
 
 @theme {
-  /* --- §3.1 Palette ---------------------------------------------------------
-     [PLACEHOLDER: hexes unconfirmed] --brand is an estimate. Sprint 1.1 samples
-     the EXACT value from the SRN logo vector (§12.1, still awaited from
-     Fortune). When it arrives, change it HERE and nowhere else. */
-  --color-brand: #24276e; /* SRN navy — headings, nav, footer, overlays */
-  --color-ink: #191c45; /* darkened navy — body text, ink sections */
-  --color-evidence: #1f6f5c; /* THE action color — CTAs, links, focus rings */
-  /* Darkened from the original #C9A227 estimate: that measured 2.23:1 against
-     --mist, failing WCAG AA even at 48px (large text needs 3:1). §3.1 already
-     required all text pairs to pass AA; this is that rule enforced. Still
-     unmistakably the mark's yellow, just usable at text scale. */
-  --color-gold: #8a6d10; /* impact numbers + max ONE highlighted CTA/page */
-  /* The lighter original, kept for large fills on dark surfaces (the CTA band
-     button), where contrast runs the other way. */
-  --color-gold-bright: #c9a227;
-  --color-paper: #ffffff; /* base background */
-  --color-mist: #f4f6f8; /* alternating section background */
-  --color-slate: #5a6b7b; /* secondary text, captions, metadata */
-  --color-evidence-tint: #e8f2ef; /* card hovers, tag backgrounds */
-  --color-hairline: #e3e8ed; /* card borders (§3.3) */
+  /* --- §3.1 Palette (redesign) ---------------------------------------------
+     Near-monochrome, "simple and elegant": plain white paper, near-black ink
+     with a faint navy bias, and a SINGLE green used only as a button fill and
+     focus accent — never on headings or body text. No gold. The old category
+     hues are retired to mono (see below), so nothing on the page competes with
+     the photography and type for attention. */
+  --color-brand: #16182b; /* ink-navy — wordmark, nav, footer, overlays */
+  --color-ink: #16182b; /* near-black, faint navy — body + headings */
+  --color-evidence: #1f6f5c; /* THE action color — button fills, focus */
+  --color-evidence-ink: #123f34; /* pressed / hover state */
 
-  /* Category tag hues — the ONE sanctioned echo of the logo's four mark colors
-     (§3.1). Tinted background + dark text. Used nowhere else on the site. */
-  --color-tag-blue: #1f5fa9;
-  --color-tag-blue-tint: #e7effa;
-  --color-tag-orange: #c2452a;
-  --color-tag-orange-tint: #fbeae6;
-  /* Darkened from #9A7B12, which measured 3.63:1 on its own tint — below the
-     4.5:1 AA floor for the small text tags actually use. */
-  --color-tag-yellow: #7a6109;
-  --color-tag-yellow-tint: #fbf3dc;
-  --color-tag-green: #1f6f5c;
-  --color-tag-green-tint: #e8f2ef;
+  /* Gold is gone. These aliases remain so any straggling reference resolves to
+     ink instead of a missing token; remove once no component reads them. */
+  --color-gold: #16182b;
+  --color-gold-bright: #16182b;
 
-  /* --- §3.2 Typography ----------------------------------------------------
-     Inter throughout. `--font-display` is kept as a token (rather than
-     removed) so headings have a single named hook if a display face is ever
-     reintroduced; today it resolves to the same family as body. */
+  --color-paper: #ffffff; /* plain white — crisp, gallery-like */
+  --color-mist: #f4f5f7; /* alternating band, cool neutral */
+  --color-ink-soft: #494c63; /* secondary text (AA on white) */
+  --color-slate: #494c63; /* secondary text, captions, metadata */
+  --color-evidence-tint: #e8f2ef; /* button-ghost hover wash only */
+  --color-hairline: #e4e5ea; /* hairline rules + index rows */
+
+  /* Category tags, retired to mono: an ink outline with ink-soft text, no fill.
+     Every hue below resolves to the same neutral pair, so tags read as quiet
+     labels rather than a colour-coding system. Kept as named tokens so Tag.tsx
+     needs no structural change. */
+  --color-tag-blue: #494c63;
+  --color-tag-blue-tint: #f4f5f7;
+  --color-tag-orange: #494c63;
+  --color-tag-orange-tint: #f4f5f7;
+  --color-tag-yellow: #494c63;
+  --color-tag-yellow-tint: #f4f5f7;
+  --color-tag-green: #494c63;
+  --color-tag-green-tint: #f4f5f7;
+
+  /* --- §3.2 Typography (redesign) -----------------------------------------
+     Two families. Inter carries body copy. Archivo — variable, with a width
+     axis — carries headings, the wordmark, and impact numbers, and enables the
+     thin→black hero move. `--font-display` now points at Archivo. */
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-sans);
+  --font-display: var(--font-archivo), "Arial Narrow", sans-serif;
 
-  /* Large sans headings need negative tracking or they read loose and
-     oversized next to the same size set in a serif. */
+  /* Large Archivo headings still want negative tracking to read tight. */
   --tracking-display: -0.02em;
   --tracking-display-tight: -0.03em;
 
@@ -83,7 +84,10 @@
   --spacing-section-mobile: 3.5rem; /* 56px mobile */
   --spacing-gap: 1.5rem; /* 24px grid gap + card padding */
 
-  --radius-card: 12px;
+  /* Sharp corners are the rule in the redesign (ESI uses border-radius:0).
+     Cards, panels, inputs read as one crisp system; only small tags stay pill.
+     Kept as a token so a single change flips the whole site. */
+  --radius-card: 0px;
 }
 
 /* --- Base -----------------------------------------------------------------
@@ -110,10 +114,13 @@
     }
   }
 
-  /* §3.5 — visible keyboard focus, 2px evidence outline, everywhere. */
+  /* §3.5 — visible keyboard focus. Two-tone ring (white halo + ink core) so it
+     clears the 3:1 focus-indicator threshold on BOTH the white bands and the
+     dark hero/footer — the single green ring measured 2.91:1 on navy. */
   :focus-visible {
-    outline: 2px solid var(--color-evidence);
+    outline: 2px solid var(--color-paper);
     outline-offset: 2px;
+    box-shadow: 0 0 0 4px var(--color-ink);
     border-radius: 2px;
   }
 
@@ -131,12 +138,13 @@
 }
 
 @layer utilities {
-  /* §3.2 — headings. Inter 700 with tight leading and negative tracking is
-     what carries the institutional weight now that there is no serif. Apply
-     to hero, h2, page titles, pull quotes, and impact numbers. */
+  /* §3.2 — headings in Archivo. A slightly extended width (font-stretch) plus
+     bold weight is what gives headings their institutional, art-directed feel.
+     Apply to h2, page titles, pull quotes, and impact numbers. */
   .text-display {
     font-family: var(--font-display);
     font-weight: 700;
+    font-stretch: 110%;
     letter-spacing: var(--tracking-display);
   }
 
@@ -144,8 +152,70 @@
      needs to close further. */
   .text-display-tight {
     font-family: var(--font-display);
-    font-weight: 700;
+    font-weight: 800;
+    font-stretch: 112%;
     letter-spacing: var(--tracking-display-tight);
+  }
+
+  /* The ESI hero move: same size, two weights — thin over black. Used on the
+     homepage h1 and any page hero that wants the signature treatment. */
+  .hero-thin {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-stretch: 112%;
+    letter-spacing: -0.01em;
+    line-height: 0.98;
+    display: block;
+  }
+  .hero-black {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-stretch: 112%;
+    letter-spacing: -0.02em;
+    line-height: 0.98;
+    display: block;
+  }
+
+  /* Typographic index row — programmes/events as a list, not a card grid.
+     Stacks and keeps its metadata on mobile (never display:none). */
+  .index-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--color-hairline);
+  }
+  .index-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 24px;
+    align-items: baseline;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--color-hairline);
+    text-decoration: none;
+    color: var(--color-ink);
+    transition: padding-left 0.2s;
+  }
+  .index-row:hover {
+    padding-left: 12px;
+  }
+  .index-meta-end {
+    text-align: right;
+    color: var(--color-slate);
+  }
+  @media (max-width: 640px) {
+    .index-row {
+      grid-template-columns: auto 1fr;
+      gap: 4px 16px;
+      padding: 22px 0;
+    }
+    .index-meta-end {
+      grid-column: 2;
+      text-align: left;
+      margin-top: 2px;
+    }
+    .index-row:hover {
+      padding-left: 0;
+    }
   }
 
   /* §3.2 — the "eyebrow" label above every section headline. */

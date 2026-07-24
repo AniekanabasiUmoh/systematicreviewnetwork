@@ -56,7 +56,7 @@ export function EventCard({
     <article className={`${card} flex gap-5`}>
       {/* Date block */}
       <div
-        className="bg-mist text-ink flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-lg"
+        className="bg-mist text-ink flex h-16 w-16 shrink-0 flex-col items-center justify-center"
         aria-hidden
       >
         <span className="text-display-tight text-[1.375rem] leading-none">
@@ -94,7 +94,7 @@ export function EventCard({
 
         <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1">
           <span
-            className={`text-small font-semibold ${free ? "text-evidence" : "text-ink"}`}
+            className={`text-small font-semibold ${free ? "text-ink" : "text-ink"}`}
           >
             {formatPrice(price_kobo ?? null, currency)}
           </span>
@@ -126,7 +126,7 @@ export function ProgrammeCard({
 }) {
   return (
     <article className={`${card} relative flex flex-col`}>
-      <span className="bg-evidence-tint flex h-11 w-11 items-center justify-center rounded-lg">
+      <span className="bg-evidence-tint flex h-11 w-11 items-center justify-center">
         <Icon icon={icon} size="lg" color="evidence" />
       </span>
       <h3 className="text-ink mt-4 text-[1.25rem] leading-snug font-semibold">
@@ -144,7 +144,7 @@ export function ProgrammeCard({
         {blurb}
       </p>
       {audience ? (
-        <p className="text-evidence mt-4 text-[0.8125rem] font-semibold">
+        <p className="text-slate mt-4 text-[0.8125rem] font-semibold">
           {audience}
         </p>
       ) : null}
@@ -185,7 +185,7 @@ export function PersonCard({
       />
       <h3 className="text-ink mt-4 text-[1.0625rem] font-semibold">{name}</h3>
       {role ? (
-        <p className="text-evidence text-small mt-1 font-medium">{role}</p>
+        <p className="text-slate text-small mt-1 font-medium">{role}</p>
       ) : null}
       {affiliation ? (
         <p className="text-slate text-small mt-1">{affiliation}</p>
@@ -259,7 +259,7 @@ export function ResourceCard({
           {description}
         </p>
       ) : null}
-      <span className="text-evidence mt-4 inline-flex items-center gap-1.5 text-[0.8125rem] font-semibold">
+      <span className="text-ink mt-4 inline-flex items-center gap-1.5 text-[0.8125rem] font-semibold">
         {meta.label}
         <Icon icon={meta.icon} size="sm" />
       </span>
@@ -362,11 +362,11 @@ export function CTABand({
         {body ? (
           <p className="text-paper/80 mx-auto mt-4 max-w-[52ch]">{body}</p>
         ) : null}
-        {/* The one gold button per page (§3.1). */}
+        {/* Single green action (redesign) — was the one gold button per page. */}
         <Link
           href={buttonHref}
           prefetch={false}
-          className="bg-gold-bright text-ink hover:bg-gold-bright/90 mt-8 inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3 font-semibold transition-colors"
+          className="bg-evidence text-paper hover:bg-evidence-ink mt-8 inline-flex items-center justify-center gap-2 px-6 py-3 font-semibold transition-colors"
         >
           {buttonLabel}
           <Icon icon={ArrowRight} size="sm" />

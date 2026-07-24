@@ -26,12 +26,17 @@ const format = (n: number) => n.toLocaleString("en-US");
 export function StatCounter({
   label,
   value,
+  tone = "ink",
   className = "",
 }: {
   label: string;
   value: string;
+  /** `ink` on light bands, `paper` on the dark impact band. */
+  tone?: "ink" | "paper";
   className?: string;
 }) {
+  const numTone = tone === "paper" ? "text-paper" : "text-ink";
+  const labelTone = tone === "paper" ? "text-paper/70" : "text-slate";
   const parsed = parseValue(value);
   const ref = useRef<HTMLParagraphElement>(null);
 
@@ -90,11 +95,11 @@ export function StatCounter({
     <div className={className}>
       <p
         ref={ref}
-        className="text-display-tight text-gold text-[2.5rem] leading-none md:text-[3rem]"
+        className={`text-display-tight ${numTone} text-[2.5rem] leading-none md:text-[3rem]`}
       >
         {display}
       </p>
-      <p className="text-slate text-small mt-2">{label}</p>
+      <p className={`${labelTone} text-small mt-2`}>{label}</p>
     </div>
   );
 }

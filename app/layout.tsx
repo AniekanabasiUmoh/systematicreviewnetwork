@@ -1,16 +1,25 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Archivo } from "next/font/google";
 import "./globals.css";
 
-/* §3.2 — Inter throughout. Display and body are distinguished by weight and
-   tracking, not by family: 700 with tight leading and -0.02em tracking for
-   headings, 400/500 for body. One family means one set of metrics, so there
-   is no mismatched-fallback layout shift. */
+/* §3.2 (revised) — two families. Inter carries body copy; Archivo carries
+   headings, the wordmark, and impact numbers. Archivo is variable 100–900 with
+   a width axis, which is what makes the ESI-style "thin over black" hero move
+   possible — a genuine thin paired with black at the same size reads as
+   art-directed rather than defaulted. Both use display:swap so a slow font
+   never blocks paint. */
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
   display: "swap",
   weight: ["400", "500", "600", "700"],
+});
+
+const archivo = Archivo({
+  variable: "--font-archivo",
+  subsets: ["latin"],
+  display: "swap",
+  axes: ["wdth"],
 });
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
@@ -41,7 +50,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} h-full`}>
+    <html lang="en" className={`${inter.variable} ${archivo.variable} h-full`}>
       <body className="flex min-h-full flex-col">{children}</body>
     </html>
   );

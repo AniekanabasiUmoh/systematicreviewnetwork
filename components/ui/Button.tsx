@@ -1,26 +1,27 @@
 import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";
 
-/* §4 — Button: primary green / secondary outline-ink / gold (one gold per page).
-   Interface writing rule: buttons say what happens ("Register for this event"),
-   and an action keeps its name through the flow. */
+/* §4 (redesign) — Button: primary green fill / secondary outline-ink. Sharp
+   corners (border-radius:0) are the rule in the ESI-informed direction; the
+   pill shape is reserved for small tags. Interface writing rule: buttons say
+   what happens ("Register for this event"), and an action keeps its name
+   through the flow. */
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-lg font-sans font-semibold " +
+  "inline-flex items-center justify-center gap-2 rounded-none font-sans font-semibold " +
   "transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-50";
 
 const variants = {
   /* THE action color (§3.1) — CTAs, primary actions. */
   primary:
-    "bg-evidence text-paper hover:bg-evidence/90 disabled:hover:bg-evidence",
+    "bg-evidence text-paper hover:bg-evidence-ink disabled:hover:bg-evidence",
   /* Outline-ink — secondary actions sitting beside a primary. */
   secondary:
     "border border-ink/25 bg-transparent text-ink hover:border-ink hover:bg-ink/5 " +
     "disabled:hover:border-ink/25 disabled:hover:bg-transparent",
-  /* Gold — max ONE highlighted CTA per page (§3.1). */
-  /* --gold-bright, not --gold: a large fill wants the lighter yellow behind
-     dark text. The darkened --gold is for gold TEXT on light surfaces. */
-  gold: "bg-gold-bright text-ink hover:bg-gold-bright/90 disabled:hover:bg-gold-bright",
+  /* `gold` retired — aliased to primary so any lingering reference still
+     renders a valid green button rather than an invisible one. */
+  gold: "bg-evidence text-paper hover:bg-evidence-ink disabled:hover:bg-evidence",
 } as const;
 
 const sizes = {
