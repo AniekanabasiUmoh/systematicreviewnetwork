@@ -91,6 +91,28 @@ export async function getLatestResources(limit = 3) {
   return data ?? [];
 }
 
+/**
+ * Looks up a media row by its storage path and returns the public URL plus the
+ * stored alt text. Going through the table rather than hardcoding a URL means
+ * alt text travels with the image and staff can swap the file from the admin
+ * (Sprint 5.2) without a code change.
+ */
+export async function getMedia(storagePath: string) {
+  const { data } = await db
+    .from("media")
+    .select("storage_path, alt_text, width, height")
+    .eq("storage_path", storagePath)
+    .maybeSingle();
+
+  if (!data) return null;
+  return {
+    url: `${url}/storage/v1/object/public/media/${data.storage_path}`,
+    alt: data.alt_text,
+    width: data.width,
+    height: data.height,
+  };
+}
+
 export async function getLatestNews(limit = 3) {
   const { data } = await db
     .from("news")

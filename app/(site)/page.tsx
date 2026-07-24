@@ -36,6 +36,7 @@ import {
   getUpcomingEvents,
   getLatestResources,
   getSeatCounts,
+  getMedia,
 } from "@/lib/queries";
 
 /* Sprint 2.1 — the homepage. All 13 sections in Design.md §5 order, exactly.
@@ -122,6 +123,8 @@ export default async function HomePage() {
     testimonials,
     events,
     resources,
+    ctaImage,
+    heroMedia,
   ] = await Promise.all([
     getHomepage(),
     getImpactStats(),
@@ -130,6 +133,8 @@ export default async function HomePage() {
     getTestimonials(1),
     getUpcomingEvents(3),
     getLatestResources(3),
+    getMedia("workshop-full-room.jpg"),
+    getMedia("hero-facilitator-presenting.jpg"),
   ]);
 
   const seats = await getSeatCounts(events.map((e) => e.id));
@@ -140,7 +145,9 @@ export default async function HomePage() {
       {/* ── 1. Hero ─────────────────────────────────────────────────────── */}
       <OverlayImage
         src={homepage?.hero_image_url}
-        alt={homepage?.hero_image_url ? "SRN training session" : ""}
+        /* Alt text comes from the media row, so it travels with the image and
+           staff can change both together from the admin (Sprint 5.2). */
+        alt={homepage?.hero_image_url ? (heroMedia?.alt ?? "") : ""}
         width={2400}
         height={900}
         priority
@@ -148,9 +155,12 @@ export default async function HomePage() {
         <Container>
           <div className="relative py-24 md:py-32">
             {/* §3.4 — the small monochrome reach-map echo, behind the hero. */}
+            {/* Sits above the photo overlay (which is z-0) but below the
+                headline, so it reads as a faint watermark rather than
+                disappearing into the darkened image. */}
             <div
               aria-hidden
-              className="pointer-events-none absolute inset-y-0 right-0 hidden w-1/2 items-center opacity-70 lg:flex"
+              className="pointer-events-none absolute inset-y-0 right-0 z-0 hidden w-1/2 items-center opacity-40 mix-blend-screen lg:flex"
             >
               <ReachMap variant="echo" countries={countries} />
             </div>
@@ -497,6 +507,8 @@ export default async function HomePage() {
             body="[PLACEHOLDER] A supporting sentence explaining what partnering involves."
             buttonLabel={homepage?.cta_button_label ?? "Partner with SRN"}
             buttonHref={homepage?.cta_button_href ?? "/partner"}
+            imageUrl={ctaImage?.url}
+            imageAlt={ctaImage?.alt}
           />
         </Container>
       </Section>

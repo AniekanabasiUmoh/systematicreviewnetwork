@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { LucideIcon } from "lucide-react";
 import { ArrowRight, Download, ExternalLink, Link2 } from "lucide-react";
 import { Icon } from "./Icon";
@@ -325,29 +326,52 @@ export function CTABand({
   body,
   buttonLabel,
   buttonHref,
+  imageUrl,
+  imageAlt,
 }: {
   heading: string;
   body?: string;
   buttonLabel: string;
   buttonHref: string;
+  /** §3.3 — CTA bands take the same navy multiply treatment as the hero. */
+  imageUrl?: string | null;
+  imageAlt?: string;
 }) {
   return (
-    <div className="bg-ink rounded-[var(--radius-card)] px-8 py-12 text-center md:px-16 md:py-16">
-      <h2 className="text-display text-paper mx-auto max-w-[24ch] text-[1.75rem] leading-[1.2] md:text-[2.25rem] md:leading-[1.15]">
-        {heading}
-      </h2>
-      {body ? (
-        <p className="text-paper/80 mx-auto mt-4 max-w-[52ch]">{body}</p>
+    <div className="bg-ink relative overflow-hidden rounded-[var(--radius-card)] px-8 py-12 text-center md:px-16 md:py-16">
+      {imageUrl ? (
+        <>
+          <Image
+            src={imageUrl}
+            alt={imageAlt ?? ""}
+            fill
+            sizes="(max-width: 1200px) 100vw, 1200px"
+            className="object-cover"
+          />
+          <div
+            aria-hidden
+            className="bg-ink absolute inset-0 opacity-[0.78] mix-blend-multiply"
+          />
+        </>
       ) : null}
-      {/* The one gold button per page (§3.1). */}
-      <Link
-        href={buttonHref}
-        prefetch={false}
-        className="bg-gold-bright text-ink hover:bg-gold-bright/90 mt-8 inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3 font-semibold transition-colors"
-      >
-        {buttonLabel}
-        <Icon icon={ArrowRight} size="sm" />
-      </Link>
+
+      <div className="relative">
+        <h2 className="text-display text-paper mx-auto max-w-[24ch] text-[1.75rem] leading-[1.2] md:text-[2.25rem] md:leading-[1.15]">
+          {heading}
+        </h2>
+        {body ? (
+          <p className="text-paper/80 mx-auto mt-4 max-w-[52ch]">{body}</p>
+        ) : null}
+        {/* The one gold button per page (§3.1). */}
+        <Link
+          href={buttonHref}
+          prefetch={false}
+          className="bg-gold-bright text-ink hover:bg-gold-bright/90 mt-8 inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3 font-semibold transition-colors"
+        >
+          {buttonLabel}
+          <Icon icon={ArrowRight} size="sm" />
+        </Link>
+      </div>
     </div>
   );
 }
