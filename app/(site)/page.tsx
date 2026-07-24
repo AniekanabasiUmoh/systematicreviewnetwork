@@ -17,6 +17,7 @@ import {
   CTABand,
 } from "@/components/ui/Cards";
 import { registrationState, formatEventDate, formatPrice } from "@/lib/events";
+import { PROGRAMMES } from "@/lib/programmes";
 import {
   getHomepage,
   getImpactStats,
@@ -41,33 +42,14 @@ import {
 
 export const revalidate = 60;
 
-/* §5.5 — the four things SRN does, as a typographic index (not cards). */
-const PROGRAMMES = [
-  {
-    href: "/programmes#training",
-    title: "Training",
-    who: "Beginner to intermediate",
-    meta: "Structured courses",
-  },
-  {
-    href: "/programmes/mentorship",
-    title: "Mentorship",
-    who: "Active review teams",
-    meta: "Paired, live review",
-  },
-  {
-    href: "/resources",
-    title: "Resources",
-    who: "Open to everyone",
-    meta: "Guides · templates · recordings",
-  },
-  {
-    href: "/partner",
-    title: "Partnerships",
-    who: "Institutions & funders",
-    meta: "Capacity that lasts",
-  },
-];
+/* The homepage programme index draws from the shared programmes module so the
+   titles, audiences, and links stay in step with the Programmes section. */
+const HOME_PROGRAMMES = PROGRAMMES.map((p) => ({
+  href: p.slug === "mentorship" ? "/programmes/mentorship" : `/programmes/${p.slug}`,
+  title: p.title,
+  who: p.audience,
+  meta: p.duration,
+}));
 
 export default async function HomePage() {
   const [
@@ -278,9 +260,9 @@ export default async function HomePage() {
             Find the right starting point.
           </h2>
           <ul className="index-list">
-            {PROGRAMMES.map((p, i) => (
+            {HOME_PROGRAMMES.map((p, i) => (
               <li key={p.title}>
-                <Link href={p.href} prefetch={false} className="index-row">
+                <Link href={p.href} className="index-row">
                   <span className="text-display text-slate text-[1.1rem] font-light tabular-nums">
                     {String(i + 1).padStart(2, "0")}
                   </span>
