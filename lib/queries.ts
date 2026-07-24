@@ -82,6 +82,33 @@ export async function getUpcomingEvents(limit = 3) {
   return data ?? [];
 }
 
+/**
+ * All resources, newest first, optionally filtered to one category. The filter
+ * is applied in the query (not the page) so an unknown category simply returns
+ * nothing rather than erroring.
+ */
+export async function getResources(
+  category?: Database["public"]["Enums"]["resource_category"],
+) {
+  let q = db
+    .from("resources")
+    .select("*")
+    .order("created_at", { ascending: false });
+  if (category) q = q.eq("category", category);
+  const { data } = await q;
+  return data ?? [];
+}
+
+/** A single resource by slug (for the article / detail page). */
+export async function getResourceBySlug(slug: string) {
+  const { data } = await db
+    .from("resources")
+    .select("*")
+    .eq("slug", slug)
+    .maybeSingle();
+  return data;
+}
+
 export async function getLatestResources(limit = 3) {
   const { data } = await db
     .from("resources")

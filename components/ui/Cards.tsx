@@ -224,25 +224,31 @@ export function ResourceCard({
   title,
   description,
   category,
+  categoryLabel,
   href,
   kind = "article",
 }: {
   title: string;
   description?: string | null;
   category: string;
+  /** Human label for the category tag; falls back to the raw value. */
+  categoryLabel?: string;
   href: string;
-  kind?: "article" | "download" | "external";
+  kind?: "article" | "download" | "external" | "pending";
 }) {
   const external = kind === "external";
   const meta = {
     article: { icon: Link2, label: "Read the guide" },
     download: { icon: Download, label: "Download" },
     external: { icon: ExternalLink, label: "View resource" },
+    pending: { icon: Link2, label: "Details" },
   }[kind];
 
   return (
     <article className={`${card} relative flex flex-col`}>
-      <Tag hue={resourceCategoryHue[category] ?? "neutral"}>{category}</Tag>
+      <Tag hue={resourceCategoryHue[category] ?? "neutral"}>
+        {categoryLabel ?? category}
+      </Tag>
       <h3 className="text-ink mt-3 text-[1.0625rem] leading-snug font-semibold">
         <a
           href={href}

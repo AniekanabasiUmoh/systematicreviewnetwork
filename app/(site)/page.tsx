@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/Cards";
 import { registrationState, formatEventDate, formatPrice } from "@/lib/events";
 import { PROGRAMMES } from "@/lib/programmes";
+import { categoryLabel, resourceHref, resourceKind } from "@/lib/resources";
 import {
   getHomepage,
   getImpactStats,
@@ -411,18 +412,9 @@ export default async function HomePage() {
                   title={r.title}
                   description={r.description}
                   category={r.category}
-                  href={
-                    r.body_rich
-                      ? `/resources/${r.slug}`
-                      : (r.file_url ?? r.external_url ?? `/resources/${r.slug}`)
-                  }
-                  kind={
-                    r.body_rich
-                      ? "article"
-                      : r.file_url
-                        ? "download"
-                        : "external"
-                  }
+                  categoryLabel={categoryLabel(r.category)}
+                  href={resourceHref(r)}
+                  kind={resourceKind(r)}
                 />
               ))}
             </div>
