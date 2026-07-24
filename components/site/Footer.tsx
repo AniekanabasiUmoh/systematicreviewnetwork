@@ -60,6 +60,25 @@ const COLUMNS = [
   },
 ];
 
+const NOT_BUILT_YET = new Set([
+  "/about",
+  "/programmes",
+  "/resources",
+  "/impact",
+  "/news",
+  "/team",
+  "/partner",
+  "/contact",
+  "/privacy",
+  "/terms",
+  "/faq",
+]);
+
+/* See Header: prefetching routes that do not exist yet fires a 404 each.
+   Remove entries as Sprints 2.2-2.7 land. */
+const prefetchFor = (href: string) =>
+  NOT_BUILT_YET.has(href) ? false : undefined;
+
 const POLICIES = [
   { href: "/privacy", label: "Privacy" },
   { href: "/terms", label: "Terms" },
@@ -113,6 +132,7 @@ export function Footer() {
                   <li key={l.href}>
                     <Link
                       href={l.href}
+                      prefetch={prefetchFor(l.href)}
                       className="text-paper/80 hover:text-paper text-small transition-colors"
                     >
                       {l.label}
@@ -151,7 +171,7 @@ export function Footer() {
               </div>
               <p
                 id="newsletter-status"
-                className="text-paper/50 mt-2 text-[0.75rem]"
+                className="text-paper/60 mt-2 text-[0.75rem]"
               >
                 [PLACEHOLDER] Sign-up opens when the site goes live.
               </p>
@@ -169,6 +189,7 @@ export function Footer() {
               <li key={p.href}>
                 <Link
                   href={p.href}
+                  prefetch={prefetchFor(p.href)}
                   className="text-paper/60 hover:text-paper text-[0.8125rem] transition-colors"
                 >
                   {p.label}

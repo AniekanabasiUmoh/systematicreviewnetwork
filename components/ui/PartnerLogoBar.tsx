@@ -40,14 +40,19 @@ export function PartnerLogoBar({
           return (
             <li key={p.name}>
               {p.url ? (
+                /* No aria-label: the placeholder block already exposes the
+                   partner name via role="img"/aria-label, and a real logo
+                   carries it in alt text. An aria-label here would replace
+                   that name rather than match it, which axe flags as a
+                   label/content mismatch. */
                 <a
                   href={p.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={p.name}
                   className="block"
                 >
                   {logo}
+                  <span className="sr-only">{p.name}</span>
                 </a>
               ) : (
                 logo

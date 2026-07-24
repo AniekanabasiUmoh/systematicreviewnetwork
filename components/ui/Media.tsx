@@ -35,7 +35,9 @@ export function PlaceholderBlock({
       <span className="px-3 text-center text-[0.75rem] font-medium">
         [PLACEHOLDER]
         <br />
-        <span className="text-[0.6875rem] font-normal opacity-70">
+        {/* No opacity here: --slate at 70% measures 2.83:1 on --mist and fails
+            AA. Full --slate is 5.07:1. */}
+        <span className="text-[0.6875rem] font-normal">
           {width}×{height}
           {label ? ` · ${label}` : ""}
         </span>

@@ -129,8 +129,11 @@ export function ProgrammeCard({
         <Icon icon={icon} size="lg" color="evidence" />
       </span>
       <h3 className="text-ink mt-4 text-[1.25rem] leading-snug font-semibold">
+        {/* prefetch disabled: programme subpages land in Sprint 2.3, and
+            prefetching a route that does not exist yet fires a 404. */}
         <Link
           href={href}
+          prefetch={false}
           className="hover:text-evidence after:absolute after:inset-0"
         >
           {title}
@@ -339,7 +342,8 @@ export function CTABand({
       {/* The one gold button per page (§3.1). */}
       <Link
         href={buttonHref}
-        className="bg-gold text-ink hover:bg-gold/90 mt-8 inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3 font-semibold transition-colors"
+        prefetch={false}
+        className="bg-gold-bright text-ink hover:bg-gold-bright/90 mt-8 inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3 font-semibold transition-colors"
       >
         {buttonLabel}
         <Icon icon={ArrowRight} size="sm" />

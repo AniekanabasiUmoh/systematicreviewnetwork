@@ -18,7 +18,9 @@ const variants = {
     "border border-ink/25 bg-transparent text-ink hover:border-ink hover:bg-ink/5 " +
     "disabled:hover:border-ink/25 disabled:hover:bg-transparent",
   /* Gold — max ONE highlighted CTA per page (§3.1). */
-  gold: "bg-gold text-ink hover:bg-gold/90 disabled:hover:bg-gold",
+  /* --gold-bright, not --gold: a large fill wants the lighter yellow behind
+     dark text. The darkened --gold is for gold TEXT on light surfaces. */
+  gold: "bg-gold-bright text-ink hover:bg-gold-bright/90 disabled:hover:bg-gold-bright",
 } as const;
 
 const sizes = {

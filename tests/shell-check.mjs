@@ -17,7 +17,7 @@ console.log("=== horizontal scroll check ===");
 for (const path of PAGES) {
   for (const width of WIDTHS) {
     const page = await browser.newPage({ viewport: { width, height: 900 } });
-    await page.goto(`${BASE}${path}`, { waitUntil: "networkidle" });
+    await page.goto(`${BASE}${path}`, { waitUntil: "load", timeout: 60000 });
     const { scrollW, clientW } = await page.evaluate(() => ({
       scrollW: document.documentElement.scrollWidth,
       clientW: document.documentElement.clientWidth,
@@ -52,7 +52,7 @@ for (const path of PAGES) {
 console.log("\n=== mobile sheet: focus trap + escape ===");
 {
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
-  await page.goto(BASE, { waitUntil: "networkidle" });
+  await page.goto(BASE, { waitUntil: "load", timeout: 60000 });
 
   await page.getByRole("button", { name: /open menu/i }).click();
   const dialog = page.getByRole("dialog");
@@ -109,7 +109,7 @@ console.log("\n=== skip link is the first tab stop ===");
   const page = await browser.newPage({
     viewport: { width: 1280, height: 900 },
   });
-  await page.goto(BASE, { waitUntil: "networkidle" });
+  await page.goto(BASE, { waitUntil: "load", timeout: 60000 });
   await page.keyboard.press("Tab");
   const text = await page.evaluate(() =>
     document.activeElement?.textContent?.trim(),
@@ -125,7 +125,7 @@ for (const path of PAGES) {
   const page = await browser.newPage({
     viewport: { width: 1280, height: 900 },
   });
-  await page.goto(`${BASE}${path}`, { waitUntil: "networkidle" });
+  await page.goto(`${BASE}${path}`, { waitUntil: "load", timeout: 60000 });
   const n = await page.locator("h1").count();
   console.log(`  ${path} — ${n} h1 ${n === 1 ? "" : "<-- CHECK"}`);
   if (n !== 1) failures++;

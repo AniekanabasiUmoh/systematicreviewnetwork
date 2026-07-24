@@ -22,6 +22,24 @@ const NAV = [
 
 const HIGHLIGHT = { href: "/partner", label: "Partner with SRN" };
 
+/* Routes still to be built (Sprints 2.2–2.7). Next prefetches every visible
+   <Link> on load, so linking to a route that does not exist yet fires a 404 per
+   item and fills the console. Prefetch is disabled for these until the pages
+   land; delete this set as each sprint completes. */
+const NOT_BUILT_YET = new Set([
+  "/about",
+  "/programmes",
+  "/resources",
+  "/impact",
+  "/team",
+  "/news",
+  "/contact",
+  "/partner",
+]);
+
+const prefetchFor = (href: string) =>
+  NOT_BUILT_YET.has(href) ? false : undefined;
+
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
@@ -108,9 +126,13 @@ export function Header() {
         <Link
           href="/"
           className="text-display-tight text-brand shrink-0 text-[1.375rem] tracking-[-0.02em]"
-          aria-label="Systematic Reviews Network — home"
         >
+          {/* The accessible name must contain the visible text ("SRN"), so the
+              expansion is visually-hidden text rather than an aria-label that
+              replaces it — otherwise voice-control users saying "click SRN"
+              cannot match the element. */}
           SRN
+          <span className="sr-only"> — Systematic Reviews Network, home</span>
         </Link>
 
         <nav aria-label="Main" className="hidden lg:block">
@@ -119,6 +141,7 @@ export function Header() {
               <li key={item.href}>
                 <Link
                   href={item.href}
+                  prefetch={prefetchFor(item.href)}
                   aria-current={isActive(item.href) ? "page" : undefined}
                   className={`text-small font-medium transition-colors ${
                     isActive(item.href)
@@ -136,6 +159,7 @@ export function Header() {
         <div className="flex items-center gap-3">
           <Link
             href={HIGHLIGHT.href}
+            prefetch={prefetchFor(HIGHLIGHT.href)}
             className="bg-evidence text-paper hover:bg-evidence/90 text-small hidden rounded-lg px-4 py-2 font-semibold transition-colors lg:inline-flex"
           >
             {HIGHLIGHT.label}
@@ -199,6 +223,7 @@ export function Header() {
             </ul>
             <Link
               href={HIGHLIGHT.href}
+              prefetch={prefetchFor(HIGHLIGHT.href)}
               className="bg-evidence text-paper mt-6 flex items-center justify-center rounded-lg px-5 py-3 font-semibold"
             >
               {HIGHLIGHT.label}

@@ -54,6 +54,7 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
       contact_messages: {
         Row: {
@@ -83,6 +84,7 @@ export type Database = {
           type?: Database["public"]["Enums"]["contact_type"];
           created_at?: string;
         };
+        Relationships: [];
       };
       donations: {
         Row: {
@@ -121,6 +123,7 @@ export type Database = {
           paid_at?: string | null;
           created_at?: string;
         };
+        Relationships: [];
       };
       events: {
         Row: {
@@ -189,6 +192,7 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
       homepage: {
         Row: {
@@ -233,6 +237,7 @@ export type Database = {
           cta_button_href?: string | null;
           updated_at?: string;
         };
+        Relationships: [];
       };
       impact_stats: {
         Row: {
@@ -259,6 +264,7 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
       media: {
         Row: {
@@ -294,6 +300,7 @@ export type Database = {
           alt_text?: string;
           created_at?: string;
         };
+        Relationships: [];
       };
       news: {
         Row: {
@@ -335,6 +342,7 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
       newsletter_signups: {
         Row: {
@@ -352,6 +360,7 @@ export type Database = {
           email?: string;
           created_at?: string;
         };
+        Relationships: [];
       };
       pages: {
         Row: {
@@ -378,6 +387,7 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
       partners: {
         Row: {
@@ -407,6 +417,7 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
       paystack_events: {
         Row: {
@@ -430,6 +441,7 @@ export type Database = {
           payload?: Json;
           processed_at?: string;
         };
+        Relationships: [];
       };
       reach_countries: {
         Row: {
@@ -456,6 +468,7 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
       registrations: {
         Row: {
@@ -500,6 +513,7 @@ export type Database = {
           paid_at?: string | null;
           created_at?: string;
         };
+        Relationships: [];
       };
       resources: {
         Row: {
@@ -544,6 +558,7 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
       team_members: {
         Row: {
@@ -588,6 +603,7 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
       testimonials: {
         Row: {
@@ -620,10 +636,12 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
     };
-    Views: Record<string, never>;
-    Functions: Record<string, never>;
+    Views: { [_ in never]: never };
+    Functions: { [_ in never]: never };
+    CompositeTypes: { [_ in never]: never };
     Enums: {
       application_status:
         "received" | "under_review" | "accepted" | "waitlisted" | "rejected";

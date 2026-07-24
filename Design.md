@@ -63,7 +63,11 @@ SRN keeps its logo: navy "SRN" wordmark + a four-color knot mark (blue, orange-r
 --ink        #191C45   darkened brand navy — body text (AA at text sizes)
 --evidence   #1F6F5C   evidence green, harmonized with the mark's green
                        — THE action color: CTAs, links, active states, focus rings
---gold       #C9A227   refined gold (the mark's yellow, darkened for text-scale use)
+--gold       #8A6D10   REVISED 2026-07-24. The #C9A227 estimate measured 2.23:1
+                       on --mist, failing WCAG AA even at 48px. This is 4.53:1.
+--gold-bright #C9A227  the original lighter yellow — large FILLS on dark surfaces
+                       only (the CTA band button), never text on light.
+--tag-yellow #7A6109   REVISED 2026-07-24 from #9A7B12 (3.63:1 on its own tint).
                        — impact numbers + max one highlighted CTA per page
 --paper      #FFFFFF   base background
 --mist       #F4F6F8   alternating section background

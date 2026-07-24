@@ -283,13 +283,16 @@ const resources = [
   },
 ];
 
+/* The [PLACEHOLDER] marker goes on the LABEL only. Putting it in `value`
+   renders it at 48px as part of the number, which is unreadable — and worse,
+   it hides whether the counter itself works. */
 const impactStats = [
-  ["Researchers trained", `${P} 200+`, 1],
-  ["Workshops delivered", `${P} 24`, 2],
-  ["Countries reached", `${P} 6`, 3],
-  ["Partner institutions", `${P} 12`, 4],
-  ["Reviews supported", `${P} 45`, 5],
-  ["Community members", `${P} 1,500+`, 6],
+  ["Researchers trained", `200+`, 1],
+  ["Workshops delivered", `24`, 2],
+  ["Countries reached", `6`, 3],
+  ["Partner institutions", `12`, 4],
+  ["Reviews supported", `45`, 5],
+  ["Community members", `1,500+`, 6],
 ];
 
 const countries = [

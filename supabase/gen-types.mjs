@@ -135,12 +135,15 @@ for (const [table, columns] of Object.entries(tables)) {
     const t = tsType(c.data_type, c.udt_name, enumNames);
     out += `          ${c.column_name}?: ${t}${c.is_nullable === "YES" ? " | null" : ""};\n`;
   }
-  out += `        };\n      };\n`;
+  /* supabase-js requires Relationships on every table. Without it the client's
+     conditional types fail to match and every row resolves to `never`. */
+  out += `        };\n        Relationships: [];\n      };\n`;
 }
 
 out += `    };
-    Views: Record<string, never>;
-    Functions: Record<string, never>;
+    Views: { [_ in never]: never };
+    Functions: { [_ in never]: never };
+    CompositeTypes: { [_ in never]: never };
     Enums: {
 `;
 for (const e of enumRows) {
