@@ -490,7 +490,7 @@ export default async function HomePage() {
               </button>
             </form>
             <p className="text-slate mt-3 text-[0.75rem]">
-              Join the list and we'll email you when new training opens.
+              Join the list and we&apos;ll email you when new training opens.
             </p>
           </div>
         </Container>

@@ -1,0 +1,414 @@
+/* Prototype-only styles. Scoped under .proto-root so they never leak into the
+   live site. Direction: "simple and elegant" — no gold, no green text.
+   Elegance comes from type, space, and photography, not colour.
+
+   Palette is near-monochrome: ink + warm paper. Green survives ONLY as a
+   single quiet CTA fill, never on text or headings (per the brief). */
+
+.proto-root {
+  --ink: #16182b; /* near-black, faint navy bias — not pure black */
+  --ink-soft: #494c63; /* secondary text (AA on white) */
+  --paper: #ffffff; /* plain white — crisp and gallery-like, not warm */
+  --paper-2: #f4f5f7; /* alternating band, cool neutral */
+  --line: #e4e5ea; /* hairline, cool */
+  --white: #ffffff;
+  --accent: #1f6f5c; /* the ONE action colour — button fills only */
+  --accent-ink: #123f34; /* pressed state */
+
+  --font-display: var(--font-archivo), "Arial Narrow", sans-serif;
+  --font-body: var(--font-inter-proto), system-ui, sans-serif;
+
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+.proto-root * {
+  box-sizing: border-box;
+}
+
+/* ── Type ──────────────────────────────────────────────────────────────── */
+.p-eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* The ESI move: same size, two weights — thin over black. */
+.p-hero-thin {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-stretch: 112%;
+  letter-spacing: -0.01em;
+  line-height: 0.98;
+  display: block;
+}
+.p-hero-black {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 112%;
+  letter-spacing: -0.02em;
+  line-height: 0.98;
+  display: block;
+}
+
+.p-h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-stretch: 110%;
+  letter-spacing: -0.015em;
+  line-height: 1.08;
+  text-wrap: balance;
+  margin: 0;
+}
+.p-h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.p-lede {
+  max-width: 60ch;
+  color: var(--ink-soft);
+}
+
+/* ── Layout ────────────────────────────────────────────────────────────── */
+.p-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+.p-section {
+  padding: clamp(64px, 9vw, 128px) 0;
+}
+.p-band-paper {
+  background: var(--paper);
+}
+.p-band-alt {
+  background: var(--paper-2);
+}
+.p-band-ink {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* Sharp corners are the rule (ESI uses border-radius:0). The ONLY rounded
+   thing is the pill button — one deliberate exception, so the roundness reads
+   as a choice rather than a default. */
+.p-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.85rem 1.5rem;
+  border-radius: 0; /* sharp, like ESI */
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition:
+    background 0.18s,
+    color 0.18s,
+    border-color 0.18s;
+  text-decoration: none;
+}
+.p-btn-primary {
+  background: var(--accent);
+  color: var(--white);
+}
+.p-btn-primary:hover {
+  background: var(--accent-ink);
+}
+/* Secondary is ink outline — no green text anywhere. */
+.p-btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--ink);
+}
+.p-btn-ghost:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+.p-btn-on-photo {
+  background: var(--white);
+  color: var(--ink);
+}
+.p-btn-on-photo:hover {
+  background: var(--ink);
+  color: var(--white);
+}
+
+/* Links in body copy: underline, ink — never green text. */
+.proto-root a.p-link {
+  color: var(--ink);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.proto-root a.p-link:hover {
+  text-decoration-color: var(--accent);
+}
+
+/* ── Hero ──────────────────────────────────────────────────────────────── */
+.p-hero {
+  position: relative;
+  min-height: 88vh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  background: var(--ink);
+}
+.p-hero img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* Ink gradient from the bottom-left where the text sits — legible without
+   flattening the whole photo. */
+.p-hero-scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      to top,
+      rgba(22, 24, 43, 0.92) 0%,
+      rgba(22, 24, 43, 0.55) 38%,
+      rgba(22, 24, 43, 0.15) 70%,
+      rgba(22, 24, 43, 0.25) 100%
+    );
+}
+.p-hero-inner {
+  position: relative;
+  padding-bottom: clamp(48px, 7vw, 96px);
+  padding-top: 120px;
+  color: var(--paper);
+}
+.p-hero h1 {
+  margin: 1.2rem 0 0;
+  font-size: clamp(2.8rem, 7vw, 5.5rem);
+  color: var(--white);
+}
+.p-hero .p-lede {
+  color: rgba(246, 243, 236, 0.85);
+  margin-top: 1.5rem;
+  font-size: 1.15rem;
+}
+
+/* Transparent nav floating over the hero (ESI pattern). */
+.p-nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28px 32px;
+  color: var(--paper);
+}
+.p-nav-links {
+  display: flex;
+  gap: 30px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+.p-nav a {
+  color: rgba(246, 243, 236, 0.9);
+  text-decoration: none;
+}
+.p-nav a:hover {
+  color: var(--white);
+}
+.p-wordmark {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 112%;
+  font-size: 1.4rem;
+  letter-spacing: -0.01em;
+  color: var(--white);
+}
+@media (max-width: 800px) {
+  .p-nav-links {
+    display: none;
+  }
+}
+
+/* ── The thread — SRN's one signature device ───────────────────────────── */
+/* A single fine woven line, derived from the knot mark, used as a divider.
+   No gold, no green: it's drawn in ink at low opacity, so it reads as texture
+   not decoration. */
+.p-thread {
+  width: 100%;
+  height: 40px;
+  display: block;
+  color: var(--line);
+}
+
+/* ── Impact band (photo-backed, ESI-style, but counters render real) ───── */
+.p-impact {
+  position: relative;
+  overflow: hidden;
+  background: var(--ink);
+}
+.p-impact img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.18;
+}
+.p-impact-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: rgba(246, 243, 236, 0.14);
+}
+@media (min-width: 720px) {
+  .p-impact-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+.p-stat {
+  background: var(--ink);
+  padding: 40px 28px;
+  color: var(--paper);
+}
+.p-stat-num {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-stretch: 110%;
+  font-size: clamp(2.4rem, 4vw, 3.2rem);
+  line-height: 1;
+  color: var(--white);
+}
+.p-stat-label {
+  margin-top: 0.6rem;
+  font-size: 0.85rem;
+  color: rgba(246, 243, 236, 0.7);
+}
+
+/* ── Split statement (breaks the card grid) ────────────────────────────── */
+.p-split {
+  display: grid;
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+}
+@media (min-width: 900px) {
+  .p-split {
+    grid-template-columns: 1fr 1fr;
+  }
+  .p-split.reverse .p-split-media {
+    order: -1;
+  }
+}
+.p-split-media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--paper-2);
+}
+.p-split-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ── Full-bleed photo section (ESI Fellowship pattern) ─────────────────── */
+.p-feature {
+  position: relative;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: var(--ink);
+}
+.p-feature img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.p-feature-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(22, 24, 43, 0.9) 0%,
+    rgba(22, 24, 43, 0.6) 50%,
+    rgba(22, 24, 43, 0.2) 100%
+  );
+}
+.p-feature-inner {
+  position: relative;
+  color: var(--paper);
+  max-width: 540px;
+  padding: 64px 0;
+}
+.p-feature-inner .p-lede {
+  color: rgba(246, 243, 236, 0.85);
+}
+
+/* ── Programme list — not cards. A typographic index (breaks the grid). ── */
+.p-index {
+  border-top: 1px solid var(--line);
+}
+.p-index-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 24px;
+  align-items: baseline;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--line);
+  text-decoration: none;
+  color: var(--ink);
+  transition: padding-left 0.2s;
+}
+.p-index-row:hover {
+  padding-left: 12px;
+}
+.p-index-num {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: 1.1rem;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+.p-index-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-stretch: 108%;
+  font-size: clamp(1.3rem, 2.6vw, 1.9rem);
+  letter-spacing: -0.01em;
+}
+.p-index-meta {
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
+@media (max-width: 640px) {
+  .p-index-meta {
+    display: none;
+  }
+}
+
+.p-reduced * {
+  animation: none !important;
+  transition: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .proto-root * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
