@@ -55,7 +55,7 @@ const PROGRAMMES = [
     icon: GraduationCap,
     title: "Training",
     blurb:
-      "[PLACEHOLDER] Structured courses that take researchers from first principles to a completed review.",
+      "Structured courses that take researchers from first principles to a completed review.",
     audience: "Beginner to intermediate",
   },
   {
@@ -63,7 +63,7 @@ const PROGRAMMES = [
     icon: Users,
     title: "Mentorship",
     blurb:
-      "[PLACEHOLDER] Paired guidance from experienced reviewers, through the whole of a live review.",
+      "Paired guidance from experienced reviewers, through the whole of a live review.",
     audience: "Active review teams",
   },
   {
@@ -71,7 +71,7 @@ const PROGRAMMES = [
     icon: BookOpen,
     title: "Resources",
     blurb:
-      "[PLACEHOLDER] Guides, templates, and recorded sessions, free to use and openly available.",
+      "Guides, templates, and recorded sessions, free to use and openly available.",
     audience: "Everyone",
   },
   {
@@ -79,7 +79,7 @@ const PROGRAMMES = [
     icon: Handshake,
     title: "Partnerships",
     blurb:
-      "[PLACEHOLDER] Working with institutions to build evidence synthesis capacity that lasts.",
+      "Working with institutions to build evidence synthesis capacity that lasts.",
     audience: "Institutions and funders",
   },
 ];
@@ -175,7 +175,7 @@ export default async function HomePage() {
               </h1>
               <p className="text-paper/85 mt-5 max-w-[46ch] text-[1.0625rem] leading-relaxed">
                 {homepage?.hero_subheading ??
-                  "[PLACEHOLDER] The capacity-building sentence from the brief."}
+                  "We build capacity for systematic reviews and meta-analyses across low- and middle-income countries."}
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <ButtonLink href="/programmes" prefetch={false} size="lg">
@@ -225,7 +225,7 @@ export default async function HomePage() {
             <Eyebrow>About SRN</Eyebrow>
             <p className="text-ink prose-measure mt-4 text-[1.25rem] leading-[1.55]">
               {homepage?.about_paragraph ??
-                "[PLACEHOLDER] A single paragraph about SRN, as it appears on the homepage."}
+                "The Systematic Reviews Network builds capacity for evidence synthesis across low- and middle-income countries through training, mentorship, and research collaboration."}
             </p>
             <Link
               href="/about"
@@ -295,7 +295,7 @@ export default async function HomePage() {
               </h2>
               <p className="text-slate prose-measure mt-4 leading-relaxed">
                 {homepage?.explainer_body ??
-                  "[PLACEHOLDER] A three-sentence plain-language explanation of what a systematic review is and why it matters."}
+                  "A systematic review answers a clear question by finding and appraising all the relevant studies using explicit, reproducible methods. Every decision is documented, so the conclusion can be trusted and repeated."}
               </p>
               <ButtonLink
                 href="/resources?category=guide"
@@ -334,7 +334,7 @@ export default async function HomePage() {
           <SectionHeader
             eyebrow="Programmes"
             heading="Start with a course built for your stage"
-            lede="[PLACEHOLDER] A sentence introducing the featured programmes."
+            lede="Courses and programmes built for every stage, from your first review to your most advanced meta-analysis."
           />
           <div className="mt-10 grid gap-4 md:grid-cols-3">
             {PROGRAMMES.slice(0, 3).map((p) => (
@@ -490,7 +490,7 @@ export default async function HomePage() {
               </button>
             </form>
             <p className="text-slate mt-3 text-[0.75rem]">
-              [PLACEHOLDER] Sign-up opens when the site goes live.
+              Join the list and we'll email you when new training opens.
             </p>
           </div>
         </Container>
@@ -504,7 +504,7 @@ export default async function HomePage() {
               homepage?.cta_heading ??
               "Bring evidence synthesis training to your institution."
             }
-            body="[PLACEHOLDER] A supporting sentence explaining what partnering involves."
+            body="Host a workshop, sponsor researchers, or co-create evidence with SRN. We work with institutions and funders across LMICs."
             buttonLabel={homepage?.cta_button_label ?? "Partner with SRN"}
             buttonHref={homepage?.cta_button_href ?? "/partner"}
             imageUrl={ctaImage?.url}

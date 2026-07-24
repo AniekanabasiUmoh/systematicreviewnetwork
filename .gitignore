@@ -44,3 +44,4 @@ yarn-error.log*
 # that can be re-fetched with `npm run wp:export -- --download`.
 /wordpress-export/images/
 /wordpress-export/logos/
+/wordpress-export/heads/

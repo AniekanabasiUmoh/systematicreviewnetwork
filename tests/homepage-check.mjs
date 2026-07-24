@@ -30,7 +30,7 @@ console.log("=== counters render real numbers with JS DISABLED (§2.2) ===");
   );
   check(
     "real figures present",
-    /200\+|1,500\+|45/.test(joined),
+    /1,000\+|30\+|2022/.test(joined),
     joined.slice(0, 60),
   );
   await ctx.close();

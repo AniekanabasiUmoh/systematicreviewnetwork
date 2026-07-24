@@ -94,15 +94,15 @@ export function Footer() {
           <div>
             <p className="text-display-tight text-paper text-[1.5rem]">SRN</p>
             <p className="text-paper/70 text-small mt-3 max-w-[32ch] leading-relaxed">
-              [PLACEHOLDER] One sentence describing what the Systematic Reviews
-              Network does and who it serves.
+              Building capacity for systematic reviews and meta-analyses across
+              low- and middle-income countries.
             </p>
             <a
-              href="mailto:[PLACEHOLDER]"
+              href="mailto:info@systematicreviewsnetwork.org"
               className="text-paper/80 hover:text-paper text-small mt-4 inline-flex items-center gap-2"
             >
               <Icon icon={Mail} size="sm" />
-              [PLACEHOLDER] email address
+              info@systematicreviewsnetwork.org
             </a>
             <div className="mt-4 flex gap-3">
               <a
@@ -173,7 +173,7 @@ export function Footer() {
                 id="newsletter-status"
                 className="text-paper/60 mt-2 text-[0.75rem]"
               >
-                [PLACEHOLDER] Sign-up opens when the site goes live.
+                We&apos;ll email you when new training opens.
               </p>
             </form>
           </div>
