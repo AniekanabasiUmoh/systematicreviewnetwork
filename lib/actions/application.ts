@@ -12,20 +12,20 @@ import {
   RATE_LIMITED_MESSAGE,
 } from "./guard";
 import type { ActionState } from "./types";
-import { PROGRAMMES } from "@/lib/programmes";
 
 /* Sprint 4.2 — programme applications. Validated with zod (§6 fields), stored
  * with status 'received', confirmed by email ("what happens next"). The form
- * keeps the user's input on a validation error, so nothing is retyped. */
-
-const PROGRAMME_TITLES = PROGRAMMES.map((p) => p.title);
+ * keeps the user's input on a validation error, so nothing is retyped.
+ *
+ * Sprint 5.7 moved programmes into the database, which moved the validation
+ * boundary of this live public form. See findProgrammeByTitle below. */
 
 const schema = z.object({
   programme: z
     .string()
     .trim()
     .min(1, "Choose the programme you're applying to.")
-    .refine((v) => PROGRAMME_TITLES.includes(v), "Choose a listed programme."),
+    .max(180),
   full_name: z
     .string()
     .trim()
@@ -51,6 +51,31 @@ const schema = z.object({
     .max(2000, "Please keep this under 2,000 characters."),
 });
 
+/**
+ * Resolves a submitted programme title to its row — deliberately WITHOUT
+ * filtering on status or archived_at.
+ *
+ * This looks like a missing filter. It is not. The rule is: reject the
+ * *unknown*, accept the *retired*. A programme can be retired or unpublished
+ * between the moment someone loads the form and the moment they submit it;
+ * refusing that submission would lose a real application and tell the
+ * applicant, wrongly, that they picked something invalid. An unrecognised
+ * title (a crafted request, a stale bookmark from a deleted programme) still
+ * gets rejected, because no row comes back at all.
+ *
+ * Runs on the service role so it can see draft/retired rows that RLS hides
+ * from anon. It returns only an id, never content.
+ */
+async function findProgrammeByTitle(title: string) {
+  const { data } = await supabaseAdmin
+    .from("programmes")
+    .select("id")
+    .eq("title", title)
+    .limit(1)
+    .maybeSingle();
+  return data;
+}
+
 export async function submitApplication(
   _prev: ActionState,
   form: FormData,
@@ -71,6 +96,17 @@ export async function submitApplication(
     return { status: "error", fieldErrors: fieldErrorsFrom(parsed.error) };
   }
 
+  // Zod cannot do an async lookup, so the programme check sits here — after
+  // shape validation, before the rate-limit call (a bad programme name is a
+  // validation error, not something to spend a rate-limit token on).
+  const programmeRow = await findProgrammeByTitle(parsed.data.programme);
+  if (!programmeRow) {
+    return {
+      status: "error",
+      fieldErrors: { programme: "Choose a listed programme." },
+    };
+  }
+
   const limit = await checkRateLimit("application", await clientIp());
   if (!limit.ok) return { status: "error", formError: RATE_LIMITED_MESSAGE };
 
@@ -78,7 +114,9 @@ export async function submitApplication(
     parsed.data;
 
   const { error } = await supabaseAdmin.from("applications").insert({
-    programme,
+    programme, // text snapshot — never rewritten, so a later rename cannot
+    // relabel this application (§5.7 constraint 3).
+    programme_id: programmeRow.id,
     full_name,
     email,
     institution: institution ?? null,

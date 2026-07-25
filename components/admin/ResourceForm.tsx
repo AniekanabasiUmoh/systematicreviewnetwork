@@ -26,6 +26,11 @@ function localDate(value: unknown) {
 }
 
 function textValue(value: unknown) {
+  /* jsonb string arrays (programmes.covers / for_who) are edited as one item
+     per line. Without this branch they'd render as an empty textarea and the
+     next save would silently wipe the stored list. */
+  if (Array.isArray(value))
+    return value.filter((item) => typeof item === "string").join("\n");
   return typeof value === "string" || typeof value === "number"
     ? String(value)
     : "";

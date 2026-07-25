@@ -10,7 +10,14 @@ import {
 import {
   exclusiveUpperBound,
   inclusiveLowerBound,
+  getSubmission,
 } from "@/lib/admin/submissions";
+import { getResource } from "@/lib/admin/resources";
+import {
+  programmeIcon,
+  PROGRAMME_ICONS,
+  PROGRAMME_ICON_OPTIONS,
+} from "@/lib/admin/programme-icons";
 
 const mediaBase = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/media/`;
 
@@ -132,5 +139,54 @@ describe("submission date-range boundary (Lagos, UTC+01:00, no DST)", () => {
   it("returns null for a missing or malformed date", () => {
     expect(inclusiveLowerBound(undefined)).toBeNull();
     expect(exclusiveUpperBound("not-a-date")).toBeNull();
+  });
+});
+
+describe("programme icons", () => {
+  it("resolves every allowlisted name to its own component", () => {
+    for (const name of Object.keys(PROGRAMME_ICONS)) {
+      // Lucide icons are forwardRef objects, not plain functions.
+      expect(programmeIcon(name)).toBe(
+        PROGRAMME_ICONS[name as keyof typeof PROGRAMME_ICONS],
+      );
+    }
+  });
+
+  /* A stored icon name is data. A typo, a hand-edited row, or an icon removed
+     from the allowlist must degrade to the default — never crash the public
+     programmes hub. */
+  it("falls back to the default for an unknown, null, or hostile name", () => {
+    expect(programmeIcon("EvilComponent")).toBe(PROGRAMME_ICONS.GraduationCap);
+    expect(programmeIcon(null)).toBe(PROGRAMME_ICONS.GraduationCap);
+    expect(programmeIcon(undefined)).toBe(PROGRAMME_ICONS.GraduationCap);
+    expect(programmeIcon("")).toBe(PROGRAMME_ICONS.GraduationCap);
+    expect(programmeIcon("constructor")).toBe(PROGRAMME_ICONS.GraduationCap);
+    expect(programmeIcon("__proto__")).toBe(PROGRAMME_ICONS.GraduationCap);
+  });
+
+  it("offers only allowlisted names in the admin select", () => {
+    for (const option of PROGRAMME_ICON_OPTIONS) {
+      expect(Object.keys(PROGRAMME_ICONS)).toContain(option.value);
+    }
+  });
+});
+
+describe("registry lookups reject prototype-chain keys", () => {
+  /* getResource takes its key from FormData and getSubmission takes its key
+     from a URL path segment — both attacker-controlled. A plain `in` check
+     would resolve "constructor" to Object and hand it to code that then reads
+     .table / .schema off it. */
+  for (const hostile of ["constructor", "__proto__", "toString", "valueOf"]) {
+    it(`getResource(${JSON.stringify(hostile)}) is null`, () => {
+      expect(getResource(hostile)).toBeNull();
+    });
+    it(`getSubmission(${JSON.stringify(hostile)}) is null`, () => {
+      expect(getSubmission(hostile)).toBeNull();
+    });
+  }
+
+  it("still resolves genuine keys", () => {
+    expect(getResource("events")?.table).toBe("events");
+    expect(getSubmission("registrations")?.table).toBe("registrations");
   });
 });

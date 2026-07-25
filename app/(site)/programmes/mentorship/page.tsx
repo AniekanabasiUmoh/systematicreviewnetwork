@@ -8,8 +8,13 @@ import { PageHeader } from "@/components/ui/PageHeader";
 import { Eyebrow } from "@/components/ui/SectionHeader";
 import { ButtonLink } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
-import { getMedia, getTestimonials } from "@/lib/queries";
-import { getProgramme, ctaHref } from "@/lib/programmes";
+import {
+  getMedia,
+  getTestimonials,
+  getProgrammeBySlug,
+  programmeCtaHref,
+  programmeList,
+} from "@/lib/queries";
 
 /* Sprint 2.3 — the flagship Mentorship page. Permanent and linkable; richer
    than a generic programme subpage because it's the offering SRN is known for. */
@@ -46,12 +51,24 @@ const STEPS = [
 ];
 
 export default async function MentorshipPage() {
-  const programme = getProgramme("mentorship")!;
-  const [feature, testimonials] = await Promise.all([
+  const [programme, feature, testimonials] = await Promise.all([
+    getProgrammeBySlug("mentorship"),
     getMedia("workshop-full-room.jpg"),
     getTestimonials(1),
   ]);
   const testimonial = testimonials[0];
+
+  /* This page is bespoke and permanent (§2.3), so it renders even if the
+     mentorship programme row is retired or unpublished. Copy that lives on the
+     row is used when present and falls back to the page's own wording, so the
+     page never renders a hole. */
+  const applyHref = programme
+    ? programmeCtaHref(programme)
+    : "/programmes/apply?p=mentorship";
+  const covers = programmeList(programme?.covers);
+  const intro =
+    programme?.intro ??
+    "The Mentorship Programme pairs you with an experienced reviewer for the length of a live review — so the methodological choices that usually cause second-guessing are made with someone who has made them before.";
 
   return (
     <>
@@ -70,7 +87,7 @@ export default async function MentorshipPage() {
             <div>
               <Eyebrow>Why mentorship</Eyebrow>
               <p className="text-ink mt-4 text-[1.25rem] leading-[1.55]">
-                {programme.intro}
+                {intro}
               </p>
               <p className="text-slate mt-5 leading-relaxed">
                 A first systematic review is rarely stopped by a lack of
@@ -84,8 +101,8 @@ export default async function MentorshipPage() {
             <div className="border-hairline bg-mist border p-8">
               <div className="grid grid-cols-3 gap-px">
                 {[
-                  ["Format", programme.format],
-                  ["Duration", programme.duration],
+                  ["Format", programme?.format ?? "Online, one-to-one"],
+                  ["Duration", programme?.duration ?? "Up to 6 months"],
                   ["For", "Live reviews"],
                 ].map(([label, value]) => (
                   <div key={label}>
@@ -96,28 +113,37 @@ export default async function MentorshipPage() {
                   </div>
                 ))}
               </div>
-              <hr className="border-hairline my-6" />
-              <p className="text-eyebrow-style text-slate">What&apos;s included</p>
-              <ul className="mt-4 space-y-3">
-                {programme.covers.map((c) => (
-                  <li key={c} className="text-ink flex gap-3 leading-relaxed">
-                    <Icon
-                      icon={Check}
-                      size="sm"
-                      color="evidence"
-                      className="mt-1 shrink-0"
-                    />
-                    {c}
-                  </li>
-                ))}
-              </ul>
+              {covers.length > 0 ? (
+                <>
+                  <hr className="border-hairline my-6" />
+                  <p className="text-eyebrow-style text-slate">
+                    What&apos;s included
+                  </p>
+                  <ul className="mt-4 space-y-3">
+                    {covers.map((c) => (
+                      <li
+                        key={c}
+                        className="text-ink flex gap-3 leading-relaxed"
+                      >
+                        <Icon
+                          icon={Check}
+                          size="sm"
+                          color="evidence"
+                          className="mt-1 shrink-0"
+                        />
+                        {c}
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              ) : null}
               <ButtonLink
-                href={ctaHref(programme)}
+                href={applyHref}
                 prefetch={false}
                 size="lg"
                 className="mt-8 w-full"
               >
-                {programme.cta.label}
+                {programme?.cta_label ?? "Apply for mentorship"}
               </ButtonLink>
             </div>
           </div>
@@ -191,12 +217,12 @@ export default async function MentorshipPage() {
               </p>
             </div>
             <ButtonLink
-              href={ctaHref(programme)}
+              href={applyHref}
               prefetch={false}
               size="lg"
               className="shrink-0"
             >
-              {programme.cta.label}
+              {programme?.cta_label ?? "Apply for mentorship"}
             </ButtonLink>
           </div>
           <p className="mt-10">

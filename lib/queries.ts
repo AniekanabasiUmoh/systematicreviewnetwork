@@ -259,6 +259,53 @@ export async function getLatestNews(limit = 3) {
   return data ?? [];
 }
 
+/* ── Programmes (Sprint 5.7) ───────────────────────────────────────────────
+ * Programmes moved out of lib/programmes.ts and into the database, so adding
+ * an Academy is a row rather than a deploy. RLS already restricts anon reads
+ * to published, non-archived rows; the explicit filters here keep the intent
+ * legible at the call site and hold if a policy is ever loosened. */
+
+export type ProgrammeRow =
+  Database["public"]["Tables"]["programmes"]["Row"];
+
+/** `covers` and `for_who` are jsonb arrays; normalise to string[] for render. */
+export function programmeList(value: unknown): string[] {
+  return Array.isArray(value)
+    ? value.filter((item): item is string => typeof item === "string")
+    : [];
+}
+
+export async function getProgrammes() {
+  const { data } = await db
+    .from("programmes")
+    .select("*")
+    .eq("status", "published")
+    .is("archived_at", null)
+    .order("sort_order", { ascending: true });
+  return data ?? [];
+}
+
+export async function getProgrammeBySlug(slug: string) {
+  const { data } = await db
+    .from("programmes")
+    .select("*")
+    .eq("slug", slug)
+    .eq("status", "published")
+    .is("archived_at", null)
+    .maybeSingle();
+  return data;
+}
+
+/** Resolves a programme's CTA to its href (was ctaHref in lib/programmes.ts). */
+export function programmeCtaHref(programme: {
+  slug: string;
+  cta_kind: string;
+}): string {
+  return programme.cta_kind === "partner"
+    ? "/partner"
+    : `/programmes/apply?p=${programme.slug}`;
+}
+
 /**
  * Seats held per event — confirmed payments plus free registrations (§13.2).
  * Pending payments deliberately do NOT count, so an abandoned checkout never

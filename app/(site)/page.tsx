@@ -12,13 +12,11 @@ import { Thread } from "@/components/ui/Thread";
 import { Icon } from "@/components/ui/Icon";
 import { NewsletterForm } from "@/components/site/NewsletterForm";
 import {
-  EventCard,
   ResourceCard,
   TestimonialBlock,
   CTABand,
 } from "@/components/ui/Cards";
-import { registrationState, formatEventDate, formatPrice } from "@/lib/events";
-import { PROGRAMMES } from "@/lib/programmes";
+import { formatEventDate, formatPrice } from "@/lib/events";
 import { categoryLabel, resourceHref, resourceKind } from "@/lib/resources";
 import {
   getHomepage,
@@ -27,7 +25,7 @@ import {
   getTestimonials,
   getUpcomingEvents,
   getLatestResources,
-  getSeatCounts,
+  getProgrammes,
   getMedia,
   getMediaByUrl,
 } from "@/lib/queries";
@@ -44,14 +42,10 @@ import {
 
 export const revalidate = 60;
 
-/* The homepage programme index draws from the shared programmes module so the
-   titles, audiences, and links stay in step with the Programmes section. */
-const HOME_PROGRAMMES = PROGRAMMES.map((p) => ({
-  href: p.slug === "mentorship" ? "/programmes/mentorship" : `/programmes/${p.slug}`,
-  title: p.title,
-  who: p.audience,
-  meta: p.duration,
-}));
+/* The homepage programme index reads the same published rows as the Programmes
+   hub (Sprint 5.7), so the two can never drift apart. */
+const programmeHref = (slug: string) =>
+  slug === "mentorship" ? "/programmes/mentorship" : `/programmes/${slug}`;
 
 export default async function HomePage() {
   const [
@@ -65,6 +59,7 @@ export default async function HomePage() {
     impactPhoto,
     mentorPhoto,
     aboutPhoto,
+    programmes,
   ] = await Promise.all([
     getHomepage(),
     getImpactStats(),
@@ -76,9 +71,9 @@ export default async function HomePage() {
     getMedia("award-of-honour.jpg"),
     getMedia("award-of-honour.jpg"),
     getMedia("workshop-full-room.jpg"),
+    getProgrammes(),
   ]);
 
-  const seats = await getSeatCounts(events.map((e) => e.id));
   const testimonial = testimonials[0];
 
   /* Image and alt must describe the SAME picture: resolve the hero's alt from
@@ -262,9 +257,9 @@ export default async function HomePage() {
             Find the right starting point.
           </h2>
           <ul className="index-list">
-            {HOME_PROGRAMMES.map((p, i) => (
-              <li key={p.title}>
-                <Link href={p.href} className="index-row">
+            {programmes.map((p, i) => (
+              <li key={p.slug}>
+                <Link href={programmeHref(p.slug)} className="index-row">
                   <span className="text-display text-slate text-[1.1rem] font-light tabular-nums">
                     {String(i + 1).padStart(2, "0")}
                   </span>
@@ -272,9 +267,9 @@ export default async function HomePage() {
                     <span className="text-display text-ink block text-[clamp(1.3rem,2.6vw,1.9rem)] font-bold leading-tight">
                       {p.title}
                     </span>
-                    <span className="text-slate text-small">{p.who}</span>
+                    <span className="text-slate text-small">{p.audience}</span>
                   </span>
-                  <span className="index-meta-end text-small">{p.meta}</span>
+                  <span className="index-meta-end text-small">{p.duration}</span>
                 </Link>
               </li>
             ))}

@@ -1,48 +1,61 @@
-import {
-  GraduationCap,
-  Users,
-  BookOpen,
-  Presentation,
-  Building2,
-  type LucideIcon,
-} from "lucide-react";
+/**
+ * One-time data migration: lib/programmes.ts → the `programmes` table
+ * (Sprint 5.7).
+ *
+ *   node supabase/seed-programmes.mjs
+ *
+ * Idempotent via `on conflict (slug) do nothing`, so re-running never
+ * duplicates and never overwrites staff edits made after the first run.
+ *
+ * This is REAL published content, not [PLACEHOLDER] seed data — it is the copy
+ * currently live on the site. The five slugs are reproduced verbatim: they are
+ * live public URLs, and changing one breaks every inbound link to it.
+ */
+import { readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+import pg from "pg";
 
-/* The five SRN programmes (§5.2). Programmes are NOT a database entity — they
-   are structural offerings whose shape rarely changes — so they live here as
-   the single source of truth shared by the homepage index, the Programmes hub,
-   and each subpage. Content is real and grounded in what SRN does; no invented
-   figures.
+const here = dirname(fileURLToPath(import.meta.url));
 
-   CTA `kind` decides where the button routes:
-     - "apply"   → /programmes/apply (application intake, wired in Phase 4)
-     - "interest"→ /programmes/apply?p=<slug> (register interest, same form)
-     - "partner" → /partner (institutional request)
-   Until Phase 4 the apply route is a stub; the links are correct now. */
+function loadEnv() {
+  const env = {};
+  try {
+    const raw = readFileSync(join(here, "..", ".env"), "utf8");
+    for (const line of raw.split("\n")) {
+      const m = line.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*)$/);
+      if (m) env[m[1]] = m[2].trim().replace(/^["']|["']$/g, "");
+    }
+  } catch {
+    /* fall through */
+  }
+  return { ...process.env, ...env };
+}
 
-export type ProgrammeCTA = "apply" | "interest" | "partner";
+const env = loadEnv();
+const projectRef = (env.NEXT_PUBLIC_SUPABASE_URL || "").match(
+  /https:\/\/([a-z0-9]+)\.supabase\.co/,
+)?.[1];
 
-export type Programme = {
-  slug: string;
-  icon: LucideIcon;
-  title: string;
-  /** One-line summary for cards and the index. */
-  tagline: string;
-  audience: string;
-  format: string;
-  duration: string;
-  /** Lead paragraph on the subpage. */
-  intro: string;
-  /** "What you'll learn / what it covers" — 4–6 concrete points. */
-  covers: string[];
-  /** Who it's for, expanded. */
-  forWho: string[];
-  cta: { kind: ProgrammeCTA; label: string };
-};
+if (!projectRef || !env.SUPABASE_DB_PASSWORD) {
+  console.error("Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_DB_PASSWORD in .env");
+  process.exit(1);
+}
 
-export const PROGRAMMES: Programme[] = [
+const client = new pg.Client({
+  host: `aws-0-${env.SUPABASE_REGION || "eu-west-1"}.pooler.supabase.com`,
+  port: 5432,
+  user: `postgres.${projectRef}`,
+  password: env.SUPABASE_DB_PASSWORD,
+  database: "postgres",
+  ssl: { rejectUnauthorized: false },
+  connectionTimeoutMillis: 30000,
+});
+
+const PROGRAMMES = [
   {
     slug: "beginner-academy",
-    icon: GraduationCap,
+    icon_name: "GraduationCap",
     title: "Beginner Academy",
     tagline: "For researchers taking on their first systematic review.",
     audience: "Students & early-career researchers",
@@ -58,16 +71,17 @@ export const PROGRAMMES: Programme[] = [
       "What critical appraisal is, and where bias hides",
       "How the pieces fit into a review you can finish",
     ],
-    forWho: [
+    for_who: [
       "Postgraduate students starting a review as part of their work",
       "Early-career researchers new to evidence synthesis",
       "Anyone who wants the foundations before joining a live review",
     ],
-    cta: { kind: "interest", label: "Register your interest" },
+    cta_kind: "interest",
+    cta_label: "Register your interest",
   },
   {
     slug: "practical-course",
-    icon: BookOpen,
+    icon_name: "BookOpen",
     title: "Practical Course",
     tagline: "Hands-on methods for teams with a review underway.",
     audience: "Active review teams",
@@ -83,18 +97,20 @@ export const PROGRAMMES: Programme[] = [
       "The principles of meta-analysis and when not to pool",
       "Reporting to PRISMA and preparing for submission",
     ],
-    forWho: [
+    for_who: [
       "Teams with a protocol and a review in progress",
       "Researchers who have completed the Beginner Academy",
       "Groups wanting facilitated time on their own review",
     ],
-    cta: { kind: "apply", label: "Apply for the next course" },
+    cta_kind: "apply",
+    cta_label: "Apply for the next course",
   },
   {
     slug: "mentorship",
-    icon: Users,
+    icon_name: "Users",
     title: "Mentorship Programme",
-    tagline: "Paired guidance from an experienced reviewer, through a live review.",
+    tagline:
+      "Paired guidance from an experienced reviewer, through a live review.",
     audience: "Researchers running a review",
     format: "Online, one-to-one",
     duration: "Up to 6 months",
@@ -107,16 +123,17 @@ export const PROGRAMMES: Programme[] = [
       "Guidance through synthesis and, where relevant, meta-analysis",
       "Support preparing the manuscript for submission",
     ],
-    forWho: [
+    for_who: [
       "Researchers with a review underway and a clear question",
       "Teams who want continuity of guidance, not one-off advice",
       "Graduates of the Practical Course ready to go it (nearly) alone",
     ],
-    cta: { kind: "apply", label: "Apply for mentorship" },
+    cta_kind: "apply",
+    cta_label: "Apply for mentorship",
   },
   {
     slug: "webinar-series",
-    icon: Presentation,
+    icon_name: "Presentation",
     title: "Webinar Series",
     tagline: "Open sessions on method and evidence, free to attend.",
     audience: "Open to everyone",
@@ -130,16 +147,17 @@ export const PROGRAMMES: Programme[] = [
       "Guest speakers from the wider evidence community",
       "Recordings added to the open resources library",
     ],
-    forWho: [
+    for_who: [
       "Anyone curious about systematic reviews",
       "Researchers wanting to keep methods current",
       "Past participants staying connected to the network",
     ],
-    cta: { kind: "interest", label: "Hear about upcoming webinars" },
+    cta_kind: "interest",
+    cta_label: "Hear about upcoming webinars",
   },
   {
     slug: "institutional-training",
-    icon: Building2,
+    icon_name: "Building2",
     title: "Institutional Training",
     tagline: "Review capacity built across a department or faculty.",
     audience: "Institutions & funders",
@@ -154,28 +172,50 @@ export const PROGRAMMES: Programme[] = [
       "Cohorts sized to your department or programme",
       "Ongoing mentorship pathways for participants",
     ],
-    forWho: [
+    for_who: [
       "Universities and research institutes",
       "Programmes and funders building synthesis capacity",
       "Departments wanting a cohort trained together",
     ],
-    cta: { kind: "partner", label: "Request training for your institution" },
+    cta_kind: "partner",
+    cta_label: "Request training for your institution",
   },
 ];
 
-export function getProgramme(slug: string): Programme | undefined {
-  return PROGRAMMES.find((p) => p.slug === slug);
-}
-
-/** Resolves a CTA to its href. Apply/interest route to the (Phase 4) intake. */
-export function ctaHref(p: Programme): string {
-  switch (p.cta.kind) {
-    case "partner":
-      return "/partner";
-    case "interest":
-      return `/programmes/apply?p=${p.slug}`;
-    case "apply":
-    default:
-      return `/programmes/apply?p=${p.slug}`;
+try {
+  await client.connect();
+  let inserted = 0;
+  for (const [i, p] of PROGRAMMES.entries()) {
+    const result = await client.query(
+      `insert into programmes
+         (slug, title, tagline, audience, format, duration, intro,
+          covers, for_who, cta_kind, cta_label, icon_name, sort_order, status)
+       values ($1,$2,$3,$4,$5,$6,$7,$8::jsonb,$9::jsonb,$10,$11,$12,$13,'published')
+       on conflict (slug) do nothing`,
+      [
+        p.slug,
+        p.title,
+        p.tagline,
+        p.audience,
+        p.format,
+        p.duration,
+        p.intro,
+        JSON.stringify(p.covers),
+        JSON.stringify(p.for_who),
+        p.cta_kind,
+        p.cta_label,
+        p.icon_name,
+        i,
+      ],
+    );
+    if (result.rowCount > 0) inserted += 1;
   }
+  console.log(
+    `Programmes: ${inserted} inserted, ${PROGRAMMES.length - inserted} already present.`,
+  );
+} catch (err) {
+  console.error(`Failed: ${err.message}`);
+  process.exit(1);
+} finally {
+  await client.end().catch(() => {});
 }

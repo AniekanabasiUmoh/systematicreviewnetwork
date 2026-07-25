@@ -137,9 +137,35 @@ export const resourceSchema = z.object({
   thumbnail_url: optionalUrl,
 });
 
-export const pageSchema = z.object({
-  title: z.string().trim().min(1, "Enter a page title.").max(180),
+/* Sprint 5.7 — `covers` and `for_who` are jsonb string arrays edited as
+   one-item-per-line textareas. Splitting here (rather than shipping a repeater
+   widget) keeps the editing model obvious; blank lines are dropped so a
+   trailing newline never becomes an empty bullet on the public page. */
+const linesToArray = z
+  .string()
+  .trim()
+  .optional()
+  .transform((value) =>
+    (value ?? "")
+      .split("\n")
+      .map((line) => line.trim())
+      .filter(Boolean),
+  );
+
+export const programmeSchema = z.object({
+  title: z.string().trim().min(1, "Enter a programme title.").max(180),
   slug,
+  tagline: optionalText(240),
+  audience: optionalText(160),
+  format: optionalText(160),
+  duration: optionalText(160),
+  intro: optionalText(2_000),
+  covers: linesToArray,
+  for_who: linesToArray,
+  cta_kind: z.enum(["apply", "interest", "partner"]),
+  cta_label: optionalText(80),
+  icon_name: z.string().trim().min(1).max(60),
+  feature_image_url: optionalUrl,
   body_rich: richTextJson,
 });
 
@@ -152,11 +178,6 @@ export const teamSchema = z.object({
   linkedin_url: optionalUrl,
   orcid_url: optionalUrl,
   group: z.enum(["executive", "scientific", "country_lead", "mentor"]),
-});
-
-export const impactSchema = z.object({
-  label: z.string().trim().min(1, "Enter a label.").max(100),
-  value: z.string().trim().min(1, "Enter a value.").max(60),
 });
 
 export const testimonialSchema = z.object({
@@ -172,38 +193,16 @@ export const partnerSchema = z.object({
   url: optionalUrl,
 });
 
-export const reachSchema = z.object({
-  country_code: z
-    .string()
-    .trim()
-    .toUpperCase()
-    .regex(/^[A-Z]{2}$/, "Use a two-letter ISO country code."),
-  country_name: z.string().trim().min(1, "Enter a country name.").max(120),
-  note: optionalText(500),
-});
-
-export const homepageSchema = z.object({
-  hero_eyebrow: optionalText(120),
-  hero_heading: optionalText(180),
-  hero_subheading: optionalText(600),
-  hero_image_url: optionalUrl,
-  about_paragraph: optionalText(4_000),
-  explainer_heading: optionalText(180),
-  explainer_body: optionalText(4_000),
-  cta_heading: optionalText(180),
-  cta_button_label: optionalText(80),
-  cta_button_href: optionalUrl,
-});
+/* Schemas for homepage, pages, impact_stats and reach_countries were removed
+   in Sprint 5.9a along with their admin screens — those tables describe the
+   website rather than SRN, and are no longer admin-editable (Design.md §8). */
 
 export const adminSchemas = {
   events: eventSchema,
   news: newsSchema,
   resources: resourceSchema,
-  pages: pageSchema,
+  programmes: programmeSchema,
   team: teamSchema,
-  impact: impactSchema,
   testimonials: testimonialSchema,
   partners: partnerSchema,
-  reach: reachSchema,
-  homepage: homepageSchema,
 } as const;

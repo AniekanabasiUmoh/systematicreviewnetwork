@@ -151,6 +151,23 @@ export async function deleteResource(
     : await requireStaffAction();
   if (!auth.ok) return auth.state;
 
+  /* §5.7 — a programme with applications is retired, never hard-deleted:
+     deleting it would orphan people's applications. The FK is ON DELETE
+     RESTRICT, so the database refuses anyway; this check exists to say so in
+     plain language, with the count, instead of surfacing a constraint error. */
+  if (resource.key === "programmes") {
+    const { count } = await supabaseAdmin
+      .from("applications")
+      .select("id", { count: "exact", head: true })
+      .eq("programme_id", id);
+    if ((count ?? 0) > 0) {
+      return {
+        status: "error",
+        formError: `This programme has ${count} application${count === 1 ? "" : "s"} against it, so it cannot be deleted. Retire it instead — it will disappear from the public site and the applications will be kept.`,
+      };
+    }
+  }
+
   const previous = await getRow(resource, id);
   const { error } = await supabaseAdmin
     .from(resource.table)
@@ -172,6 +189,49 @@ export async function deleteResource(
     String(previous?.title ?? previous?.name ?? resource.labelSingular),
   );
   return { status: "success", message: `${resource.labelSingular} deleted.` };
+}
+
+/**
+ * §5.7 — retire a programme: it leaves the public site but every application
+ * made against it is kept and still shows the title it was submitted under.
+ * The alternative (delete) is refused for any programme with applications.
+ */
+export async function retireProgramme(
+  _prev: ActionState = idle,
+  form: FormData,
+): Promise<ActionState> {
+  const auth = await requireStaffAction();
+  if (!auth.ok) return auth.state;
+
+  const id = formValue(form, "id");
+  if (!id)
+    return { status: "error", formError: "That programme could not be found." };
+
+  const resource = getResource("programmes");
+  if (!resource)
+    return { status: "error", formError: "That content type is not available." };
+
+  const previous = await getRow(resource, id);
+  const { error } = await supabaseAdmin
+    .from("programmes")
+    .update({ archived_at: new Date().toISOString(), status: "draft" })
+    .eq("id", id);
+  if (error)
+    return { status: "error", formError: "We could not retire this programme." };
+
+  const slug = String(previous?.slug ?? "");
+  revalidate(resource, slug, slug);
+  void recordAudit(
+    auth.user,
+    "status_change",
+    "programmes",
+    id,
+    `Retired ${previous?.title ?? "programme"}`,
+  );
+  return {
+    status: "success",
+    message: "Programme retired. It is no longer on the public site.",
+  };
 }
 
 export async function setPublishStatus(

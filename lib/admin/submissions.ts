@@ -182,7 +182,9 @@ export const SUBMISSION_RESOURCES: Record<SubmissionKey, SubmissionResource> =
   SUBMISSION_DEFINITIONS;
 
 export function getSubmission(key: string | null | undefined): SubmissionResource | null {
-  return key && key in SUBMISSION_RESOURCES
+  /* Object.hasOwn, not `in`: this key comes straight off the URL path in the
+     export route, and `in` walks the prototype chain. */
+  return key && Object.hasOwn(SUBMISSION_RESOURCES, key)
     ? SUBMISSION_RESOURCES[key as SubmissionKey]
     : null;
 }

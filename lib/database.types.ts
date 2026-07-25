@@ -60,6 +60,7 @@ export type Database = {
           internal_notes: Json;
           created_at: string;
           updated_at: string;
+          programme_id: string | null;
         };
         Insert: {
           id?: string;
@@ -73,6 +74,7 @@ export type Database = {
           internal_notes?: Json;
           created_at?: string;
           updated_at?: string;
+          programme_id?: string | null;
         };
         Update: {
           id?: string;
@@ -86,6 +88,7 @@ export type Database = {
           internal_notes?: Json;
           created_at?: string;
           updated_at?: string;
+          programme_id?: string | null;
         };
         Relationships: [];
       };
@@ -180,6 +183,7 @@ export type Database = {
           registration_closed_manually: boolean;
           created_at: string;
           updated_at: string;
+          programme_id: string | null;
         };
         Insert: {
           id?: string;
@@ -202,6 +206,7 @@ export type Database = {
           registration_closed_manually?: boolean;
           created_at?: string;
           updated_at?: string;
+          programme_id?: string | null;
         };
         Update: {
           id?: string;
@@ -224,6 +229,7 @@ export type Database = {
           registration_closed_manually?: boolean;
           created_at?: string;
           updated_at?: string;
+          programme_id?: string | null;
         };
         Relationships: [];
       };
@@ -503,6 +509,75 @@ export type Database = {
         };
         Relationships: [];
       };
+      programmes: {
+        Row: {
+          id: string;
+          slug: string;
+          title: string;
+          tagline: string | null;
+          audience: string | null;
+          format: string | null;
+          duration: string | null;
+          intro: string | null;
+          covers: Json;
+          for_who: Json;
+          cta_kind: string;
+          cta_label: string | null;
+          icon_name: string;
+          feature_image_url: string | null;
+          body_rich: Json | null;
+          sort_order: number;
+          status: Database["public"]["Enums"]["content_status"];
+          archived_at: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          slug: string;
+          title: string;
+          tagline?: string | null;
+          audience?: string | null;
+          format?: string | null;
+          duration?: string | null;
+          intro?: string | null;
+          covers?: Json;
+          for_who?: Json;
+          cta_kind?: string;
+          cta_label?: string | null;
+          icon_name?: string;
+          feature_image_url?: string | null;
+          body_rich?: Json | null;
+          sort_order?: number;
+          status?: Database["public"]["Enums"]["content_status"];
+          archived_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          slug?: string;
+          title?: string;
+          tagline?: string | null;
+          audience?: string | null;
+          format?: string | null;
+          duration?: string | null;
+          intro?: string | null;
+          covers?: Json;
+          for_who?: Json;
+          cta_kind?: string;
+          cta_label?: string | null;
+          icon_name?: string;
+          feature_image_url?: string | null;
+          body_rich?: Json | null;
+          sort_order?: number;
+          status?: Database["public"]["Enums"]["content_status"];
+          archived_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       rate_limits: {
         Row: {
           form: string;
@@ -752,6 +827,7 @@ export type PagesRow = Database["public"]["Tables"]["pages"]["Row"];
 export type PartnersRow = Database["public"]["Tables"]["partners"]["Row"];
 export type PaystackEventsRow = Database["public"]["Tables"]["paystack_events"]["Row"];
 export type ProfilesRow = Database["public"]["Tables"]["profiles"]["Row"];
+export type ProgrammesRow = Database["public"]["Tables"]["programmes"]["Row"];
 export type RateLimitsRow = Database["public"]["Tables"]["rate_limits"]["Row"];
 export type ReachCountriesRow = Database["public"]["Tables"]["reach_countries"]["Row"];
 export type RegistrationsRow = Database["public"]["Tables"]["registrations"]["Row"];

@@ -3,11 +3,14 @@ import type { Metadata } from "next";
 import { Section, Container } from "@/components/ui/Section";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { ApplicationForm } from "@/components/site/ApplicationForm";
-import { getProgramme, PROGRAMMES } from "@/lib/programmes";
+import { getProgrammes } from "@/lib/queries";
 
 /* Sprint 4.2 — programme application. A real form: validated, rate-limited,
  * written to `applications` with status 'received', confirmed by email. Arriving
- * from a programme page prefills that programme via ?p=<slug>. */
+ * from a programme page prefills that programme via ?p=<slug>.
+ * Sprint 5.7 — the selectable programmes come from the database. */
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Apply to a programme",
@@ -16,15 +19,15 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-const PROGRAMME_TITLES = PROGRAMMES.map((p) => p.title);
-
 export default async function ApplyPage({
   searchParams,
 }: {
   searchParams: Promise<{ p?: string }>;
 }) {
   const { p } = await searchParams;
-  const programme = p ? getProgramme(p) : undefined;
+  const programmes = await getProgrammes();
+  const titles = programmes.map((row) => row.title);
+  const programme = p ? programmes.find((row) => row.slug === p) : undefined;
 
   return (
     <>
@@ -38,7 +41,7 @@ export default async function ApplyPage({
         <Container>
           <div className="mx-auto max-w-[var(--container-prose)]">
             <ApplicationForm
-              programmes={PROGRAMME_TITLES}
+              programmes={titles}
               defaultProgramme={programme?.title}
             />
           </div>

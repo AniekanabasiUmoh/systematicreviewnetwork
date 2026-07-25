@@ -1,5 +1,6 @@
 import type { z } from "zod";
 import { adminSchemas } from "@/lib/actions/admin-schemas";
+import { PROGRAMME_ICON_OPTIONS } from "@/lib/admin/programme-icons";
 
 export type AdminFieldKind =
   | "text"
@@ -36,6 +37,7 @@ export type AdminResourceKey =
   | "events"
   | "news"
   | "resources"
+  | "programmes"
   | "team"
   | "testimonials"
   | "partners";
@@ -46,6 +48,7 @@ export type AdminResource = {
     | "events"
     | "news"
     | "resources"
+    | "programmes"
     | "team_members"
     | "testimonials"
     | "partners";
@@ -271,6 +274,116 @@ const resourceDefinitions = {
       },
     ],
   },
+  /* Sprint 5.7. Note a deliberate deviation from §8's "drag-reorder only for
+     team_members and partners": §5.7 explicitly grants programmes reorder, and
+     the later, more specific statement wins — the order programmes appear on
+     the hub is an editorial decision, not incidental insert order. */
+  programmes: {
+    key: "programmes",
+    table: "programmes",
+    labelSingular: "Programme",
+    labelPlural: "Programmes",
+    listColumns: ["title", "audience", "status"],
+    searchColumns: ["title", "tagline", "audience"],
+    orderBy: { column: "sort_order" },
+    sortColumn: "sort_order",
+    publishable: true,
+    slugColumn: "slug",
+    schema: adminSchemas.programmes,
+    revalidate: ["/", "/programmes"],
+    fields: [
+      {
+        name: "title",
+        label: "Title",
+        kind: "text",
+        required: true,
+        maxLength: 180,
+        slugFrom: "title",
+        wide: true,
+      },
+      {
+        name: "slug",
+        label: "URL slug",
+        kind: "slug",
+        required: true,
+        hint: "Changing this changes the public URL and breaks existing links.",
+      },
+      {
+        name: "icon_name",
+        label: "Icon",
+        kind: "select",
+        required: true,
+        defaultValue: "GraduationCap",
+        options: PROGRAMME_ICON_OPTIONS,
+      },
+      {
+        name: "tagline",
+        label: "Tagline",
+        kind: "text",
+        maxLength: 240,
+        hint: "One line, shown on cards and the programmes hub.",
+        wide: true,
+      },
+      { name: "audience", label: "Audience", kind: "text", maxLength: 160 },
+      { name: "format", label: "Format", kind: "text", maxLength: 160 },
+      { name: "duration", label: "Duration", kind: "text", maxLength: 160 },
+      {
+        name: "cta_kind",
+        label: "Call to action",
+        kind: "select",
+        required: true,
+        defaultValue: "apply",
+        options: [
+          { value: "apply", label: "Apply — routes to the application form" },
+          {
+            value: "interest",
+            label: "Register interest — routes to the application form",
+          },
+          { value: "partner", label: "Partner — routes to the partner page" },
+        ],
+      },
+      {
+        name: "cta_label",
+        label: "Button label",
+        kind: "text",
+        maxLength: 80,
+      },
+      {
+        name: "feature_image_url",
+        label: "Feature image",
+        kind: "image",
+        wide: true,
+      },
+      {
+        name: "intro",
+        label: "Introduction",
+        kind: "textarea",
+        maxLength: 2000,
+        hint: "The lead paragraph on the programme's own page.",
+        wide: true,
+      },
+      {
+        name: "covers",
+        label: "What it covers",
+        kind: "textarea",
+        hint: "One point per line.",
+        wide: true,
+      },
+      {
+        name: "for_who",
+        label: "Who it is for",
+        kind: "textarea",
+        hint: "One point per line.",
+        wide: true,
+      },
+      {
+        name: "body_rich",
+        label: "Additional detail",
+        kind: "richtext",
+        wide: true,
+      },
+    ],
+  },
   team: {
     key: "team",
     table: "team_members",
@@ -385,7 +498,10 @@ export const ADMIN_RESOURCES: Record<AdminResourceKey, AdminResource> =
 export function getResource(
   key: string | null | undefined,
 ): AdminResource | null {
-  return key && key in ADMIN_RESOURCES
+  /* Object.hasOwn, not `in`: the key arrives from FormData, and `in` walks the
+     prototype chain — getResource("constructor") would otherwise return
+     Object and the caller would read .table off it. */
+  return key && Object.hasOwn(ADMIN_RESOURCES, key)
     ? ADMIN_RESOURCES[key as AdminResourceKey]
     : null;
 }

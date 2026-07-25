@@ -6,12 +6,13 @@ import { PageHeader } from "@/components/ui/PageHeader";
 import { Eyebrow } from "@/components/ui/SectionHeader";
 import { CTABand } from "@/components/ui/Cards";
 import { Icon } from "@/components/ui/Icon";
-import { getMedia } from "@/lib/queries";
-import { PROGRAMMES } from "@/lib/programmes";
+import { getMedia, getProgrammes } from "@/lib/queries";
+import { programmeIcon } from "@/lib/admin/programme-icons";
 
-/* Sprint 2.3 — Programmes hub. The five offerings as a typographic index
-   (matching the homepage), each linking to its subpage. Programmes are
-   structural content (see lib/programmes.ts), not a DB entity. */
+/* Sprint 2.3 — Programmes hub. Each published programme as a typographic index
+   (matching the homepage), linking to its subpage. Sprint 5.7 moved programmes
+   from a hard-coded array into the database, so adding one is a row rather
+   than a deploy; order comes from sort_order. */
 
 export const revalidate = 60;
 
@@ -25,7 +26,10 @@ const href = (slug: string) =>
   slug === "mentorship" ? "/programmes/mentorship" : `/programmes/${slug}`;
 
 export default async function ProgrammesPage() {
-  const headerPhoto = await getMedia("workshop-session.jpg");
+  const [headerPhoto, programmes] = await Promise.all([
+    getMedia("workshop-session.jpg"),
+    getProgrammes(),
+  ]);
 
   return (
     <>
@@ -40,7 +44,7 @@ export default async function ProgrammesPage() {
       <Section surface="paper">
         <Container>
           <ul className="index-list">
-            {PROGRAMMES.map((p, i) => (
+            {programmes.map((p, i) => (
               <li key={p.slug}>
                 <Link href={href(p.slug)} className="index-row">
                   <span className="text-display text-slate text-[1.1rem] font-light tabular-nums">
@@ -48,7 +52,11 @@ export default async function ProgrammesPage() {
                   </span>
                   <span>
                     <span className="text-ink flex items-center gap-2.5">
-                      <Icon icon={p.icon} size="md" color="evidence" />
+                      <Icon
+                        icon={programmeIcon(p.icon_name)}
+                        size="md"
+                        color="evidence"
+                      />
                       <span className="text-display block text-[clamp(1.3rem,2.6vw,1.9rem)] font-bold leading-tight">
                         {p.title}
                       </span>
@@ -79,12 +87,12 @@ export default async function ProgrammesPage() {
               </h2>
             </div>
             <p className="text-slate leading-relaxed">
-              If you're new to systematic reviews, the Beginner Academy builds
-              the foundations in four weeks; the free Webinar Series is a
-              low-commitment way to see how we teach. Already running a review?
-              The Practical Course and the Mentorship Programme meet you where
-              the work is. Building capacity for a whole department? That's
-              Institutional Training.
+              If you&apos;re new to systematic reviews, start with a programme
+              that builds the foundations — or sit in on a free webinar to see
+              how we teach before committing. Already running a review? The
+              hands-on courses and one-to-one mentorship meet you where the work
+              actually is. Building capacity across a whole department is a
+              different conversation, and we scope that with you.
             </p>
           </div>
         </Container>
