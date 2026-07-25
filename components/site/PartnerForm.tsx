@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useActionState, useState } from "react";
+import { useFormStatus } from "react-dom";
 import { ArrowRight } from "lucide-react";
 import {
   TextField,
@@ -11,16 +12,16 @@ import {
 } from "@/components/ui/FormField";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
+import { submitPartnership } from "@/lib/actions/partnership";
+import { idle } from "@/lib/actions/types";
 
-/* §2.7 partnership form. Typed exactly to the `contact_messages` shape with
-   type=partnership (§6). The server action that stores the message and forwards
-   it via Resend lands in Sprint 4.3; until then this validates in the browser
-   and, on submit, is honest — it never claims to have sent anything it hasn't.
-   It offers the email fallback so an interested partner is never stuck.
-
-   Kept a client component (not a dead server form) so the fields, the required
-   states, and the character counter are all real and demonstrably correct now,
-   which is what §2.7 "partnership form typed correctly" asks for. */
+/* §2.7 / §3.1 partnership form. Wired to the real server action: it validates
+ * on the server with zod, rate-limits per IP, honours the honeypot, and stores
+ * the enquiry in contact_messages (type=partnership). Resend forwarding lands
+ * in Sprint 4.3; the write itself is live now.
+ *
+ * Progressive enhancement: the <form action> works without client JS, and
+ * useActionState layers the inline field errors and success state on top. */
 
 const INTERESTS = [
   "Host a training at our institution",
@@ -33,22 +34,42 @@ const INTERESTS = [
 const MAILTO =
   "mailto:info@systematicreviewsnetwork.org?subject=Partnership%20enquiry";
 
+function SubmitButton() {
+  const { pending } = useFormStatus();
+  return (
+    <Button type="submit" size="lg" disabled={pending}>
+      {pending ? "Sending…" : "Send enquiry"}
+      {!pending ? <Icon icon={ArrowRight} size="sm" /> : null}
+    </Button>
+  );
+}
+
 export function PartnerForm() {
+  const [state, formAction] = useActionState(submitPartnership, idle);
   const [message, setMessage] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+
+  const fieldErrors =
+    state.status === "error" ? (state.fieldErrors ?? {}) : {};
+
+  if (state.status === "success") {
+    return (
+      <FormMessage tone="success">
+        {state.message} If you&apos;d rather email us directly, we&apos;re at{" "}
+        <a href={MAILTO} className="underline">
+          info@systematicreviewsnetwork.org
+        </a>
+        .
+      </FormMessage>
+    );
+  }
 
   return (
-    <form
-      className="space-y-5"
-      onSubmit={(e) => {
-        /* No write yet (Phase 4.3). Prevent a real navigation and show the
-           honest holding state rather than pretending to have sent it. */
-        e.preventDefault();
-        setSubmitted(true);
-      }}
-      aria-describedby={submitted ? "partner-form-status" : undefined}
-    >
+    <form action={formAction} className="space-y-5">
       <Honeypot />
+
+      {state.status === "error" && state.formError ? (
+        <FormMessage tone="error">{state.formError}</FormMessage>
+      ) : null}
 
       <div className="grid gap-5 sm:grid-cols-2">
         <TextField
@@ -57,6 +78,7 @@ export function PartnerForm() {
           label="Your name"
           required
           autoComplete="name"
+          error={fieldErrors.name}
         />
         <TextField
           id="partner-email"
@@ -65,6 +87,7 @@ export function PartnerForm() {
           label="Email"
           required
           autoComplete="email"
+          error={fieldErrors.email}
         />
       </div>
 
@@ -73,6 +96,7 @@ export function PartnerForm() {
         name="institution"
         label="Institution or organisation"
         autoComplete="organization"
+        error={fieldErrors.institution}
       />
 
       <SelectField
@@ -81,6 +105,7 @@ export function PartnerForm() {
         label="What are you interested in?"
         required
         defaultValue=""
+        error={fieldErrors.interest}
       >
         <option value="" disabled>
           Choose one…
@@ -101,33 +126,18 @@ export function PartnerForm() {
         maxLength={2000}
         value={message}
         onChange={(e) => setMessage(e.target.value)}
+        error={fieldErrors.message}
       />
 
-      {submitted ? (
-        <div id="partner-form-status">
-          <FormMessage tone="success">
-            Thanks — online submission is opening here shortly. For now, please
-            send your enquiry to{" "}
-            <a href={MAILTO} className="underline">
-              info@systematicreviewsnetwork.org
-            </a>{" "}
-            and we&apos;ll get straight back to you.
-          </FormMessage>
-        </div>
-      ) : (
-        <div className="flex flex-wrap items-center gap-4 pt-1">
-          <Button type="submit" size="lg">
-            Send enquiry
-            <Icon icon={ArrowRight} size="sm" />
-          </Button>
-          <a
-            href={MAILTO}
-            className="text-ink hover:text-evidence text-small font-semibold"
-          >
-            or email us directly
-          </a>
-        </div>
-      )}
+      <div className="flex flex-wrap items-center gap-4 pt-1">
+        <SubmitButton />
+        <a
+          href={MAILTO}
+          className="text-ink hover:text-evidence text-small font-semibold"
+        >
+          or email us directly
+        </a>
+      </div>
     </form>
   );
 }

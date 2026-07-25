@@ -485,6 +485,17 @@ PAYSTACK_SECRET_KEY              (server only — initialize + verify)
 PAYSTACK_WEBHOOK_SECRET          (server only — x-paystack-signature HMAC)
 ```
 
+**Rate limiting (§3.2) — Postgres, not Upstash/KV.** Sprint 3.2 offered Upstash
+Redis or Vercel KV; we chose the project's own Postgres instead, so there is no
+extra service, no extra secret, and identical behaviour in dev and prod. A
+`rate_limits` table (RLS-on, no policies — service-role only) with a fixed
+one-hour window per (form, ip); the `bump_rate_limit()` /
+`prune_rate_limits()` SECURITY DEFINER functions are revoked from `anon` and
+`authenticated`, so only the service-role server actions can touch them. Cap:
+5 submissions / hour / form. The limiter fails **open** on infra error — a real
+person is never blocked by our own hiccup; the honeypot and zod validation still
+stand. Revisit only if volume outgrows a single-window Postgres counter.
+
 ---
 
 ## 12. Open items (need Fortune / Thorpeboss)

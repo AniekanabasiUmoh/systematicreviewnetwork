@@ -1,0 +1,78 @@
+import { z } from "zod";
+
+/* Zod schemas for public form writes (§3.1) — fields exactly per §6, with the
+ * server-side length caps §3.2 requires. These are the authoritative validation
+ * boundary: the browser checks are a convenience, these are the guarantee.
+ *
+ * Every string is trimmed first; empties then read as missing. Optional fields
+ * that come in blank are normalized to undefined so we store null, not "".
+ * Length caps are generous for humans, tight enough to blunt payload abuse. */
+
+const email = z
+  .string()
+  .trim()
+  .min(1, "Enter an email address.")
+  .max(254, "That email address is too long.")
+  .email("Enter a valid email address, like name@example.org.");
+
+const name = z
+  .string()
+  .trim()
+  .min(1, "Enter your name.")
+  .max(120, "That name is too long — 120 characters max.");
+
+/** Optional free-text: blank → undefined, capped. */
+const optionalText = (max: number) =>
+  z
+    .string()
+    .trim()
+    .max(max, `Please keep this under ${max} characters.`)
+    .optional()
+    .transform((v) => (v ? v : undefined));
+
+// §6 contact_messages — type=general (contact page) or partnership.
+export const contactSchema = z.object({
+  name,
+  email,
+  subject: optionalText(160),
+  message: z
+    .string()
+    .trim()
+    .min(1, "Enter a message so we know how to help.")
+    .max(2000, "Please keep your message under 2,000 characters."),
+  type: z.enum(["general", "partnership"]).default("general"),
+});
+export type ContactInput = z.infer<typeof contactSchema>;
+
+// The partnership form collects an "interest" line; it is prepended to the
+// stored message, since contact_messages has no dedicated interest column (§6).
+export const partnershipSchema = z.object({
+  name,
+  email,
+  institution: optionalText(160),
+  interest: z
+    .string()
+    .trim()
+    .min(1, "Choose what you're interested in.")
+    .max(120, "That value is too long."),
+  message: z
+    .string()
+    .trim()
+    .min(1, "Tell us a little about what you have in mind.")
+    .max(2000, "Please keep your message under 2,000 characters."),
+});
+export type PartnershipInput = z.infer<typeof partnershipSchema>;
+
+// §6 newsletter_signups — email only.
+export const newsletterSchema = z.object({ email });
+export type NewsletterInput = z.infer<typeof newsletterSchema>;
+
+/** Turn a ZodError into { field: firstMessage } for the ActionState. */
+export function fieldErrorsFrom(error: z.ZodError): Record<string, string> {
+  const out: Record<string, string> = {};
+  for (const issue of error.issues) {
+    const key = issue.path[0];
+    if (typeof key === "string" && !(key in out)) out[key] = issue.message;
+  }
+  return out;
+}

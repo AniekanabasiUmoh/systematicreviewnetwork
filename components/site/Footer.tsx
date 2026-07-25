@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Mail } from "lucide-react";
 import { Icon } from "@/components/ui/Icon";
+import { NewsletterForm } from "@/components/site/NewsletterForm";
 
 /* Lucide v1 removed brand icons for licensing reasons, so the two social marks
    are inline SVG. Kept local rather than pulling in a second icon package for
@@ -131,39 +132,13 @@ export function Footer() {
             </nav>
           ))}
 
-          {/* Newsletter — wired in Sprint 4.3. */}
+          {/* Newsletter — live (§3.1 / §4.3). */}
           <div>
             <h2 className="text-eyebrow-style text-paper/60">Newsletter</h2>
             <p className="text-paper/70 text-small mt-4 leading-relaxed">
               Occasional updates on training, resources, and opportunities.
             </p>
-            <form className="mt-4" aria-describedby="newsletter-status">
-              <label htmlFor="footer-email" className="sr-only">
-                Email address
-              </label>
-              <div className="flex gap-2">
-                <input
-                  id="footer-email"
-                  type="email"
-                  disabled
-                  placeholder="you@example.com"
-                  className="border-paper/25 text-paper placeholder:text-paper/40 w-full min-w-0 flex-1 border bg-transparent px-3 py-2 text-[0.8125rem] disabled:cursor-not-allowed"
-                />
-                <button
-                  type="submit"
-                  disabled
-                  className="bg-paper/15 text-paper/60 text-small px-4 py-2 font-semibold disabled:cursor-not-allowed"
-                >
-                  Subscribe
-                </button>
-              </div>
-              <p
-                id="newsletter-status"
-                className="text-paper/60 mt-2 text-[0.75rem]"
-              >
-                We&apos;ll email you when new training opens.
-              </p>
-            </form>
+            <NewsletterForm />
           </div>
         </div>
 

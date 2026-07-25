@@ -443,6 +443,48 @@ export type Database = {
         };
         Relationships: [];
       };
+      profiles: {
+        Row: {
+          id: string;
+          role: string;
+          full_name: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id: string;
+          role?: string;
+          full_name?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          role?: string;
+          full_name?: string | null;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
+      rate_limits: {
+        Row: {
+          form: string;
+          ip: string;
+          window_start: string;
+          count: number;
+        };
+        Insert: {
+          form: string;
+          ip: string;
+          window_start: string;
+          count?: number;
+        };
+        Update: {
+          form?: string;
+          ip?: string;
+          window_start?: string;
+          count?: number;
+        };
+        Relationships: [];
+      };
       reach_countries: {
         Row: {
           id: string;
@@ -643,51 +685,40 @@ export type Database = {
     Functions: { [_ in never]: never };
     CompositeTypes: { [_ in never]: never };
     Enums: {
-      application_status:
-        "received" | "under_review" | "accepted" | "waitlisted" | "rejected";
+      application_status: "received" | "under_review" | "accepted" | "waitlisted" | "rejected";
       contact_type: "general" | "partnership";
       content_status: "draft" | "published";
       currency_code: "NGN" | "USD";
       event_type: "webinar" | "course" | "mentorship" | "workshop";
       location_type: "online" | "in_person";
-      payment_status:
-        "not_required" | "pending" | "paid" | "failed" | "expired" | "refunded";
-      resource_category:
-        "guide" | "template" | "webinar" | "tool" | "publication";
+      payment_status: "not_required" | "pending" | "paid" | "failed" | "expired" | "refunded";
+      resource_category: "guide" | "template" | "webinar" | "tool" | "publication";
       team_group: "executive" | "scientific" | "country_lead" | "mentor";
     };
   };
 };
 
 /** Convenience row aliases. */
-export type ApplicationsRow =
-  Database["public"]["Tables"]["applications"]["Row"];
-export type ContactMessagesRow =
-  Database["public"]["Tables"]["contact_messages"]["Row"];
+export type ApplicationsRow = Database["public"]["Tables"]["applications"]["Row"];
+export type ContactMessagesRow = Database["public"]["Tables"]["contact_messages"]["Row"];
 export type DonationsRow = Database["public"]["Tables"]["donations"]["Row"];
 export type EventsRow = Database["public"]["Tables"]["events"]["Row"];
 export type HomepageRow = Database["public"]["Tables"]["homepage"]["Row"];
-export type ImpactStatsRow =
-  Database["public"]["Tables"]["impact_stats"]["Row"];
+export type ImpactStatsRow = Database["public"]["Tables"]["impact_stats"]["Row"];
 export type MediaRow = Database["public"]["Tables"]["media"]["Row"];
 export type NewsRow = Database["public"]["Tables"]["news"]["Row"];
-export type NewsletterSignupsRow =
-  Database["public"]["Tables"]["newsletter_signups"]["Row"];
+export type NewsletterSignupsRow = Database["public"]["Tables"]["newsletter_signups"]["Row"];
 export type PagesRow = Database["public"]["Tables"]["pages"]["Row"];
 export type PartnersRow = Database["public"]["Tables"]["partners"]["Row"];
-export type PaystackEventsRow =
-  Database["public"]["Tables"]["paystack_events"]["Row"];
-export type ReachCountriesRow =
-  Database["public"]["Tables"]["reach_countries"]["Row"];
-export type RegistrationsRow =
-  Database["public"]["Tables"]["registrations"]["Row"];
+export type PaystackEventsRow = Database["public"]["Tables"]["paystack_events"]["Row"];
+export type ProfilesRow = Database["public"]["Tables"]["profiles"]["Row"];
+export type RateLimitsRow = Database["public"]["Tables"]["rate_limits"]["Row"];
+export type ReachCountriesRow = Database["public"]["Tables"]["reach_countries"]["Row"];
+export type RegistrationsRow = Database["public"]["Tables"]["registrations"]["Row"];
 export type ResourcesRow = Database["public"]["Tables"]["resources"]["Row"];
-export type TeamMembersRow =
-  Database["public"]["Tables"]["team_members"]["Row"];
-export type TestimonialsRow =
-  Database["public"]["Tables"]["testimonials"]["Row"];
-export type ApplicationStatus =
-  Database["public"]["Enums"]["application_status"];
+export type TeamMembersRow = Database["public"]["Tables"]["team_members"]["Row"];
+export type TestimonialsRow = Database["public"]["Tables"]["testimonials"]["Row"];
+export type ApplicationStatus = Database["public"]["Enums"]["application_status"];
 export type ContactType = Database["public"]["Enums"]["contact_type"];
 export type ContentStatus = Database["public"]["Enums"]["content_status"];
 export type CurrencyCode = Database["public"]["Enums"]["currency_code"];
