@@ -2,6 +2,15 @@ import { describe, expect, it } from "vitest";
 import { lagosDateTime, slugify } from "@/lib/actions/admin-schemas";
 import { escapePostgrestSearch } from "@/lib/admin/queries";
 import { sanitizeRichText } from "@/lib/admin/richtext";
+import {
+  APPLICATION_TRANSITIONS,
+  canTransition,
+  transitionRefusal,
+} from "@/lib/admin/applications";
+import {
+  exclusiveUpperBound,
+  inclusiveLowerBound,
+} from "@/lib/admin/submissions";
 
 const mediaBase = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/media/`;
 
@@ -65,5 +74,63 @@ describe("admin content helpers", () => {
 
   it("escapes PostgREST search grammar characters", () => {
     expect(escapePostgrestSearch("alpha, beta.(%_)")).toBe("alpha beta\\%\\_");
+  });
+});
+
+describe("application status transitions", () => {
+  it("allows every declared forward transition", () => {
+    for (const [from, targets] of Object.entries(APPLICATION_TRANSITIONS)) {
+      for (const to of targets) {
+        expect(canTransition(from as never, to)).toBe(true);
+      }
+    }
+  });
+
+  it("refuses a transition that skips backward", () => {
+    expect(canTransition("accepted", "received")).toBe(false);
+    expect(canTransition("rejected", "accepted")).toBe(false);
+  });
+
+  it("refuses any transition out of a final status", () => {
+    expect(canTransition("rejected", "accepted")).toBe(false);
+    expect(canTransition("rejected", "under_review")).toBe(false);
+  });
+
+  it("gives a plain-language refusal sentence", () => {
+    expect(transitionRefusal("accepted", "received")).toMatch(
+      /cannot move directly to received/,
+    );
+  });
+});
+
+describe("submission date-range boundary (Lagos, UTC+01:00, no DST)", () => {
+  it("computes an inclusive lower bound at Lagos midnight", () => {
+    expect(inclusiveLowerBound("2026-07-25")).toBe(
+      "2026-07-24T23:00:00.000Z",
+    );
+  });
+
+  it("computes an exclusive upper bound at the NEXT day's Lagos midnight", () => {
+    expect(exclusiveUpperBound("2026-07-25")).toBe(
+      "2026-07-25T23:00:00.000Z",
+    );
+  });
+
+  it("includes a timestamp late in the Lagos day (22:30 Lagos = 21:30Z)", () => {
+    const lower = inclusiveLowerBound("2026-07-25")!;
+    const upper = exclusiveUpperBound("2026-07-25")!;
+    const lateInDay = new Date("2026-07-25T21:30:00.000Z").toISOString();
+    expect(lateInDay >= lower && lateInDay < upper).toBe(true);
+  });
+
+  it("excludes a timestamp that has rolled into the next Lagos day", () => {
+    const upper = exclusiveUpperBound("2026-07-25")!;
+    const nextDay = new Date("2026-07-25T23:30:00.000Z").toISOString();
+    expect(nextDay < upper).toBe(false);
+  });
+
+  it("returns null for a missing or malformed date", () => {
+    expect(inclusiveLowerBound(undefined)).toBeNull();
+    expect(exclusiveUpperBound("not-a-date")).toBeNull();
   });
 });

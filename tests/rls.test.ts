@@ -48,6 +48,8 @@ const SUBMISSION_TABLES = [
   "paystack_events",
   "rate_limits",
   "profiles",
+  // Sprint 5.1 — has been recording every admin mutation since; same posture.
+  "admin_audit",
 ] as const;
 
 const CONTENT_TABLES = [
@@ -126,6 +128,9 @@ describe("security-definer RPCs are not callable by anon", () => {
     ["prune_rate_limits", {}],
     ["expire_pending_registrations", {}],
     ["is_staff", {}],
+    // Sprint 5.6 — same trap as the others: revoke from public is not enough,
+    // Supabase grants EXECUTE to anon/authenticated independently.
+    ["append_application_note", { p_id: "00000000-0000-0000-0000-000000000000", p_note: {} }],
   ] as const) {
     it(`anon cannot execute ${fn}()`, async () => {
       const { error } = await anon.rpc(fn as never, args as never);
