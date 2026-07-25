@@ -1,4 +1,5 @@
 import type { Json } from "@/lib/database.types";
+import { validateStoredEmbed } from "@/lib/admin/embeds";
 
 type UnknownRecord = Record<string, unknown>;
 
@@ -13,6 +14,7 @@ const ALLOWED_NODES = new Set([
   "hardBreak",
   "text",
   "image",
+  "embed",
 ]);
 const ALLOWED_MARKS = new Set(["bold", "italic", "link"]);
 
@@ -69,6 +71,31 @@ function sanitizeNode(value: unknown): Json | null {
 
   if (node.type === "image" && !permittedImage(record(node.attrs)?.src))
     return null;
+
+  /* Embeds are re-validated from their stored URL on every sanitize pass. The
+     sanitizer is the only thing standing between stored jsonb and rendered
+     HTML, so it must not assume the paste-time check ran — the row could have
+     been written before a host was removed from the allowlist, or by a path
+     that bypassed the editor entirely.
+
+     Embeds are leaf nodes: they never have children, so we return here rather
+     than walking node.content. */
+  if (node.type === "embed") {
+    const attrs = record(node.attrs);
+    if (!attrs) return null;
+    const parsed = validateStoredEmbed(attrs);
+    if (!parsed.ok) return null;
+    return {
+      type: "embed",
+      attrs: {
+        provider: parsed.provider,
+        id: parsed.id,
+        title: parsed.title,
+        url: parsed.url,
+        inline: parsed.inline,
+      },
+    };
+  }
 
   const content = Array.isArray(node.content)
     ? node.content

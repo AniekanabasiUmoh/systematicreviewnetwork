@@ -7,6 +7,8 @@ import Image from "@tiptap/extension-image";
 import { useState } from "react";
 import { EditorToolbar } from "./EditorToolbar";
 import { MediaPicker, type MediaItem } from "./MediaPicker";
+import { EmbedDialog } from "./EmbedDialog";
+import { EmbedNode } from "./EmbedNode";
 
 export function RichTextField({
   name,
@@ -21,6 +23,7 @@ export function RichTextField({
     JSON.stringify(defaultValue ?? { type: "doc", content: [] }),
   );
   const [pickerOpen, setPickerOpen] = useState(false);
+  const [embedOpen, setEmbedOpen] = useState(false);
   const editor = useEditor({
     immediatelyRender: false,
     extensions: [
@@ -35,6 +38,7 @@ export function RichTextField({
         protocols: ["http", "https", "mailto"],
       }),
       Image.configure({ allowBase64: false }),
+      EmbedNode,
     ],
     content: defaultValue ?? { type: "doc", content: [] },
     onUpdate: ({ editor }) => setJson(JSON.stringify(editor.getJSON())),
@@ -55,6 +59,7 @@ export function RichTextField({
             <EditorToolbar
               editor={editor}
               onImage={() => setPickerOpen(true)}
+              onEmbed={() => setEmbedOpen(true)}
             />
             <EditorContent editor={editor} />
           </div>
@@ -68,6 +73,11 @@ export function RichTextField({
                 .setImage({ src: item.url, alt: item.alt_text })
                 .run()
             }
+          />
+          <EmbedDialog
+            open={embedOpen}
+            onClose={() => setEmbedOpen(false)}
+            onInsert={(attrs) => editor.chain().focus().setEmbed(attrs).run()}
           />
         </>
       ) : (

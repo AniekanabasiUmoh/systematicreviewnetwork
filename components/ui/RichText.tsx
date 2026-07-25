@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { ReactNode } from "react";
+import { Embed } from "@/components/ui/Embed";
+import type { EmbedProvider } from "@/lib/admin/embeds";
 
 /* Renders TipTap/ProseMirror JSON (the `body_rich` shape used by the `pages`,
    `news`, `resources`, and `events` tables) as styled server-rendered HTML.
@@ -22,9 +24,25 @@ type Node = {
   type: string;
   text?: string;
   content?: Node[];
-  attrs?: { level?: number; start?: number; src?: string; alt?: string } | null;
+  attrs?: {
+    level?: number;
+    start?: number;
+    src?: string;
+    alt?: string;
+    provider?: string;
+    id?: string;
+    title?: string;
+    url?: string;
+  } | null;
   marks?: Mark[] | null;
 };
+
+const EMBED_PROVIDERS = new Set([
+  "youtube",
+  "vimeo",
+  "zoom_recording",
+  "zoom_live",
+]);
 
 function isInternal(href: string) {
   return href.startsWith("/") || href.startsWith("#");
@@ -152,6 +170,22 @@ function RenderNode({ node }: { node: Node }) {
             className="h-auto w-full rounded-none"
           />
         </figure>
+      );
+    }
+
+    case "embed": {
+      const { provider, id, title, url } = node.attrs ?? {};
+      /* The sanitizer already re-validated this, but the renderer refuses
+         anything malformed rather than passing a partial triple to Embed. */
+      if (!provider || !id || !title || !url) return null;
+      if (!EMBED_PROVIDERS.has(provider)) return null;
+      return (
+        <Embed
+          provider={provider as EmbedProvider}
+          id={id}
+          title={title}
+          url={url}
+        />
       );
     }
 

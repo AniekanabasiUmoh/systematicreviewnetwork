@@ -6,9 +6,11 @@ import { Button } from "@/components/ui/Button";
 export function EditorToolbar({
   editor,
   onImage,
+  onEmbed,
 }: {
   editor: Editor;
   onImage: () => void;
+  onEmbed: () => void;
 }) {
   const action = (run: () => void) => () => run();
   const link = () => {
@@ -75,6 +77,9 @@ export function EditorToolbar({
       </Button>
       <Button type="button" variant="secondary" size="md" onClick={onImage}>
         Image
+      </Button>
+      <Button type="button" variant="secondary" size="md" onClick={onEmbed}>
+        Video
       </Button>
       <Button
         type="button"

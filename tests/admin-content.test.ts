@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { lagosDateTime, slugify } from "@/lib/actions/admin-schemas";
 import { escapePostgrestSearch } from "@/lib/admin/queries";
 import { sanitizeRichText } from "@/lib/admin/richtext";
+import { parseEmbedUrl } from "@/lib/admin/embeds";
 import {
   APPLICATION_TRANSITIONS,
   canTransition,
@@ -188,5 +189,147 @@ describe("registry lookups reject prototype-chain keys", () => {
   it("still resolves genuine keys", () => {
     expect(getResource("events")?.table).toBe("events");
     expect(getSubmission("registrations")?.table).toBe("registrations");
+  });
+});
+
+describe("parseEmbedUrl", () => {
+  it("accepts a plain YouTube watch link", () => {
+    const result = parseEmbedUrl(
+      "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "A talk",
+    );
+    expect(result).toMatchObject({
+      ok: true,
+      provider: "youtube",
+      id: "dQw4w9WgXcQ",
+      inline: true,
+    });
+  });
+
+  it("accepts a youtu.be short link", () => {
+    const result = parseEmbedUrl("https://youtu.be/dQw4w9WgXcQ", "A talk");
+    expect(result).toMatchObject({ ok: true, provider: "youtube", id: "dQw4w9WgXcQ" });
+  });
+
+  it("rejects a lookalike host (never a substring match)", () => {
+    const result = parseEmbedUrl(
+      "https://evil.com/youtube.com/watch?v=dQw4w9WgXcQ",
+      "A talk",
+    );
+    expect(result.ok).toBe(false);
+  });
+
+  it("rejects a pasted iframe rather than treating it as a link", () => {
+    const result = parseEmbedUrl(
+      '<iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ"></iframe>',
+      "A talk",
+    );
+    expect(result).toMatchObject({
+      ok: false,
+      error: expect.stringContaining("embed code"),
+    });
+  });
+
+  it("rejects a Zoom link carrying a meeting password", () => {
+    const result = parseEmbedUrl(
+      "https://zoom.us/j/123456789?pwd=secret",
+      "Live session",
+    );
+    expect(result.ok).toBe(false);
+  });
+
+  it("accepts a Zoom join link but marks it non-inline (never framed)", () => {
+    const result = parseEmbedUrl("https://zoom.us/j/123456789", "Live session");
+    expect(result).toMatchObject({
+      ok: true,
+      provider: "zoom_live",
+      inline: false,
+    });
+  });
+
+  it("rejects a missing title", () => {
+    const result = parseEmbedUrl(
+      "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "",
+    );
+    expect(result.ok).toBe(false);
+  });
+
+  it("rejects a non-https link", () => {
+    const result = parseEmbedUrl(
+      "http://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "A talk",
+    );
+    expect(result.ok).toBe(false);
+  });
+
+  it("accepts a Vimeo link", () => {
+    const result = parseEmbedUrl("https://vimeo.com/76979871", "A talk");
+    expect(result).toMatchObject({ ok: true, provider: "vimeo", id: "76979871" });
+  });
+
+  it("rejects an unrecognised provider", () => {
+    const result = parseEmbedUrl("https://example.com/video/1", "A talk");
+    expect(result.ok).toBe(false);
+  });
+});
+
+describe("sanitizeRichText — embed nodes", () => {
+  it("keeps a valid embed node and re-normalises its attrs", () => {
+    const result = sanitizeRichText({
+      type: "doc",
+      content: [
+        {
+          type: "embed",
+          attrs: {
+            provider: "youtube",
+            id: "dQw4w9WgXcQ",
+            title: "A talk",
+            url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+            inline: true,
+          },
+        },
+      ],
+    }) as { content: Array<{ type: string; attrs?: Record<string, unknown> }> };
+    expect(result.content).toHaveLength(1);
+    expect(result.content[0].attrs?.provider).toBe("youtube");
+  });
+
+  it("drops an embed node whose stored URL no longer validates", () => {
+    const result = sanitizeRichText({
+      type: "doc",
+      content: [
+        {
+          type: "embed",
+          attrs: {
+            provider: "youtube",
+            id: "dQw4w9WgXcQ",
+            title: "A talk",
+            url: "https://evil.example/embed/dQw4w9WgXcQ",
+            inline: true,
+          },
+        },
+      ],
+    }) as { content: unknown[] };
+    expect(result.content).toHaveLength(0);
+  });
+
+  it("drops an embed node with a password in its stored URL", () => {
+    const result = sanitizeRichText({
+      type: "doc",
+      content: [
+        {
+          type: "embed",
+          attrs: {
+            provider: "zoom_live",
+            id: "https://zoom.us/j/123?pwd=secret",
+            title: "Live session",
+            url: "https://zoom.us/j/123?pwd=secret",
+            inline: false,
+          },
+        },
+      ],
+    }) as { content: unknown[] };
+    expect(result.content).toHaveLength(0);
   });
 });
