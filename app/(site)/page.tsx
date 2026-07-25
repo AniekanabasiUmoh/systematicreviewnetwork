@@ -10,6 +10,7 @@ import { PartnerLogoBar } from "@/components/ui/PartnerLogoBar";
 import { Figure } from "@/components/ui/Media";
 import { Thread } from "@/components/ui/Thread";
 import { Icon } from "@/components/ui/Icon";
+import { NewsletterForm } from "@/components/site/NewsletterForm";
 import {
   EventCard,
   ResourceCard,
@@ -442,30 +443,9 @@ export default async function HomePage() {
               Occasional emails about courses, resources, and opportunities. No
               more than once a month, and you can unsubscribe any time.
             </p>
-            {/* Wired for real in Sprint 4.3. Disabled rather than silently
-                inert, so it never looks like it worked when it did not. */}
-            <form className="mx-auto mt-6 flex max-w-md flex-col gap-2 sm:flex-row">
-              <label htmlFor="home-email" className="sr-only">
-                Email address
-              </label>
-              <input
-                id="home-email"
-                type="email"
-                disabled
-                placeholder="you@example.com"
-                className="border-hairline text-ink placeholder:text-slate/60 text-small disabled:bg-mist min-w-0 flex-1 border px-3.5 py-2.5 disabled:cursor-not-allowed"
-              />
-              <button
-                type="submit"
-                disabled
-                className="bg-evidence text-paper text-small px-5 py-2.5 font-semibold disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                Subscribe
-              </button>
-            </form>
-            <p className="text-slate mt-3 text-[0.75rem]">
-              Join the list and we&apos;ll email you when new training opens.
-            </p>
+            <div className="mx-auto mt-6 max-w-md text-left">
+              <NewsletterForm surface="light" />
+            </div>
           </div>
         </Container>
       </Section>

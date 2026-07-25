@@ -125,7 +125,7 @@ export default function ComponentKitPage() {
           {states.map((s, i) => (
             <EventCard
               key={s}
-              href="#"
+              href="/styleguide"
               title={`[PLACEHOLDER] Event in the "${registrationLabel[s]}" state`}
               type={
                 ["course", "webinar", "workshop", "mentorship", "workshop"][i]
@@ -145,28 +145,28 @@ export default function ComponentKitPage() {
       <Row title="ProgrammeCard">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <ProgrammeCard
-            href="#"
+            href="/styleguide"
             icon={GraduationCap}
             title="Beginner Academy"
             blurb="[PLACEHOLDER] A short description of the programme, two or three lines long, explaining what it covers."
             audience="For students new to reviews"
           />
           <ProgrammeCard
-            href="#"
+            href="/styleguide"
             icon={Users}
             title="Mentorship Programme"
             blurb="[PLACEHOLDER] A short description of the programme, two or three lines long, explaining what it covers."
             audience="For active review teams"
           />
           <ProgrammeCard
-            href="#"
+            href="/styleguide"
             icon={BookOpen}
             title="Resource Library"
             blurb="[PLACEHOLDER] A short description of the programme, two or three lines long, explaining what it covers."
             audience="For everyone"
           />
           <ProgrammeCard
-            href="#"
+            href="/styleguide"
             icon={Handshake}
             title="Institutional Training"
             blurb="[PLACEHOLDER] A short description of the programme, two or three lines long, explaining what it covers."
@@ -208,21 +208,21 @@ export default function ComponentKitPage() {
             title="[PLACEHOLDER] What is a systematic review?"
             description="[PLACEHOLDER] A one- or two-sentence description of the resource."
             category="guide"
-            href="#"
+            href="/styleguide"
             kind="article"
           />
           <ResourceCard
             title="[PLACEHOLDER] PRISMA flow diagram template"
             description="[PLACEHOLDER] A one- or two-sentence description of the resource."
             category="template"
-            href="#"
+            href="/styleguide"
             kind="download"
           />
           <ResourceCard
             title="[PLACEHOLDER] Recorded webinar"
             description="[PLACEHOLDER] A one- or two-sentence description of the resource."
             category="webinar"
-            href="#"
+            href="/styleguide"
             kind="external"
           />
         </div>

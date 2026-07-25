@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Mail, MessageSquare, Clock } from "lucide-react";
+import { Mail, Clock } from "lucide-react";
 
 import { Section, Container } from "@/components/ui/Section";
 import { PageHeader } from "@/components/ui/PageHeader";
@@ -8,8 +8,9 @@ import { Icon } from "@/components/ui/Icon";
 import { ContactForm } from "@/components/site/ContactForm";
 
 /* Sprint 4.3 — Contact. A real form (stored + forwarded to SRN with reply-to
- * set to the sender), the direct email, and the social links. The last of the
- * public routes; no longer stubbed in the nav. */
+ * set to the sender) and the direct email. The last of the public routes; no
+ * longer stubbed in the nav. Social links removed in Sprint 5.5 — no verified
+ * SRN LinkedIn/X URL exists yet. */
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -88,53 +89,11 @@ export default function ContactPage() {
                     intake.
                   </dd>
                 </div>
-
-                <div>
-                  <dt className="flex items-center gap-2">
-                    <span className="bg-evidence-tint flex h-9 w-9 items-center justify-center">
-                      <Icon icon={MessageSquare} size="sm" color="evidence" />
-                    </span>
-                    <span className="text-ink font-semibold">Follow SRN</span>
-                  </dt>
-                  <dd className="mt-3 flex gap-3">
-                    <a
-                      href="#"
-                      aria-label="SRN on LinkedIn"
-                      className="border-hairline text-slate hover:border-evidence hover:text-evidence inline-flex h-10 w-10 items-center justify-center border transition-colors"
-                    >
-                      <LinkedInMark />
-                    </a>
-                    <a
-                      href="#"
-                      aria-label="SRN on X"
-                      className="border-hairline text-slate hover:border-evidence hover:text-evidence inline-flex h-10 w-10 items-center justify-center border transition-colors"
-                    >
-                      <XMark />
-                    </a>
-                  </dd>
-                </div>
               </dl>
             </aside>
           </div>
         </Container>
       </Section>
     </>
-  );
-}
-
-/* Same inline brand marks as the footer — Lucide v1 dropped brand glyphs. */
-function LinkedInMark() {
-  return (
-    <svg viewBox="0 0 24 24" width={17} height={17} fill="currentColor" aria-hidden>
-      <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zm1.78 13.02H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z" />
-    </svg>
-  );
-}
-
-function XMark() {
-  return (
-    <svg viewBox="0 0 24 24" width={15} height={15} fill="currentColor" aria-hidden>
-      <path d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.66l-5.21-6.82-5.97 6.82H1.66l7.73-8.84L1.24 2.25h6.83l4.71 6.23 5.46-6.23zm-1.16 17.52h1.83L7.08 4.13H5.11l11.97 15.64z" />
-    </svg>
   );
 }

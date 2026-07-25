@@ -3,42 +3,9 @@ import { Mail } from "lucide-react";
 import { Icon } from "@/components/ui/Icon";
 import { NewsletterForm } from "@/components/site/NewsletterForm";
 
-/* Lucide v1 removed brand icons for licensing reasons, so the two social marks
-   are inline SVG. Kept local rather than pulling in a second icon package for
-   two glyphs. */
-
-function LinkedInMark() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      width={16}
-      height={16}
-      fill="currentColor"
-      aria-hidden
-    >
-      <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zm1.78 13.02H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z" />
-    </svg>
-  );
-}
-
-function XMark() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      width={15}
-      height={15}
-      fill="currentColor"
-      aria-hidden
-    >
-      <path d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.66l-5.21-6.82-5.97 6.82H1.66l7.73-8.84L1.24 2.25h6.83l4.71 6.23 5.46-6.23zm-1.16 17.52h1.83L7.08 4.13H5.11l11.97 15.64z" />
-    </svg>
-  );
-}
-
-/* §1.2 — Footer on --brand: contact block, nav links, socials, policies, and
-   the newsletter mini-form. The form is deliberately disabled here: it is
-   wired for real in Sprint 4.3, and a form that silently does nothing is worse
-   than one that says so. */
+/* §1.2 — Footer on --brand: contact block, nav links, policies, and the
+   newsletter mini-form. Social marks were removed in Sprint 5.5 (no verified
+   SRN LinkedIn/X URL exists yet); reinstate once real handles are supplied. */
 
 const COLUMNS = [
   {
@@ -93,22 +60,6 @@ export function Footer() {
               <Icon icon={Mail} size="sm" />
               info@systematicreviewsnetwork.org
             </a>
-            <div className="mt-4 flex gap-3">
-              <a
-                href="#"
-                aria-label="SRN on LinkedIn"
-                className="border-paper/25 text-paper/80 hover:border-paper hover:text-paper inline-flex h-9 w-9 items-center justify-center border transition-colors"
-              >
-                <LinkedInMark />
-              </a>
-              <a
-                href="#"
-                aria-label="SRN on X"
-                className="border-paper/25 text-paper/80 hover:border-paper hover:text-paper inline-flex h-9 w-9 items-center justify-center border transition-colors"
-              >
-                <XMark />
-              </a>
-            </div>
           </div>
 
           {COLUMNS.map((col) => (
@@ -132,7 +83,7 @@ export function Footer() {
             </nav>
           ))}
 
-          {/* Newsletter — live (§3.1 / §4.3). */}
+          {/* Newsletter — live (§3.1 / §4.3 / §5.5). */}
           <div>
             <h2 className="text-eyebrow-style text-paper/60">Newsletter</h2>
             <p className="text-paper/70 text-small mt-4 leading-relaxed">
