@@ -56,6 +56,10 @@ export type AdminResource = {
   labelPlural: string;
   singleton?: boolean;
   listColumns: ReadonlyArray<string>;
+  /* Sprint 5.9b — how to render a listColumns cell. Additive and optional:
+     any column not named here falls back to the old String(value) behaviour,
+     so existing resources keep working untouched. */
+  listColumnKinds?: Record<string, "text" | "datetime" | "status" | "thumbnail">;
   searchColumns: ReadonlyArray<string>;
   orderBy: { column: string; ascending?: boolean };
   fields: ReadonlyArray<AdminField>;
@@ -79,6 +83,7 @@ const resourceDefinitions = {
     labelSingular: "Event",
     labelPlural: "Events",
     listColumns: ["title", "type", "starts_at", "status"],
+    listColumnKinds: { starts_at: "datetime", status: "status" },
     searchColumns: ["title"],
     orderBy: { column: "starts_at", ascending: false },
     publishable: true,
@@ -180,6 +185,7 @@ const resourceDefinitions = {
     labelSingular: "Article",
     labelPlural: "News",
     listColumns: ["title", "author", "published_at", "status"],
+    listColumnKinds: { published_at: "datetime", status: "status" },
     searchColumns: ["title", "author"],
     orderBy: { column: "published_at", ascending: false },
     publishable: true,
@@ -221,6 +227,7 @@ const resourceDefinitions = {
     labelSingular: "Resource",
     labelPlural: "Resources",
     listColumns: ["title", "category", "status"],
+    listColumnKinds: { status: "status" },
     searchColumns: ["title", "description"],
     orderBy: { column: "created_at", ascending: false },
     publishable: true,
@@ -284,6 +291,7 @@ const resourceDefinitions = {
     labelSingular: "Programme",
     labelPlural: "Programmes",
     listColumns: ["title", "audience", "status"],
+    listColumnKinds: { status: "status" },
     searchColumns: ["title", "tagline", "audience"],
     orderBy: { column: "sort_order" },
     sortColumn: "sort_order",
@@ -389,7 +397,8 @@ const resourceDefinitions = {
     table: "team_members",
     labelSingular: "Team member",
     labelPlural: "Team",
-    listColumns: ["name", "role", "group"],
+    listColumns: ["photo_url", "name", "role", "group"],
+    listColumnKinds: { photo_url: "thumbnail" },
     searchColumns: ["name", "role", "affiliation"],
     orderBy: { column: "sort_order" },
     sortColumn: "sort_order",
@@ -440,7 +449,8 @@ const resourceDefinitions = {
     table: "testimonials",
     labelSingular: "Testimonial",
     labelPlural: "Testimonials",
-    listColumns: ["name", "role"],
+    listColumns: ["photo_url", "name", "role"],
+    listColumnKinds: { photo_url: "thumbnail" },
     searchColumns: ["name", "role", "quote"],
     orderBy: { column: "sort_order" },
     /* No sortColumn: §8 keeps drag-reorder to team_members and partners only.
@@ -472,7 +482,8 @@ const resourceDefinitions = {
     table: "partners",
     labelSingular: "Partner",
     labelPlural: "Partners",
-    listColumns: ["name", "url"],
+    listColumns: ["logo_url", "name", "url"],
+    listColumnKinds: { logo_url: "thumbnail" },
     searchColumns: ["name"],
     orderBy: { column: "sort_order" },
     sortColumn: "sort_order",
