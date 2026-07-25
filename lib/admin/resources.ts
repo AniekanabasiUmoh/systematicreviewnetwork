@@ -27,17 +27,18 @@ export type AdminField = {
   wide?: boolean;
 };
 
+/* Sprint 5.9a — admin manages CONTENT, not site design (Design.md §8).
+ * `homepage`, `pages`, `impact`, and `reach` were removed: they describe the
+ * website rather than describing SRN, and editing them from an admin panel
+ * turns it into a page builder. The tables still exist and the public site
+ * still reads them; they are simply no longer admin-editable. */
 export type AdminResourceKey =
   | "events"
   | "news"
   | "resources"
-  | "pages"
   | "team"
-  | "impact"
   | "testimonials"
-  | "partners"
-  | "reach"
-  | "homepage";
+  | "partners";
 
 export type AdminResource = {
   key: AdminResourceKey;
@@ -45,13 +46,9 @@ export type AdminResource = {
     | "events"
     | "news"
     | "resources"
-    | "pages"
     | "team_members"
-    | "impact_stats"
     | "testimonials"
-    | "partners"
-    | "reach_countries"
-    | "homepage";
+    | "partners";
   labelSingular: string;
   labelPlural: string;
   singleton?: boolean;
@@ -274,36 +271,6 @@ const resourceDefinitions = {
       },
     ],
   },
-  pages: {
-    key: "pages",
-    table: "pages",
-    labelSingular: "Page",
-    labelPlural: "Pages",
-    listColumns: ["title", "slug", "updated_at"],
-    searchColumns: ["title", "slug"],
-    orderBy: { column: "slug" },
-    slugColumn: "slug",
-    schema: adminSchemas.pages,
-    revalidate: ["/about", "/faq", "/privacy", "/terms", "/impact"],
-    fields: [
-      {
-        name: "title",
-        label: "Title",
-        kind: "text",
-        required: true,
-        maxLength: 180,
-        slugFrom: "title",
-        wide: true,
-      },
-      { name: "slug", label: "URL slug", kind: "slug", required: true },
-      {
-        name: "body_rich",
-        label: "Page content",
-        kind: "richtext",
-        wide: true,
-      },
-    ],
-  },
   team: {
     key: "team",
     table: "team_members",
@@ -355,34 +322,6 @@ const resourceDefinitions = {
       },
     ],
   },
-  impact: {
-    key: "impact",
-    table: "impact_stats",
-    labelSingular: "Impact statistic",
-    labelPlural: "Impact statistics",
-    listColumns: ["label", "value"],
-    searchColumns: ["label", "value"],
-    orderBy: { column: "sort_order" },
-    sortColumn: "sort_order",
-    schema: adminSchemas.impact,
-    revalidate: ["/", "/impact"],
-    fields: [
-      {
-        name: "label",
-        label: "Label",
-        kind: "text",
-        required: true,
-        maxLength: 100,
-      },
-      {
-        name: "value",
-        label: "Value",
-        kind: "text",
-        required: true,
-        maxLength: 60,
-      },
-    ],
-  },
   testimonials: {
     key: "testimonials",
     table: "testimonials",
@@ -391,7 +330,8 @@ const resourceDefinitions = {
     listColumns: ["name", "role"],
     searchColumns: ["name", "role", "quote"],
     orderBy: { column: "sort_order" },
-    sortColumn: "sort_order",
+    /* No sortColumn: §8 keeps drag-reorder to team_members and partners only.
+       The sort_order column still orders the list, it just isn't draggable. */
     schema: adminSchemas.testimonials,
     revalidate: ["/"],
     fields: [
@@ -435,122 +375,6 @@ const resourceDefinitions = {
       },
       { name: "logo_url", label: "Logo", kind: "image", wide: true },
       { name: "url", label: "Website URL", kind: "url", wide: true },
-    ],
-  },
-  reach: {
-    key: "reach",
-    table: "reach_countries",
-    labelSingular: "Country",
-    labelPlural: "Reach countries",
-    listColumns: ["country_name", "country_code", "note"],
-    searchColumns: ["country_name", "country_code", "note"],
-    orderBy: { column: "country_name" },
-    schema: adminSchemas.reach,
-    revalidate: ["/", "/impact"],
-    fields: [
-      {
-        name: "country_code",
-        label: "Country code",
-        kind: "text",
-        required: true,
-        hint: "Two-letter ISO code, for example NG.",
-        maxLength: 2,
-      },
-      {
-        name: "country_name",
-        label: "Country name",
-        kind: "text",
-        required: true,
-        maxLength: 120,
-      },
-      {
-        name: "note",
-        label: "Note",
-        kind: "textarea",
-        maxLength: 500,
-        wide: true,
-      },
-    ],
-  },
-  homepage: {
-    key: "homepage",
-    table: "homepage",
-    labelSingular: "Homepage",
-    labelPlural: "Homepage",
-    singleton: true,
-    listColumns: [],
-    searchColumns: [],
-    orderBy: { column: "id" },
-    schema: adminSchemas.homepage,
-    revalidate: ["/"],
-    fields: [
-      {
-        name: "hero_eyebrow",
-        label: "Hero eyebrow",
-        kind: "text",
-        maxLength: 120,
-        wide: true,
-      },
-      {
-        name: "hero_heading",
-        label: "Hero heading",
-        kind: "text",
-        maxLength: 180,
-        wide: true,
-      },
-      {
-        name: "hero_subheading",
-        label: "Hero subheading",
-        kind: "textarea",
-        maxLength: 600,
-        wide: true,
-      },
-      {
-        name: "hero_image_url",
-        label: "Hero image",
-        kind: "image",
-        wide: true,
-      },
-      {
-        name: "about_paragraph",
-        label: "About paragraph",
-        kind: "textarea",
-        maxLength: 4000,
-        wide: true,
-      },
-      {
-        name: "explainer_heading",
-        label: "Explainer heading",
-        kind: "text",
-        maxLength: 180,
-        wide: true,
-      },
-      {
-        name: "explainer_body",
-        label: "Explainer body",
-        kind: "textarea",
-        maxLength: 4000,
-        wide: true,
-      },
-      {
-        name: "cta_heading",
-        label: "CTA heading",
-        kind: "text",
-        maxLength: 180,
-        wide: true,
-      },
-      {
-        name: "cta_button_label",
-        label: "CTA button label",
-        kind: "text",
-        maxLength: 80,
-      },
-      {
-        name: "cta_button_href",
-        label: "CTA button link",
-        kind: "url",
-        wide: true,
-      },
     ],
   },
 } as const satisfies Record<string, AdminResource>;

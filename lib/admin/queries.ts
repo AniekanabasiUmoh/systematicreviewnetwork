@@ -57,12 +57,10 @@ export async function listRows(
 }
 
 export async function getRow(resource: AdminResource, id: string) {
-  const column = resource.singleton ? "id" : "id";
-  const value = resource.singleton ? true : id;
   const { data, error } = await supabaseAdmin
     .from(resource.table)
     .select("*")
-    .eq(column, value)
+    .eq("id", id)
     .maybeSingle();
   if (error)
     throw new Error(

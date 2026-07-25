@@ -3,17 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  BarChart3,
   BookOpen,
   Calendar,
   ClipboardList,
-  FileText,
   Handshake,
-  Home,
   Image as ImageIcon,
   LayoutDashboard,
   LogOut,
-  MapPinned,
   Newspaper,
   Quote,
   UserCog,
@@ -35,11 +31,9 @@ const NAV_GROUPS: ReadonlyArray<{ label: string; items: readonly NavItem[] }> =
     {
       label: "Content",
       items: [
-        { href: "/admin/homepage", label: "Homepage", icon: Home },
         { href: "/admin/events", label: "Events", icon: Calendar },
         { href: "/admin/news", label: "News", icon: Newspaper },
         { href: "/admin/resources", label: "Resources", icon: BookOpen },
-        { href: "/admin/pages", label: "Site pages", icon: FileText },
       ],
     },
     {
@@ -48,13 +42,6 @@ const NAV_GROUPS: ReadonlyArray<{ label: string; items: readonly NavItem[] }> =
         { href: "/admin/team", label: "Team", icon: Users },
         { href: "/admin/partners", label: "Partners", icon: Handshake },
         { href: "/admin/testimonials", label: "Testimonials", icon: Quote },
-      ],
-    },
-    {
-      label: "Organisation",
-      items: [
-        { href: "/admin/impact", label: "Impact statistics", icon: BarChart3 },
-        { href: "/admin/reach", label: "Countries reached", icon: MapPinned },
       ],
     },
     {

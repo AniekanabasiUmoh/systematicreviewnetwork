@@ -1,6 +1,7 @@
 import { requireStaff } from "@/lib/admin/auth";
 import { getDashboardCounts } from "@/lib/admin/queries";
 import { StatCard } from "@/components/admin/StatCard";
+import { ButtonLink } from "@/components/ui/Button";
 
 export const dynamic = "force-dynamic";
 
@@ -14,9 +15,18 @@ export default async function AdminDashboardPage() {
         Welcome, {user.full_name || user.email}
       </h1>
       <p className="text-slate text-small mt-2">
-        Start with the content that visitors see most often, then publish when
-        it is ready.
+        Add events and news, or check who has registered and applied. Save
+        changes as drafts until they are ready for the public site.
       </p>
+      <div className="mt-5 flex flex-wrap gap-3">
+        <ButtonLink href="/admin/events/new">Add event</ButtonLink>
+        <ButtonLink href="/admin/news/new" variant="secondary">
+          Add news
+        </ButtonLink>
+        <ButtonLink href="/admin/operations" variant="secondary">
+          View submissions
+        </ButtonLink>
+      </div>
       <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         <StatCard label="Events" value={counts.events} href="/admin/events" />
         <StatCard
@@ -38,7 +48,7 @@ export default async function AdminDashboardPage() {
         <StatCard
           label="Applications"
           value={counts.applications}
-          href="/admin/applications"
+          href="/admin/operations/applications"
         />
       </div>
     </div>
