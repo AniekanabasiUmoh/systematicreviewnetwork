@@ -1,6 +1,8 @@
 "use server";
 
 import { supabaseAdmin } from "@/lib/supabase/server";
+import { sendEmail, SRN_INBOX } from "@/lib/email/client";
+import { InternalEnquiryNotification } from "@/lib/email/templates";
 import { partnershipSchema, fieldErrorsFrom } from "./schemas";
 import {
   checkRateLimit,
@@ -66,6 +68,20 @@ export async function submitPartnership(
         "Something went wrong sending your enquiry. Please try again, or email us directly at info@systematicreviewsnetwork.org.",
     };
   }
+
+  // §4.3 — forward to SRN with reply-to = the enquirer.
+  void sendEmail({
+    to: SRN_INBOX,
+    replyTo: email,
+    subject: `[Partnership] ${interest} — ${name}`,
+    react: InternalEnquiryNotification({
+      kind: "partnership",
+      name,
+      email,
+      subject: `Partnership enquiry — ${interest}`,
+      message: body,
+    }),
+  });
 
   return { status: "success", message: SUCCESS };
 }

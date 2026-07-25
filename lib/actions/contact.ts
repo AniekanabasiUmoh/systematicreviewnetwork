@@ -1,6 +1,8 @@
 "use server";
 
 import { supabaseAdmin } from "@/lib/supabase/server";
+import { sendEmail, SRN_INBOX } from "@/lib/email/client";
+import { InternalEnquiryNotification } from "@/lib/email/templates";
 import { contactSchema, fieldErrorsFrom } from "./schemas";
 import {
   checkRateLimit,
@@ -57,6 +59,24 @@ export async function submitContact(
         "Something went wrong saving your message. Please try again, or email us directly at info@systematicreviewsnetwork.org.",
     };
   }
+
+  // §4.3 — forward to SRN's inbox with reply-to set to the sender, so staff can
+  // reply straight from their mailbox. Fire-and-forget: the message is already
+  // stored, so a mail hiccup never fails the submission.
+  void sendEmail({
+    to: SRN_INBOX,
+    replyTo: parsed.data.email,
+    subject: parsed.data.subject
+      ? `[Contact] ${parsed.data.subject}`
+      : `[Contact] New message from ${parsed.data.name}`,
+    react: InternalEnquiryNotification({
+      kind: "general",
+      name: parsed.data.name,
+      email: parsed.data.email,
+      subject: parsed.data.subject,
+      message: parsed.data.message,
+    }),
+  });
 
   return { status: "success", message: SUCCESS };
 }

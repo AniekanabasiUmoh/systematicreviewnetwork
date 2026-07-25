@@ -61,7 +61,7 @@ const COLUMNS = [
   },
 ];
 
-const NOT_BUILT_YET = new Set(["/contact"]);
+const NOT_BUILT_YET = new Set<string>([]);
 
 /* See Header: prefetching routes that do not exist yet fires a 404 each.
    Remove entries as Sprints 2.2-2.7 land. */

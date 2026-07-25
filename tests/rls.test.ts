@@ -44,6 +44,10 @@ const SUBMISSION_TABLES = [
   "newsletter_signups",
   "contact_messages",
   "donations",
+  // Phase 3/4 internal tables — same posture: no anon policies at all.
+  "paystack_events",
+  "rate_limits",
+  "profiles",
 ] as const;
 
 const CONTENT_TABLES = [
@@ -108,6 +112,24 @@ describe("no table anywhere accepts anon writes", () => {
         .not("id", "is", null);
       // Either the delete errors, or it affects zero rows (no write leaked).
       expect(error !== null || (count ?? 0) === 0).toBe(true);
+    });
+  }
+});
+
+describe("security-definer RPCs are not callable by anon", () => {
+  /* These are SECURITY DEFINER, so an anon caller reaching them would run with
+     owner privileges. PostgREST exposes any executable public-schema function
+     over the anon endpoint, so EXECUTE must be revoked from `anon` explicitly —
+     `revoke from public` is not enough. Guard against that regressing. */
+  for (const [fn, args] of [
+    ["bump_rate_limit", { p_form: "probe", p_ip: "probe" }],
+    ["prune_rate_limits", {}],
+    ["expire_pending_registrations", {}],
+    ["is_staff", {}],
+  ] as const) {
+    it(`anon cannot execute ${fn}()`, async () => {
+      const { error } = await anon.rpc(fn as never, args as never);
+      expect(error).not.toBeNull();
     });
   }
 });

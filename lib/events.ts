@@ -118,6 +118,23 @@ export function formatEventDate(
   return `${start.toLocaleDateString("en-GB", { timeZone: tz, day: "numeric", month: "long" })} – ${end.toLocaleDateString("en-GB", opts)}`;
 }
 
+/** Date + time in Africa/Lagos, for emails and confirmations where the exact
+    start time matters (a webinar link is useless without it). Stored UTC. */
+export function formatEventDateTime(
+  starts_at: string,
+  ends_at?: string | null,
+): string {
+  const tz = "Africa/Lagos";
+  const datePart = formatEventDate(starts_at, ends_at);
+  const time = new Date(starts_at).toLocaleTimeString("en-GB", {
+    timeZone: tz,
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+  return `${datePart}, ${time} (West Africa Time)`;
+}
+
 /** Day + month block for the card's date chip. */
 export function dateBlock(starts_at: string): { day: string; month: string } {
   const d = new Date(starts_at);

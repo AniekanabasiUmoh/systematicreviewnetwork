@@ -12,8 +12,8 @@ import { Section, Container } from "@/components/ui/Section";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Eyebrow } from "@/components/ui/SectionHeader";
 import { Icon } from "@/components/ui/Icon";
-import { ButtonLink } from "@/components/ui/Button";
 import { PartnerForm } from "@/components/site/PartnerForm";
+import { DonationForm } from "@/components/site/DonationForm";
 import { getImpactStats, getMedia } from "@/lib/queries";
 import { StatCounter } from "@/components/ui/StatCounter";
 
@@ -139,25 +139,28 @@ export default async function PartnerPage() {
       <Section surface="mist" id="donate">
         <Container>
           <div className="border-hairline bg-paper border p-8 md:p-12">
-            <div className="flex flex-col gap-8 md:flex-row md:items-center md:gap-12">
-              <span className="bg-evidence-tint flex h-14 w-14 shrink-0 items-center justify-center">
-                <Icon icon={HeartHandshake} size="lg" color="evidence" />
-              </span>
+            <div className="grid gap-10 lg:grid-cols-[1fr_22rem] lg:gap-16">
               <div>
+                <span className="bg-evidence-tint mb-6 flex h-14 w-14 shrink-0 items-center justify-center">
+                  <Icon icon={HeartHandshake} size="lg" color="evidence" />
+                </span>
                 <Eyebrow>Donate</Eyebrow>
                 <h2 className="text-display text-ink mt-3 text-[clamp(1.5rem,3vw,2.1rem)] leading-[1.1]">
                   Give what you can — every amount trains someone.
                 </h2>
                 <p className="text-slate mt-4 max-w-[54ch] leading-relaxed">
                   A donation of any size goes directly to running courses,
-                  sponsoring places, and reaching researchers in new places.
-                  You can give in your own name or anonymously. Secure online
-                  giving is opening here shortly; in the meantime, get in touch
-                  and we&apos;ll arrange it with you.
+                  sponsoring places, and reaching researchers in new places. You
+                  can give in your own name or anonymously, and you&apos;ll get a
+                  receipt by email straight away.
                 </p>
-                <ButtonLink href="#partner-enquiry" className="mt-7">
-                  Talk to us about giving
-                </ButtonLink>
+                <p className="text-slate text-small mt-4 max-w-[54ch] leading-relaxed">
+                  Payments are handled by Paystack — your card details never
+                  touch our servers.
+                </p>
+              </div>
+              <div className="lg:border-hairline lg:border-l lg:pl-12">
+                <DonationForm />
               </div>
             </div>
           </div>

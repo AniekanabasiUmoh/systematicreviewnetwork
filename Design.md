@@ -408,6 +408,23 @@ Scope discipline: this list **is** v1. No analytics dashboards, no certificate g
 - _Build:_ newsletter signup (footer + homepage): dedupe by lower(email), friendly "You're on the list" including when already subscribed; contact + partnership forms wired for real: store + forward via Resend to SRN's inbox with reply-to set to the sender.
 - _Done when:_ signups deduped; contact messages arrive in a test inbox with working reply-to.
 
+**Phase 4 delivery note (2026-07-25).** All three sprints shipped, plus the §13
+payment path. Two things are code-complete but cannot be exercised until
+credentials land, and both fail *honestly* rather than faking success:
+
+- **Paystack** (`PAYSTACK_SECRET_KEY` etc. are empty). Initialize, hosted-
+  checkout redirect, server-side verify, HMAC-SHA512 webhook, and the 30-minute
+  pending-expiry cron are all written to the live REST contract. `isConfigured()`
+  gates every paid path: until keys are set, a paid registration or donation
+  returns "payment is being switched on — email us" instead of a dead checkout.
+  Signature rejection is tested and verified against forged requests (401, no
+  DB write). Two signing tests self-skip until a key exists, then run.
+- **Resend domain** is unverified until Sprint 6.3, so `RESEND_FROM` must point
+  at the sandbox sender for now (see §11). Transport itself is verified working.
+
+Test gate is now `npm test` → 85 passing / 2 skipped across RLS, Paystack
+signature + .ics, and action-schema/DB-invariant suites.
+
 ---
 
 ### Phase 5 — Admin
@@ -452,7 +469,9 @@ Scope discipline: this list **is** v1. No analytics dashboards, no certificate g
 - _Build:_ per-page metadata + OG images (template-generated with title on brand navy); sitemap.xml + robots.txt; JSON-LD: Organization sitewide, Event on event pages, Article on news/guides; image audit (dimensions, priority on hero, lazy elsewhere); font subsetting check; Lighthouse pass on homepage, one event, one programme, one article.
 - _Done when:_ ≥90 perf/a11y/SEO/best-practices on all four audited pages, mobile and desktop.
 
-**Sprint 6.3 — Go live**
+SPRINT 6.3: CHECK FOR STUBS AND ANY GAPS
+
+**Sprint 6.4 — Go live**
 
 - _Build:_ production domain + DNS, Resend domain verification (SPF/DKIM so confirmations don't land in spam — test this explicitly), Plausible, full production form sweep (register, apply, subscribe, contact — real emails), staff walkthrough doc (short, screenshots, plain language: "how to add an event," "how to export your attendee list," "how to review applications"), staff logins issued.
 - _Done when:_ Fortune's staff have logins and have successfully created and published a test event themselves; a test registration confirmation arrives in a normal inbox, not spam.
@@ -461,7 +480,109 @@ Scope discipline: this list **is** v1. No analytics dashboards, no certificate g
 
 ### Phase 2 (post-launch, out of scope for this build)
 
-End-user accounts + member area · applicant dashboards · per-event custom questions (form builder) · certificate generation · French localisation · campaign email tool integration · online payments if §12 answers require them.
+Everything below is deliberately **not** in the launch build. It is recorded here
+so the v1 schema and architecture don't foreclose it, and so a future scoping
+conversation starts from a written baseline rather than memory. Nothing here is
+committed, estimated, or promised — each item needs its own scoping pass.
+
+Ordering note: these are listed by dependency, not priority. **2.1 (accounts)**
+is the gate for 2.2, 2.4, and much of 2.5 — almost everything else assumes a
+signed-in end user exists. Sequencing beyond that is Fortune's call.
+
+**2.1 — End-user accounts + member area**
+
+- Supabase Auth for *end users* (distinct from the staff `profiles` roles built
+  in Sprint 5.1): self-serve signup, email verification, password reset.
+- A `members` profile carrying name, institution, country, research interests.
+- Member area: "my registrations", "my applications", downloadable resources
+  gated to signed-in users, and a profile editor.
+- **Migration concern:** registrations and applications are currently keyed by
+  email only (§6). Retro-linking historical rows to new accounts means matching
+  on `lower(email)` — plan a backfill, and expect ambiguity where one person
+  used two addresses.
+- **Decision needed:** does an account become *required* to register for an
+  event? Requiring it lifts data quality and kills duplicate registrations, but
+  measurably suppresses signup on a capacity-building site whose audience is
+  often on poor connections. Default recommendation: keep guest registration,
+  offer an optional account at the confirmation step.
+
+**2.2 — Applicant dashboards**
+
+- Applicant-facing view of application status, mirroring the staff stepper from
+  Sprint 5.4 (received → under_review → accepted/waitlisted/rejected).
+- Notification email on each transition, with the wording controlled by staff
+  rather than hard-coded — a rejection is a real moment for a real person.
+- Document upload (CV, protocol draft) into a private Storage bucket with its
+  own RLS policies; **not** the public media bucket.
+- Depends on 2.1.
+
+**2.3 — Per-event custom questions (form builder)**
+
+- Staff-defined extra fields per event ("what is your review topic?",
+  "have you used Covidence?"), typed: short text, long text, select, checkbox.
+- Answers stored as `jsonb` on `registrations` rather than as migrated columns,
+  so a new question never requires a schema change.
+- Admin needs a question editor with reorder + required toggle, and CSV export
+  must flatten the jsonb into columns — otherwise the export is unusable, which
+  is the whole point of Sprint 5.3.
+- **Scope trap:** a general form builder is a product in itself. Cap it at the
+  four field types above unless there is a concrete demand for more.
+
+**2.4 — Certificate generation**
+
+- PDF certificate of completion per participant per event: name, event title,
+  dates, and an authorised signature.
+- Staff mark attendance/completion on the registrations table (a new
+  `completed_at`), which unlocks the download.
+- Verification: a unique certificate ID plus a public `/verify/<id>` page, so an
+  employer can check a certificate is genuine. Without this the PDF is
+  trivially forgeable and the credential is worth little.
+- Rendering via a server-side PDF library from an HTML template on brand.
+- Depends on 2.1 for the download to be attributable.
+
+**2.5 — French localisation**
+
+- Second locale (`fr`) covering the full public site — relevant to SRN's reach
+  across Francophone West Africa (Senegal, Côte d'Ivoire, Benin, Togo, Mali,
+  Burkina Faso, Niger, Cameroon, DRC).
+- **This is the largest item here and touches everything.** Every content table
+  in §6 needs a translation strategy: either per-locale rows or a `translations`
+  jsonb column. Decide once, early — retrofitting is expensive.
+- Routing (`/fr/...`), a locale switcher, `hreflang` tags, translated metadata
+  and OG images, and locale-aware date/currency formatting.
+- Admin must let a staffer author both locales side by side and see which
+  entries are missing a translation.
+- **Honest constraint:** this only works if SRN has a French speaker to write
+  and maintain the copy. Machine translation of methodological training material
+  will produce errors that damage credibility. Do not ship it without a human
+  translator committed.
+
+**2.6 — Campaign email tool integration**
+
+- Sync `newsletter_signups` to a real campaign tool (Mailchimp / Brevo /
+  Resend Broadcasts) for designed sends, segmentation, and analytics — the
+  transactional Resend path built in Phase 4 is deliberately *not* a campaign
+  tool and should not be stretched into one.
+- Two-way unsubscribe sync is mandatory, not optional: an unsubscribe in the
+  campaign tool must propagate back, or SRN mails people who opted out.
+- Consent and provenance fields (when, from which form) for GDPR/NDPR defence.
+
+**2.7 — Resolved during v1 (kept for the record)**
+
+- ~~Online payments~~ — **shipped in Phase 4**, not deferred. §12.2/§12.3
+  resolved to Paystack, live in v1 for both paid events (§13.1–13.4) and
+  donations (§13.5).
+- Still open from §12.6: **Paystack multi-currency approval** for USD pricing.
+  The schema and checkout code already support USD; only the account-level
+  approval is missing.
+
+**Explicitly not planned**
+
+Recorded so they aren't rediscovered as "obvious" gaps: a public discussion
+forum or comments (moderation burden with no staff to carry it), a mobile app
+(the site is responsive; an app adds a store relationship and two more build
+targets for no new capability), and live chat (implies staffed response times
+SRN has not committed to).
 
 ---
 
@@ -483,7 +604,22 @@ PLAUSIBLE_DOMAIN                 (launch)
 NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY  (browser-safe)
 PAYSTACK_SECRET_KEY              (server only — initialize + verify)
 PAYSTACK_WEBHOOK_SECRET          (server only — x-paystack-signature HMAC)
+
+RESEND_FROM                      (sender identity; falls back to the verified
+                                  domain. Until Sprint 6.3 verifies
+                                  systematicreviewsnetwork.org, set this to
+                                  Resend's sandbox sender so mail actually sends)
+SRN_INBOX                        (where contact/partnership enquiries are
+                                  forwarded; defaults to info@…)
+CRON_SECRET                      (server only — Bearer token protecting
+                                  /api/cron/expire-registrations)
 ```
+
+**Email deliverability note.** `lib/email/client.ts` degrades to a logged no-op
+when `RESEND_API_KEY` is absent, and every confirmation send is fire-and-forget:
+a mail failure never fails the underlying registration/application write. The
+domain is unverified until Sprint 6.3, so `RESEND_FROM` must point at the
+sandbox sender before then or Resend returns 403.
 
 **Rate limiting (§3.2) — Postgres, not Upstash/KV.** Sprint 3.2 offered Upstash
 Redis or Vercel KV; we chose the project's own Postgres instead, so there is no

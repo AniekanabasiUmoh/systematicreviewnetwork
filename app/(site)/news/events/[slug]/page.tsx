@@ -17,12 +17,14 @@ import { RichText, richTextIsEmpty } from "@/components/ui/RichText";
 import { Tag, StatusBadge, eventTypeHue } from "@/components/ui/Tag";
 import { CTABand } from "@/components/ui/Cards";
 import { Icon } from "@/components/ui/Icon";
+import { RegistrationForm } from "@/components/site/RegistrationForm";
 import { getAllEvents, getEventBySlug, getSeatCounts } from "@/lib/queries";
 import {
   registrationState,
   registrationLabel,
   formatEventDate,
   formatPrice,
+  isFree,
   type RegistrationState,
 } from "@/lib/events";
 
@@ -221,26 +223,18 @@ function RegistrationPanel({
   if (!event) return null;
 
   if (state === "open") {
-    /* The form itself is Phase 4.2. Until then the panel is honest: it shows
-       that registration is open and where it will happen, without a control
-       that silently does nothing. */
+    const free = isFree(event.price_kobo);
     return (
       <div>
-        <p className="text-ink font-semibold">Registration is open</p>
-        <p className="text-slate text-small mt-2 leading-relaxed">
-          {formatPrice(event.price_kobo, event.currency) === "Free"
-            ? "This event is free to attend."
-            : `A place costs ${formatPrice(event.price_kobo, event.currency)}.`}{" "}
-          Online registration opens here shortly — in the meantime, contact us
-          to hold a place.
+        <p className="text-ink font-semibold">
+          {free ? "Register — it's free" : "Register for this event"}
         </p>
-        <Link
-          href="/contact"
-          className="bg-evidence text-paper hover:bg-evidence-ink mt-4 inline-flex w-full items-center justify-center gap-2 px-5 py-3 font-semibold transition-colors"
-        >
-          Enquire to register
-          <Icon icon={ArrowRight} size="sm" />
-        </Link>
+        <p className="text-slate text-small mt-2 mb-4 leading-relaxed">
+          {free
+            ? "This event is free to attend. Fill in your details and we'll send your confirmation."
+            : `A place costs ${formatPrice(event.price_kobo, event.currency)}. You'll be taken to secure payment; your place is held once payment completes.`}
+        </p>
+        <RegistrationForm eventId={event.id} paid={!free} />
       </div>
     );
   }
