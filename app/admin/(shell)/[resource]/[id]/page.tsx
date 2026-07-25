@@ -1,12 +1,13 @@
 import { notFound } from "next/navigation";
 import { requireStaff } from "@/lib/admin/auth";
 import { formResource, getResource } from "@/lib/admin/resources";
-import { getRow } from "@/lib/admin/queries";
+import { getRow, auditForResource } from "@/lib/admin/queries";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { ResourceForm } from "@/components/admin/ResourceForm";
 import { PublishControl } from "@/components/admin/PublishControl";
 import { DeleteButton } from "@/components/admin/DeleteButton";
 import { RetireButton } from "@/components/admin/RetireButton";
+import { AuditList } from "@/components/admin/AuditList";
 
 export const dynamic = "force-dynamic";
 
@@ -21,6 +22,7 @@ export default async function EditAdminResourcePage({
   if (!resource || resource.singleton) notFound();
   const row = await getRow(resource, id);
   if (!row) notFound();
+  const history = await auditForResource(resource.key, id);
   const status =
     row.status === "draft" || row.status === "published" ? row.status : null;
   return (
@@ -45,6 +47,16 @@ export default async function EditAdminResourcePage({
         id={id}
         name={String(row.title ?? row.name ?? resource.labelSingular)}
       />
+
+      <div className="mt-8">
+        <h2 className="text-ink text-small font-semibold">History</h2>
+        <div className="mt-3">
+          <AuditList
+            rows={history}
+            emptyText="No recorded changes yet."
+          />
+        </div>
+      </div>
     </>
   );
 }

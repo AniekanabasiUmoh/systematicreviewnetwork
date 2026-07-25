@@ -9,6 +9,17 @@ import { updateSession } from "@/lib/supabase/middleware-client";
  * on every page and every mutation (Design.md §5.1: "role checks server-side
  * on every mutation, not just UI hiding").
  */
+/* Sprint 5.10 — routes reachable while signed OUT. /admin/login/forgot is the
+   password-recovery request form; /admin/reset is where the emailed link
+   lands, in a short-lived Supabase recovery session that is not a normal
+   staff sign-in. Neither should redirect to the login page — that would make
+   password recovery unreachable for exactly the person who needs it. */
+const PUBLIC_ADMIN_PATHS = new Set([
+  "/admin/login",
+  "/admin/login/forgot",
+  "/admin/reset",
+]);
+
 export async function middleware(request: NextRequest) {
   const { response, user } = await updateSession(request);
   const { pathname, search } = request.nextUrl;
@@ -20,6 +31,10 @@ export async function middleware(request: NextRequest) {
       url.search = "";
       return NextResponse.redirect(url);
     }
+    return response;
+  }
+
+  if (PUBLIC_ADMIN_PATHS.has(pathname)) {
     return response;
   }
 

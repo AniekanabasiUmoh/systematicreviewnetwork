@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 import { TextField, FormMessage, Honeypot } from "@/components/ui/FormField";
@@ -50,6 +51,15 @@ export function LoginForm({ next }: { next?: string }) {
       />
 
       <SubmitButton />
+
+      <p className="text-slate text-small text-center">
+        <Link
+          href="/admin/login/forgot"
+          className="text-ink font-semibold underline underline-offset-2"
+        >
+          Forgot your password?
+        </Link>
+      </p>
     </form>
   );
 }

@@ -1,10 +1,11 @@
 "use server";
 
 import { supabaseAdmin } from "@/lib/supabase/server";
-import { sendEmail } from "@/lib/email/client";
+import { sendEmail, SRN_INBOX } from "@/lib/email/client";
 import {
   RegistrationConfirmation,
   RegistrationPaymentPending,
+  InternalSubmissionNotification,
 } from "@/lib/email/templates";
 import { buildEventIcs } from "@/lib/ics";
 import {
@@ -162,6 +163,25 @@ export async function submitRegistration(
     event.location_or_link ??
     (event.location_type === "online" ? "Online" : "In person");
   const eventUrl = `${siteUrl()}/news/events/${event.slug}`;
+
+  // Sprint 5.10 — instant internal notification, fire-and-forget. Never
+  // awaited into the response path: a notification failure must not affect
+  // the person registering. No digest, no cron — every submission notifies.
+  void sendEmail({
+    to: SRN_INBOX,
+    subject: `New registration — ${event.title}`,
+    react: InternalSubmissionNotification({
+      kind: "registration",
+      heading: "New registration",
+      rows: [
+        { label: "Event", value: event.title },
+        { label: "Name", value: input.full_name },
+        { label: "Email", value: input.email },
+        { label: "Status", value: free ? "Confirmed (free)" : "Awaiting payment" },
+      ],
+      adminUrl: `${siteUrl()}/admin/operations/registrations`,
+    }),
+  });
 
   // ── Free: seat held now, send the confirmation with calendar file. ────────
   if (free) {

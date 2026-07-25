@@ -76,6 +76,21 @@ export const adminLoginSchema = z.object({
 });
 export type AdminLoginInput = z.infer<typeof adminLoginSchema>;
 
+// Sprint 5.10 — password reset request. Email only; the response is
+// identical whether or not the address has an account (see admin-auth.ts).
+export const forgotPasswordSchema = z.object({ email });
+
+// Sprint 5.10 — setting a new password, either from the reset-email link or
+// from a signed-in staffer's own account page. Real complexity rules here,
+// unlike sign-in, because this is where an account's password is actually
+// set for the first time under real conditions.
+export const setPasswordSchema = z.object({
+  password: z
+    .string()
+    .min(10, "Use at least 10 characters.")
+    .max(200, "That password is too long."),
+});
+
 /** Turn a ZodError into { field: firstMessage } for the ActionState. */
 export function fieldErrorsFrom(error: z.ZodError): Record<string, string> {
   const out: Record<string, string> = {};

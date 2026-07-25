@@ -129,6 +129,27 @@ export function InternalEnquiryNotification(props: {
   );
 }
 
+// ── Sprint 5.10 — internal notification for registrations/applications/donations
+export function InternalSubmissionNotification(props: {
+  kind: "registration" | "application" | "donation";
+  heading: string;
+  rows: { label: string; value: string }[];
+  adminUrl: string;
+}) {
+  const kindLabel =
+    props.kind === "registration"
+      ? "registration"
+      : props.kind === "application"
+        ? "application"
+        : "donation";
+  return (
+    <EmailLayout preview={`New ${kindLabel}`} heading={props.heading}>
+      <DetailList rows={props.rows} />
+      <Button href={props.adminUrl}>View in admin</Button>
+    </EmailLayout>
+  );
+}
+
 // ── §13.5 — donation receipt ───────────────────────────────────────────────
 export function DonationReceipt(props: {
   donorName: string;

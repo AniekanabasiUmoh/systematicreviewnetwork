@@ -1,13 +1,17 @@
 import { requireStaff } from "@/lib/admin/auth";
-import { getDashboardCounts } from "@/lib/admin/queries";
+import { getDashboardCounts, recentAudit } from "@/lib/admin/queries";
 import { StatCard } from "@/components/admin/StatCard";
+import { AuditList } from "@/components/admin/AuditList";
 import { ButtonLink } from "@/components/ui/Button";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminDashboardPage() {
   const user = await requireStaff();
-  const counts = await getDashboardCounts();
+  const [counts, audit] = await Promise.all([
+    getDashboardCounts(),
+    recentAudit(10),
+  ]);
 
   return (
     <div>
@@ -50,6 +54,16 @@ export default async function AdminDashboardPage() {
           value={counts.applications}
           href="/admin/operations/applications"
         />
+      </div>
+
+      <div className="mt-10">
+        <h2 className="text-ink text-h4 font-semibold">Recent changes</h2>
+        <div className="mt-3">
+          <AuditList
+            rows={audit}
+            emptyText="Changes staff make across the admin will appear here."
+          />
+        </div>
       </div>
     </div>
   );

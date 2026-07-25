@@ -160,14 +160,17 @@ export function AdminSidebar({ user }: { user: StaffUser }) {
         </nav>
 
         <div className="border-paper/10 border-t px-3 py-4">
-          <div className="px-3 pb-3">
+          <Link
+            href="/admin/account"
+            className="hover:bg-paper/5 block px-3 pb-3 transition-colors"
+          >
             <p className="text-paper text-small truncate font-medium">
               {user.full_name || user.email}
             </p>
             <p className="text-paper/50 text-[0.8125rem] capitalize">
-              {user.role}
+              {user.role} · Account settings
             </p>
-          </div>
+          </Link>
           <form action={signOut}>
             <button
               type="submit"

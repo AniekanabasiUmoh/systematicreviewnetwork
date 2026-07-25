@@ -86,6 +86,44 @@ export async function slugTaken(
   return (data?.length ?? 0) > 0;
 }
 
+export type AuditRow = {
+  id: string;
+  actor_email: string;
+  action: string;
+  resource: string;
+  resource_id: string | null;
+  summary: string;
+  created_at: string;
+};
+
+/** Sprint 5.10 — surfaces admin_audit, which has recorded every mutation
+ * since Sprint 5.1 with no screen displaying it until now. */
+export async function recentAudit(limit = 20): Promise<AuditRow[]> {
+  const { data, error } = await supabaseAdmin
+    .from("admin_audit")
+    .select("id, actor_email, action, resource, resource_id, summary, created_at")
+    .order("created_at", { ascending: false })
+    .limit(limit);
+  if (error) return [];
+  return data as unknown as AuditRow[];
+}
+
+export async function auditForResource(
+  resource: string,
+  resourceId: string,
+  limit = 20,
+): Promise<AuditRow[]> {
+  const { data, error } = await supabaseAdmin
+    .from("admin_audit")
+    .select("id, actor_email, action, resource, resource_id, summary, created_at")
+    .eq("resource", resource)
+    .eq("resource_id", resourceId)
+    .order("created_at", { ascending: false })
+    .limit(limit);
+  if (error) return [];
+  return data as unknown as AuditRow[];
+}
+
 export async function getDashboardCounts() {
   const [events, news, resources, media, team, applications] =
     await Promise.all([

@@ -2,8 +2,11 @@
 
 import { z } from "zod";
 import { supabaseAdmin } from "@/lib/supabase/server";
-import { sendEmail } from "@/lib/email/client";
-import { ApplicationConfirmation } from "@/lib/email/templates";
+import { sendEmail, SRN_INBOX } from "@/lib/email/client";
+import {
+  ApplicationConfirmation,
+  InternalSubmissionNotification,
+} from "@/lib/email/templates";
 import { fieldErrorsFrom } from "./schemas";
 import {
   checkRateLimit,
@@ -140,7 +143,31 @@ export async function submitApplication(
     react: ApplicationConfirmation({ fullName: full_name, programme }),
   });
 
+  // Sprint 5.10 — instant internal notification, fire-and-forget.
+  void sendEmail({
+    to: SRN_INBOX,
+    subject: `New application — ${programme}`,
+    react: InternalSubmissionNotification({
+      kind: "application",
+      heading: "New application",
+      rows: [
+        { label: "Programme", value: programme },
+        { label: "Name", value: full_name },
+        { label: "Email", value: email },
+        { label: "Country", value: country },
+      ],
+      adminUrl: `${siteUrl()}/admin/operations/applications`,
+    }),
+  });
+
   return { status: "success", message: SUCCESS };
+}
+
+function siteUrl(): string {
+  return (
+    process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
+    "https://systematicreviewsnetwork.org"
+  );
 }
 
 const SUCCESS =

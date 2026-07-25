@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 import { verifyWebhookSignature, verifyTransaction } from "@/lib/paystack";
 import { supabaseAdmin } from "@/lib/supabase/server";
-import { sendEmail } from "@/lib/email/client";
+import { sendEmail, SRN_INBOX } from "@/lib/email/client";
 import {
   RegistrationConfirmation,
   DonationReceipt,
+  InternalSubmissionNotification,
 } from "@/lib/email/templates";
 import { buildEventIcs } from "@/lib/ics";
 import { formatEventDateTime, formatPrice } from "@/lib/events";
@@ -148,16 +149,36 @@ async function fulfil(reference: string, paidAt: string | null) {
     .maybeSingle();
 
   if (donation) {
+    const amountLabel = formatPrice(
+      donation.amount_kobo,
+      (donation.currency ?? "NGN") as "NGN" | "USD",
+    );
     await sendEmail({
       to: donation.email,
       subject: "Thank you for your donation",
       react: DonationReceipt({
         donorName: donation.donor_name ?? "there",
-        amountLabel: formatPrice(
-          donation.amount_kobo,
-          (donation.currency ?? "NGN") as "NGN" | "USD",
-        ),
+        amountLabel,
         reference,
+      }),
+    });
+
+    // Sprint 5.10 — instant internal notification, fire-and-forget. A
+    // donation is only "real" once this webhook confirms payment, so this is
+    // the point of submission for notification purposes, not the pending
+    // insert in lib/actions/donation.ts.
+    void sendEmail({
+      to: SRN_INBOX,
+      subject: `New donation — ${amountLabel}`,
+      react: InternalSubmissionNotification({
+        kind: "donation",
+        heading: "New donation",
+        rows: [
+          { label: "Donor", value: donation.donor_name ?? "Anonymous" },
+          { label: "Email", value: donation.email },
+          { label: "Amount", value: amountLabel },
+        ],
+        adminUrl: `${siteUrl()}/admin/operations/donations`,
       }),
     });
   }
