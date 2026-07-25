@@ -184,6 +184,7 @@ export type Database = {
           created_at: string;
           updated_at: string;
           programme_id: string | null;
+          archived_at: string | null;
         };
         Insert: {
           id?: string;
@@ -207,6 +208,7 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
           programme_id?: string | null;
+          archived_at?: string | null;
         };
         Update: {
           id?: string;
@@ -230,6 +232,7 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
           programme_id?: string | null;
+          archived_at?: string | null;
         };
         Relationships: [];
       };

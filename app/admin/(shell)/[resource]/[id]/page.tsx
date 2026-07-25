@@ -7,6 +7,7 @@ import { ResourceForm } from "@/components/admin/ResourceForm";
 import { PublishControl } from "@/components/admin/PublishControl";
 import { DeleteButton } from "@/components/admin/DeleteButton";
 import { RetireButton } from "@/components/admin/RetireButton";
+import { ArchiveButton } from "@/components/admin/ArchiveButton";
 import { AuditList } from "@/components/admin/AuditList";
 
 export const dynamic = "force-dynamic";
@@ -37,6 +38,14 @@ export default async function EditAdminResourcePage({
       <ResourceForm resource={formResource(resource)} initial={row} />
       {resource.key === "programmes" ? (
         <RetireButton
+          id={id}
+          name={String(row.title ?? resource.labelSingular)}
+          archived={Boolean(row.archived_at)}
+        />
+      ) : null}
+      {resource.key === "events" ? (
+        <ArchiveButton
+          resource={resource.key}
           id={id}
           name={String(row.title ?? resource.labelSingular)}
           archived={Boolean(row.archived_at)}

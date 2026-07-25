@@ -168,13 +168,41 @@ export async function deleteResource(
     }
   }
 
+  /* §5.12 — same shape for events and registrations: the FK is already ON
+     DELETE RESTRICT (Sprint 5.6), so the database refuses regardless; this
+     pre-check exists to say so in plain language, with a count, before the
+     click rather than only in the error after it. */
+  if (resource.key === "events") {
+    const { count } = await supabaseAdmin
+      .from("registrations")
+      .select("id", { count: "exact", head: true })
+      .eq("event_id", id);
+    if ((count ?? 0) > 0) {
+      return {
+        status: "error",
+        formError: `This event has ${count} registration${count === 1 ? "" : "s"} against it, so it cannot be deleted. Archive it instead — it will disappear from the public site and the registrations will be kept.`,
+      };
+    }
+  }
+
   const previous = await getRow(resource, id);
   const { error } = await supabaseAdmin
     .from(resource.table)
     .delete()
     .eq("id", id);
-  if (error)
+  if (error) {
+    // Backstop: the count check above and the delete are not in one
+    // transaction, so a registration could land in the gap between them.
+    // 23503 = foreign_key_violation.
+    if (error.code === "23503") {
+      return {
+        status: "error",
+        formError:
+          "This item is referenced by other records, so it cannot be deleted. Archive it instead.",
+      };
+    }
     return { status: "error", formError: "We could not delete this item." };
+  }
   revalidate(
     resource,
     resource.slugColumn
@@ -231,6 +259,46 @@ export async function retireProgramme(
   return {
     status: "success",
     message: "Programme retired. It is no longer on the public site.",
+  };
+}
+
+/**
+ * §5.12 — archive an event: it leaves the public site (the events RLS policy
+ * requires archived_at is null — 20260726000005) but every registration made
+ * against it is kept intact, unlike a delete which the FK now refuses anyway.
+ */
+export async function archiveResource(
+  _prev: ActionState = idle,
+  form: FormData,
+): Promise<ActionState> {
+  const resource = getResource(formValue(form, "resource"));
+  const id = formValue(form, "id");
+  if (!resource || !id || resource.key !== "events")
+    return { status: "error", formError: "That item cannot be archived." };
+
+  const auth = await requireStaffAction();
+  if (!auth.ok) return auth.state;
+
+  const previous = await getRow(resource, id);
+  const { error } = await supabaseAdmin
+    .from("events")
+    .update({ archived_at: new Date().toISOString(), status: "draft" })
+    .eq("id", id);
+  if (error)
+    return { status: "error", formError: "We could not archive this event." };
+
+  const slug = String(previous?.slug ?? "");
+  revalidate(resource, slug, slug);
+  void recordAudit(
+    auth.user,
+    "status_change",
+    "events",
+    id,
+    `Archived ${previous?.title ?? "event"}`,
+  );
+  return {
+    status: "success",
+    message: "Event archived. It is no longer on the public site; registrations are kept.",
   };
 }
 

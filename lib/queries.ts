@@ -331,7 +331,12 @@ export async function getSeatCounts(
     .from("registrations")
     .select("event_id, payment_status")
     .in("event_id", eventIds)
-    .in("payment_status", ["paid", "not_required"]);
+    .in("payment_status", ["paid", "not_required"])
+    // §5.12 — a cancelled registration must free its seat. There is exactly
+    // one seat-counting function, so this one line makes that true everywhere
+    // getSeatCounts is called: the public capacity meter, the admin operations
+    // screen, and anywhere else that reads a seat count.
+    .is("cancelled_at", null);
 
   const counts: Record<string, number> = {};
   for (const row of data ?? []) {
