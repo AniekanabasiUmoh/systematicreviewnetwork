@@ -14,6 +14,39 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      admin_audit: {
+        Row: {
+          id: string;
+          actor_id: string | null;
+          actor_email: string;
+          action: string;
+          resource: string;
+          resource_id: string | null;
+          summary: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          actor_id?: string | null;
+          actor_email: string;
+          action: string;
+          resource: string;
+          resource_id?: string | null;
+          summary?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          actor_id?: string | null;
+          actor_email?: string;
+          action?: string;
+          resource?: string;
+          resource_id?: string | null;
+          summary?: string | null;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
       applications: {
         Row: {
           id: string;
@@ -449,18 +482,24 @@ export type Database = {
           role: string;
           full_name: string | null;
           created_at: string;
+          email: string | null;
+          updated_at: string;
         };
         Insert: {
           id: string;
           role?: string;
           full_name?: string | null;
           created_at?: string;
+          email?: string | null;
+          updated_at?: string;
         };
         Update: {
           id?: string;
           role?: string;
           full_name?: string | null;
           created_at?: string;
+          email?: string | null;
+          updated_at?: string;
         };
         Relationships: [];
       };
@@ -699,6 +738,7 @@ export type Database = {
 };
 
 /** Convenience row aliases. */
+export type AdminAuditRow = Database["public"]["Tables"]["admin_audit"]["Row"];
 export type ApplicationsRow = Database["public"]["Tables"]["applications"]["Row"];
 export type ContactMessagesRow = Database["public"]["Tables"]["contact_messages"]["Row"];
 export type DonationsRow = Database["public"]["Tables"]["donations"]["Row"];

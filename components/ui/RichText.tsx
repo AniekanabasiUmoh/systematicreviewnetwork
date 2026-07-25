@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { ReactNode } from "react";
 
 /* Renders TipTap/ProseMirror JSON (the `body_rich` shape used by the `pages`,
@@ -21,12 +22,19 @@ type Node = {
   type: string;
   text?: string;
   content?: Node[];
-  attrs?: { level?: number; start?: number } | null;
+  attrs?: { level?: number; start?: number; src?: string; alt?: string } | null;
   marks?: Mark[] | null;
 };
 
 function isInternal(href: string) {
   return href.startsWith("/") || href.startsWith("#");
+}
+
+function isPublicMedia(src: string) {
+  const base = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  return (
+    Boolean(base) && src.startsWith(`${base}/storage/v1/object/public/media/`)
+  );
 }
 
 function Text({ node }: { node: Node }) {
@@ -36,14 +44,16 @@ function Text({ node }: { node: Node }) {
     else if (mark.type === "italic") el = <em>{el}</em>;
     else if (mark.type === "code")
       el = (
-        <code className="bg-mist text-ink px-1.5 py-0.5 text-[0.9em]">{el}</code>
+        <code className="bg-mist text-ink px-1.5 py-0.5 text-[0.9em]">
+          {el}
+        </code>
       );
     else if (mark.type === "link" && mark.attrs?.href) {
       const href = mark.attrs.href;
       el = isInternal(href) ? (
         <Link
           href={href}
-          className="text-ink underline decoration-1 underline-offset-2 hover:decoration-evidence"
+          className="text-ink hover:decoration-evidence underline decoration-1 underline-offset-2"
         >
           {el}
         </Link>
@@ -52,7 +62,7 @@ function Text({ node }: { node: Node }) {
           href={href}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-ink underline decoration-1 underline-offset-2 hover:decoration-evidence"
+          className="text-ink hover:decoration-evidence underline decoration-1 underline-offset-2"
         >
           {el}
         </a>
@@ -129,6 +139,22 @@ function RenderNode({ node }: { node: Node }) {
         </blockquote>
       );
 
+    case "image": {
+      const src = node.attrs?.src;
+      if (!src || !isPublicMedia(src)) return null;
+      return (
+        <figure className="mt-7">
+          <Image
+            src={src}
+            alt={node.attrs?.alt ?? ""}
+            width={1600}
+            height={900}
+            className="h-auto w-full rounded-none"
+          />
+        </figure>
+      );
+    }
+
     case "hardBreak":
       return <br />;
 
@@ -142,7 +168,12 @@ function RenderNode({ node }: { node: Node }) {
 export function richTextIsEmpty(body: unknown): boolean {
   const json = JSON.stringify(body ?? "");
   const text = json.replace(/\[PLACEHOLDER\][^"]*/g, "");
-  return !/[A-Za-z]/.test(text.replace(/"(type|content|attrs|marks|text|level|href|target|start)"/g, ""));
+  return !/[A-Za-z]/.test(
+    text.replace(
+      /"(type|content|attrs|marks|text|level|href|target|start)"/g,
+      "",
+    ),
+  );
 }
 
 export function RichText({ body }: { body: unknown }) {

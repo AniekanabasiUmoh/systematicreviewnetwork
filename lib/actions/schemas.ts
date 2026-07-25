@@ -8,7 +8,7 @@ import { z } from "zod";
  * that come in blank are normalized to undefined so we store null, not "".
  * Length caps are generous for humans, tight enough to blunt payload abuse. */
 
-const email = z
+export const email = z
   .string()
   .trim()
   .min(1, "Enter an email address.")
@@ -22,7 +22,7 @@ const name = z
   .max(120, "That name is too long — 120 characters max.");
 
 /** Optional free-text: blank → undefined, capped. */
-const optionalText = (max: number) =>
+export const optionalText = (max: number) =>
   z
     .string()
     .trim()
@@ -66,6 +66,15 @@ export type PartnershipInput = z.infer<typeof partnershipSchema>;
 // §6 newsletter_signups — email only.
 export const newsletterSchema = z.object({ email });
 export type NewsletterInput = z.infer<typeof newsletterSchema>;
+
+// Admin sign-in (§5.1). No complexity rules on sign-in — those belong on
+// invite/password-set, not on every login attempt.
+export const adminLoginSchema = z.object({
+  email,
+  password: z.string().min(1, "Enter your password."),
+  next: z.string().optional(),
+});
+export type AdminLoginInput = z.infer<typeof adminLoginSchema>;
 
 /** Turn a ZodError into { field: firstMessage } for the ActionState. */
 export function fieldErrorsFrom(error: z.ZodError): Record<string, string> {
