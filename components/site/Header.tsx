@@ -26,7 +26,7 @@ const HIGHLIGHT = { href: "/partner", label: "Partner with SRN" };
    <Link> on load, so linking to a route that does not exist yet fires a 404 per
    item and fills the console. Prefetch is disabled for these until the pages
    land; delete this set as each sprint completes. */
-const NOT_BUILT_YET = new Set(["/contact", "/partner"]);
+const NOT_BUILT_YET = new Set(["/contact"]);
 
 const prefetchFor = (href: string) =>
   NOT_BUILT_YET.has(href) ? false : undefined;
