@@ -3,6 +3,10 @@
     {
       "path": "/api/cron/expire-registrations",
       "schedule": "*/10 * * * *"
+    },
+    {
+      "path": "/api/cron/event-reminders",
+      "schedule": "0 7 * * *"
     }
   ]
 }

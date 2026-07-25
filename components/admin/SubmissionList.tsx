@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import type { SubmissionResource } from "@/lib/admin/submissions";
 import { StatusBadge } from "@/components/ui/Tag";
 import { EmptyState } from "./EmptyState";
@@ -47,7 +48,17 @@ const STATUS_KEYS = new Set([
   "published",
 ]);
 
-function StatusCell({ value }: { value: unknown }) {
+function StatusCell({ column, value }: { column: string; value: unknown }) {
+  /* unsubscribed_at isn't a status enum — it's a timestamp or null. The
+     screen must still show unsubscribed rows (badged) even though the export
+     never includes them (SubmissionResource.exportExclude). */
+  if (column === "unsubscribed_at") {
+    return value ? (
+      <StatusBadge status="rejected" label="Unsubscribed" />
+    ) : (
+      <StatusBadge status="published" label="Subscribed" />
+    );
+  }
   const status = String(value ?? "");
   if (!STATUS_KEYS.has(status)) return <span className="text-slate">{status || "—"}</span>;
   return (
@@ -62,10 +73,16 @@ export function SubmissionList({
   resource,
   rows,
   emptyBody,
+  rowActions,
 }: {
   resource: SubmissionResource;
   rows: Array<Record<string, unknown> & { id: string }>;
   emptyBody: string;
+  /* Sprint 5.11 — optional per-row controls (registrations' attendance/cancel
+     buttons). Kept generic rather than adding a registrations-only variant,
+     so every screen keeps the same formatting, empty state, and mobile
+     stacked-card layout. */
+  rowActions?: (row: Record<string, unknown> & { id: string }) => ReactNode;
 }) {
   const listColumns = resource.columns.filter((c) => c.inList !== false);
 
@@ -87,7 +104,7 @@ export function SubmissionList({
           }
         >
           {col.kind === "status" ? (
-            <StatusCell value={row[col.name]} />
+            <StatusCell column={col.name} value={row[col.name]} />
           ) : (
             formatCell(row[col.name], col.kind)
           )}
@@ -101,19 +118,18 @@ export function SubmissionList({
       {/* Below sm: stacked cards. A reflowed table at 360px reads badly —
           duplicated markup is the honest fix (Design.md §8/§9.9b). */}
       <ul className="border-hairline bg-paper divide-hairline divide-y border sm:hidden">
-        {rows.map((row) =>
-          resource.detailHref ? (
-            <li key={row.id}>
-              <Link href={resource.detailHref(row.id)} className="block p-4">
+        {rows.map((row) => (
+          <li key={row.id} className="p-4">
+            {resource.detailHref ? (
+              <Link href={resource.detailHref(row.id)} className="block">
                 <CardBody row={row} />
               </Link>
-            </li>
-          ) : (
-            <li key={row.id} className="p-4">
+            ) : (
               <CardBody row={row} />
-            </li>
-          ),
-        )}
+            )}
+            {rowActions ? <div className="mt-2">{rowActions(row)}</div> : null}
+          </li>
+        ))}
       </ul>
 
       <div className="border-hairline bg-paper hidden overflow-x-auto border sm:block">
@@ -130,6 +146,11 @@ export function SubmissionList({
                   <span className="sr-only">Open</span>
                 </th>
               ) : null}
+              {rowActions ? (
+                <th className="px-4 py-3">
+                  <span className="sr-only">Actions</span>
+                </th>
+              ) : null}
             </tr>
           </thead>
           <tbody>
@@ -144,7 +165,7 @@ export function SubmissionList({
                     }`}
                   >
                     {col.kind === "status" ? (
-                      <StatusCell value={row[col.name]} />
+                      <StatusCell column={col.name} value={row[col.name]} />
                     ) : (
                       formatCell(row[col.name], col.kind)
                     )}
@@ -159,6 +180,9 @@ export function SubmissionList({
                       Open
                     </Link>
                   </td>
+                ) : null}
+                {rowActions ? (
+                  <td className="px-4 py-3 text-right">{rowActions(row)}</td>
                 ) : null}
               </tr>
             ))}

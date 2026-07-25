@@ -91,6 +91,9 @@ const SUBMISSION_DEFINITIONS = {
       { name: "payment_status", label: "Payment status", kind: "status" },
       { name: "amount_kobo", label: "Amount", kind: "money" },
       { name: "created_at", label: "Registered", kind: "datetime" },
+      // Shown in the actions column instead of the list, per §5.11 — kept
+      // in the export as a plain yes/no so finance/attendance reporting has it.
+      { name: "attended_at", label: "Attended", kind: "text", inList: false },
     ],
   },
   applications: {
@@ -130,7 +133,16 @@ const SUBMISSION_DEFINITIONS = {
     columns: [
       { name: "email", label: "Email", kind: "email" },
       { name: "created_at", label: "Subscribed", kind: "datetime" },
+      // A real column, but never in the export — see exportExclude below.
+      // SubmissionList renders this one specially (subscribed/unsubscribed
+      // badge) rather than the raw timestamp, since staff need the status,
+      // not the moment it happened.
+      { name: "unsubscribed_at", label: "Status", kind: "status", inExport: false },
     ],
+    /* §5.11 — the export must never include an unsubscribed address. Living
+       on the descriptor is what makes this impossible to forget: every
+       consumer of this resource (the screen, the export route) shares it. */
+    exportExclude: (query) => query.is("unsubscribed_at", null),
   },
   contact: {
     key: "contact",

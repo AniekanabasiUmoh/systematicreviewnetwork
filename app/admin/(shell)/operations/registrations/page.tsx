@@ -8,6 +8,8 @@ import { SubmissionFilters } from "@/components/admin/SubmissionFilters";
 import { SubmissionList } from "@/components/admin/SubmissionList";
 import { Pagination } from "@/components/admin/Pagination";
 import { CapacityMeter } from "@/components/admin/CapacityMeter";
+import { RegistrantMessageForm } from "@/components/admin/RegistrantMessageForm";
+import { RegistrationRowActions } from "@/components/admin/RegistrationRowActions";
 
 export const dynamic = "force-dynamic";
 
@@ -73,11 +75,27 @@ export default async function RegistrationsPage({
         </div>
       ) : null}
 
+      <RegistrantMessageForm
+        recipients={rows
+          .filter((row) => !row.cancelled_at)
+          .map((row) => ({
+            full_name: String(row.full_name),
+            email: String(row.email),
+          }))}
+      />
+
       <SubmissionFilters resource={resource} search={search} />
       <SubmissionList
         resource={resource}
         rows={rows}
         emptyBody="No one has registered for an event yet. Registrations appear here as soon as someone signs up."
+        rowActions={(row) => (
+          <RegistrationRowActions
+            id={row.id}
+            attended={Boolean(row.attended_at)}
+            cancelled={Boolean(row.cancelled_at)}
+          />
+        )}
       />
       <Pagination page={page} pageSize={pageSize} count={count} searchParams={search} />
     </>

@@ -388,16 +388,22 @@ export type Database = {
           id: string;
           email: string;
           created_at: string;
+          unsubscribe_token: string;
+          unsubscribed_at: string | null;
         };
         Insert: {
           id?: string;
           email: string;
           created_at?: string;
+          unsubscribe_token?: string;
+          unsubscribed_at?: string | null;
         };
         Update: {
           id?: string;
           email?: string;
           created_at?: string;
+          unsubscribe_token?: string;
+          unsubscribed_at?: string | null;
         };
         Relationships: [];
       };
@@ -640,6 +646,9 @@ export type Database = {
           currency: Database["public"]["Enums"]["currency_code"] | null;
           paid_at: string | null;
           created_at: string;
+          attended_at: string | null;
+          cancelled_at: string | null;
+          reminder_sent_at: string | null;
         };
         Insert: {
           id?: string;
@@ -654,6 +663,9 @@ export type Database = {
           currency?: Database["public"]["Enums"]["currency_code"] | null;
           paid_at?: string | null;
           created_at?: string;
+          attended_at?: string | null;
+          cancelled_at?: string | null;
+          reminder_sent_at?: string | null;
         };
         Update: {
           id?: string;
@@ -668,6 +680,9 @@ export type Database = {
           currency?: Database["public"]["Enums"]["currency_code"] | null;
           paid_at?: string | null;
           created_at?: string;
+          attended_at?: string | null;
+          cancelled_at?: string | null;
+          reminder_sent_at?: string | null;
         };
         Relationships: [];
       };

@@ -150,6 +150,57 @@ export function InternalSubmissionNotification(props: {
   );
 }
 
+// ── Sprint 5.11 — a plain message from staff, reviewed before sending. Used
+// for both registrant broadcasts and application outcome emails: the body is
+// always staff-authored text, never templated copy the recipient can't see
+// before it's written to them.
+export function StaffMessage(props: {
+  fullName: string;
+  heading: string;
+  body: string;
+}) {
+  return (
+    <EmailLayout preview={props.heading} heading={props.heading}>
+      <P>Hi {props.fullName},</P>
+      {props.body.split("\n\n").map((paragraph, i) => (
+        <P key={i}>{paragraph}</P>
+      ))}
+    </EmailLayout>
+  );
+}
+
+// ── Sprint 5.11 — event reminder, 48-72h before start ──────────────────────
+export function EventReminder(props: {
+  fullName: string;
+  eventTitle: string;
+  whenLabel: string;
+  whereLabel: string;
+  eventUrl: string;
+}) {
+  return (
+    <EmailLayout
+      preview={`Reminder: ${props.eventTitle} is coming up`}
+      heading="Your event is coming up."
+    >
+      <P>Hi {props.fullName},</P>
+      <P>
+        A reminder that you&apos;re registered for <strong>{props.eventTitle}</strong>.
+      </P>
+      <DetailList
+        rows={[
+          { label: "When", value: props.whenLabel },
+          { label: "Where", value: props.whereLabel },
+        ]}
+      />
+      <Button href={props.eventUrl}>View event details</Button>
+      <P>
+        If you can no longer attend, reply to this email and let us know so we
+        can offer your place to someone else.
+      </P>
+    </EmailLayout>
+  );
+}
+
 // ── §13.5 — donation receipt ───────────────────────────────────────────────
 export function DonationReceipt(props: {
   donorName: string;

@@ -131,6 +131,10 @@ describe("security-definer RPCs are not callable by anon", () => {
     // Sprint 5.6 — same trap as the others: revoke from public is not enough,
     // Supabase grants EXECUTE to anon/authenticated independently.
     ["append_application_note", { p_id: "00000000-0000-0000-0000-000000000000", p_note: {} }],
+    // Sprint 5.11 — revoked from anon too: the public unsubscribe route uses
+    // supabaseAdmin, so granting anon here would add an enumerable mutation
+    // surface (probe tokens via the anon REST endpoint) for no reason.
+    ["unsubscribe_newsletter", { p_token: "00000000-0000-0000-0000-000000000000" }],
   ] as const) {
     it(`anon cannot execute ${fn}()`, async () => {
       const { error } = await anon.rpc(fn as never, args as never);

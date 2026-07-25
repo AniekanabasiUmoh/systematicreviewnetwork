@@ -18,10 +18,13 @@ export function EmailLayout({
   preview,
   heading,
   children,
+  unsubscribeUrl,
 }: {
   preview: string;
   heading: string;
   children: React.ReactNode;
+  /** Sprint 5.11 — shown only on emails sent to newsletter subscribers. */
+  unsubscribeUrl?: string;
 }) {
   return (
     <html lang="en">
@@ -134,6 +137,14 @@ export function EmailLayout({
                         >
                           systematicreviewsnetwork.org
                         </a>
+                        {unsubscribeUrl ? (
+                          <>
+                            {" · "}
+                            <a href={unsubscribeUrl} style={{ color: SLATE }}>
+                              Unsubscribe
+                            </a>
+                          </>
+                        ) : null}
                       </td>
                     </tr>
                   </tbody>

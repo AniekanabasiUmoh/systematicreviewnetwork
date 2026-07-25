@@ -6,6 +6,7 @@ import {
   ApplicationStatusControl,
   ApplicationNotes,
 } from "@/components/admin/ApplicationWorkflow";
+import { ApplicationOutcomeEmail } from "@/components/admin/ApplicationOutcomeEmail";
 import type { ApplicationStatus } from "@/lib/admin/applications";
 
 export const dynamic = "force-dynamic";
@@ -88,6 +89,10 @@ export default async function ApplicationDetailPage({
 
         <div>
           <ApplicationStatusControl
+            id={id}
+            status={row.status as ApplicationStatus}
+          />
+          <ApplicationOutcomeEmail
             id={id}
             status={row.status as ApplicationStatus}
           />
