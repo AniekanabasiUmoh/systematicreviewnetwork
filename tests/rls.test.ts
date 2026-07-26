@@ -50,6 +50,10 @@ const SUBMISSION_TABLES = [
   "profiles",
   // Sprint 5.1 — has been recording every admin mutation since; same posture.
   "admin_audit",
+  // Sprint 6.1 — the first table holding personal data an end user can log in
+  // and read back. Anon must get nothing: the only SELECT policy is
+  // `id = auth.uid()`, which no anon caller can ever satisfy.
+  "learners",
 ] as const;
 
 const CONTENT_TABLES = [
@@ -135,6 +139,15 @@ describe("security-definer RPCs are not callable by anon", () => {
     // supabaseAdmin, so granting anon here would add an enumerable mutation
     // surface (probe tokens via the anon REST endpoint) for no reason.
     ["unsubscribe_newsletter", { p_token: "00000000-0000-0000-0000-000000000000" }],
+    // Sprint 6.1 — the learner trust boundary. is_verified_learner() is granted
+    // to `authenticated` only because a learner-owned RLS policy invokes it as
+    // that role; anon must never reach it.
+    ["is_verified_learner", {}],
+    // The two mutual-exclusion trigger functions. Never called directly, but
+    // PostgREST exposes any callable public-schema function, so they are
+    // revoked from every API role rather than left reachable.
+    ["reject_staff_as_learner", {}],
+    ["reject_learner_as_staff", {}],
   ] as const) {
     it(`anon cannot execute ${fn}()`, async () => {
       const { error } = await anon.rpc(fn as never, args as never);

@@ -955,6 +955,34 @@ answered and must not be re-opened without a note here):
      `applications.programme` does (§5.7): it records what was submitted, and a
      later profile edit must not rewrite history.
 
+**Build decisions settled 2026-07-26** (asked before the phase started, so no
+sprint has to guess them):
+
+- **Paystack (6.4): build the full paid path now, verify later.** Both
+  `PAYSTACK_SECRET_KEY` and `PAYSTACK_WEBHOOK_SECRET` are **empty in `.env`
+  today**, so no paid flow can be tested end to end yet. `lib/paystack.ts` is
+  already written to the live REST contract and `isConfigured()` gates every
+  caller, so 6.4 reuses it verbatim and works the moment test keys land. Until
+  then 6.4's paid path is **written but unverified, and must be reported that
+  way** — free enrolment (`price_kobo = 0`) is fully testable and is the path
+  that gets proven first.
+- **6.9 images: free commercial-use stock (Unsplash/Pexels) plus SRN's own
+  photos wherever the topic fits.** The 16 real SRN images already in the media
+  bucket are used where they suit the lesson; licensed stock fills the rest.
+  **Images must be downloaded and uploaded into Supabase Storage, never
+  hotlinked** — `next.config.ts` allowlists only the project's own storage host
+  for the image optimizer, so a remote URL simply will not render. Reuse
+  `supabase/upload-media.mjs`; every image gets real alt text and its source
+  recorded.
+- **6.7 certificates: `pdf-lib`.** Small, fast, no headless browser, reliable on
+  serverless — the alternative (HTML→PDF) drags in a ~50MB rendering dependency
+  that is slow and fragile on Vercel. The cost is hand-positioned layout, so the
+  certificate design is deliberately simple and typographic.
+- **Autonomy: routine calls are made without asking**, and reported in the sprint
+  summary. The standing exception is that anything **unsafe or expensive to
+  undo** — a security boundary, a schema shape with data already in it, or money
+  moving — is built around and *asked*, not guessed.
+
 **Design constraint for the whole phase:** the Academy uses the **existing site
 design system** — same typefaces, same palette, same components, same imagery
 treatment. No gold, no green on text (green stays button/icon fills and focus

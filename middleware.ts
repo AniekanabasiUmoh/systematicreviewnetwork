@@ -20,9 +20,30 @@ const PUBLIC_ADMIN_PATHS = new Set([
   "/admin/reset",
 ]);
 
+/* Sprint 6.1 — learner-side gate. Same coarse question as the admin gate ("is
+   anyone signed in?") and, just as deliberately, nothing more: whether that
+   person is a LEARNER rather than staff, and whether they are verified, is
+   decided server-side in lib/academy/auth.ts on every page and every mutation.
+   A learner who signs in and then types /admin still gets nothing, because
+   lib/admin/auth.ts requires a `profiles` row they cannot have — the database
+   refuses to give one account both identities (20260727000001). */
+const LEARNER_PATHS = ["/account", "/academy/enrol"];
+
 export async function middleware(request: NextRequest) {
   const { response, user } = await updateSession(request);
   const { pathname, search } = request.nextUrl;
+
+  if (LEARNER_PATHS.some((p) => pathname === p || pathname.startsWith(p + "/"))) {
+    if (!user) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/academy/sign-in";
+      url.search = `?next=${encodeURIComponent(pathname + search)}`;
+      const redirect = NextResponse.redirect(url);
+      for (const c of response.cookies.getAll()) redirect.cookies.set(c);
+      return redirect;
+    }
+    return response;
+  }
 
   if (pathname === "/admin/login") {
     if (user) {
@@ -53,5 +74,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: ["/admin/:path*", "/account/:path*", "/account", "/academy/enrol/:path*"],
 };

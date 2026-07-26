@@ -308,6 +308,42 @@ export type Database = {
         };
         Relationships: [];
       };
+      learners: {
+        Row: {
+          id: string;
+          email: string;
+          full_name: string | null;
+          country: string | null;
+          institution: string | null;
+          orcid: string | null;
+          verified_at: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id: string;
+          email: string;
+          full_name?: string | null;
+          country?: string | null;
+          institution?: string | null;
+          orcid?: string | null;
+          verified_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          email?: string;
+          full_name?: string | null;
+          country?: string | null;
+          institution?: string | null;
+          orcid?: string | null;
+          verified_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       media: {
         Row: {
           id: string;
@@ -652,6 +688,7 @@ export type Database = {
           attended_at: string | null;
           cancelled_at: string | null;
           reminder_sent_at: string | null;
+          learner_id: string | null;
         };
         Insert: {
           id?: string;
@@ -669,6 +706,7 @@ export type Database = {
           attended_at?: string | null;
           cancelled_at?: string | null;
           reminder_sent_at?: string | null;
+          learner_id?: string | null;
         };
         Update: {
           id?: string;
@@ -686,6 +724,7 @@ export type Database = {
           attended_at?: string | null;
           cancelled_at?: string | null;
           reminder_sent_at?: string | null;
+          learner_id?: string | null;
         };
         Relationships: [];
       };
@@ -838,6 +877,7 @@ export type DonationsRow = Database["public"]["Tables"]["donations"]["Row"];
 export type EventsRow = Database["public"]["Tables"]["events"]["Row"];
 export type HomepageRow = Database["public"]["Tables"]["homepage"]["Row"];
 export type ImpactStatsRow = Database["public"]["Tables"]["impact_stats"]["Row"];
+export type LearnersRow = Database["public"]["Tables"]["learners"]["Row"];
 export type MediaRow = Database["public"]["Tables"]["media"]["Row"];
 export type NewsRow = Database["public"]["Tables"]["news"]["Row"];
 export type NewsletterSignupsRow = Database["public"]["Tables"]["newsletter_signups"]["Row"];
