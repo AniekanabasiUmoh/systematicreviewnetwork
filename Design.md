@@ -21,7 +21,7 @@
 | Fonts               | **next/font (Google)**               | Archivo (display) + Inter (body) — §3.2, revised 2026-07-24. Self-hosted via next/font, no layout shift.    |
 | Analytics           | **Plausible**                        | Privacy-friendly, added at launch.                                                                          |
 
-**Locked decisions:** fixed registration fields (no per-event form builder in v1) · anonymous public submissions (no end-user accounts) · accounts/members area = phase 2 · staff are non-technical, the admin UX is a first-class deliverable.
+**Locked decisions:** fixed registration fields (no per-event form builder in v1) · ~~anonymous public submissions (no end-user accounts)~~ — **reversed 2026-07-26, see Phase 6 decision 5:** learner accounts arrive in Sprint 6.1 and anonymous event registration ends there · accounts/members area = Phase 6 (learner) and Phase 7 (member) · staff are non-technical, the admin UX is a first-class deliverable.
 
 **Architecture rule for all public forms:** the browser never writes to Supabase directly. Every public form submits to a **Next.js server action / route handler** which validates, rate-limits, and writes using the server-side service role. Supabase RLS then denies the anon key _everything_ on submission tables — defense in depth, not the primary gate. (§9, Sprint 3.1.)
 
@@ -193,6 +193,9 @@ typographic indexes rather than card grids.
 
 **Content** (staff-edited, public reads published rows only)
 
+- `programmes` — id, title, slug (unique), programme_type (academy|course|mentorship|webinar|institutional_training|other), tagline, audience, format, duration, intro, body_rich, covers jsonb, for_who jsonb, featured_image_url, **icon_name** (text — see below), cta_label, cta_kind (apply|interest|partner|external), cta_url (nullable), sort_order, status (draft|published), created_at, updated_at. **Programmes are staff-managed content, never a hard-coded TypeScript list.** Events may optionally reference a programme; existing application text values must be backfilled safely before a programme foreign key becomes required.
+  - `icon_name` exists because the current `Programme.icon` field in `lib/programmes.ts` is a **`LucideIcon` component reference**, which a database row cannot hold. Store the icon's *name* and map it through a fixed allowlist in code; an unrecognised value falls back to a default icon rather than crashing the page. Staff pick from that list — they never type a component name.
+  - Retiring vs deleting: a programme referenced by any application is **archived, never hard-deleted**, so historic applications and CSV exports keep their meaning (§5.7).
 - `events` — id, title, slug, description_rich, type (webinar|course|mentorship|workshop), starts_at, ends_at, location_type (online|in_person), location_or_link, registration_opens, registration_closes, capacity, banner_url, recording_url, status (draft|published), **price_kobo (int, nullable — null/0 = free), currency (NGN|USD, default NGN)** (§13.1), created_at
 - `news` — id, title, slug, body_rich, excerpt, featured_image_url, author, published_at, status
 - `team_members` — id, name, role, photo_url, bio, affiliation, linkedin_url, orcid_url, group (executive|scientific|country_lead|mentor), sort_order
@@ -248,6 +251,32 @@ Roles via Supabase Auth: **admin** (all + user management) · **editor** (conten
 - **Newsletter & Contact** — view + CSV export.
 - Admin uses the same design tokens: this is part of the design deliverable, not an afterthought. Plain-language empty states and errors per §4 writing rules.
 
+- **Programmes & Academy** — a dedicated collection, not a source-code file. Staff can add, edit, reorder, draft, publish and retire any programme (including a new Academy), set its programme type, audience, format, duration, learning outcomes, CTA, feature image and related events/resources. The Programme hub and every programme detail page read this data. A programme must not be hard-deleted while applications reference it; retire/archive it instead.
+- **Safe media embeds** — rich text may insert a structured `embed` block for an approved YouTube/Vimeo video or a Zoom recording/link. Staff paste a normal URL; the server parses and allowlists the host and stores a normalised provider/id, never raw iframe or arbitrary HTML. YouTube embeds use the privacy-enhanced domain and a title; Zoom live meetings and any access-controlled recording stay as a labelled external button/link, never an iframe or a password-bearing URL in public content. Every embed needs a meaningful title and must render accessibly with a no-JavaScript fallback link.
+- **Admin visual quality is a delivery requirement.** It uses the same §3 palette, Archivo/Inter typography, sharp-cornered panels, hairline rules, focus treatment and buttons as the public site, and must feel like SRN rather than a default database dashboard. **Density is where it deliberately differs:** the public pages are read top-to-bottom and use `--spacing-section` (6rem) to breathe; the admin is scanned and operated for an hour at a time, so it uses a tighter vertical rhythm and a compact type scale. A list showing eight events must not take three screens. Use real content thumbnails and concise previews where they help staff recognise an item; do not add decorative hero photos, oversized headings, or public-site-style section spacing that pushes work below the fold.
+
+**Admin scope boundary (decided 2026-07-25, revised after review).** The admin manages **content**, not **site design**. This is not a mini-WordPress and staff must not be able to restructure the site from it.
+
+The test is not "how often does this change" but: **does this describe SRN, or does it describe the website?**
+
+| Describes SRN → **in admin** | Describes the website → **stays in code** |
+| --- | --- |
+| Programmes & Academy, courses | Homepage layout and copy blocks |
+| Events | Site pages (About, FAQ, Privacy, Terms) |
+| News & articles | Navigation, section ordering |
+| Team members | Impact counters (`impact_stats`) |
+| Resources | Countries reached (`reach_countries`) |
+| Testimonials, partners | The visual system itself |
+| Media library | |
+
+**Removed from the admin** (they were exposed at the top level by the Sprint 5.2 sidebar, before this boundary was agreed): `homepage`, `pages`, `impact_stats`, `reach_countries`. These are layout and presentation; they belong in version control where a change is reviewable and revertible.
+
+**Kept, with reasoning**, because the first review round proposed cutting them:
+
+- **Team members** — people join and leave SRN. Locking this in code makes every new hire a developer ticket. It describes the organisation, not the website.
+- **Testimonials and partners** — these grow as SRN grows, and each is a piece of evidence about the organisation, not a design element.
+- **Drag-reorder** — kept only for `team_members` and `partners`, and only because without it, display order is insert order: the Director ends up below a country lead by accident. This is one ordering control, not a page builder. It is not offered anywhere else.
+
 Scope discipline: this list **is** v1. No analytics dashboards, no certificate generation, no member management.
 
 ---
@@ -290,7 +319,7 @@ Scope discipline: this list **is** v1. No analytics dashboards, no certificate g
 
 - _Goal:_ Fortune knows exactly what to supply; launch is formally blocked on it.
 - _Build:_ a one-page checklist document (from §7A + §12 open answers): hero photo, 4–6 event photos, all headshots, partner logos, logo vector, impact numbers, country list, programme details, 2–3 testimonials with permission, annual report PDFs if any. Written in plain language, with the photo specs translated simply ("wide photo, at least 2400px across, people mid-activity").
-- _Done when:_ checklist delivered to Fortune; tracked as the launch blocker for Sprint 6.1.
+- _Done when:_ checklist delivered to Fortune; tracked as the launch blocker for Sprint 8.1.
 
 **Sprint 0.4 — Seed data**
 
@@ -419,7 +448,7 @@ credentials land, and both fail *honestly* rather than faking success:
   returns "payment is being switched on — email us" instead of a dead checkout.
   Signature rejection is tested and verified against forged requests (401, no
   DB write). Two signing tests self-skip until a key exists, then run.
-- **Resend domain** is unverified until Sprint 6.3, so `RESEND_FROM` must point
+- **Resend domain** is unverified until Sprint 8.3, so `RESEND_FROM` must point
   at the sandbox sender for now (see §11). Transport itself is verified working.
 
 Test gate is now `npm test` → 85 passing / 2 skipped across RLS, Paystack
@@ -457,66 +486,545 @@ signature + .ics, and action-schema/DB-invariant suites.
 
 ---
 
-### Phase 6 — Launch
+#### Delivery status & sprint ordering (recorded 2026-07-25)
 
-**Sprint 6.1 — Real content load**
+**Built and verified:** 5.1 (auth, middleware gating, invite-only accounts,
+session survival, open-redirect guard) and 5.2 (resource registry, generic CRUD
+for eleven tables, Tiptap, media library, users page). 5.3 and 5.4 are specified
+but not built; they are delivered by Sprint 5.6 below.
 
-- _Build:_ §7A assets in via the admin (dogfood it — loading real content through the admin is its final QA); replace every seed row; typo-clean copy pass (the old site's "Passsion"/"Diverty" class of errors must not migrate).
-- _Done when:_ `grep -r "PLACEHOLDER"` returns zero across code and database; every image has real alt text.
+**Sprints 5.5–5.9 replace an earlier single "5.5" that bundled five unrelated
+workstreams** — defect fixes, submissions, applications, programmes, embeds and
+a visual pass — into one item. They were split because they differ in size, risk
+and urgency, and because 5.3/5.4 were already specified to the file path and
+should not be re-planned by absorption into a larger bundle.
 
-**Sprint 6.2 — SEO & performance**
+Recommended order, and why:
 
-- _Build:_ per-page metadata + OG images (template-generated with title on brand navy); sitemap.xml + robots.txt; JSON-LD: Organization sitewide, Event on event pages, Article on news/guides; image audit (dimensions, priority on hero, lazy elsewhere); font subsetting check; Lighthouse pass on homepage, one event, one programme, one article.
-- _Done when:_ ≥90 perf/a11y/SEO/best-practices on all four audited pages, mobile and desktop.
+| # | Sprint | Why here |
+| --- | --- | --- |
+| 5.5 | Live-site defect sweep | Minutes of work on **currently shipping** defects. Never queue these behind features. |
+| 5.6 | Operations workspace | Already fully specified; it is the **weekly** work (attendee lists, application review). |
+| 5.7 | Programmes as content | Large and structural, but a **quarterly** need. Correctness of the migration matters more than speed. |
+| 5.8 | Safe embeds | Depends on the rich-text editor being stable; security-sensitive, wants its own attention. |
+| 5.9 | Scope narrowing & UX pass | Narrowing scope over routes that don't exist yet would be re-work, so it follows the routes. |
+| 5.10 | Staff self-service & notifications | Small but high-frequency pain; safe to run in parallel with 5.9 if capacity allows. |
+| 5.11 | Participant communication | Contains the unsubscribe compliance item — **must land before any newsletter campaign is sent.** |
+| 5.12 | Data safety | Guards data created by everything above; the cascade-delete exposure exists **today**, so pull it earlier if events are being deleted in anger. |
 
-SPRINT 6.3: CHECK FOR STUBS AND ANY GAPS
+Two ordering claims worth stating plainly:
 
-**Sprint 6.4 — Go live**
+1. **Do not let 5.7 jump the queue over 5.6.** Programmes-as-content is the more
+   interesting problem, but Fortune's staff export an attendee list every week
+   and launch an Academy every few months. Build the thing they touch most often.
+2. **5.11's unsubscribe is a gate, not a feature.** No newsletter campaign goes
+   out until it exists.
 
-- _Build:_ production domain + DNS, Resend domain verification (SPF/DKIM so confirmations don't land in spam — test this explicitly), Plausible, full production form sweep (register, apply, subscribe, contact — real emails), staff walkthrough doc (short, screenshots, plain language: "how to add an event," "how to export your attendee list," "how to review applications"), staff logins issued.
-- _Done when:_ Fortune's staff have logins and have successfully created and published a test event themselves; a test registration confirmation arrives in a normal inbox, not spam.
+The Academy was briefly scoped here as a courses-and-cohorts sprint, then moved
+out entirely: it is **Phase 7**, a full learning platform, not an admin feature.
+Phase 5 stops at programmes-as-content (5.7), which is the foundation Phase 7
+builds on.
+
+Sprints 5.10–5.12 came out of a functionality review on 2026-07-25 that asked
+"what is missing that nobody has noticed." The three findings that were genuinely
+invisible until then, all recorded above: `newsletter_signups` has no unsubscribe
+mechanism at all; `registrations.event_id` cascades on delete so removing an
+event silently destroys its registrations; and `admin_audit` has been collecting
+a full mutation history since 5.1 that no screen has ever displayed.
 
 ---
 
-### Phase 2 (post-launch, out of scope for this build)
+**Sprint 5.5 — Live-site defect sweep**
 
-Everything below is deliberately **not** in the launch build. It is recorded here
-so the v1 schema and architecture don't foreclose it, and so a future scoping
-conversation starts from a written baseline rather than memory. Nothing here is
-committed, estimated, or promised — each item needs its own scoping pass.
+Small, unglamorous, and first. These are shipped-site defects found in the
+2026-07-25 audit, not new features. They are separated out because bundling a
+one-line component swap into a feature phase is how small bugs become permanent.
 
-Ordering note: these are listed by dependency, not priority. **2.1 (accounts)**
-is the gate for 2.2, 2.4, and much of 2.5 — almost everything else assumes a
-signed-in end user exists. Sequencing beyond that is Fortune's call.
+- _Build:_
+  - Homepage newsletter block (`app/(site)/page.tsx`, §11 strip) renders a
+    hard-coded `disabled` input and button — a Phase 4 leftover. Replace with the
+    working `<NewsletterForm />` already live in the footer, or remove the strip.
+    A visibly dead form on the homepage reads as a broken site.
+  - Four `href="#"` placeholder social links (`components/site/Footer.tsx`,
+    `app/(site)/contact/page.tsx`). Either point them at SRN's real LinkedIn/X
+    profiles or remove the marks entirely. Placeholder hrefs violate the standing
+    §7 no-placeholder rule and were missed because `grep "PLACEHOLDER"` doesn't
+    catch `#`.
+  - Re-run the public sweep afterwards to confirm nothing else ships a dead
+    control.
+- _Done when:_ no disabled-looking form and no `href="#"` anywhere in
+  `app/` or `components/`; the homepage newsletter accepts a real signup.
 
-**2.1 — End-user accounts + member area**
+**Sprint 5.6 — Operations workspace (registrations, submissions, applications)**
 
-- Supabase Auth for *end users* (distinct from the staff `profiles` roles built
-  in Sprint 5.1): self-serve signup, email verification, password reset.
-- A `members` profile carrying name, institution, country, research interests.
-- Member area: "my registrations", "my applications", downloadable resources
-  gated to signed-in users, and a profile editor.
-- **Migration concern:** registrations and applications are currently keyed by
-  email only (§6). Retro-linking historical rows to new accounts means matching
-  on `lower(email)` — plan a backfill, and expect ambiguity where one person
-  used two addresses.
-- **Decision needed:** does an account become *required* to register for an
-  event? Requiring it lifts data quality and kills duplicate registrations, but
-  measurably suppresses signup on a capacity-building site whose audience is
-  often on poor connections. Default recommendation: keep guest registration,
-  offer an optional account at the confirmation step.
+This is Sprints 5.3 and 5.4 delivered as one coherent area, since they share
+filters, CSV plumbing and navigation. **The 5.3/5.4 specs above are unchanged and
+remain the authority** — they are already specified to the file path (the CSV
+injection guard, the atomic notes RPC, the transition map, the date-boundary
+off-by-one). This sprint is the packaging, not a re-plan.
 
-**2.2 — Applicant dashboards**
+Sequencing note: this lands **before** programmes-as-content (5.7) deliberately.
+Exporting an attendee list and reviewing applications is *weekly* work for
+Fortune's staff; launching a new Academy is *quarterly*. Build the weekly thing
+first.
+
+- _Build:_ everything in Sprints 5.3 and 5.4, plus a single `Operations` nav
+  section grouping Registrations, Applications, Newsletter, Contact and
+  Donations, so the sidebar gains one item rather than five.
+- _Done when:_ both 5.3 and 5.4 "done when" conditions hold, and no operations
+  route is reachable from the sidebar before it works.
+
+**Sprint 5.7 — Programmes & Academy as managed content**
+
+The largest item, and a genuine design correction: `lib/programmes.ts` is a
+hard-coded TypeScript array, so launching a new Academy is currently a code
+change and a deploy. That is indefensible for SRN's core offering.
+
+- _Build:_
+  - Create the `programmes` table per §6 and migrate all five existing entries,
+    **preserving the current slugs exactly** (`beginner-academy`,
+    `practical-course`, `mentorship`, `webinar-series`,
+    `institutional-training`) so no public URL breaks and no inbound link dies.
+  - Rebuild the six consumers to read published rows: the homepage index,
+    `/programmes`, `/programmes/[slug]`, `/programmes/mentorship`,
+    `/programmes/apply`, and `lib/actions/application.ts`.
+  - Add, edit, draft, publish, reorder and retire controls. A new Academy is a
+    new row, not a developer task.
+  - Optional programme↔event relationship, so an event can name the programme it
+    belongs to.
+- _Three constraints that must be designed for, not discovered:_
+  1. **`Programme.icon` is a `LucideIcon` component reference.** A database row
+     cannot store a React component. Replace it with a stored icon *name* mapped
+     through a fixed allowlist in code (`GraduationCap | Users | BookOpen |
+     Presentation | Building2 | …`). Do not store arbitrary component names, and
+     do not let an unknown value crash the page — fall back to a default icon.
+  2. **`lib/actions/application.ts` validates against `PROGRAMMES.map(p => p.title)`.**
+     Moving programmes to the database moves the validation boundary of a **live
+     public form**. The validation must switch to a query against published
+     programmes, and must keep accepting a submission whose programme was
+     retired between page load and submit — reject the *unknown*, not the *retired*.
+  3. **`applications.programme` is a `text` column holding the title string.**
+     Renaming a programme silently orphans every historic application from its
+     label. Add a nullable `programme_id` FK for new rows and keep the text as a
+     historic snapshot; never rewrite stored application text. A programme with
+     applications is **retired, never hard-deleted** — enforce that in the
+     delete action, with a plain-language refusal naming the count.
+- _Done when:_ Fortune creates and publishes a new Academy from `/admin`, it
+  appears on the homepage and the hub, its detail page renders at its own URL,
+  and an application against it records correctly — with every pre-existing
+  programme URL still resolving.
+
+**Sprint 5.8 — Safe media embeds**
+
+- _Build:_ a structured `embed` node in the rich text editor per §8. Staff paste
+  an ordinary URL; the **server** parses it, allowlists the host, and stores a
+  normalised `{provider, id, title}` — never raw HTML, never an iframe from user
+  input. YouTube uses the privacy-enhanced domain (`youtube-nocookie.com`).
+  Every embed requires a title and renders a no-JavaScript fallback link.
+- _Security floor (non-negotiable):_ **a live Zoom meeting link is not public
+  content.** Anyone who finds the page can join the session. Recordings may be
+  embedded or linked; live meeting joins render as a labelled external link only,
+  are never iframed, and any URL carrying a password or passcode parameter is
+  rejected at the server with a plain-language error explaining why. This is the
+  same posture as the §13.4 webhook: validate on the server, never trust what
+  arrived from the client.
+- _Done when:_ a YouTube recording embeds and plays; a pasted `<iframe>`, a
+  non-allowlisted host, and a password-bearing Zoom URL are each refused with a
+  clear reason; embeds render accessibly with JS disabled.
+
+**Sprint 5.9 — Admin scope narrowing & UX pass**
+
+The Sprint 5.2 sidebar exposed every content table at the top level, including
+the six that govern how the site *presents* itself. The scope boundary in §8 was
+agreed after that was built; this sprint makes the code match the decision.
+
+- _Build:_
+  - Apply the §8 admin scope boundary. **Remove** `homepage`, `pages`,
+    `impact_stats` and `reach_countries` from the admin entirely — routes,
+    registry entries and nav. They are layout, not content, and they return to
+    code. Removing the route matters as much as removing the link: a deleted nav
+    item that still resolves by URL is not a removed feature.
+  - Keep Programmes, Events, News, Team, Resources, Testimonials, Partners and
+    Media. Drag-reorder stays only on `team_members` and `partners`.
+  - The UX pass: real hierarchy, content thumbnails and previews so staff
+    recognise an item without opening it, plain-language empty states, and a
+    genuine responsive treatment.
+  - Visual review at desktop **and 360px** against the §3 tokens.
+- _Design note:_ "match the public site" means palette, type, sharp corners,
+  hairline rules and focus treatment — **not** its spacing rhythm. See the
+  density note in §8. An admin that looks like the homepage is a worse tool than
+  one that looks like a well-built admin.
+- _Done when:_ an **editor** signing in sees only content they are meant to
+  touch, and a removed route 404s rather than rendering; every list is
+  scannable without horizontal scroll at 360px; nothing renders default,
+  unstyled, or empty-without-explanation.
+
+**Sprint 5.10 — Staff self-service & notifications**
+
+Gaps that will bite in the first week of real use. None are large; all are the
+difference between a system staff can run and one that needs a developer.
+
+- _Build:_
+  - **Password reset.** Staff request a reset link from the login page and set a
+    new password themselves. Today the only route is the CLI or the Supabase
+    dashboard — the first forgotten password becomes a support call.
+  - **Change your own password** from within the admin.
+  - **Submission notifications.** A new application, registration, contact
+    message or donation currently lands silently in the database. Send a
+    notification to SRN's inbox on arrival, plus a **daily digest** ("3 new
+    applications, 12 registrations") so nothing waits on someone remembering to
+    look.
+  - **"Who changed this."** Every mutation already writes to `admin_audit`
+    (built in 5.1) and **nothing displays it**. Surface the last edits on the
+    dashboard and a per-item history on each edit form. The data is already
+    there; this is a read view.
+  - **Search across content** — one box, all collections. Fine at twenty events,
+    necessary at two hundred.
+- _Done when:_ a staffer resets their own password without help; a new
+  application produces a notification; the dashboard shows who changed what and
+  when.
+
+**Sprint 5.11 — Participant communication & lifecycle**
+
+Everything here is about the people on the other side of the form. Several are
+compliance matters, not conveniences.
+
+- _Build:_
+  - **Newsletter unsubscribe.** `newsletter_signups` has **no unsubscribe token
+    and no unsubscribed flag** — there is currently no way for anyone to opt out.
+    Sending campaigns in that state is a legal problem in most jurisdictions, not
+    a missing nicety. Add a token, a one-click unsubscribe route, and an
+    `unsubscribed_at` column; exports must exclude unsubscribed addresses.
+  - **Email the people who registered.** Venue changes and links move. Fortune
+    currently has no way to reach an attendee list except exporting to Excel and
+    pasting into Gmail. Provide at minimum a "copy all email addresses" control,
+    and preferably a compose-and-send to one event's confirmed registrants.
+  - **Event reminders.** Someone registering in March for a June workshop hears
+    nothing until it starts. Send a reminder ahead of the event — highest-value,
+    lowest-effort email SRN can send.
+  - **Application outcome emails.** Accepting someone currently changes a status
+    in a database and the applicant never hears. Send on transition to
+    accepted/waitlisted/rejected, with the message reviewable before it goes.
+    (Explicitly deferred in 5.4; this is where it lands.)
+  - **Attendance marking.** Registered ≠ attended, and SRN's impact numbers
+    depend on the difference. A simple present/absent toggle per registration.
+- _Done when:_ an unsubscribe link works end to end and unsubscribed addresses
+  never appear in an export; an accepted applicant receives an email; attendance
+  is recordable per event.
+
+**Sprint 5.12 — Data safety**
+
+Small sprint, real consequences. Written up because the current behaviour is
+silent and destructive.
+
+- _Build:_
+  - **`registrations.event_id` is `on delete cascade`.** Deleting an event today
+    permanently destroys every registration attached to it, with no warning and
+    no recovery. Same exposure on any future cohort/application relationship.
+    Fix: refuse to delete an event that has registrations — offer **archive**
+    instead — and make the confirm dialog state the count explicitly ("This
+    event has 47 registrations. Deleting removes them permanently.").
+  - **Archive rather than delete** across events, programmes, courses and
+    cohorts: content with participant data attached is retired, never destroyed.
+  - **Cancellations and refunds.** A paid registrant who cannot attend has no
+    path today; the refund happens in Paystack with no record on the site. Record
+    a cancellation, reflect it in seat counts, and mark refunded registrations
+    so exports and capacity stay honest.
+- _Done when:_ deleting an event with registrations is impossible without an
+  explicit archive step; a refunded registration frees its seat and is visible
+  as refunded in exports.
+
+---
+
+### Phase 6 — SRN Academy (learning platform)
+
+**Swapped with Phase 8 on 2026-07-25.** This phase was Phase 8; see the note
+below for why. Phase numbers are execution order in this document — when the
+order changes, the numbers move with it rather than carrying a footnote
+explaining why they don't match.
+
+**Phase goal:** SRN stops *advertising* training and starts *delivering* it.
+A learner signs up, enrols in a cohort, works through lessons at their own pace,
+submits assignments, and finishes with a certificate — without leaving the site.
+
+**This is a second product, not a feature** — more surface area than any single
+phase so far, and the first to store data a user logs in and reads back.
+Building it right after Phase 5 (rather than waiting behind Launch) is a
+deliberate choice: SRN has real cohorts and a working admin today, and the
+fastest way to build the wrong LMS is to let it drift further behind still more
+phases before anyone tests it against a real course.
+
+**On build vs. buy:** the obvious alternative is a hosted LMS (Teachable,
+Thinkific) or self-hosted Moodle. That trade is normally decided on build cost,
+but this project's actual delivery rate makes "it's faster to buy" a much weaker
+argument than the industry default suggests — Phases 3, 4 and most of 5 each
+landed in hours, not weeks. The real arguments for building are that the
+credential is SRN-branded and SRN-verified (§6.7), the learner data lives in
+SRN's own database for funder reporting (§6.8), and the Academy sits inside the
+site rather than on a third-party subdomain. The real argument for buying is that
+a hosted LMS has already solved quiz edge cases, SCORM, and mobile playback.
+**Recommendation: build**, but keep 6.2 (courses & cohorts) shippable on its own,
+so the catalogue and SEO value exist even if the rest is deferred.
+
+**The decision that drives everything:** the Academy needs **end-user accounts**.
+Until now, every public interaction has been anonymous (Design.md §1: "anonymous
+public submissions, no end-user accounts"). That constraint ends here. Learner
+accounts were previously listed as post-launch Phase 2.1; they move into 6.1
+because nothing else in this phase can exist without them.
+
+**Sprint 6.1 — Learner accounts**
+
+- _Build:_ public sign-up (this is the first public auth surface on the site —
+  staff `/admin` auth stays entirely separate), email verification, password
+  reset, learner profile (name, country, institution, ORCID), `/account`
+  dashboard. A `learners` table distinct from `profiles`; a learner is **never**
+  staff and must not be able to reach `/admin` by any path.
+- _Security floor:_ RLS on every learner-owned table so a learner reads their own
+  rows and nobody else's. This is the first time the site stores personal data a
+  user can log in and read back, so the anon key must be provably unable to read
+  another learner's enrolment, submission, or grade. Adversarial test suite in
+  the style of `tests/rls.test.ts`.
+- _Also in scope (decision 5):_ `learners.verified_at` as the trust boundary,
+  `registrations.learner_id` (nullable FK, `on delete restrict`), and the
+  **verified-email backfill** — on verification, prior registrations on that
+  exact address link to the learner. The event form keeps taking name + email
+  with no verification step and creates an unverified learner row; course
+  enrolment requires a verified one. `email` stays a snapshot and is never
+  rewritten by a profile edit.
+- _Done when:_ a learner signs up, verifies, signs in, edits their profile, and
+  cannot see another learner's data or reach any `/admin` route; a person who
+  registered for an event *before* signing up sees that registration in
+  `/account` once they verify the same address; and an **unverified** row —
+  created by typing any address into the event form — opens no enrolment, no
+  materials, and no other person's registration history.
+
+**Sprint 6.2 — Courses & cohorts**
+
+The catalogue layer, built on 5.7's `programmes`.
+
+- _Schema:_ `courses` (programme_id FK, title, slug, summary, body_rich, level,
+  delivery, duration_label, learning_outcomes jsonb, prerequisites,
+  featured_image_url, sort_order, status) · `cohorts` (course_id FK, label,
+  starts_on, ends_on, enrolment_opens, enrolment_closes, capacity, price_kobo,
+  currency, status, **`pacing`**). `pacing` is `'self_paced' | 'cohort_paced'`
+  (decision 1) and gates the date-driven behaviour in 6.3, 6.5 and 6.6.
+  `price_kobo = 0` is the free tier (decision 4) — no separate free-course
+  concept; a free enrolment goes active with `payment_status='not_required'`.
+- _Build:_ admin CRUD nested Programme → Course → Cohort, not three flat lists.
+  Public course pages at `/academy/[course]` showing the open cohort. **Duplicate
+  a cohort** — SRN runs the same course every term and must not retype a
+  syllabus. Reuse the existing state machine in `lib/events.ts` for cohort
+  open/closed/full rather than writing a second one.
+- _Done when:_ Fortune creates a course, opens a cohort with dates and capacity,
+  and it appears publicly with a working enrol route; last term's cohort remains
+  as history.
+
+**Sprint 6.3 — Curriculum & materials**
+
+- _Schema:_ `modules` (cohort or course scoped, title, summary, sort_order,
+  release_rule) · `lessons` (module_id FK, title, body_rich, video embed,
+  attachments, estimated_minutes, sort_order, status).
+- _Build:_ a curriculum builder in the admin — drag-order modules and lessons,
+  attach readings and slides from the media library, embed video using the safe
+  embed system from 5.8 (no raw iframes, ever). Optional **drip release**: a
+  module unlocks on a date or after the previous one is complete. Drip applies
+  **only to a cohort-paced cohort** (decision 1) — in a self-paced cohort
+  `release_rule` is ignored entirely and every module is open from enrolment.
+  Both paths must be tested; a self-paced learner must never hit a locked module.
+- _Storage note:_ course materials are **not** public like `media`. A private
+  bucket with signed URLs, so a paid course's slides aren't a guessable public
+  link. This is a genuinely different storage posture from everything built so
+  far and should not be bolted onto the `media` bucket. Because access outlives
+  the cohort (decision 3), signed URLs are issued on demand **for as long as the
+  enrolment exists** — the check is "is there an enrolment", never "is the cohort
+  still running". Materials for a cohort with enrolments cannot be hard-deleted:
+  `ON DELETE RESTRICT` plus `archived_at`, the same pattern and the same counted
+  refusal as §5.7/§5.12.
+- _Done when:_ a staffer builds a multi-module course with video, readings and
+  downloads; an unenrolled visitor cannot reach any of it.
+
+**Sprint 6.4 — Enrolment & payment**
+
+- _Build:_ enrol in a cohort, free or paid, reusing the Paystack path already
+  proven in Phase 4 (§13) rather than a second payment integration. Capacity and
+  waitlist. Enrolment states: pending → active → completed → withdrawn.
+  Admin roster per cohort with manual enrol/remove and CSV export.
+- _Done when:_ a learner pays and immediately has access; an unpaid enrolment
+  holds no seat and unlocks no lesson; the roster reconciles with Paystack.
+
+**Sprint 6.5 — Learning experience**
+
+- _Build:_ the learner's course player — lesson navigation, mark-complete,
+  a progress bar, resume-where-you-left-off, and a cohort announcements feed.
+  Mobile-first: a substantial share of SRN's audience will study on a phone,
+  and this is the one surface where that is not a nice-to-have.
+- _Live sessions (decision 2):_ a cohort-paced cohort may schedule live sessions
+  (`live_sessions`: cohort_id, title, starts_at, duration, join_url,
+  recording_url) with attendance recorded per learner. **The join URL is never
+  public and never framed.** It is rendered server-side only to a learner with an
+  **active enrolment on that cohort**, as a labelled external link — exactly the
+  `zoom_live` posture `lib/admin/embeds.ts` already enforces. Do not add an
+  Academy bypass to that module: paying for a course is not a reason to inline a
+  meeting. Recordings, once published, go through the normal 5.8 embed path.
+  Self-paced cohorts have no sessions and the UI does not show the section.
+- _Done when:_ a learner completes a course end to end on a phone, and progress
+  survives sign-out and a device change; a signed-out visitor and an enrolled
+  learner on a *different* cohort both fail to obtain a join URL by any route.
+
+**Sprint 6.6 — Assessment**
+
+- _Build:_ quizzes (multiple choice, auto-marked) and assignments (file or text
+  submission, manually marked). Grading queue for staff, feedback per submission,
+  pass thresholds, resubmission policy. **Deadlines apply only to cohort-paced
+  cohorts** (decision 1); in a self-paced cohort a submission is never late and
+  no deadline is shown.
+- _Done when:_ a learner submits, a marker grades with feedback, and the learner
+  sees the result and can resubmit where the policy allows.
+
+**Sprint 6.7 — Certificates**
+
+- _Build:_ generated PDF certificate on completion, carrying learner name,
+  course, cohort dates and completion date. A **public verification URL** with a
+  unique code, so an employer can confirm a certificate is genuine — this is what
+  makes the credential worth anything. Admin can revoke.
+- _Done when:_ completing a course issues a certificate; the verification URL
+  confirms a real one and rejects a forged code.
+
+**Sprint 6.8 — Instructors & reporting**
+
+- _Build:_ an `instructor` role scoped to their own cohorts — they see their
+  learners, mark their assignments, and nothing else. Cohort reporting:
+  enrolment, completion rate, average score, dropout point. Certificates issued
+  per period. These are the numbers that feed SRN's impact reporting and funder
+  applications, which is much of why the Academy exists.
+- _Done when:_ an instructor manages only their cohorts; Fortune exports a
+  completion report for a finished cohort.
+
+**Decisions settled 2026-07-26** (these were the open questions; they are now
+answered and must not be re-opened without a note here):
+
+1. **Both self-paced and cohort-paced.** Pacing is a **property of the cohort**,
+   not of the platform: `cohorts.pacing` is `'self_paced' | 'cohort_paced'`. A
+   self-paced cohort has no drip dates, no live sessions, and no submission
+   deadlines; a cohort-paced one may have all three. Everything that only makes
+   sense for one mode is **nullable and ignored** in the other — 6.3's drip rule,
+   6.5's schedule, and 6.6's deadlines each check the pacing before applying.
+   Consequence: 6.3, 6.5 and 6.6 each carry two paths, and both must be tested.
+2. **Yes, live sessions.** Cohort-paced cohorts may schedule live sessions. Zoom
+   scheduling and attendance are in scope for 6.5. **§5.8's rule holds without
+   exception:** a live join link is never public content and never framed — it is
+   released only to an *active enrolment* on that cohort, server-side, behind
+   auth. `lib/admin/embeds.ts` already refuses to inline a `/j/` URL; the Academy
+   must not add a bypass for "but the learner paid".
+3. **Yes, learners keep access after the cohort ends.** Access is granted by
+   **enrolment**, not by cohort date, so a completed enrolment still opens its
+   lessons and materials. Two consequences to design for rather than discover:
+   signed URLs for private materials must keep being issued indefinitely (6.3),
+   and course content cannot be hard-deleted once a cohort has enrolments — the
+   archive/retire pattern from 5.7/5.12 applies (`ON DELETE RESTRICT` plus an
+   `archived_at`), for the same reason and with the same counted refusal.
+4. **Yes, a free tier.** `cohorts.price_kobo = 0` means free — one code path, not
+   a separate "free course" concept. A free enrolment goes straight to `active`
+   with `payment_status = 'not_required'`, matching the vocabulary registrations
+   already use (§13.2), so seat counting and roster logic stay identical whether
+   money moved or not. Free does **not** mean open: a free course still requires
+   an account and an enrolment, because completion and certificates need a person
+   attached.
+5. **Accounts merge with event registration, but the bar differs by surface.**
+   This reverses the standing §1 constraint and is the largest structural
+   consequence in this phase. `registrations.learner_id` (nullable FK) points at
+   `learners`. Two tiers, deliberately:
+   - **Events: name + email, no verification required.** Registering for a
+     webinar must stay as frictionless as it is today — a verification step in
+     front of a free event would cost SRN sign-ups for no gain. A registration
+     still creates (or matches) a `learners` row so the person is known, but that
+     row is **unverified** and grants nothing beyond the registration itself.
+   - **Courses: a real, verified account is required.** Enrolment, lesson access,
+     submissions and certificates all sit behind a verified learner account,
+     because completion is a credential and must attach to a confirmed person.
+   - **The `verified` flag is the security boundary, and this is the trap to
+     avoid:** an unverified row is created from an email address *anyone can
+     type*. It must therefore never, by itself, open access to anything — no
+     enrolment, no materials, no `/account` history beyond the session that
+     created it. Linking prior registrations to an account happens **only on
+     verification**; matching on an unverified address would let someone type a
+     stranger's address and inherit their registration history. Same address,
+     two very different levels of trust — treat unverified as "a label on a
+     submission", not "a person who is signed in".
+   - `registrations.email` stays as a **snapshot** for the same reason
+     `applications.programme` does (§5.7): it records what was submitted, and a
+     later profile edit must not rewrite history.
+
+**Design constraint for the whole phase:** the Academy uses the **existing site
+design system** — same typefaces, same palette, same components, same imagery
+treatment. No gold, no green on text (green stays button/icon fills and focus
+rings), plain white, sharp corners. The Academy is part of the site, not a
+product with its own look. Anything the learner sees should be indistinguishable
+in styling from the public pages built in Phases 2–4.
+
+**Sprint 6.9 — A real research course**
+
+Closes the phase by proving it with actual content rather than a fixture.
+
+- _Build:_ one full-length course on systematic review methodology, authored
+  through the 6.2/6.3 admin like any staffer would — multiple modules, real
+  lesson prose, images, at least one video embed, a quiz and a marked
+  assignment, running as a cohort that ends in a certificate.
+- _Status of the content:_ this is a **demonstration course, not SRN-endorsed
+  teaching material.** It must read and look like the real thing — no
+  `[PLACEHOLDER]`, no lorem, no grey boxes where an image belongs — so that
+  Fortune can see what the Academy actually feels like. But it is drafted to
+  exercise the platform, not reviewed by SRN's academics, and a certificate from
+  it would carry SRN's name. So: **it ships as a draft cohort, never published
+  to the public catalogue, until SRN reviews the content.** Mark it clearly in
+  the admin. The line to hold is that realism is for the demo's sake and must
+  not turn into an un-reviewed credential going out under SRN's brand.
+- _Why last:_ it is the only honest test of whether the builder is usable by the
+  person who has to use it. Every gap the course author hits is a defect in
+  6.2–6.7, found before learners find it.
+- _Done when:_ the course exists end to end and feels genuinely real to click
+  through, a test learner completes it and holds a verifiable certificate, no
+  step required a developer, and the cohort is still unpublished pending review.
+
+### Phase 7 — Member area & reach
+
+**Renumbered 2026-07-25.** This was "Phase 2 (post-launch)", which collided with
+**Phase 2 — Public site** above: one meant *build stage 2*, the other meant
+*version 2 of the product*. Same words, different things, in one document. It is
+now Phase 7, and everything in it has a number so nothing floats in an unowned
+backlog.
+
+**Phase goal:** the people who already use SRN — applicants, attendees,
+subscribers — get self-service and get reached in their own language.
+
+Everything here is post-launch and needs its own scoping pass before work starts.
+Sequencing within the phase is Fortune's call, except where a dependency is
+stated.
+
+**Depends on Phase 6.1 (learner accounts).** 7.1 in particular cannot ship
+without them. **Decided 2026-07-25: Phase 6 (Academy) is built before Phase 7**,
+so this dependency is already satisfied by the time Phase 7 needs it.
+
+**Already moved out of this list — do not rebuild:**
+
+| Was | Now owned by |
+| --- | --- |
+| ~~End-user accounts~~ | **Sprint 6.1** (learner accounts) |
+| ~~Certificate generation~~ | **Sprint 6.7** (certificates + verification) |
+| ~~Unsubscribe~~ | **Sprint 5.11** — promoted to a compliance gate, not a nice-to-have |
+
+**7.1 — Applicant & member dashboards**
 
 - Applicant-facing view of application status, mirroring the staff stepper from
   Sprint 5.4 (received → under_review → accepted/waitlisted/rejected).
-- Notification email on each transition, with the wording controlled by staff
-  rather than hard-coded — a rejection is a real moment for a real person.
+- Notification email on each transition — **now built in Sprint 5.11**; what
+  remains here is the *self-service view*, not the email.
 - Document upload (CV, protocol draft) into a private Storage bucket with its
-  own RLS policies; **not** the public media bucket.
-- Depends on 2.1.
+  own RLS policies; **not** the public media bucket. Sprint 6.3 introduces
+  exactly this private-bucket pattern — reuse it rather than inventing a second.
+- Depends on learner accounts (Sprint 6.1).
 
-**2.3 — Per-event custom questions (form builder)**
+**7.2 — Per-event custom questions (form builder)**
 
 - Staff-defined extra fields per event ("what is your review topic?",
   "have you used Covidence?"), typed: short text, long text, select, checkbox.
@@ -528,19 +1036,16 @@ signed-in end user exists. Sequencing beyond that is Fortune's call.
 - **Scope trap:** a general form builder is a product in itself. Cap it at the
   four field types above unless there is a concrete demand for more.
 
-**2.4 — Certificate generation**
+**7.3 — Event attendance certificates**
 
-- PDF certificate of completion per participant per event: name, event title,
-  dates, and an authorised signature.
-- Staff mark attendance/completion on the registrations table (a new
-  `completed_at`), which unlocks the download.
-- Verification: a unique certificate ID plus a public `/verify/<id>` page, so an
-  employer can check a certificate is genuine. Without this the PDF is
-  trivially forgeable and the credential is worth little.
-- Rendering via a server-side PDF library from an HTML template on brand.
-- Depends on 2.1 for the download to be attributable.
+- Certificates for a **one-off workshop**, which is not an Academy course.
+  Sprint 6.7 owns course certificates including issuing, public verification and
+  revocation — build that first and extend it to events, rather than a second
+  certificate system.
+- Attendance marking itself is already Sprint 5.11's job, so check there before
+  adding a `completed_at` column.
 
-**2.5 — French localisation**
+**7.4 — French localisation**
 
 - Second locale (`fr`) covering the full public site — relevant to SRN's reach
   across Francophone West Africa (Senegal, Côte d'Ivoire, Benin, Togo, Mali,
@@ -557,7 +1062,7 @@ signed-in end user exists. Sequencing beyond that is Fortune's call.
   will produce errors that damage credibility. Do not ship it without a human
   translator committed.
 
-**2.6 — Campaign email tool integration**
+**7.5 — Campaign email tool integration**
 
 - Sync `newsletter_signups` to a real campaign tool (Mailchimp / Brevo /
   Resend Broadcasts) for designed sends, segmentation, and analytics — the
@@ -586,6 +1091,30 @@ SRN has not committed to).
 
 ---
 
+### Phase 8 — Launch
+
+**Swapped with Phase 6 on 2026-07-25** so the phase numbers match execution
+order: the Academy (built first, right after Phase 5) is Phase 6, and this
+small phase — finishing what Phases 0–5 already built — runs last, immediately
+before go-live.
+
+**Sprint 8.1 — Real content load**
+
+- _Build:_ §7A assets in via the admin (dogfood it — loading real content through the admin is its final QA); replace every seed row; typo-clean copy pass (the old site's "Passsion"/"Diverty" class of errors must not migrate).
+- _Done when:_ `grep -r "PLACEHOLDER"` returns zero across code and database; every image has real alt text.
+
+**Sprint 8.2 — SEO & performance**
+
+- _Build:_ per-page metadata + OG images (template-generated with title on brand navy); sitemap.xml + robots.txt; JSON-LD: Organization sitewide, Event on event pages, Article on news/guides; image audit (dimensions, priority on hero, lazy elsewhere); font subsetting check; Lighthouse pass on homepage, one event, one programme, one article.
+- _Done when:_ ≥90 perf/a11y/SEO/best-practices on all four audited pages, mobile and desktop.
+
+**Sprint 8.3 — Check for stubs and any gaps**
+
+- _Build:_ a final sweep of the whole site and admin for stub copy, dead links, and anything flagged but never closed out across Phases 0–7.
+- _Done when:_ nothing found is left unresolved or untracked.
+
+---
+
 ## 10. Copy source
 
 Base copy comes from Fortune's brief (positioning, headlines, programme descriptions, audience pathways) — rewritten clean, never pasted from the old site. Tone: confident, plain, international; short sentences; no NGO filler ("empowering synergies"). Where copy is missing, write to spec and mark `[PLACEHOLDER: needs Fortune]`.
@@ -606,7 +1135,7 @@ PAYSTACK_SECRET_KEY              (server only — initialize + verify)
 PAYSTACK_WEBHOOK_SECRET          (server only — x-paystack-signature HMAC)
 
 RESEND_FROM                      (sender identity; falls back to the verified
-                                  domain. Until Sprint 6.3 verifies
+                                  domain. Until Sprint 8.3 verifies
                                   systematicreviewsnetwork.org, set this to
                                   Resend's sandbox sender so mail actually sends)
 SRN_INBOX                        (where contact/partnership enquiries are
@@ -618,7 +1147,7 @@ CRON_SECRET                      (server only — Bearer token protecting
 **Email deliverability note.** `lib/email/client.ts` degrades to a logged no-op
 when `RESEND_API_KEY` is absent, and every confirmation send is fire-and-forget:
 a mail failure never fails the underlying registration/application write. The
-domain is unverified until Sprint 6.3, so `RESEND_FROM` must point at the
+domain is unverified until Sprint 8.3, so `RESEND_FROM` must point at the
 sandbox sender before then or Resend returns 403.
 
 **Rate limiting (§3.2) — Postgres, not Upstash/KV.** Sprint 3.2 offered Upstash
