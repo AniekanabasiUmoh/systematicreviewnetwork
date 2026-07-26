@@ -169,6 +169,89 @@ export const programmeSchema = z.object({
   body_rich: richTextJson,
 });
 
+/* Sprint 6.2 — courses and cohorts.
+ *
+ * A course carries the teaching; a cohort carries one run of it. Splitting the
+ * schemas the same way the tables are split is what keeps "duplicate a cohort"
+ * a cheap operation: nothing in the syllabus is repeated per run. */
+
+export const courseSchema = z.object({
+  title: z.string().trim().min(1, "Enter a course title.").max(180),
+  slug,
+  programme_id: z
+    .string()
+    .trim()
+    .optional()
+    .transform((value) => (value ? value : undefined)),
+  summary: optionalText(600),
+  level: z.enum(["introductory", "intermediate", "advanced"]),
+  delivery: z.enum(["online", "in_person", "blended"]),
+  duration_label: optionalText(120),
+  learning_outcomes: linesToArray,
+  prerequisites: linesToArray,
+  featured_image_url: optionalUrl,
+  body_rich: richTextJson,
+});
+
+/* A `date` input is a calendar day with no time and no zone — a cohort starts
+   "on the 6th", not at an instant. Storing it as a bare YYYY-MM-DD in a `date`
+   column avoids the timezone shift that would come from parsing it into a
+   timestamp, which is how a course that starts on the 6th ends up advertised as
+   starting on the 5th. */
+const optionalDate = z
+  .string()
+  .trim()
+  .optional()
+  .transform((value) => (value ? value : undefined))
+  .refine(
+    (value) => !value || /^\d{4}-\d{2}-\d{2}$/.test(value),
+    "Enter a date.",
+  );
+
+export const cohortSchema = z
+  .object({
+    course_id: z.string().trim().min(1, "Choose a course."),
+    label: z.string().trim().min(1, "Enter a cohort name.").max(180),
+    slug,
+    starts_on: optionalDate,
+    ends_on: optionalDate,
+    enrolment_opens: optionalLagosDateTime,
+    enrolment_closes: optionalLagosDateTime,
+    capacity: optionalNumber,
+    // Entered in naira, stored in kobo — the same minor-unit posture as
+    // events.price_kobo (§13.1). 0 is the free tier (decision 4).
+    price_naira: optionalNumber,
+    currency: z.enum(["NGN", "USD"]),
+    pacing: z.enum(["self_paced", "cohort_paced"]),
+  })
+  .transform(({ price_naira, ...rest }) => ({
+    ...rest,
+    price_kobo: Math.round(Number(price_naira ?? 0) * 100),
+  }))
+  .refine(
+    (value) =>
+      !value.ends_on || !value.starts_on || value.ends_on >= value.starts_on,
+    { message: "The end date cannot be before the start date.", path: ["ends_on"] },
+  )
+  .refine(
+    (value) =>
+      !value.enrolment_closes ||
+      !value.enrolment_opens ||
+      value.enrolment_closes >= value.enrolment_opens,
+    {
+      message: "Enrolment cannot close before it opens.",
+      path: ["enrolment_closes"],
+    },
+  )
+  .refine(
+    (value) => Number.isFinite(value.price_kobo) && value.price_kobo >= 0,
+    { message: "Enter a price of 0 or more.", path: ["price_naira"] },
+  )
+  .refine(
+    (value) => value.capacity === undefined || Number(value.capacity) > 0,
+    { message: "Capacity must be at least 1, or blank for no limit.", path: ["capacity"] },
+  );
+
 export const teamSchema = z.object({
   name: z.string().trim().min(1, "Enter a name.").max(160),
   role: optionalText(160),

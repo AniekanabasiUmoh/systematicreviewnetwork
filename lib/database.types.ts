@@ -92,6 +92,66 @@ export type Database = {
         };
         Relationships: [];
       };
+      cohorts: {
+        Row: {
+          id: string;
+          course_id: string;
+          label: string;
+          slug: string;
+          starts_on: string | null;
+          ends_on: string | null;
+          enrolment_opens: string | null;
+          enrolment_closes: string | null;
+          enrolment_closed_manually: boolean;
+          capacity: number | null;
+          price_kobo: number;
+          currency: string;
+          pacing: string;
+          status: Database["public"]["Enums"]["content_status"];
+          archived_at: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          course_id: string;
+          label: string;
+          slug: string;
+          starts_on?: string | null;
+          ends_on?: string | null;
+          enrolment_opens?: string | null;
+          enrolment_closes?: string | null;
+          enrolment_closed_manually?: boolean;
+          capacity?: number | null;
+          price_kobo?: number;
+          currency?: string;
+          pacing?: string;
+          status?: Database["public"]["Enums"]["content_status"];
+          archived_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          course_id?: string;
+          label?: string;
+          slug?: string;
+          starts_on?: string | null;
+          ends_on?: string | null;
+          enrolment_opens?: string | null;
+          enrolment_closes?: string | null;
+          enrolment_closed_manually?: boolean;
+          capacity?: number | null;
+          price_kobo?: number;
+          currency?: string;
+          pacing?: string;
+          status?: Database["public"]["Enums"]["content_status"];
+          archived_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       contact_messages: {
         Row: {
           id: string;
@@ -119,6 +179,66 @@ export type Database = {
           message?: string;
           type?: Database["public"]["Enums"]["contact_type"];
           created_at?: string;
+        };
+        Relationships: [];
+      };
+      courses: {
+        Row: {
+          id: string;
+          programme_id: string | null;
+          slug: string;
+          title: string;
+          summary: string | null;
+          body_rich: Json | null;
+          level: string;
+          delivery: string;
+          duration_label: string | null;
+          learning_outcomes: Json;
+          prerequisites: Json;
+          featured_image_url: string | null;
+          sort_order: number;
+          status: Database["public"]["Enums"]["content_status"];
+          archived_at: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          programme_id?: string | null;
+          slug: string;
+          title: string;
+          summary?: string | null;
+          body_rich?: Json | null;
+          level?: string;
+          delivery?: string;
+          duration_label?: string | null;
+          learning_outcomes?: Json;
+          prerequisites?: Json;
+          featured_image_url?: string | null;
+          sort_order?: number;
+          status?: Database["public"]["Enums"]["content_status"];
+          archived_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          programme_id?: string | null;
+          slug?: string;
+          title?: string;
+          summary?: string | null;
+          body_rich?: Json | null;
+          level?: string;
+          delivery?: string;
+          duration_label?: string | null;
+          learning_outcomes?: Json;
+          prerequisites?: Json;
+          featured_image_url?: string | null;
+          sort_order?: number;
+          status?: Database["public"]["Enums"]["content_status"];
+          archived_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
         };
         Relationships: [];
       };
@@ -872,7 +992,9 @@ export type Database = {
 /** Convenience row aliases. */
 export type AdminAuditRow = Database["public"]["Tables"]["admin_audit"]["Row"];
 export type ApplicationsRow = Database["public"]["Tables"]["applications"]["Row"];
+export type CohortsRow = Database["public"]["Tables"]["cohorts"]["Row"];
 export type ContactMessagesRow = Database["public"]["Tables"]["contact_messages"]["Row"];
+export type CoursesRow = Database["public"]["Tables"]["courses"]["Row"];
 export type DonationsRow = Database["public"]["Tables"]["donations"]["Row"];
 export type EventsRow = Database["public"]["Tables"]["events"]["Row"];
 export type HomepageRow = Database["public"]["Tables"]["homepage"]["Row"];

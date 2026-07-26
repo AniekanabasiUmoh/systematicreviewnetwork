@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
+  BookMarked,
   BookOpen,
   Calendar,
   ClipboardList,
@@ -33,6 +34,7 @@ const NAV_GROUPS: ReadonlyArray<{ label: string; items: readonly NavItem[] }> =
       label: "Content",
       items: [
         { href: "/admin/programmes", label: "Programmes", icon: GraduationCap },
+        { href: "/admin/courses", label: "Courses", icon: BookMarked },
         { href: "/admin/events", label: "Events", icon: Calendar },
         { href: "/admin/news", label: "News", icon: Newspaper },
         { href: "/admin/resources", label: "Resources", icon: BookOpen },

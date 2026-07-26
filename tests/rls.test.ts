@@ -68,6 +68,12 @@ const CONTENT_TABLES = [
   "homepage",
   "pages",
   "media",
+  // Sprint 5.7 — was missing from this list; same public-read/staff-write shape.
+  "programmes",
+  // Sprint 6.2 — the Academy catalogue. Public reads published + non-archived
+  // only, so an unpublished course must never be visible to anon.
+  "courses",
+  "cohorts",
 ] as const;
 
 let anon: SupabaseClient;

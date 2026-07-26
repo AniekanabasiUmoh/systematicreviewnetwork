@@ -9,6 +9,10 @@ export type AdminFieldKind =
   | "richtext"
   | "select"
   | "datetime"
+  /* Sprint 6.2 — a calendar day with no time and no zone. A cohort starts "on
+     the 6th", not at an instant; using `datetime` for it would introduce a
+     timezone shift that advertises a 6 March course as starting on 5 March. */
+  | "date"
   | "number"
   | "image"
   | "url"
@@ -26,6 +30,11 @@ export type AdminField = {
   defaultValue?: string;
   slugFrom?: string;
   wide?: boolean;
+  /* `number` fields only. A price and a capacity both have a floor of 0/1 that
+     the browser should enforce before a round-trip; the Zod schema still
+     re-checks, because an HTML attribute is a convenience, never the gate. */
+  min?: number;
+  step?: number;
 };
 
 /* Sprint 5.9a — admin manages CONTENT, not site design (Design.md §8).
