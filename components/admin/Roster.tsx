@@ -13,6 +13,7 @@ import {
 import { ActionForm } from "./AcademyActions";
 import type { RosterRow, WaitlistRow } from "@/lib/admin/academy";
 import { formatPrice } from "@/lib/events";
+import { rosterStatusLabel, holdsSeat } from "@/lib/admin/roster-labels";
 
 /* Sprint 6.4 — the cohort roster.
  *
@@ -27,11 +28,16 @@ export function ManualEnrolForm({ cohortId }: { cohortId: string }) {
     <form action={formAction} className="border-hairline bg-paper border p-5">
       <input type="hidden" name="cohort_id" value={cohortId} />
       <h3 className="text-ink text-small mb-2 font-semibold">
-        Add someone manually
+        Add someone yourself
       </h3>
       <p className="text-slate text-small mb-4">
-        For places paid by invoice or offered directly. They need an SRN account
-        already — we will not create one for them, because they would have no
+        For people who paid you by invoice, or who you are giving a place to.
+        They appear on the roster as &ldquo;paid by invoice&rdquo; rather than
+        &ldquo;paid by card&rdquo;, so your Paystack figures still add up.
+      </p>
+      <p className="text-slate text-small mb-4">
+        They need an SRN account first. If they do not have one, ask them to
+        sign up — we cannot make it for them, because they would have no
         password to sign in with.
       </p>
       {state.status === "error" && state.formError ? (
@@ -63,14 +69,6 @@ export function ManualEnrolForm({ cohortId }: { cohortId: string }) {
   );
 }
 
-function stateLabel(row: RosterRow): string {
-  if (row.payment_status === "refunded") return "Refunded";
-  if (row.state === "withdrawn") return "Withdrawn";
-  if (row.payment_status === "pending") return "Payment pending";
-  if (row.state === "completed") return "Completed";
-  if (row.payment_status === "not_required") return "Enrolled (no card payment)";
-  return "Enrolled";
-}
 
 export function RosterTable({
   rows,
@@ -88,12 +86,7 @@ export function RosterTable({
     );
   }
 
-  const active = rows.filter(
-    (row) =>
-      row.cancelled_at === null &&
-      ["active", "completed"].includes(row.state) &&
-      ["paid", "not_required"].includes(row.payment_status),
-  ).length;
+  const active = rows.filter(holdsSeat).length;
 
   return (
     <div>
@@ -120,7 +113,7 @@ export function RosterTable({
                 </p>
                 <p className="text-slate text-small">{row.email}</p>
                 <p className="text-slate text-small mt-1">
-                  {stateLabel(row)}
+                  {rosterStatusLabel(row)}
                   {row.amount_kobo > 0
                     ? ` · ${formatPrice(row.amount_kobo, row.currency as "NGN" | "USD")}`
                     : ""}
@@ -140,16 +133,16 @@ export function RosterTable({
                     fields={{ id: row.id }}
                     label="Remove"
                     pendingLabel="Removing…"
-                    confirm={`Remove ${row.email} from this cohort? Their seat is freed. This does not refund anything.`}
+                    confirm={`Remove ${row.email} from this cohort?\n\nTheir seat is freed and they lose access to the course. No money is refunded — if you owe them one, make it in Paystack afterwards.`}
                   />
                 ) : null}
                 {row.payment_status === "paid" ? (
                   <ActionForm
                     action={recordRefund}
                     fields={{ id: row.id }}
-                    label="Record refund"
-                    pendingLabel="Recording…"
-                    confirm={`Record a refund you have ALREADY issued in Paystack for ${row.email}? This does not refund the payment — it only records it here and frees the seat.`}
+                    label="Log a refund I already made"
+                    pendingLabel="Saving…"
+                    confirm={`Have you already refunded ${row.email} in Paystack?\n\nThis button does not move any money. It records that you refunded them and frees their seat. If you have not done it in Paystack yet, do that first.`}
                   />
                 ) : null}
               </div>

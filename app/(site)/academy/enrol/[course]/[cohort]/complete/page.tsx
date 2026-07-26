@@ -113,19 +113,21 @@ export default async function EnrolCompletePage({
             ) : paymentStatus === "pending" ? (
               <>
                 <p className="text-slate leading-relaxed">
-                  We have not had confirmation from the payment provider yet.
-                  This usually takes a few seconds. Refresh this page in a
-                  moment and it should be done.
+                  Your bank has not confirmed the payment to us yet. This
+                  usually takes a few seconds. Wait a moment and refresh this
+                  page.
                 </p>
                 <p className="text-slate mt-4 leading-relaxed">
-                  If you were charged and this is still here in ten minutes,{" "}
+                  If money has left your account and this message is still here
+                  in ten minutes,{" "}
                   <Link
                     href="/contact"
                     className="text-ink underline underline-offset-2"
                   >
                     tell us
-                  </Link>{" "}
-                  and we will sort it out — we can see the payment on our side.
+                  </Link>
+                  . We can see the payment on our side and will put it right —
+                  you will not be charged twice.
                 </p>
               </>
             ) : (

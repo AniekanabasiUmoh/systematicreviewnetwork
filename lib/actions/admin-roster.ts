@@ -66,7 +66,7 @@ export async function manualEnrol(
   if (!learner) {
     return {
       status: "error",
-      formError: `No SRN account uses ${email}. Ask them to create one at /academy/sign-up first, then add them here.`,
+      formError: `Nobody has signed up with ${email} yet. Ask them to create an account first, then add them here — otherwise they would have no way to sign in and reach the course.`,
     };
   }
 
@@ -147,7 +147,7 @@ export async function withdrawEnrolment(
     status: "success",
     message:
       row.payment_status === "paid"
-        ? "Removed, and their seat is free. If they paid, issue the refund in Paystack and record it here."
+        ? "Removed, and their seat is free. They paid by card — if you owe them a refund, make it in Paystack, then log it here."
         : "Removed, and their seat is free.",
   };
 }
@@ -204,7 +204,8 @@ export async function recordRefund(
   );
   return {
     status: "success",
-    message: "Refund recorded and the seat freed.",
+    message:
+      "Logged. Their seat is free. Remember this only records the refund — Paystack is where the money actually moves.",
   };
 }
 
@@ -228,6 +229,6 @@ export async function offerWaitlistSeat(
   return {
     status: "success",
     message:
-      "Marked as offered. Email them directly with the enrol link — they still pay in the normal way.",
+      "Noted that you have offered them a place. Email them the enrol link — they sign up and pay in the normal way, so nothing is held for them until they do.",
   };
 }

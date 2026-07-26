@@ -70,7 +70,7 @@ export async function enrol(
       return {
         status: "error",
         formError:
-          "You have a payment in progress for this cohort. If you closed the payment window, wait a couple of minutes and try again.",
+          "You already started paying for this cohort. If you closed the payment window before it finished, wait two minutes and try again — nothing has been charged.",
       };
     }
     return {
