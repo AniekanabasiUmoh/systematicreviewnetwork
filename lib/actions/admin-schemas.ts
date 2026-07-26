@@ -252,6 +252,50 @@ export const cohortSchema = z
     { message: "Capacity must be at least 1, or blank for no limit.", path: ["capacity"] },
   );
 
+/* Sprint 6.3 — curriculum.
+ *
+ * A module belongs to a course OR a cohort, never both and never neither. The
+ * form sends whichever it was opened from as a hidden field; this schema is the
+ * server-side half of that guarantee, matching the modules_one_parent database
+ * constraint so a crafted FormData is refused twice. */
+export const moduleSchema = z
+  .object({
+    course_id: optionalText(80),
+    cohort_id: optionalText(80),
+    title: z.string().trim().min(1, "Enter a module title.").max(180),
+    summary: optionalText(600),
+    release_rule: z.enum(["immediate", "on_date", "after_previous"]),
+    release_on: optionalLagosDateTime,
+  })
+  .refine(
+    (value) => Boolean(value.course_id) !== Boolean(value.cohort_id),
+    {
+      message: "A module must belong to either a course or a cohort.",
+      path: ["course_id"],
+    },
+  )
+  /* A date rule with no date would quietly behave as `immediate` and publish
+     material early — the failure mode is "learners saw it before they should",
+     which cannot be undone. Refuse it here as well as in the database. */
+  .refine(
+    (value) => value.release_rule !== "on_date" || Boolean(value.release_on),
+    {
+      message: "Choose the date this module opens.",
+      path: ["release_on"],
+    },
+  );
+
+export const lessonSchema = z.object({
+  module_id: z.string().trim().min(1, "Choose a module."),
+  title: z.string().trim().min(1, "Enter a lesson title.").max(180),
+  summary: optionalText(600),
+  body_rich: richTextJson,
+  estimated_minutes: optionalNumber.refine(
+    (value) => value === undefined || (Number.isInteger(value) && value > 0),
+    "Enter a whole number of minutes, or leave it blank.",
+  ),
+});
+
 export const teamSchema = z.object({
   name: z.string().trim().min(1, "Enter a name.").max(160),
   role: optionalText(160),

@@ -27,7 +27,7 @@ const PUBLIC_ADMIN_PATHS = new Set([
    A learner who signs in and then types /admin still gets nothing, because
    lib/admin/auth.ts requires a `profiles` row they cannot have — the database
    refuses to give one account both identities (20260727000001). */
-const LEARNER_PATHS = ["/account", "/academy/enrol"];
+const LEARNER_PATHS = ["/account", "/academy/enrol", "/academy/learn"];
 
 export async function middleware(request: NextRequest) {
   const { response, user } = await updateSession(request);
@@ -74,5 +74,13 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/account/:path*", "/account", "/academy/enrol/:path*"],
+  matcher: [
+    "/admin/:path*",
+    "/account/:path*",
+    "/account",
+    "/academy/enrol/:path*",
+    // Sprint 6.3 — the course player. Middleware only asks "is anyone signed
+    // in"; whether they are ENROLLED is decided in lib/academy/curriculum.ts.
+    "/academy/learn/:path*",
+  ],
 };

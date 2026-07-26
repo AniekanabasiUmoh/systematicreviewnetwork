@@ -16,7 +16,7 @@ import { AdminFormField } from "./FormFields";
 
 type Values = Record<string, unknown> & { id?: string };
 
-function AcademyForm({
+export function AcademyForm({
   action,
   fields,
   initial,

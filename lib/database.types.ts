@@ -281,6 +281,42 @@ export type Database = {
         };
         Relationships: [];
       };
+      enrolments: {
+        Row: {
+          id: string;
+          learner_id: string;
+          cohort_id: string;
+          state: Database["public"]["Enums"]["enrolment_state"];
+          enrolled_at: string;
+          completed_at: string | null;
+          withdrawn_at: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          learner_id: string;
+          cohort_id: string;
+          state?: Database["public"]["Enums"]["enrolment_state"];
+          enrolled_at?: string;
+          completed_at?: string | null;
+          withdrawn_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          learner_id?: string;
+          cohort_id?: string;
+          state?: Database["public"]["Enums"]["enrolment_state"];
+          enrolled_at?: string;
+          completed_at?: string | null;
+          withdrawn_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       events: {
         Row: {
           id: string;
@@ -464,6 +500,93 @@ export type Database = {
         };
         Relationships: [];
       };
+      lesson_materials: {
+        Row: {
+          id: string;
+          lesson_id: string;
+          storage_path: string;
+          file_name: string;
+          mime_type: string | null;
+          size_bytes: number | null;
+          title: string;
+          sort_order: number;
+          archived_at: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          lesson_id: string;
+          storage_path: string;
+          file_name: string;
+          mime_type?: string | null;
+          size_bytes?: number | null;
+          title: string;
+          sort_order?: number;
+          archived_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          lesson_id?: string;
+          storage_path?: string;
+          file_name?: string;
+          mime_type?: string | null;
+          size_bytes?: number | null;
+          title?: string;
+          sort_order?: number;
+          archived_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      lessons: {
+        Row: {
+          id: string;
+          module_id: string;
+          title: string;
+          summary: string | null;
+          body_rich: Json | null;
+          video_embed: Json | null;
+          estimated_minutes: number | null;
+          sort_order: number;
+          status: Database["public"]["Enums"]["content_status"];
+          archived_at: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          module_id: string;
+          title: string;
+          summary?: string | null;
+          body_rich?: Json | null;
+          video_embed?: Json | null;
+          estimated_minutes?: number | null;
+          sort_order?: number;
+          status?: Database["public"]["Enums"]["content_status"];
+          archived_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          module_id?: string;
+          title?: string;
+          summary?: string | null;
+          body_rich?: Json | null;
+          video_embed?: Json | null;
+          estimated_minutes?: number | null;
+          sort_order?: number;
+          status?: Database["public"]["Enums"]["content_status"];
+          archived_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       media: {
         Row: {
           id: string;
@@ -497,6 +620,51 @@ export type Database = {
           height?: number | null;
           alt_text?: string;
           created_at?: string;
+        };
+        Relationships: [];
+      };
+      modules: {
+        Row: {
+          id: string;
+          course_id: string | null;
+          cohort_id: string | null;
+          title: string;
+          summary: string | null;
+          sort_order: number;
+          release_rule: string;
+          release_on: string | null;
+          status: Database["public"]["Enums"]["content_status"];
+          archived_at: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          course_id?: string | null;
+          cohort_id?: string | null;
+          title: string;
+          summary?: string | null;
+          sort_order?: number;
+          release_rule?: string;
+          release_on?: string | null;
+          status?: Database["public"]["Enums"]["content_status"];
+          archived_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          course_id?: string | null;
+          cohort_id?: string | null;
+          title?: string;
+          summary?: string | null;
+          sort_order?: number;
+          release_rule?: string;
+          release_on?: string | null;
+          status?: Database["public"]["Enums"]["content_status"];
+          archived_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
         };
         Relationships: [];
       };
@@ -980,6 +1148,7 @@ export type Database = {
       contact_type: "general" | "partnership";
       content_status: "draft" | "published";
       currency_code: "NGN" | "USD";
+      enrolment_state: "pending" | "active" | "completed" | "withdrawn";
       event_type: "webinar" | "course" | "mentorship" | "workshop";
       location_type: "online" | "in_person";
       payment_status: "not_required" | "pending" | "paid" | "failed" | "expired" | "refunded";
@@ -996,11 +1165,15 @@ export type CohortsRow = Database["public"]["Tables"]["cohorts"]["Row"];
 export type ContactMessagesRow = Database["public"]["Tables"]["contact_messages"]["Row"];
 export type CoursesRow = Database["public"]["Tables"]["courses"]["Row"];
 export type DonationsRow = Database["public"]["Tables"]["donations"]["Row"];
+export type EnrolmentsRow = Database["public"]["Tables"]["enrolments"]["Row"];
 export type EventsRow = Database["public"]["Tables"]["events"]["Row"];
 export type HomepageRow = Database["public"]["Tables"]["homepage"]["Row"];
 export type ImpactStatsRow = Database["public"]["Tables"]["impact_stats"]["Row"];
 export type LearnersRow = Database["public"]["Tables"]["learners"]["Row"];
+export type LessonMaterialsRow = Database["public"]["Tables"]["lesson_materials"]["Row"];
+export type LessonsRow = Database["public"]["Tables"]["lessons"]["Row"];
 export type MediaRow = Database["public"]["Tables"]["media"]["Row"];
+export type ModulesRow = Database["public"]["Tables"]["modules"]["Row"];
 export type NewsRow = Database["public"]["Tables"]["news"]["Row"];
 export type NewsletterSignupsRow = Database["public"]["Tables"]["newsletter_signups"]["Row"];
 export type PagesRow = Database["public"]["Tables"]["pages"]["Row"];
@@ -1018,6 +1191,7 @@ export type ApplicationStatus = Database["public"]["Enums"]["application_status"
 export type ContactType = Database["public"]["Enums"]["contact_type"];
 export type ContentStatus = Database["public"]["Enums"]["content_status"];
 export type CurrencyCode = Database["public"]["Enums"]["currency_code"];
+export type EnrolmentState = Database["public"]["Enums"]["enrolment_state"];
 export type EventType = Database["public"]["Enums"]["event_type"];
 export type LocationType = Database["public"]["Enums"]["location_type"];
 export type PaymentStatus = Database["public"]["Enums"]["payment_status"];

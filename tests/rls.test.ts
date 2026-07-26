@@ -54,6 +54,13 @@ const SUBMISSION_TABLES = [
   // and read back. Anon must get nothing: the only SELECT policy is
   // `id = auth.uid()`, which no anon caller can ever satisfy.
   "learners",
+  // Sprint 6.3 — curriculum. Unlike courses/cohorts these have NO anon policy
+  // at all: the catalogue is public, the teaching is not. A learner reads them
+  // server-side after lib/academy/curriculum.ts has checked their enrolment.
+  "modules",
+  "lessons",
+  "lesson_materials",
+  "enrolments",
 ] as const;
 
 const CONTENT_TABLES = [

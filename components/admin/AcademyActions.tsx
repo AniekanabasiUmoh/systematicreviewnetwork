@@ -24,7 +24,7 @@ import {
 
 type Action = (prev: ActionState, form: FormData) => Promise<ActionState>;
 
-function ActionForm({
+export function ActionForm({
   action,
   fields,
   label,

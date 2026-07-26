@@ -82,6 +82,21 @@ export default async function AdminCoursePage({
         <CourseStatusControl id={course.id} status={course.status} />
       </div>
 
+      <div className="border-hairline bg-paper mb-5 flex flex-wrap items-center justify-between gap-4 border p-4">
+        <div>
+          <p className="text-ink text-small font-semibold">Curriculum</p>
+          <p className="text-slate text-small">
+            The modules and lessons every cohort of this course inherits.
+          </p>
+        </div>
+        <Link
+          href={`/admin/courses/${course.id}/curriculum`}
+          className="text-ink text-small underline underline-offset-2"
+        >
+          Edit curriculum
+        </Link>
+      </div>
+
       <CourseForm
         fields={courseFields(programmes)}
         initial={course as unknown as Record<string, unknown>}

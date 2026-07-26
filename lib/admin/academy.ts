@@ -2,7 +2,13 @@ import "server-only";
 
 import type { AdminField } from "@/lib/admin/resources";
 import { supabaseAdmin } from "@/lib/supabase/server";
-import type { CoursesRow, CohortsRow } from "@/lib/database.types";
+import type {
+  CoursesRow,
+  CohortsRow,
+  ModulesRow,
+  LessonsRow,
+  LessonMaterialsRow,
+} from "@/lib/database.types";
 
 /* Sprint 6.2 — admin descriptors and reads for the Academy catalogue.
  *
@@ -192,6 +198,80 @@ export function cohortFields(
   ];
 }
 
+/* Sprint 6.3 — curriculum descriptors. */
+
+export const RELEASE_OPTIONS = [
+  { value: "immediate", label: "Open from enrolment" },
+  { value: "on_date", label: "Opens on a date" },
+  { value: "after_previous", label: "Opens when the previous module is complete" },
+] as const;
+
+export function moduleFields(): ReadonlyArray<AdminField> {
+  return [
+    {
+      name: "title",
+      label: "Module title",
+      kind: "text",
+      required: true,
+      maxLength: 180,
+      wide: true,
+    },
+    {
+      name: "summary",
+      label: "Summary",
+      kind: "textarea",
+      maxLength: 600,
+      hint: "One or two sentences describing what this module covers.",
+      wide: true,
+    },
+    {
+      name: "release_rule",
+      label: "When it opens",
+      kind: "select",
+      required: true,
+      defaultValue: "immediate",
+      options: RELEASE_OPTIONS,
+      hint: "Self-paced cohorts ignore this — every module is open from enrolment.",
+      wide: true,
+    },
+    {
+      name: "release_on",
+      label: "Opens on",
+      kind: "datetime",
+      hint: "Only used when the rule above is “Opens on a date”.",
+    },
+  ];
+}
+
+export function lessonFields(): ReadonlyArray<AdminField> {
+  return [
+    {
+      name: "title",
+      label: "Lesson title",
+      kind: "text",
+      required: true,
+      maxLength: 180,
+      wide: true,
+    },
+    {
+      name: "summary",
+      label: "Summary",
+      kind: "textarea",
+      maxLength: 600,
+      wide: true,
+    },
+    {
+      name: "estimated_minutes",
+      label: "Estimated time",
+      kind: "number",
+      min: 1,
+      step: 1,
+      hint: "In minutes. Shown to learners so they can plan. Optional.",
+    },
+    { name: "body_rich", label: "Lesson content", kind: "richtext", wide: true },
+  ];
+}
+
 /* --------------------------------------------------------------------------
  * Reads. Service role: staff screens must see drafts, which RLS hides from the
  * anon key by design.
@@ -294,6 +374,147 @@ export async function cohortSlugTaken(
   if (excludeId) query = query.neq("id", excludeId);
   const { data } = await query.limit(1);
   return (data ?? []).length > 0;
+}
+
+/* --------------------------------------------------------------------------
+ * Sprint 6.3 — curriculum reads.
+ * ------------------------------------------------------------------------ */
+
+export type LessonWithMaterials = LessonsRow & {
+  materials: LessonMaterialsRow[];
+};
+
+export type ModuleWithLessonRows = ModulesRow & {
+  lessons: LessonWithMaterials[];
+};
+
+/**
+ * The curriculum tree for the admin builder — every module, published or not,
+ * with its lessons and their materials.
+ *
+ * Pass a course id to edit the shared syllabus, or a cohort id to edit what
+ * that single run adds. Both are accepted because a module belongs to exactly
+ * one of the two.
+ */
+export async function listCurriculum(parent: {
+  courseId?: string;
+  cohortId?: string;
+}): Promise<ModuleWithLessonRows[]> {
+  const column = parent.courseId ? "course_id" : "cohort_id";
+  const value = parent.courseId ?? parent.cohortId;
+  if (!value) return [];
+
+  const { data: moduleRows, error } = await supabaseAdmin
+    .from("modules")
+    .select("*")
+    .eq(column, value)
+    .order("sort_order", { ascending: true })
+    .order("created_at", { ascending: true });
+
+  if (error) {
+    console.error("[academy admin] module list failed:", error.message);
+    return [];
+  }
+  const modules = (moduleRows ?? []) as ModulesRow[];
+  if (modules.length === 0) return [];
+
+  const { data: lessonRows } = await supabaseAdmin
+    .from("lessons")
+    .select("*")
+    .in("module_id", modules.map((m) => m.id))
+    .order("sort_order", { ascending: true })
+    .order("created_at", { ascending: true });
+  const lessons = (lessonRows ?? []) as LessonsRow[];
+
+  const { data: materialRows } = lessons.length
+    ? await supabaseAdmin
+        .from("lesson_materials")
+        .select("*")
+        .in("lesson_id", lessons.map((l) => l.id))
+        .order("sort_order", { ascending: true })
+    : { data: [] };
+
+  const materialsByLesson = new Map<string, LessonMaterialsRow[]>();
+  for (const material of (materialRows ?? []) as LessonMaterialsRow[]) {
+    const list = materialsByLesson.get(material.lesson_id) ?? [];
+    list.push(material);
+    materialsByLesson.set(material.lesson_id, list);
+  }
+
+  const lessonsByModule = new Map<string, LessonWithMaterials[]>();
+  for (const lesson of lessons) {
+    const list = lessonsByModule.get(lesson.module_id) ?? [];
+    list.push({ ...lesson, materials: materialsByLesson.get(lesson.id) ?? [] });
+    lessonsByModule.set(lesson.module_id, list);
+  }
+
+  return modules.map((module) => ({
+    ...module,
+    lessons: lessonsByModule.get(module.id) ?? [],
+  }));
+}
+
+export async function getModuleRow(id: string): Promise<ModulesRow | null> {
+  const { data } = await supabaseAdmin
+    .from("modules")
+    .select("*")
+    .eq("id", id)
+    .maybeSingle();
+  return (data as ModulesRow) ?? null;
+}
+
+export async function getLessonRow(id: string): Promise<LessonsRow | null> {
+  const { data } = await supabaseAdmin
+    .from("lessons")
+    .select("*")
+    .eq("id", id)
+    .maybeSingle();
+  return (data as LessonsRow) ?? null;
+}
+
+/**
+ * How many enrolments exist on the cohorts this module reaches.
+ *
+ * Drives the counted refusal on delete (§5.7/§5.12 pattern). A course-scoped
+ * module reaches every cohort of the course; a cohort-scoped one reaches only
+ * its own.
+ */
+export async function moduleEnrolmentCount(
+  module: Pick<ModulesRow, "course_id" | "cohort_id">,
+): Promise<number> {
+  let cohortIds: string[] = [];
+  if (module.cohort_id) {
+    cohortIds = [module.cohort_id];
+  } else if (module.course_id) {
+    const { data } = await supabaseAdmin
+      .from("cohorts")
+      .select("id")
+      .eq("course_id", module.course_id);
+    cohortIds = (data ?? []).map((row) => row.id);
+  }
+  if (cohortIds.length === 0) return 0;
+
+  const { count } = await supabaseAdmin
+    .from("enrolments")
+    .select("id", { count: "exact", head: true })
+    .in("cohort_id", cohortIds);
+  return count ?? 0;
+}
+
+/** Next sort_order for a new child, so new items land at the end. */
+export async function nextSortOrder(
+  table: "modules" | "lessons" | "lesson_materials",
+  column: string,
+  value: string,
+): Promise<number> {
+  const { data } = await supabaseAdmin
+    .from(table)
+    .select("sort_order")
+    .eq(column, value)
+    .order("sort_order", { ascending: false })
+    .limit(1);
+  const highest = (data ?? [])[0] as { sort_order: number } | undefined;
+  return (highest?.sort_order ?? -1) + 1;
 }
 
 /**
