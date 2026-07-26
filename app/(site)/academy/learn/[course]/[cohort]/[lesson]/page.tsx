@@ -8,7 +8,10 @@ import { RichText, richTextIsEmpty } from "@/components/ui/RichText";
 import { Embed } from "@/components/ui/Embed";
 import { getCohort } from "@/lib/academy/courses";
 import { requireVerifiedLearner } from "@/lib/academy/auth";
-import { getLessonForLearner } from "@/lib/academy/curriculum";
+import {
+  getLessonForLearner,
+  lockedLessonReason,
+} from "@/lib/academy/curriculum";
 import { validateStoredEmbed } from "@/lib/admin/embeds";
 
 /* Sprint 6.3 — one lesson.
@@ -51,7 +54,46 @@ export default async function LessonPage({
     { id: cohort.id, course_id: course.id, pacing: cohort.pacing },
     lessonId,
   );
-  if (!result) notFound();
+
+  /* An enrolled learner who clicked a lesson inside a module drip has not
+     opened yet deserves the reason, not a blank 404 — they can already see the
+     module and its lock on the overview page, so this leaks nothing. Anyone
+     without an enrolment still gets a plain 404 from lockedLessonReason(). */
+  if (!result) {
+    const reason = await lockedLessonReason(
+      learner.id,
+      { id: cohort.id, course_id: course.id, pacing: cohort.pacing },
+      lessonId,
+    );
+    if (!reason) notFound();
+    return (
+      <>
+        <PageHeader
+          eyebrow={course.title}
+          title="Not open yet"
+          lede={reason}
+        />
+        <Section surface="paper">
+          <Container>
+            <p className="text-slate max-w-2xl leading-relaxed">
+              Nothing is wrong and there is nothing for you to do. This part of
+              the course opens on its own, and you will find it in the module
+              list when it does.
+            </p>
+            <p className="mt-6">
+              <Link
+                href={`/academy/learn/${course.slug}/${cohort.slug}`}
+                className="text-ink underline underline-offset-2"
+              >
+                Back to {course.title}
+              </Link>
+            </p>
+          </Container>
+        </Section>
+      </>
+    );
+  }
+
   const { lesson, materials } = result;
 
   const embed = lesson.video_embed

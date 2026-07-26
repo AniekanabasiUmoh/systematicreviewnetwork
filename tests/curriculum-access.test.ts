@@ -455,6 +455,167 @@ describe("getMaterialUrl — signed URLs are not handed out freely", () => {
   });
 });
 
+describe("locked vs missing — 403 explains, 404 says nothing", () => {
+  const cohortPaced = () => ({
+    id: ids.cohortPaced,
+    course_id: ids.course,
+    pacing: "cohort_paced",
+  });
+
+  it("tells an ENROLLED learner why a locked lesson is closed", async () => {
+    const { lockedLessonReason } = await import("@/lib/academy/curriculum");
+    const reason = await lockedLessonReason(
+      ids.enrolledLearner,
+      cohortPaced(),
+      ids.lockedLesson,
+    );
+    expect(reason).toBeTruthy();
+    expect(reason).toContain("opens on");
+  });
+
+  it("tells a STRANGER nothing — no enrolment, no explanation", async () => {
+    const { lockedLessonReason } = await import("@/lib/academy/curriculum");
+    expect(
+      await lockedLessonReason(
+        ids.strangerLearner,
+        cohortPaced(),
+        ids.lockedLesson,
+      ),
+    ).toBeNull();
+  });
+
+  it("tells a PENDING enrolment nothing either", async () => {
+    const { lockedLessonReason } = await import("@/lib/academy/curriculum");
+    expect(
+      await lockedLessonReason(
+        ids.pendingLearner,
+        cohortPaced(),
+        ids.lockedLesson,
+      ),
+    ).toBeNull();
+  });
+
+  it("gives no reason for a lesson that is simply open", async () => {
+    const { lockedLessonReason } = await import("@/lib/academy/curriculum");
+    expect(
+      await lockedLessonReason(
+        ids.enrolledLearner,
+        cohortPaced(),
+        ids.openLesson,
+      ),
+    ).toBeNull();
+  });
+
+  it("gives no reason in a self-paced cohort — nothing is ever locked", async () => {
+    const { lockedLessonReason } = await import("@/lib/academy/curriculum");
+    expect(
+      await lockedLessonReason(
+        ids.enrolledLearner,
+        { id: ids.selfPaced, course_id: ids.course, pacing: "self_paced" },
+        ids.lockedLesson,
+      ),
+    ).toBeNull();
+  });
+
+  it("gives no reason for an unknown lesson id", async () => {
+    const { lockedLessonReason } = await import("@/lib/academy/curriculum");
+    expect(
+      await lockedLessonReason(
+        ids.enrolledLearner,
+        cohortPaced(),
+        "00000000-0000-0000-0000-000000000000",
+      ),
+    ).toBeNull();
+  });
+});
+
+describe("getMaterial — the three-way result", () => {
+  const cohortPaced = () => ({
+    id: ids.cohortPaced,
+    course_id: ids.course,
+    pacing: "cohort_paced",
+  });
+
+  it("returns notfound for a stranger, never locked", async () => {
+    const { getMaterial } = await import("@/lib/academy/curriculum");
+    const result = await getMaterial(
+      ids.strangerLearner,
+      cohortPaced(),
+      ids.material,
+    );
+    expect(result.status).toBe("notfound");
+  });
+
+  it("returns notfound for a pending enrolment", async () => {
+    const { getMaterial } = await import("@/lib/academy/curriculum");
+    expect(
+      (await getMaterial(ids.pendingLearner, cohortPaced(), ids.material))
+        .status,
+    ).toBe("notfound");
+  });
+
+  it("returns notfound for an unknown material id", async () => {
+    const { getMaterial } = await import("@/lib/academy/curriculum");
+    expect(
+      (
+        await getMaterial(
+          ids.enrolledLearner,
+          cohortPaced(),
+          "00000000-0000-0000-0000-000000000000",
+        )
+      ).status,
+    ).toBe("notfound");
+  });
+
+  it("returns ok with a signed URL for an enrolled learner", async () => {
+    const { getMaterial } = await import("@/lib/academy/curriculum");
+    const result = await getMaterial(
+      ids.enrolledLearner,
+      cohortPaced(),
+      ids.material,
+    );
+    expect(result.status).toBe("ok");
+    if (result.status === "ok") expect(result.url).toContain("token=");
+  });
+
+  it("returns locked, with a reason, for a material inside a locked module", async () => {
+    /* Attach a material to the LOCKED lesson so the locked branch is exercised
+       against a real row rather than assumed. */
+    const { data } = await admin
+      .from("lesson_materials")
+      .insert({
+        lesson_id: ids.lockedLesson,
+        storage_path: `${PREFIX}/locked.txt`,
+        file_name: "locked.txt",
+        mime_type: "text/plain",
+        title: `${PREFIX} locked reading`,
+      } as never)
+      .select("id")
+      .single();
+    const lockedMaterialId = (data as { id: string }).id;
+
+    const { getMaterial } = await import("@/lib/academy/curriculum");
+    const result = await getMaterial(
+      ids.enrolledLearner,
+      cohortPaced(),
+      lockedMaterialId,
+    );
+    expect(result.status).toBe("locked");
+    if (result.status === "locked") {
+      expect(result.reason).toContain("opens on");
+      expect(result.reason).not.toContain("[");
+    }
+
+    // ...and a stranger asking for the SAME id still gets nothing.
+    const stranger = await getMaterial(
+      ids.strangerLearner,
+      cohortPaced(),
+      lockedMaterialId,
+    );
+    expect(stranger.status).toBe("notfound");
+  });
+});
+
 describe("the course-materials bucket is private", () => {
   it("is not listed as public", async () => {
     const { data } = await admin.storage.listBuckets();

@@ -249,17 +249,135 @@ export async function getLessonForLearner(
   return { lesson, materials: (materialRows ?? []) as Material[] };
 }
 
+/**
+ * Why a lesson is not available, when the answer is "it is locked, not absent".
+ *
+ * Returns null for everyone who should simply get a 404: no enrolment, wrong
+ * cohort, unknown lesson. The enrolment is checked FIRST and separately, so a
+ * stranger can never turn this into an oracle for which lesson ids are real.
+ */
+export async function lockedLessonReason(
+  learnerId: string,
+  cohort: { id: string; course_id: string; pacing: string },
+  lessonId: string,
+  completedLessonIds: ReadonlySet<string> = new Set(),
+  now: Date = new Date(),
+): Promise<string | null> {
+  const enrolment = await getEnrolment(learnerId, cohort.id);
+  if (!enrolment) return null;
+
+  /* Self-paced cohorts never lock anything (decision 1), so a missing lesson
+     there is genuinely missing and must stay a 404. */
+  if (cohort.pacing === "self_paced") return null;
+
+  const modules = await getCurriculum(cohort, completedLessonIds, now);
+  for (const mod of modules) {
+    if (mod.released || !mod.lockedReason) continue;
+    if (await moduleHoldsLesson(mod.id, lessonId)) return mod.lockedReason;
+  }
+  return null;
+}
+
 /** How long a signed material link stays valid. Long enough to click and
     download, short enough that a leaked link is not a permanent one. */
 export const MATERIAL_URL_TTL_SECONDS = 300;
 
 /**
- * A signed URL for one material, or null.
+ * The outcome of asking for a material.
+ *
+ * Three cases, deliberately distinguished, because they deserve different HTTP
+ * answers:
+ *
+ *   ok       — a short-lived signed URL.
+ *   locked   — the learner IS enrolled, but drip has not released this module
+ *              yet. Safe to explain: someone enrolled on the cohort already
+ *              knows the course and its modules exist, so naming the lock
+ *              tells them nothing they could not see on the overview page.
+ *   notfound — anything else: no enrolment, wrong cohort, unknown id, archived.
+ *              All collapse into one answer on purpose. Distinguishing them
+ *              would let someone walk material ids and map a paid course's
+ *              contents by the difference between "denied" and "no such thing".
+ */
+export type MaterialResult =
+  | { status: "ok"; url: string }
+  | { status: "locked"; reason: string }
+  | { status: "notfound" };
+
+/**
+ * A signed URL for one material.
  *
  * Every argument is re-checked: the material must belong to the lesson, the
  * lesson must be released to this learner, and the learner must be enrolled.
  * Only then is a short-lived URL minted. There is no public URL for these
  * objects to fall back to — the bucket is private — so a bug here fails closed.
+ */
+export async function getMaterial(
+  learnerId: string,
+  cohort: { id: string; course_id: string; pacing: string },
+  materialId: string,
+  completedLessonIds: ReadonlySet<string> = new Set(),
+  now: Date = new Date(),
+): Promise<MaterialResult> {
+  const { data: material } = await supabaseAdmin
+    .from("lesson_materials")
+    .select("id, lesson_id, storage_path, archived_at")
+    .eq("id", materialId)
+    .maybeSingle();
+  if (!material || material.archived_at) return { status: "notfound" };
+
+  /* The enrolment check comes FIRST and on its own. Without a qualifying
+     enrolment there is no "locked" answer to give — a stranger must not learn
+     that this id is a real material, only that they got nothing. */
+  const enrolment = await getEnrolment(learnerId, cohort.id);
+  if (!enrolment) return { status: "notfound" };
+
+  const modules = await getCurriculum(cohort, completedLessonIds, now);
+  const owning = modules.find((mod) =>
+    mod.lessons.some((lesson) => lesson.id === material.lesson_id),
+  );
+
+  if (!owning) {
+    /* Either drip has locked the module holding this lesson, or the lesson is
+       not in this cohort's curriculum at all. Only the first deserves an
+       explanation; lockedLessonReason() returns null for the second. */
+    const reason = await lockedLessonReason(
+      learnerId,
+      cohort,
+      material.lesson_id,
+      completedLessonIds,
+      now,
+    );
+    return reason ? { status: "locked", reason } : { status: "notfound" };
+  }
+
+  const { data, error } = await supabaseAdmin.storage
+    .from("course-materials")
+    .createSignedUrl(material.storage_path, MATERIAL_URL_TTL_SECONDS);
+  if (error || !data) return { status: "notfound" };
+  return { status: "ok", url: data.signedUrl };
+}
+
+/** Does this module contain this lesson? Used only to justify a "locked". */
+async function moduleHoldsLesson(
+  moduleId: string,
+  lessonId: string,
+): Promise<boolean> {
+  const { data } = await supabaseAdmin
+    .from("lessons")
+    .select("id")
+    .eq("id", lessonId)
+    .eq("module_id", moduleId)
+    .eq("status", "published")
+    .is("archived_at", null)
+    .maybeSingle();
+  return Boolean(data);
+}
+
+/**
+ * Backwards-compatible wrapper: a URL or null.
+ *
+ * Kept because callers that only need "may I have this, yes or no" should not
+ * have to destructure a result type.
  */
 export async function getMaterialUrl(
   learnerId: string,
@@ -268,25 +386,12 @@ export async function getMaterialUrl(
   completedLessonIds: ReadonlySet<string> = new Set(),
   now: Date = new Date(),
 ): Promise<string | null> {
-  const { data: material } = await supabaseAdmin
-    .from("lesson_materials")
-    .select("id, lesson_id, storage_path, archived_at")
-    .eq("id", materialId)
-    .maybeSingle();
-  if (!material || material.archived_at) return null;
-
-  const allowed = await getLessonForLearner(
+  const result = await getMaterial(
     learnerId,
     cohort,
-    material.lesson_id,
+    materialId,
     completedLessonIds,
     now,
   );
-  if (!allowed) return null;
-
-  const { data, error } = await supabaseAdmin.storage
-    .from("course-materials")
-    .createSignedUrl(material.storage_path, MATERIAL_URL_TTL_SECONDS);
-  if (error || !data) return null;
-  return data.signedUrl;
+  return result.status === "ok" ? result.url : null;
 }
