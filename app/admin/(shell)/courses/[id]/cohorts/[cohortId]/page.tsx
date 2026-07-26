@@ -6,7 +6,14 @@ import {
   getCourseRow,
   getCohortRow,
   listCourseOptions,
+  listRoster,
+  listWaitlist,
 } from "@/lib/admin/academy";
+import {
+  RosterTable,
+  WaitlistTable,
+  ManualEnrolForm,
+} from "@/components/admin/Roster";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { CohortForm } from "@/components/admin/CourseForm";
 import { CohortRowActions } from "@/components/admin/AcademyActions";
@@ -31,7 +38,11 @@ export default async function AdminCohortPage({
   // heading — the URL is a claim about the relationship, so check it.
   if (!course || !cohort || cohort.course_id !== course.id) notFound();
 
-  const courses = await listCourseOptions();
+  const [courses, roster, waitlist] = await Promise.all([
+    listCourseOptions(),
+    listRoster(cohort.id),
+    listWaitlist(cohort.id),
+  ]);
   const seats = await getCohortSeatCounts([cohort.id]);
   const state = cohortState(cohort, seats[cohort.id] ?? 0);
 
@@ -69,6 +80,31 @@ export default async function AdminCohortPage({
       </div>
 
       <CohortForm fields={cohortFields(courses)} initial={initial} />
+
+      <section className="mt-10">
+        <h2 className="text-display text-ink text-h3">Roster</h2>
+        <p className="text-slate text-small mt-2 mb-5 max-w-2xl">
+          Everyone on this cohort, including people who withdrew or were
+          refunded — they stay listed so the export still reconciles against
+          Paystack.
+        </p>
+        <RosterTable
+          rows={roster}
+          exportHref={`/api/admin/roster/${cohort.id}`}
+        />
+        <div className="mt-5">
+          <ManualEnrolForm cohortId={cohort.id} />
+        </div>
+      </section>
+
+      <section className="mt-10">
+        <h2 className="text-display text-ink text-h3">Waiting list</h2>
+        <p className="text-slate text-small mt-2 mb-5 max-w-2xl">
+          In the order people joined. Marking someone as offered records that
+          you have contacted them; they still enrol and pay in the normal way.
+        </p>
+        <WaitlistTable rows={waitlist} />
+      </section>
     </>
   );
 }

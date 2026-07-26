@@ -6,9 +6,11 @@ import {
   RegistrationConfirmation,
   DonationReceipt,
   InternalSubmissionNotification,
+  EnrolmentConfirmation,
 } from "@/lib/email/templates";
 import { buildEventIcs } from "@/lib/ics";
 import { formatEventDateTime, formatPrice } from "@/lib/events";
+import { formatCohortDates } from "@/lib/academy/cohorts";
 import type { Json } from "@/lib/database.types";
 
 /* §13.4 — the Paystack webhook. THE source of truth for payment (§13.3).
@@ -134,6 +136,54 @@ async function fulfil(reference: string, paidAt: string | null) {
             content: Buffer.from(ics, "utf8").toString("base64"),
           },
         ],
+      });
+    }
+    return;
+  }
+
+  // ── Enrolment (Sprint 6.4) ────────────────────────────────────────────────
+  /* Scoped to still-pending rows, like the two branches around it, so a replayed
+     charge.success cannot re-fire the email or re-activate a seat someone has
+     since withdrawn from. This is the ONLY place a paid enrolment becomes
+     active — the callback page verifies and displays, but never grants. */
+  const { data: enrolment } = await supabaseAdmin
+    .from("enrolments")
+    .update({ state: "active", payment_status: "paid", paid_at })
+    .eq("paystack_reference", reference)
+    .eq("payment_status", "pending")
+    .select("id, cohort_id, learner_email_at_enrolment, learner_name_at_enrolment, amount_kobo, currency")
+    .maybeSingle();
+
+  if (enrolment) {
+    const { data: cohort } = await supabaseAdmin
+      .from("cohorts")
+      .select("label, slug, starts_on, ends_on, pacing, courses (title, slug)")
+      .eq("id", enrolment.cohort_id)
+      .maybeSingle();
+
+    const course = (cohort as { courses?: { title: string; slug: string } } | null)
+      ?.courses;
+
+    if (cohort && course && enrolment.learner_email_at_enrolment) {
+      const courseUrl = `${siteUrl()}/academy/learn/${course.slug}/${cohort.slug}`;
+      await sendEmail({
+        to: enrolment.learner_email_at_enrolment,
+        subject: `You're enrolled — ${course.title}`,
+        react: EnrolmentConfirmation({
+          fullName: enrolment.learner_name_at_enrolment ?? "there",
+          courseTitle: course.title,
+          cohortLabel: cohort.label,
+          datesLabel: formatCohortDates(
+            cohort.starts_on,
+            cohort.ends_on,
+            cohort.pacing,
+          ),
+          priceLabel: formatPrice(
+            enrolment.amount_kobo,
+            (enrolment.currency ?? "NGN") as "NGN" | "USD",
+          ),
+          courseUrl,
+        }),
       });
     }
     return;

@@ -61,6 +61,8 @@ const SUBMISSION_TABLES = [
   "lessons",
   "lesson_materials",
   "enrolments",
+  // Sprint 6.4 — the waiting list. Same posture as enrolments.
+  "cohort_waitlist",
 ] as const;
 
 const CONTENT_TABLES = [
@@ -156,6 +158,9 @@ describe("security-definer RPCs are not callable by anon", () => {
     // to `authenticated` only because a learner-owned RLS policy invokes it as
     // that role; anon must never reach it.
     ["is_verified_learner", {}],
+    // Sprint 6.4 — expires abandoned checkouts. Called by the cron route on the
+    // service role; anon reaching it could withdraw people mid-payment.
+    ["expire_pending_enrolments", {}],
     // The two mutual-exclusion trigger functions. Never called directly, but
     // PostgREST exposes any callable public-schema function, so they are
     // revoked from every API role rather than left reachable.

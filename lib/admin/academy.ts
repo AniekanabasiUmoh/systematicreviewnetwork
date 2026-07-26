@@ -517,6 +517,104 @@ export async function nextSortOrder(
   return (highest?.sort_order ?? -1) + 1;
 }
 
+/* --------------------------------------------------------------------------
+ * Sprint 6.4 — the cohort roster.
+ * ------------------------------------------------------------------------ */
+
+export type RosterRow = {
+  id: string;
+  learner_id: string;
+  full_name: string;
+  email: string;
+  state: string;
+  payment_status: string;
+  amount_kobo: number;
+  currency: string;
+  enrolled_at: string;
+  paid_at: string | null;
+  cancelled_at: string | null;
+  paystack_reference: string | null;
+};
+
+/**
+ * Everyone on a cohort, whatever their state.
+ *
+ * Names and emails come from the DENORMALISED columns first, falling back to
+ * the learner row. That ordering matters: the snapshot records who enrolled,
+ * and a later profile edit must not silently relabel a historic roster
+ * (the applications.programme rule from §5.7).
+ */
+export async function listRoster(cohortId: string): Promise<RosterRow[]> {
+  const { data, error } = await supabaseAdmin
+    .from("enrolments")
+    .select(
+      "id, learner_id, state, payment_status, amount_kobo, currency, enrolled_at, paid_at, cancelled_at, paystack_reference, learner_name_at_enrolment, learner_email_at_enrolment, learners (full_name, email)",
+    )
+    .eq("cohort_id", cohortId)
+    .order("enrolled_at", { ascending: true });
+
+  if (error) {
+    console.error("[academy admin] roster failed:", error.message);
+    return [];
+  }
+
+  return (data as unknown as Array<
+    Omit<RosterRow, "full_name" | "email"> & {
+      learner_name_at_enrolment: string | null;
+      learner_email_at_enrolment: string | null;
+      learners: { full_name: string | null; email: string } | null;
+    }
+  >).map((row) => ({
+    id: row.id,
+    learner_id: row.learner_id,
+    full_name:
+      row.learner_name_at_enrolment ?? row.learners?.full_name ?? "Not given",
+    email: row.learner_email_at_enrolment ?? row.learners?.email ?? "",
+    state: row.state,
+    payment_status: row.payment_status,
+    amount_kobo: row.amount_kobo,
+    currency: row.currency,
+    enrolled_at: row.enrolled_at,
+    paid_at: row.paid_at,
+    cancelled_at: row.cancelled_at,
+    paystack_reference: row.paystack_reference,
+  }));
+}
+
+export type WaitlistRow = {
+  id: string;
+  learner_id: string;
+  full_name: string;
+  email: string;
+  created_at: string;
+  offered_at: string | null;
+};
+
+/** The queue for a cohort, oldest first — position is derived, never stored. */
+export async function listWaitlist(cohortId: string): Promise<WaitlistRow[]> {
+  const { data } = await supabaseAdmin
+    .from("cohort_waitlist")
+    .select("id, learner_id, created_at, offered_at, learners (full_name, email)")
+    .eq("cohort_id", cohortId)
+    .is("resolved_at", null)
+    .order("created_at", { ascending: true });
+
+  return (data as unknown as Array<{
+    id: string;
+    learner_id: string;
+    created_at: string;
+    offered_at: string | null;
+    learners: { full_name: string | null; email: string } | null;
+  }> ?? []).map((row) => ({
+    id: row.id,
+    learner_id: row.learner_id,
+    full_name: row.learners?.full_name ?? "Not given",
+    email: row.learners?.email ?? "",
+    created_at: row.created_at,
+    offered_at: row.offered_at,
+  }));
+}
+
 /**
  * A label for a duplicated cohort that does not collide.
  *

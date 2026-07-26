@@ -23,5 +23,26 @@ export async function GET(req: Request) {
     console.error("[cron] expire failed:", error.message);
     return NextResponse.json({ ok: false, error: error.message }, { status: 500 });
   }
-  return NextResponse.json({ ok: true, expired: data ?? 0 });
+
+  /* Sprint 6.4 — the same rule for cohorts. Deliberately this route rather than
+     a second cron entry: it is the same job on the same schedule, and one
+     abandoned checkout holding a seat forever is the same bug in both places. */
+  const { data: enrolData, error: enrolError } = await supabaseAdmin.rpc(
+    "expire_pending_enrolments" as never,
+  );
+  if (enrolError) {
+    console.error("[cron] expire enrolments failed:", enrolError.message);
+    // The registration sweep already succeeded; report both rather than
+    // discarding that result.
+    return NextResponse.json(
+      { ok: false, expired: data ?? 0, error: enrolError.message },
+      { status: 500 },
+    );
+  }
+
+  return NextResponse.json({
+    ok: true,
+    expired: data ?? 0,
+    enrolmentsExpired: enrolData ?? 0,
+  });
 }

@@ -8,6 +8,7 @@ import { ButtonLink } from "@/components/ui/Button";
 import { ProfileForm } from "@/components/academy/ProfileForm";
 import { SignOutButton } from "@/components/academy/SignOutButton";
 import { requireLearner } from "@/lib/academy/auth";
+import { listMyCourses } from "@/lib/academy/curriculum";
 import { getLearnerRegistrations } from "@/lib/academy/queries";
 import { formatEventDateTime } from "@/lib/events";
 
@@ -29,6 +30,7 @@ export default async function AccountPage() {
   const registrations = learner.verified_at
     ? await getLearnerRegistrations(learner.id)
     : [];
+  const courses = learner.verified_at ? await listMyCourses(learner.id) : [];
 
   return (
     <>
@@ -53,6 +55,49 @@ export default async function AccountPage() {
                 </ButtonLink>
               </div>
             </div>
+          </Container>
+        </Section>
+      ) : null}
+
+      {learner.verified_at ? (
+        <Section surface="paper">
+          <Container>
+            <Eyebrow>Your courses</Eyebrow>
+            <h2 className="text-display text-ink mt-3 mb-6 text-[clamp(1.4rem,2.6vw,1.9rem)] leading-[1.1]">
+              {courses.length === 0 ? "Nothing yet" : "Continue where you left off"}
+            </h2>
+            {courses.length === 0 ? (
+              <p className="text-slate max-w-2xl leading-relaxed">
+                You are not enrolled in a course yet. The{" "}
+                <Link
+                  href="/academy"
+                  className="text-ink underline underline-offset-2"
+                >
+                  Academy catalogue
+                </Link>{" "}
+                lists everything currently open.
+              </p>
+            ) : (
+              <ul className="max-w-2xl space-y-3">
+                {courses.map((course) => (
+                  <li
+                    key={`${course.courseSlug}-${course.cohortSlug}`}
+                    className="border-hairline border p-5"
+                  >
+                    <Link
+                      href={`/academy/learn/${course.courseSlug}/${course.cohortSlug}`}
+                      className="text-ink font-semibold underline underline-offset-2"
+                    >
+                      {course.courseTitle}
+                    </Link>
+                    <p className="text-slate text-small mt-1">
+                      {course.cohortLabel}
+                      {course.state === "completed" ? " · completed" : ""}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            )}
           </Container>
         </Section>
       ) : null}

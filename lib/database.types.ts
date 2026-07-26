@@ -92,6 +92,33 @@ export type Database = {
         };
         Relationships: [];
       };
+      cohort_waitlist: {
+        Row: {
+          id: string;
+          cohort_id: string;
+          learner_id: string;
+          created_at: string;
+          offered_at: string | null;
+          resolved_at: string | null;
+        };
+        Insert: {
+          id?: string;
+          cohort_id: string;
+          learner_id: string;
+          created_at?: string;
+          offered_at?: string | null;
+          resolved_at?: string | null;
+        };
+        Update: {
+          id?: string;
+          cohort_id?: string;
+          learner_id?: string;
+          created_at?: string;
+          offered_at?: string | null;
+          resolved_at?: string | null;
+        };
+        Relationships: [];
+      };
       cohorts: {
         Row: {
           id: string;
@@ -292,6 +319,15 @@ export type Database = {
           withdrawn_at: string | null;
           created_at: string;
           updated_at: string;
+          payment_status: Database["public"]["Enums"]["enrolment_payment_status"];
+          amount_kobo: number;
+          currency: string;
+          paystack_reference: string | null;
+          paid_at: string | null;
+          cancelled_at: string | null;
+          refunded_at: string | null;
+          learner_name_at_enrolment: string | null;
+          learner_email_at_enrolment: string | null;
         };
         Insert: {
           id?: string;
@@ -303,6 +339,15 @@ export type Database = {
           withdrawn_at?: string | null;
           created_at?: string;
           updated_at?: string;
+          payment_status?: Database["public"]["Enums"]["enrolment_payment_status"];
+          amount_kobo?: number;
+          currency?: string;
+          paystack_reference?: string | null;
+          paid_at?: string | null;
+          cancelled_at?: string | null;
+          refunded_at?: string | null;
+          learner_name_at_enrolment?: string | null;
+          learner_email_at_enrolment?: string | null;
         };
         Update: {
           id?: string;
@@ -314,6 +359,15 @@ export type Database = {
           withdrawn_at?: string | null;
           created_at?: string;
           updated_at?: string;
+          payment_status?: Database["public"]["Enums"]["enrolment_payment_status"];
+          amount_kobo?: number;
+          currency?: string;
+          paystack_reference?: string | null;
+          paid_at?: string | null;
+          cancelled_at?: string | null;
+          refunded_at?: string | null;
+          learner_name_at_enrolment?: string | null;
+          learner_email_at_enrolment?: string | null;
         };
         Relationships: [];
       };
@@ -1148,6 +1202,7 @@ export type Database = {
       contact_type: "general" | "partnership";
       content_status: "draft" | "published";
       currency_code: "NGN" | "USD";
+      enrolment_payment_status: "not_required" | "pending" | "paid" | "refunded" | "failed";
       enrolment_state: "pending" | "active" | "completed" | "withdrawn";
       event_type: "webinar" | "course" | "mentorship" | "workshop";
       location_type: "online" | "in_person";
@@ -1161,6 +1216,7 @@ export type Database = {
 /** Convenience row aliases. */
 export type AdminAuditRow = Database["public"]["Tables"]["admin_audit"]["Row"];
 export type ApplicationsRow = Database["public"]["Tables"]["applications"]["Row"];
+export type CohortWaitlistRow = Database["public"]["Tables"]["cohort_waitlist"]["Row"];
 export type CohortsRow = Database["public"]["Tables"]["cohorts"]["Row"];
 export type ContactMessagesRow = Database["public"]["Tables"]["contact_messages"]["Row"];
 export type CoursesRow = Database["public"]["Tables"]["courses"]["Row"];
@@ -1191,6 +1247,7 @@ export type ApplicationStatus = Database["public"]["Enums"]["application_status"
 export type ContactType = Database["public"]["Enums"]["contact_type"];
 export type ContentStatus = Database["public"]["Enums"]["content_status"];
 export type CurrencyCode = Database["public"]["Enums"]["currency_code"];
+export type EnrolmentPaymentStatus = Database["public"]["Enums"]["enrolment_payment_status"];
 export type EnrolmentState = Database["public"]["Enums"]["enrolment_state"];
 export type EventType = Database["public"]["Enums"]["event_type"];
 export type LocationType = Database["public"]["Enums"]["location_type"];

@@ -228,3 +228,38 @@ export function DonationReceipt(props: {
     </EmailLayout>
   );
 }
+
+// ── Sprint 6.4 — enrolment confirmed (free tier, or webhook-confirmed payment) ──
+export function EnrolmentConfirmation(props: {
+  fullName: string;
+  courseTitle: string;
+  cohortLabel: string;
+  datesLabel: string;
+  priceLabel?: string;
+  courseUrl: string;
+}) {
+  const rows = [
+    { label: "Course", value: props.courseTitle },
+    { label: "Cohort", value: props.cohortLabel },
+    { label: "Dates", value: props.datesLabel },
+  ];
+  if (props.priceLabel) rows.push({ label: "Paid", value: props.priceLabel });
+  return (
+    <EmailLayout
+      preview={`You're enrolled in ${props.courseTitle}`}
+      heading="You're enrolled."
+    >
+      <P>Hi {props.fullName},</P>
+      <P>
+        Your place is confirmed and the course is open to you now. Everything —
+        lessons, readings and slides — is on your course page.
+      </P>
+      <DetailList rows={rows} />
+      <Button href={props.courseUrl}>Open your course</Button>
+      <P>
+        Your access does not expire when the cohort finishes. Come back to this
+        link whenever you need the material again.
+      </P>
+    </EmailLayout>
+  );
+}

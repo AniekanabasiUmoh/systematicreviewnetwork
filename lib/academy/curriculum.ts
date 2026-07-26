@@ -250,6 +250,51 @@ export async function getLessonForLearner(
 }
 
 /**
+ * Every cohort this learner may open, newest first.
+ *
+ * Sprint 6.4. Uses the same ACCESS_STATES as the gate, so "what is on my
+ * account page" and "what may I actually open" can never drift apart.
+ */
+export async function listMyCourses(learnerId: string): Promise<
+  Array<{
+    cohortSlug: string;
+    cohortLabel: string;
+    courseSlug: string;
+    courseTitle: string;
+    state: string;
+    enrolledAt: string;
+  }>
+> {
+  const { data } = await supabaseAdmin
+    .from("enrolments")
+    .select(
+      "state, enrolled_at, cohorts (slug, label, courses (slug, title))",
+    )
+    .eq("learner_id", learnerId)
+    .in("state", ACCESS_STATES)
+    .order("enrolled_at", { ascending: false });
+
+  return ((data ?? []) as unknown as Array<{
+    state: string;
+    enrolled_at: string;
+    cohorts: {
+      slug: string;
+      label: string;
+      courses: { slug: string; title: string } | null;
+    } | null;
+  }>)
+    .filter((row) => row.cohorts?.courses)
+    .map((row) => ({
+      cohortSlug: row.cohorts!.slug,
+      cohortLabel: row.cohorts!.label,
+      courseSlug: row.cohorts!.courses!.slug,
+      courseTitle: row.cohorts!.courses!.title,
+      state: row.state,
+      enrolledAt: row.enrolled_at,
+    }));
+}
+
+/**
  * Why a lesson is not available, when the answer is "it is locked, not absent".
  *
  * Returns null for everyone who should simply get a 404: no enrolment, wrong

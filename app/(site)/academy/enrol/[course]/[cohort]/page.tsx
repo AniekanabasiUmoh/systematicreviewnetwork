@@ -9,6 +9,7 @@ import { getCohort, getCohortSeatCounts } from "@/lib/academy/courses";
 import { cohortState, cohortLabel, canEnrol, formatCohortDates } from "@/lib/academy/cohorts";
 import { getLearner } from "@/lib/academy/auth";
 import { formatPrice, isFree } from "@/lib/events";
+import { EnrolButton, WaitlistButton } from "@/components/academy/EnrolButton";
 
 /* Sprint 6.2 — the enrol route.
  *
@@ -63,9 +64,18 @@ export default async function EnrolPage({
                   {cohortLabel[state]}
                 </h2>
                 <p className="text-slate mt-2 leading-relaxed">
-                  This cohort is not taking enrolments. Other cohorts of this
-                  course may be open.
+                  {state === "full"
+                    ? "Every seat on this cohort is taken. Join the waiting list and we will offer you a place if one frees up — you will not be charged unless you take it."
+                    : "This cohort is not taking enrolments. Other cohorts of this course may be open."}
                 </p>
+                {state === "full" && learner?.verified_at ? (
+                  <div className="mt-5">
+                    <WaitlistButton
+                      courseSlug={course.slug}
+                      cohortSlug={cohort.slug}
+                    />
+                  </div>
+                ) : null}
                 <div className="mt-5">
                   <ButtonLink href={`/academy/${course.slug}`}>
                     Back to {course.title}
@@ -106,22 +116,20 @@ export default async function EnrolPage({
                 <h2 className="text-ink font-semibold">
                   You&rsquo;re ready to enrol
                 </h2>
-                <p className="text-slate mt-2 leading-relaxed">
+                <p className="text-slate mt-2 mb-6 leading-relaxed">
                   {isFree(cohort.price_kobo)
-                    ? "This cohort is free."
-                    : `This cohort costs ${formatPrice(cohort.price_kobo, cohort.currency as "NGN" | "USD")}.`}{" "}
-                  Enrolment for {cohort.label} opens for booking shortly —
-                  we&rsquo;re finishing the payment and roster step. Your
-                  account is confirmed, so there is nothing else for you to do
-                  in the meantime.
+                    ? "This cohort is free. You will still get your own course page, and your access does not expire when the cohort finishes."
+                    : `This cohort costs ${formatPrice(cohort.price_kobo, cohort.currency as "NGN" | "USD")}. Payment is taken by Paystack — we never see your card details — and your place is confirmed the moment it clears.`}
                 </p>
-                <p className="text-slate mt-4 leading-relaxed">
-                  If you want to be told the moment it opens,{" "}
-                  <Link href="/contact" className="text-ink underline underline-offset-2">
-                    send us a message
-                  </Link>{" "}
-                  and we will email you directly.
-                </p>
+                <EnrolButton
+                  courseSlug={course.slug}
+                  cohortSlug={cohort.slug}
+                  free={isFree(cohort.price_kobo)}
+                  priceLabel={formatPrice(
+                    cohort.price_kobo,
+                    cohort.currency as "NGN" | "USD",
+                  )}
+                />
               </>
             )}
           </div>

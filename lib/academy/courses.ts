@@ -120,15 +120,43 @@ export async function getCohort(
 /**
  * Seats held per cohort.
  *
- * 6.4 builds `enrolments`; until then there is nothing to count and every
- * cohort reads as empty. Returning {} rather than throwing means the capacity
- * sentence degrades to "60 seats" instead of breaking the page, and the shape
- * is already right for 6.4 to fill in — one function to change, exactly like
- * `getSeatCounts` (§5.12).
+ * The Academy's counterpart to `getSeatCounts` (§5.12), and deliberately the
+ * only place a cohort's seats are counted — so the three rules below are true
+ * everywhere at once rather than in each caller that remembers them:
+ *
+ *   1. Only paid-up seats count. A `pending` enrolment is someone who opened
+ *      Paystack and may never come back; holding a seat for them would let one
+ *      abandoned checkout shrink a paid cohort (§13.2).
+ *   2. A withdrawn enrolment frees its seat.
+ *   3. A cancelled or refunded one does too — the money went back, so the seat
+ *      must as well.
+ *
+ * Service role, because a learner must not be able to read other people's
+ * enrolments to derive this; they only ever see the resulting number.
  */
 export async function getCohortSeatCounts(
   cohortIds: string[],
 ): Promise<Record<string, number>> {
   if (cohortIds.length === 0) return {};
-  return {};
+
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!serviceKey) return {};
+
+  const admin = createClient<Database>(url!, serviceKey, {
+    auth: { persistSession: false, autoRefreshToken: false },
+  });
+
+  const { data } = await admin
+    .from("enrolments")
+    .select("cohort_id")
+    .in("cohort_id", cohortIds)
+    .in("state", ["active", "completed"])
+    .in("payment_status", ["paid", "not_required"])
+    .is("cancelled_at", null);
+
+  const counts: Record<string, number> = {};
+  for (const row of data ?? []) {
+    counts[row.cohort_id] = (counts[row.cohort_id] ?? 0) + 1;
+  }
+  return counts;
 }
