@@ -2,7 +2,7 @@
   "crons": [
     {
       "path": "/api/cron/expire-registrations",
-      "schedule": "*/10 * * * *"
+      "schedule": "0 6 * * *"
     },
     {
       "path": "/api/cron/event-reminders",
