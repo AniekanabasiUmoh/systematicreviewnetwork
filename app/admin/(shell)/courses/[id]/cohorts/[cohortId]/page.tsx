@@ -8,7 +8,15 @@ import {
   listCourseOptions,
   listRoster,
   listWaitlist,
+  listSessions,
+  listAnnouncements,
 } from "@/lib/admin/academy";
+import {
+  SessionList,
+  SessionForm,
+  AnnouncementList,
+  AnnouncementForm,
+} from "@/components/admin/SessionsPanel";
 import {
   RosterTable,
   WaitlistTable,
@@ -38,11 +46,14 @@ export default async function AdminCohortPage({
   // heading — the URL is a claim about the relationship, so check it.
   if (!course || !cohort || cohort.course_id !== course.id) notFound();
 
-  const [courses, roster, waitlist] = await Promise.all([
-    listCourseOptions(),
-    listRoster(cohort.id),
-    listWaitlist(cohort.id),
-  ]);
+  const [courses, roster, waitlist, sessions, announcements] =
+    await Promise.all([
+      listCourseOptions(),
+      listRoster(cohort.id),
+      listWaitlist(cohort.id),
+      listSessions(cohort.id),
+      listAnnouncements(cohort.id),
+    ]);
   const seats = await getCohortSeatCounts([cohort.id]);
   const state = cohortState(cohort, seats[cohort.id] ?? 0);
 
@@ -94,6 +105,32 @@ export default async function AdminCohortPage({
         />
         <div className="mt-5">
           <ManualEnrolForm cohortId={cohort.id} />
+        </div>
+      </section>
+
+      {cohort.pacing === "self_paced" ? null : (
+        <section className="mt-10">
+          <h2 className="text-display text-ink text-h3">Live sessions</h2>
+          <p className="text-slate text-small mt-2 mb-5 max-w-2xl">
+            Scheduled calls for this cohort. The joining link is only ever shown
+            to someone enrolled here, and only from fifteen minutes before the
+            start.
+          </p>
+          <SessionList rows={sessions} />
+          <div className="mt-5">
+            <SessionForm cohortId={cohort.id} />
+          </div>
+        </section>
+      )}
+
+      <section className="mt-10">
+        <h2 className="text-display text-ink text-h3">Announcements</h2>
+        <p className="text-slate text-small mt-2 mb-5 max-w-2xl">
+          Notices on the course page for everyone enrolled on this cohort.
+        </p>
+        <AnnouncementList rows={announcements} />
+        <div className="mt-5">
+          <AnnouncementForm cohortId={cohort.id} />
         </div>
       </section>
 

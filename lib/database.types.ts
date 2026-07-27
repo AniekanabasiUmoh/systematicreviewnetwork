@@ -92,6 +92,39 @@ export type Database = {
         };
         Relationships: [];
       };
+      cohort_announcements: {
+        Row: {
+          id: string;
+          cohort_id: string;
+          title: string;
+          body_rich: Json | null;
+          published_at: string | null;
+          author_email: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          cohort_id: string;
+          title: string;
+          body_rich?: Json | null;
+          published_at?: string | null;
+          author_email?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          cohort_id?: string;
+          title?: string;
+          body_rich?: Json | null;
+          published_at?: string | null;
+          author_email?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       cohort_waitlist: {
         Row: {
           id: string;
@@ -596,6 +629,30 @@ export type Database = {
         };
         Relationships: [];
       };
+      lesson_progress: {
+        Row: {
+          id: string;
+          enrolment_id: string;
+          lesson_id: string;
+          completed_at: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          enrolment_id: string;
+          lesson_id: string;
+          completed_at?: string;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          enrolment_id?: string;
+          lesson_id?: string;
+          completed_at?: string;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
       lessons: {
         Row: {
           id: string;
@@ -636,6 +693,42 @@ export type Database = {
           sort_order?: number;
           status?: Database["public"]["Enums"]["content_status"];
           archived_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      live_sessions: {
+        Row: {
+          id: string;
+          cohort_id: string;
+          title: string;
+          starts_at: string;
+          duration_minutes: number;
+          join_url: string | null;
+          recording_embed: Json | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          cohort_id: string;
+          title: string;
+          starts_at: string;
+          duration_minutes?: number;
+          join_url?: string | null;
+          recording_embed?: Json | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          cohort_id?: string;
+          title?: string;
+          starts_at?: string;
+          duration_minutes?: number;
+          join_url?: string | null;
+          recording_embed?: Json | null;
           created_at?: string;
           updated_at?: string;
         };
@@ -1115,6 +1208,27 @@ export type Database = {
         };
         Relationships: [];
       };
+      session_attendance: {
+        Row: {
+          id: string;
+          session_id: string;
+          enrolment_id: string;
+          attended_at: string;
+        };
+        Insert: {
+          id?: string;
+          session_id: string;
+          enrolment_id: string;
+          attended_at?: string;
+        };
+        Update: {
+          id?: string;
+          session_id?: string;
+          enrolment_id?: string;
+          attended_at?: string;
+        };
+        Relationships: [];
+      };
       team_members: {
         Row: {
           id: string;
@@ -1216,6 +1330,7 @@ export type Database = {
 /** Convenience row aliases. */
 export type AdminAuditRow = Database["public"]["Tables"]["admin_audit"]["Row"];
 export type ApplicationsRow = Database["public"]["Tables"]["applications"]["Row"];
+export type CohortAnnouncementsRow = Database["public"]["Tables"]["cohort_announcements"]["Row"];
 export type CohortWaitlistRow = Database["public"]["Tables"]["cohort_waitlist"]["Row"];
 export type CohortsRow = Database["public"]["Tables"]["cohorts"]["Row"];
 export type ContactMessagesRow = Database["public"]["Tables"]["contact_messages"]["Row"];
@@ -1227,7 +1342,9 @@ export type HomepageRow = Database["public"]["Tables"]["homepage"]["Row"];
 export type ImpactStatsRow = Database["public"]["Tables"]["impact_stats"]["Row"];
 export type LearnersRow = Database["public"]["Tables"]["learners"]["Row"];
 export type LessonMaterialsRow = Database["public"]["Tables"]["lesson_materials"]["Row"];
+export type LessonProgressRow = Database["public"]["Tables"]["lesson_progress"]["Row"];
 export type LessonsRow = Database["public"]["Tables"]["lessons"]["Row"];
+export type LiveSessionsRow = Database["public"]["Tables"]["live_sessions"]["Row"];
 export type MediaRow = Database["public"]["Tables"]["media"]["Row"];
 export type ModulesRow = Database["public"]["Tables"]["modules"]["Row"];
 export type NewsRow = Database["public"]["Tables"]["news"]["Row"];
@@ -1241,6 +1358,7 @@ export type RateLimitsRow = Database["public"]["Tables"]["rate_limits"]["Row"];
 export type ReachCountriesRow = Database["public"]["Tables"]["reach_countries"]["Row"];
 export type RegistrationsRow = Database["public"]["Tables"]["registrations"]["Row"];
 export type ResourcesRow = Database["public"]["Tables"]["resources"]["Row"];
+export type SessionAttendanceRow = Database["public"]["Tables"]["session_attendance"]["Row"];
 export type TeamMembersRow = Database["public"]["Tables"]["team_members"]["Row"];
 export type TestimonialsRow = Database["public"]["Tables"]["testimonials"]["Row"];
 export type ApplicationStatus = Database["public"]["Enums"]["application_status"];

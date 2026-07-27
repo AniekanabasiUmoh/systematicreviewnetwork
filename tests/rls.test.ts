@@ -63,6 +63,12 @@ const SUBMISSION_TABLES = [
   "enrolments",
   // Sprint 6.4 — the waiting list. Same posture as enrolments.
   "cohort_waitlist",
+  // Sprint 6.5 — progress, announcements and live sessions. join_url is the
+  // most sensitive column in the Academy; anon must never see the table at all.
+  "lesson_progress",
+  "cohort_announcements",
+  "live_sessions",
+  "session_attendance",
 ] as const;
 
 const CONTENT_TABLES = [

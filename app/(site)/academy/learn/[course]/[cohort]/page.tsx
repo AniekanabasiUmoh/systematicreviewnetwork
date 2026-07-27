@@ -4,20 +4,36 @@ import { notFound } from "next/navigation";
 
 import { Section, Container } from "@/components/ui/Section";
 import { PageHeader } from "@/components/ui/PageHeader";
+import { ButtonLink } from "@/components/ui/Button";
+import { RichText, richTextIsEmpty } from "@/components/ui/RichText";
 import { getCohort } from "@/lib/academy/courses";
 import { requireVerifiedLearner } from "@/lib/academy/auth";
-import { getCurriculumForLearner } from "@/lib/academy/curriculum";
+import {
+  getCurriculumForLearner,
+  getEnrolment,
+} from "@/lib/academy/curriculum";
+import {
+  getCompletedLessonIds,
+  summarise,
+  nextLessonId,
+} from "@/lib/academy/progress";
+import {
+  getSessionsForLearner,
+  getAnnouncementsForLearner,
+} from "@/lib/academy/sessions";
 import { formatCohortDates } from "@/lib/academy/cohorts";
+import {
+  ProgressBar,
+  CourseContents,
+  type PlayerModule,
+} from "@/components/academy/CoursePlayer";
 
-/* Sprint 6.3 — the learner's curriculum overview.
+/* Sprint 6.5 — the course home.
  *
- * The gate is getCurriculumForLearner(), which returns null without a
- * qualifying enrolment. That null becomes a 404, deliberately: telling an
- * unenrolled visitor "you are not enrolled in this" confirms the cohort exists
- * and has content. A 404 tells them nothing at all.
- *
- * Drip is applied inside that function, so a locked module arrives here with an
- * empty `lessons` array — its titles never reach the browser. */
+ * Layout is responsive in both directions from one tree: a single column on a
+ * phone with the contents list collapsible, and a sticky sidebar beside the
+ * content from `lg` up. Same grid idiom as /news/events/[slug] and the course
+ * page, so the Academy does not invent a second layout language. */
 
 export const dynamic = "force-dynamic";
 
@@ -31,6 +47,7 @@ export default async function LearnPage({
 }: {
   params: Promise<{ course: string; cohort: string }>;
 }) {
+  const renderedAt = new Date();
   const { course: courseSlug, cohort: cohortSlug } = await params;
   const learner = await requireVerifiedLearner();
 
@@ -38,16 +55,55 @@ export default async function LearnPage({
   if (!found) notFound();
   const { course, cohort } = found;
 
-  const modules = await getCurriculumForLearner(learner.id, {
-    id: cohort.id,
-    course_id: course.id,
-    pacing: cohort.pacing,
-  });
+  const enrolment = await getEnrolment(learner.id, cohort.id);
+  if (!enrolment) notFound();
+
+  /* Progress feeds back into the drip rule: an `after_previous` module opens
+     because of what is in this set, so it must be read BEFORE the curriculum. */
+  const completed = await getCompletedLessonIds(enrolment.id);
+  const modules = await getCurriculumForLearner(
+    learner.id,
+    { id: cohort.id, course_id: course.id, pacing: cohort.pacing },
+    completed,
+  );
   if (!modules) notFound();
 
-  const totalLessons = modules.reduce(
-    (count, module) => count + module.lessons.length,
-    0,
+  const [sessions, announcements] = await Promise.all([
+    getSessionsForLearner(
+      learner.id,
+      { id: cohort.id, pacing: cohort.pacing },
+      renderedAt,
+    ),
+    getAnnouncementsForLearner(learner.id, cohort.id),
+  ]);
+
+  const visible = modules.flatMap((m) => m.lessons.map((l) => l.id));
+  const progress = summarise(completed, visible);
+  const resumeId = nextLessonId(completed, visible);
+  const basePath = `/academy/learn/${course.slug}/${cohort.slug}`;
+
+  const playerModules: PlayerModule[] = modules.map((module) => ({
+    id: module.id,
+    title: module.title,
+    released: module.released,
+    lockedReason: module.lockedReason,
+    lessons: module.lessons.map((lesson) => ({
+      id: lesson.id,
+      title: lesson.title,
+      estimated_minutes: lesson.estimated_minutes,
+      done: completed.has(lesson.id),
+    })),
+  }));
+
+  /* Read the clock once, before rendering, and pass it down. Calling Date.now()
+     inside the render would make the output depend on when React happened to
+     evaluate it. */
+  const now = renderedAt.getTime();
+  const upcoming = (sessions ?? []).filter(
+    (session) =>
+      new Date(session.starts_at).getTime() +
+        session.duration_minutes * 60_000 >
+      now,
   );
 
   return (
@@ -60,70 +116,139 @@ export default async function LearnPage({
 
       <Section surface="paper">
         <Container>
-          {modules.length === 0 ? (
-            <p className="text-slate max-w-2xl leading-relaxed">
-              The teaching for this cohort is being prepared. Everything will
-              appear here as soon as it is ready, and you do not need to do
-              anything in the meantime.
-            </p>
-          ) : (
-            <>
-              <p className="text-slate mb-8 max-w-2xl leading-relaxed">
-                {modules.length} {modules.length === 1 ? "module" : "modules"} ·{" "}
-                {totalLessons} {totalLessons === 1 ? "lesson" : "lessons"}
-                {cohort.pacing === "self_paced"
-                  ? " · everything is open from today, at your own pace"
-                  : ""}
-              </p>
+          <div className="grid gap-10 lg:grid-cols-[20rem_1fr] lg:gap-16">
+            {/* Contents: collapsible on a phone, sticky column on desktop. */}
+            <aside className="lg:sticky lg:top-24 lg:self-start">
+              <div className="mb-6">
+                <ProgressBar
+                  completed={progress.completedCount}
+                  total={progress.totalCount}
+                  percent={progress.percent}
+                />
+              </div>
+              <CourseContents modules={playerModules} basePath={basePath} />
+            </aside>
 
-              <ol className="space-y-6">
-                {modules.map((module, index) => (
-                  <li key={module.id} className="border-hairline border p-5">
-                    <p className="text-slate text-small">
-                      Module {index + 1}
-                    </p>
-                    <h2 className="text-ink mt-1 font-semibold">
-                      {module.title}
-                    </h2>
-                    {module.summary ? (
-                      <p className="text-slate mt-2 leading-relaxed">
-                        {module.summary}
-                      </p>
-                    ) : null}
+            <div className="min-w-0">
+              {modules.length === 0 ? (
+                <p className="text-slate max-w-2xl leading-relaxed">
+                  The teaching for this cohort is being prepared. Everything
+                  will appear here as soon as it is ready, and you do not need
+                  to do anything in the meantime.
+                </p>
+              ) : (
+                <>
+                  <h2 className="text-display text-ink text-h3">
+                    {progress.completedCount === 0
+                      ? "Start here"
+                      : resumeId
+                        ? "Pick up where you left off"
+                        : "You're up to date"}
+                  </h2>
+                  <p className="text-slate mt-2 mb-6 max-w-2xl leading-relaxed">
+                    {resumeId
+                      ? "Your progress is saved to your account, so you can carry on from any device."
+                      : "You have finished everything that is open so far. Anything new will appear here."}
+                  </p>
+                  {resumeId ? (
+                    <ButtonLink href={`${basePath}/${resumeId}`}>
+                      {progress.completedCount === 0
+                        ? "Start the first lesson"
+                        : "Continue"}
+                    </ButtonLink>
+                  ) : null}
+                </>
+              )}
 
-                    {!module.released ? (
-                      <p className="text-slate border-hairline mt-4 border-t pt-4 leading-relaxed">
-                        {module.lockedReason}
-                      </p>
-                    ) : module.lessons.length === 0 ? (
-                      <p className="text-slate mt-4 leading-relaxed">
-                        No lessons in this module yet.
-                      </p>
-                    ) : (
-                      <ul className="border-hairline mt-4 space-y-2 border-t pt-4">
-                        {module.lessons.map((lesson) => (
-                          <li key={lesson.id}>
-                            <Link
-                              href={`/academy/learn/${course.slug}/${cohort.slug}/${lesson.id}`}
-                              className="text-ink underline underline-offset-2"
+              {upcoming.length > 0 ? (
+                <section className="mt-12">
+                  <h2 className="text-display text-ink text-h3">
+                    Live sessions
+                  </h2>
+                  <ul className="mt-5 space-y-3">
+                    {upcoming.map((session) => (
+                      <li
+                        key={session.id}
+                        className="border-hairline border p-5"
+                      >
+                        <p className="text-ink font-semibold">{session.title}</p>
+                        <p className="text-slate text-small mt-1">
+                          {new Date(session.starts_at).toLocaleString("en-GB", {
+                            timeZone: "Africa/Lagos",
+                            weekday: "long",
+                            day: "numeric",
+                            month: "long",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}{" "}
+                          · {session.duration_minutes} minutes · Lagos time
+                        </p>
+                        {session.join_url ? (
+                          <div className="mt-4">
+                            <ButtonLink
+                              href={`${basePath}/sessions/${session.id}/join`}
                             >
-                              {lesson.title}
-                            </Link>
-                            {lesson.estimated_minutes ? (
-                              <span className="text-slate text-small">
-                                {" "}
-                                · {lesson.estimated_minutes} min
-                              </span>
-                            ) : null}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </li>
-                ))}
-              </ol>
-            </>
-          )}
+                              Join the session
+                            </ButtonLink>
+                          </div>
+                        ) : (
+                          <p className="text-slate text-small mt-3">
+                            The joining link appears here fifteen minutes before
+                            the session starts.
+                          </p>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              ) : null}
+
+              {(announcements ?? []).length > 0 ? (
+                <section className="mt-12">
+                  <h2 className="text-display text-ink text-h3">
+                    Announcements
+                  </h2>
+                  <ul className="mt-5 space-y-6">
+                    {(announcements ?? []).map((note) => (
+                      <li
+                        key={note.id}
+                        className="border-hairline border-t pt-5 first:border-t-0 first:pt-0"
+                      >
+                        <p className="text-ink font-semibold">{note.title}</p>
+                        <p className="text-slate text-small mt-1">
+                          {note.published_at
+                            ? new Date(note.published_at).toLocaleDateString(
+                                "en-GB",
+                                {
+                                  timeZone: "Africa/Lagos",
+                                  day: "numeric",
+                                  month: "long",
+                                  year: "numeric",
+                                },
+                              )
+                            : ""}
+                        </p>
+                        {!richTextIsEmpty(note.body_rich) ? (
+                          <div className="mt-3 max-w-2xl">
+                            <RichText body={note.body_rich} />
+                          </div>
+                        ) : null}
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              ) : null}
+
+              <p className="mt-12">
+                <Link
+                  href="/account"
+                  className="text-slate text-small underline underline-offset-2"
+                >
+                  All your courses
+                </Link>
+              </p>
+            </div>
+          </div>
         </Container>
       </Section>
     </>

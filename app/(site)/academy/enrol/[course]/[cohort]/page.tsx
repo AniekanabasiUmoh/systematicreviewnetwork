@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { Section, Container } from "@/components/ui/Section";
@@ -11,18 +10,15 @@ import { getLearner } from "@/lib/academy/auth";
 import { formatPrice, isFree } from "@/lib/events";
 import { EnrolButton, WaitlistButton } from "@/components/academy/EnrolButton";
 
-/* Sprint 6.2 — the enrol route.
+/* The enrol route (6.2, completed in 6.4).
  *
- * §6.2's done-when requires a WORKING enrol route from the public course page;
- * §6.4 builds the payment and the enrolment record. This page is the part that
- * belongs to 6.2: it resolves the cohort, re-checks that enrolment is actually
- * open server-side (a link that was open when the page was rendered may be
- * closed by the time it is clicked), and confirms the learner is signed in and
- * verified before anything else happens.
+ * Resolves the cohort, re-checks server-side that enrolment is actually open —
+ * a link that was open when the page rendered may be closed by the time it is
+ * clicked — and confirms the learner is signed in and verified before offering
+ * the button.
  *
- * It states plainly what it can and cannot do yet rather than pretending. When
- * 6.4 lands, the final step becomes the Paystack handoff or the free-tier
- * enrolment; everything above it is already correct. */
+ * The check here decides what to SHOW. lib/actions/enrolment.ts re-runs all of
+ * it at the moment of the click, because that is the one that has to be right. */
 
 export const dynamic = "force-dynamic";
 

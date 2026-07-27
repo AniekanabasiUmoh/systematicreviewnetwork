@@ -615,6 +615,44 @@ export async function listWaitlist(cohortId: string): Promise<WaitlistRow[]> {
   }));
 }
 
+/* --------------------------------------------------------------------------
+ * Sprint 6.5 — sessions and announcements.
+ * ------------------------------------------------------------------------ */
+
+export async function listSessions(cohortId: string) {
+  const { data } = await supabaseAdmin
+    .from("live_sessions")
+    .select("id, title, starts_at, duration_minutes, join_url, session_attendance (id)")
+    .eq("cohort_id", cohortId)
+    .order("starts_at", { ascending: true });
+
+  return ((data ?? []) as unknown as Array<{
+    id: string;
+    title: string;
+    starts_at: string;
+    duration_minutes: number;
+    join_url: string | null;
+    session_attendance: { id: string }[];
+  }>).map(({ session_attendance, ...row }) => ({
+    ...row,
+    attendees: session_attendance?.length ?? 0,
+  }));
+}
+
+export async function listAnnouncements(cohortId: string) {
+  const { data } = await supabaseAdmin
+    .from("cohort_announcements")
+    .select("id, title, published_at, author_email")
+    .eq("cohort_id", cohortId)
+    .order("created_at", { ascending: false });
+  return (data ?? []) as Array<{
+    id: string;
+    title: string;
+    published_at: string | null;
+    author_email: string | null;
+  }>;
+}
+
 /**
  * A label for a duplicated cohort that does not collide.
  *
