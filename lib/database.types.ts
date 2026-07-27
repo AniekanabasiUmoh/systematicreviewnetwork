@@ -92,6 +92,57 @@ export type Database = {
         };
         Relationships: [];
       };
+      assessments: {
+        Row: {
+          id: string;
+          module_id: string;
+          kind: Database["public"]["Enums"]["assessment_kind"];
+          title: string;
+          instructions_rich: Json | null;
+          pass_mark: number;
+          max_attempts: number | null;
+          due_at: string | null;
+          submission_type: string;
+          status: Database["public"]["Enums"]["content_status"];
+          archived_at: string | null;
+          sort_order: number;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          module_id: string;
+          kind: Database["public"]["Enums"]["assessment_kind"];
+          title: string;
+          instructions_rich?: Json | null;
+          pass_mark?: number;
+          max_attempts?: number | null;
+          due_at?: string | null;
+          submission_type?: string;
+          status?: Database["public"]["Enums"]["content_status"];
+          archived_at?: string | null;
+          sort_order?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          module_id?: string;
+          kind?: Database["public"]["Enums"]["assessment_kind"];
+          title?: string;
+          instructions_rich?: Json | null;
+          pass_mark?: number;
+          max_attempts?: number | null;
+          due_at?: string | null;
+          submission_type?: string;
+          status?: Database["public"]["Enums"]["content_status"];
+          archived_at?: string | null;
+          sort_order?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       cohort_announcements: {
         Row: {
           id: string;
@@ -1058,6 +1109,63 @@ export type Database = {
         };
         Relationships: [];
       };
+      quiz_options: {
+        Row: {
+          id: string;
+          question_id: string;
+          label: string;
+          is_correct: boolean;
+          sort_order: number;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          question_id: string;
+          label: string;
+          is_correct?: boolean;
+          sort_order?: number;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          question_id?: string;
+          label?: string;
+          is_correct?: boolean;
+          sort_order?: number;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
+      quiz_questions: {
+        Row: {
+          id: string;
+          assessment_id: string;
+          prompt: string;
+          explanation: string | null;
+          sort_order: number;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          assessment_id: string;
+          prompt: string;
+          explanation?: string | null;
+          sort_order?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          assessment_id?: string;
+          prompt?: string;
+          explanation?: string | null;
+          sort_order?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       rate_limits: {
         Row: {
           form: string;
@@ -1229,6 +1337,69 @@ export type Database = {
         };
         Relationships: [];
       };
+      submissions: {
+        Row: {
+          id: string;
+          assessment_id: string;
+          enrolment_id: string;
+          attempt: number;
+          state: Database["public"]["Enums"]["submission_state"];
+          body_text: string | null;
+          storage_path: string | null;
+          file_name: string | null;
+          answers: Json | null;
+          score: number | null;
+          passed: boolean | null;
+          feedback: string | null;
+          marked_by: string | null;
+          marked_at: string | null;
+          is_late: boolean;
+          submitted_at: string;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          assessment_id: string;
+          enrolment_id: string;
+          attempt?: number;
+          state?: Database["public"]["Enums"]["submission_state"];
+          body_text?: string | null;
+          storage_path?: string | null;
+          file_name?: string | null;
+          answers?: Json | null;
+          score?: number | null;
+          passed?: boolean | null;
+          feedback?: string | null;
+          marked_by?: string | null;
+          marked_at?: string | null;
+          is_late?: boolean;
+          submitted_at?: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          assessment_id?: string;
+          enrolment_id?: string;
+          attempt?: number;
+          state?: Database["public"]["Enums"]["submission_state"];
+          body_text?: string | null;
+          storage_path?: string | null;
+          file_name?: string | null;
+          answers?: Json | null;
+          score?: number | null;
+          passed?: boolean | null;
+          feedback?: string | null;
+          marked_by?: string | null;
+          marked_at?: string | null;
+          is_late?: boolean;
+          submitted_at?: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       team_members: {
         Row: {
           id: string;
@@ -1313,6 +1484,7 @@ export type Database = {
     CompositeTypes: { [_ in never]: never };
     Enums: {
       application_status: "received" | "under_review" | "accepted" | "waitlisted" | "rejected";
+      assessment_kind: "quiz" | "assignment";
       contact_type: "general" | "partnership";
       content_status: "draft" | "published";
       currency_code: "NGN" | "USD";
@@ -1322,6 +1494,7 @@ export type Database = {
       location_type: "online" | "in_person";
       payment_status: "not_required" | "pending" | "paid" | "failed" | "expired" | "refunded";
       resource_category: "guide" | "template" | "webinar" | "tool" | "publication";
+      submission_state: "submitted" | "marked" | "returned";
       team_group: "executive" | "scientific" | "country_lead" | "mentor";
     };
   };
@@ -1330,6 +1503,7 @@ export type Database = {
 /** Convenience row aliases. */
 export type AdminAuditRow = Database["public"]["Tables"]["admin_audit"]["Row"];
 export type ApplicationsRow = Database["public"]["Tables"]["applications"]["Row"];
+export type AssessmentsRow = Database["public"]["Tables"]["assessments"]["Row"];
 export type CohortAnnouncementsRow = Database["public"]["Tables"]["cohort_announcements"]["Row"];
 export type CohortWaitlistRow = Database["public"]["Tables"]["cohort_waitlist"]["Row"];
 export type CohortsRow = Database["public"]["Tables"]["cohorts"]["Row"];
@@ -1354,14 +1528,18 @@ export type PartnersRow = Database["public"]["Tables"]["partners"]["Row"];
 export type PaystackEventsRow = Database["public"]["Tables"]["paystack_events"]["Row"];
 export type ProfilesRow = Database["public"]["Tables"]["profiles"]["Row"];
 export type ProgrammesRow = Database["public"]["Tables"]["programmes"]["Row"];
+export type QuizOptionsRow = Database["public"]["Tables"]["quiz_options"]["Row"];
+export type QuizQuestionsRow = Database["public"]["Tables"]["quiz_questions"]["Row"];
 export type RateLimitsRow = Database["public"]["Tables"]["rate_limits"]["Row"];
 export type ReachCountriesRow = Database["public"]["Tables"]["reach_countries"]["Row"];
 export type RegistrationsRow = Database["public"]["Tables"]["registrations"]["Row"];
 export type ResourcesRow = Database["public"]["Tables"]["resources"]["Row"];
 export type SessionAttendanceRow = Database["public"]["Tables"]["session_attendance"]["Row"];
+export type SubmissionsRow = Database["public"]["Tables"]["submissions"]["Row"];
 export type TeamMembersRow = Database["public"]["Tables"]["team_members"]["Row"];
 export type TestimonialsRow = Database["public"]["Tables"]["testimonials"]["Row"];
 export type ApplicationStatus = Database["public"]["Enums"]["application_status"];
+export type AssessmentKind = Database["public"]["Enums"]["assessment_kind"];
 export type ContactType = Database["public"]["Enums"]["contact_type"];
 export type ContentStatus = Database["public"]["Enums"]["content_status"];
 export type CurrencyCode = Database["public"]["Enums"]["currency_code"];
@@ -1371,4 +1549,5 @@ export type EventType = Database["public"]["Enums"]["event_type"];
 export type LocationType = Database["public"]["Enums"]["location_type"];
 export type PaymentStatus = Database["public"]["Enums"]["payment_status"];
 export type ResourceCategory = Database["public"]["Enums"]["resource_category"];
+export type SubmissionState = Database["public"]["Enums"]["submission_state"];
 export type TeamGroup = Database["public"]["Enums"]["team_group"];

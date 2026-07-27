@@ -263,3 +263,41 @@ export function EnrolmentConfirmation(props: {
     </EmailLayout>
   );
 }
+
+// ── Sprint 6.6 — a marker has returned work ──
+export function AssessmentMarked(props: {
+  fullName: string;
+  assessmentTitle: string;
+  courseTitle: string;
+  score: number;
+  passed: boolean;
+  courseUrl: string;
+}) {
+  return (
+    <EmailLayout
+      preview={`Your work on ${props.assessmentTitle} has been marked`}
+      heading={props.passed ? "You passed." : "Your work has been marked."}
+    >
+      <P>Hi {props.fullName},</P>
+      <P>
+        {props.passed
+          ? `Your work on ${props.assessmentTitle} has been marked and you passed.`
+          : `Your work on ${props.assessmentTitle} has been marked. You did not reach the pass mark this time, and your marker has explained why.`}
+      </P>
+      <DetailList
+        rows={[
+          { label: "Course", value: props.courseTitle },
+          { label: "Assessment", value: props.assessmentTitle },
+          { label: "Your score", value: `${props.score}%` },
+        ]}
+      />
+      <Button href={props.courseUrl}>Read the feedback</Button>
+      {!props.passed ? (
+        <P>
+          Read what your marker wrote before trying again — it says exactly what
+          to change.
+        </P>
+      ) : null}
+    </EmailLayout>
+  );
+}

@@ -21,6 +21,10 @@ import {
   getSessionsForLearner,
   getAnnouncementsForLearner,
 } from "@/lib/academy/sessions";
+import {
+  listAssessmentsForLearner,
+  showsDeadline,
+} from "@/lib/academy/assessment";
 import { formatCohortDates } from "@/lib/academy/cohorts";
 import {
   ProgressBar,
@@ -68,14 +72,16 @@ export default async function LearnPage({
   );
   if (!modules) notFound();
 
-  const [sessions, announcements] = await Promise.all([
+  const [sessions, announcements, assessmentList] = await Promise.all([
     getSessionsForLearner(
       learner.id,
       { id: cohort.id, pacing: cohort.pacing },
       renderedAt,
     ),
     getAnnouncementsForLearner(learner.id, cohort.id),
+    listAssessmentsForLearner(learner.id, { id: cohort.id, course_id: course.id, pacing: cohort.pacing }, completed),
   ]);
+  const assessments = assessmentList ?? [];
 
   const visible = modules.flatMap((m) => m.lessons.map((l) => l.id));
   const progress = summarise(completed, visible);
@@ -159,6 +165,43 @@ export default async function LearnPage({
                   ) : null}
                 </>
               )}
+
+              {assessments.length > 0 ? (
+                <section className="mt-12">
+                  <h2 className="text-display text-ink text-h3">
+                    Quizzes and assignments
+                  </h2>
+                  <ul className="mt-5 space-y-3">
+                    {assessments.map((item) => (
+                      <li key={item.id} className="border-hairline border p-5">
+                        <Link
+                          href={`${basePath}/assessments/${item.id}`}
+                          className="text-ink font-semibold underline underline-offset-2"
+                        >
+                          {item.title}
+                        </Link>
+                        <p className="text-slate text-small mt-1">
+                          {item.kind === "quiz"
+                            ? "Quiz — marked straight away"
+                            : "Assignment — marked by a person"}
+                          {" · pass mark "}
+                          {item.pass_mark}%
+                          {showsDeadline(item, cohort.pacing) && item.due_at
+                            ? ` · due ${new Date(item.due_at).toLocaleDateString(
+                                "en-GB",
+                                {
+                                  timeZone: "Africa/Lagos",
+                                  day: "numeric",
+                                  month: "long",
+                                },
+                              )}`
+                            : ""}
+                        </p>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              ) : null}
 
               {upcoming.length > 0 ? (
                 <section className="mt-12">

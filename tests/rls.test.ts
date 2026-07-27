@@ -69,6 +69,12 @@ const SUBMISSION_TABLES = [
   "cohort_announcements",
   "live_sessions",
   "session_attendance",
+  // Sprint 6.6 — assessment. quiz_options holds is_correct: the answer key.
+  // There is no learner policy on it at all, only staff.
+  "assessments",
+  "quiz_questions",
+  "quiz_options",
+  "submissions",
 ] as const;
 
 const CONTENT_TABLES = [
