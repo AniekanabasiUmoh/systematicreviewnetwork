@@ -75,6 +75,9 @@ const SUBMISSION_TABLES = [
   "quiz_questions",
   "quiz_options",
   "submissions",
+  // Sprint 6.7 — the certificate register. Verification is public, but only
+  // one code at a time through a server route; anon must never list the table.
+  "certificates",
 ] as const;
 
 const CONTENT_TABLES = [

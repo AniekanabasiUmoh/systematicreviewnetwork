@@ -25,6 +25,14 @@ import {
   listAssessmentsForLearner,
   showsDeadline,
 } from "@/lib/academy/assessment";
+import {
+  getCertificate,
+  checkEligibility,
+} from "@/lib/academy/certificates";
+import {
+  CertificateClaim,
+  CertificateIssuedPanel,
+} from "@/components/academy/CertificatePanel";
 import { formatCohortDates } from "@/lib/academy/cohorts";
 import {
   ProgressBar,
@@ -82,6 +90,17 @@ export default async function LearnPage({
     listAssessmentsForLearner(learner.id, { id: cohort.id, course_id: course.id, pacing: cohort.pacing }, completed),
   ]);
   const assessments = assessmentList ?? [];
+
+  const certificate = await getCertificate(enrolment.id);
+  /* Only computed when there is nothing to show yet — an issued certificate
+     needs no eligibility check, and this walks the whole curriculum. */
+  const eligibility = certificate
+    ? ({ eligible: false, reason: "" } as const)
+    : await checkEligibility(enrolment.id, {
+        id: cohort.id,
+        course_id: course.id,
+        pacing: cohort.pacing,
+      });
 
   const visible = modules.flatMap((m) => m.lessons.map((l) => l.id));
   const progress = summarise(completed, visible);
@@ -165,6 +184,25 @@ export default async function LearnPage({
                   ) : null}
                 </>
               )}
+
+              <section className="border-hairline mt-12 border p-6">
+                <h2 className="text-display text-ink text-h3 mb-4">
+                  Certificate
+                </h2>
+                {certificate ? (
+                  <CertificateIssuedPanel
+                    code={certificate.code}
+                    revoked={Boolean(certificate.revoked_at)}
+                  />
+                ) : (
+                  <CertificateClaim
+                    courseSlug={course.slug}
+                    cohortSlug={cohort.slug}
+                    eligible={eligibility.eligible}
+                    reason={eligibility.eligible ? null : eligibility.reason}
+                  />
+                )}
+              </section>
 
               {assessments.length > 0 ? (
                 <section className="mt-12">

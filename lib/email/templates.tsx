@@ -301,3 +301,38 @@ export function AssessmentMarked(props: {
     </EmailLayout>
   );
 }
+
+// ── Sprint 6.7 — certificate issued ──
+export function CertificateIssued(props: {
+  fullName: string;
+  courseTitle: string;
+  code: string;
+  certificateUrl: string;
+  verifyUrl: string;
+}) {
+  return (
+    <EmailLayout
+      preview={`Your certificate for ${props.courseTitle}`}
+      heading="You've finished. Here's your certificate."
+    >
+      <P>Hi {props.fullName},</P>
+      <P>
+        You have completed {props.courseTitle}. Your certificate is ready to
+        download, print, or send to an employer.
+      </P>
+      <DetailList
+        rows={[
+          { label: "Course", value: props.courseTitle },
+          { label: "Verification code", value: props.code },
+        ]}
+      />
+      <Button href={props.certificateUrl}>Download your certificate</Button>
+      <P>
+        Anyone can confirm it is genuine at {props.verifyUrl} — no account
+        needed. Keep the code somewhere safe; it is what makes the certificate
+        checkable.
+      </P>
+      <P>Congratulations.</P>
+    </EmailLayout>
+  );
+}

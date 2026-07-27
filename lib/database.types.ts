@@ -143,6 +143,57 @@ export type Database = {
         };
         Relationships: [];
       };
+      certificates: {
+        Row: {
+          id: string;
+          enrolment_id: string;
+          code: string;
+          learner_name: string;
+          course_title: string;
+          cohort_label: string;
+          cohort_dates: string | null;
+          completed_on: string;
+          revoked_at: string | null;
+          revoked_reason: string | null;
+          revoked_by: string | null;
+          issued_at: string;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          enrolment_id: string;
+          code: string;
+          learner_name: string;
+          course_title: string;
+          cohort_label: string;
+          cohort_dates?: string | null;
+          completed_on: string;
+          revoked_at?: string | null;
+          revoked_reason?: string | null;
+          revoked_by?: string | null;
+          issued_at?: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          enrolment_id?: string;
+          code?: string;
+          learner_name?: string;
+          course_title?: string;
+          cohort_label?: string;
+          cohort_dates?: string | null;
+          completed_on?: string;
+          revoked_at?: string | null;
+          revoked_reason?: string | null;
+          revoked_by?: string | null;
+          issued_at?: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       cohort_announcements: {
         Row: {
           id: string;
@@ -1504,6 +1555,7 @@ export type Database = {
 export type AdminAuditRow = Database["public"]["Tables"]["admin_audit"]["Row"];
 export type ApplicationsRow = Database["public"]["Tables"]["applications"]["Row"];
 export type AssessmentsRow = Database["public"]["Tables"]["assessments"]["Row"];
+export type CertificatesRow = Database["public"]["Tables"]["certificates"]["Row"];
 export type CohortAnnouncementsRow = Database["public"]["Tables"]["cohort_announcements"]["Row"];
 export type CohortWaitlistRow = Database["public"]["Tables"]["cohort_waitlist"]["Row"];
 export type CohortsRow = Database["public"]["Tables"]["cohorts"]["Row"];

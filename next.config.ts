@@ -21,6 +21,16 @@ const nextConfig: NextConfig = {
       : [],
     formats: ["image/avif", "image/webp"],
   },
+
+  /* Sprint 6.7 — the certificate generator reads Inter.ttf from disk at
+     runtime. Next's bundler only traces files reachable through imports, and a
+     .ttf read with fs is not, so without this the font is absent from the
+     serverless bundle and certificate downloads fail in production while
+     working perfectly in development. */
+  outputFileTracingIncludes: {
+    "/api/academy/certificate/**": ["./assets/fonts/Inter.ttf"],
+    "/verify/**": ["./assets/fonts/Inter.ttf"],
+  },
 };
 
 export default nextConfig;
