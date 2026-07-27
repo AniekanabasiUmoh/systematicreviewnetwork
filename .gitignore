@@ -52,3 +52,6 @@ yarn-error.log*
 
 .playwright-cli/
 output/
+
+# Editor workspace files — local preference, not project config.
+*.code-workspace
