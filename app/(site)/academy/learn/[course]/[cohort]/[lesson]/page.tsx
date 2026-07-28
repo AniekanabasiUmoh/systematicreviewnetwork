@@ -6,7 +6,7 @@ import { Section, Container } from "@/components/ui/Section";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { RichText, richTextIsEmpty } from "@/components/ui/RichText";
 import { Embed } from "@/components/ui/Embed";
-import { getCohort } from "@/lib/academy/courses";
+import { getEnrolledCohort } from "@/lib/academy/courses";
 import { requireVerifiedLearner } from "@/lib/academy/auth";
 import {
   getLessonForLearner,
@@ -49,7 +49,7 @@ export default async function LessonPage({
   } = await params;
   const learner = await requireVerifiedLearner();
 
-  const found = await getCohort(courseSlug, cohortSlug);
+  const found = await getEnrolledCohort(courseSlug, cohortSlug);
   if (!found) notFound();
   const { course, cohort } = found;
 
@@ -147,6 +147,7 @@ export default async function LessonPage({
         eyebrow={course.title}
         title={lesson.title}
         lede={lesson.summary ?? undefined}
+        compact
       />
 
       <Section surface="paper">

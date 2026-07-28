@@ -6,7 +6,7 @@ import { Section, Container } from "@/components/ui/Section";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { ButtonLink } from "@/components/ui/Button";
 import { RichText, richTextIsEmpty } from "@/components/ui/RichText";
-import { getCohort } from "@/lib/academy/courses";
+import { getEnrolledCohort } from "@/lib/academy/courses";
 import { requireVerifiedLearner } from "@/lib/academy/auth";
 import {
   getCurriculumForLearner,
@@ -63,7 +63,7 @@ export default async function LearnPage({
   const { course: courseSlug, cohort: cohortSlug } = await params;
   const learner = await requireVerifiedLearner();
 
-  const found = await getCohort(courseSlug, cohortSlug);
+  const found = await getEnrolledCohort(courseSlug, cohortSlug);
   if (!found) notFound();
   const { course, cohort } = found;
 
@@ -105,6 +105,17 @@ export default async function LearnPage({
   const visible = modules.flatMap((m) => m.lessons.map((l) => l.id));
   const progress = summarise(completed, visible);
   const resumeId = nextLessonId(completed, visible);
+
+  /* Name the next lesson rather than offering a bare "Continue". A learner
+     returning after a week should be able to see what they are about to do
+     before committing a click to it. */
+  const resumeModule = resumeId
+    ? modules.find((m) => m.lessons.some((l) => l.id === resumeId))
+    : undefined;
+  const resumeLesson = resumeModule?.lessons.find((l) => l.id === resumeId);
+  const resumeLessonTitle = resumeLesson?.title ?? "";
+  const resumeModuleTitle = resumeModule?.title ?? "";
+  const resumeMinutes = resumeLesson?.estimated_minutes ?? null;
   const basePath = `/academy/learn/${course.slug}/${cohort.slug}`;
 
   const playerModules: PlayerModule[] = modules.map((module) => ({
@@ -137,6 +148,7 @@ export default async function LearnPage({
         eyebrow="SRN Academy"
         title={course.title}
         lede={`${cohort.label} — ${formatCohortDates(cohort.starts_on, cohort.ends_on, cohort.pacing)}.`}
+        compact
       />
 
       <Section surface="paper">
@@ -176,11 +188,41 @@ export default async function LearnPage({
                       : "You have finished everything that is open so far. Anything new will appear here."}
                   </p>
                   {resumeId ? (
-                    <ButtonLink href={`${basePath}/${resumeId}`}>
-                      {progress.completedCount === 0
-                        ? "Start the first lesson"
-                        : "Continue"}
-                    </ButtonLink>
+                    <div className="border-hairline border p-5">
+                      <p className="text-slate text-small">
+                        {resumeModuleTitle
+                          ? `Next in ${resumeModuleTitle}`
+                          : "Next up"}
+                      </p>
+                      <p className="text-ink mt-1 text-h4 font-semibold">
+                        {resumeLessonTitle}
+                      </p>
+                      {resumeMinutes ? (
+                        <p className="text-slate text-small mt-1">
+                          About {resumeMinutes} minutes
+                        </p>
+                      ) : null}
+                      <div className="mt-5">
+                        <ButtonLink href={`${basePath}/${resumeId}`}>
+                          {progress.completedCount === 0
+                            ? "Start the first lesson"
+                            : "Continue"}
+                        </ButtonLink>
+                      </div>
+                    </div>
+                  ) : null}
+
+                  {/* What the course is. Without this the page is a to-do list
+                      with no sense of what it is a to-do list FOR. */}
+                  {!richTextIsEmpty(course.body_rich) ? (
+                    <section className="border-hairline mt-12 border-t pt-8">
+                      <h2 className="text-display text-ink text-h3 mb-4">
+                        About this course
+                      </h2>
+                      <div className="max-w-2xl">
+                        <RichText body={course.body_rich} />
+                      </div>
+                    </section>
                   ) : null}
                 </>
               )}

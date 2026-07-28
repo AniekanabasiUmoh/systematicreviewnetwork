@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { Section, Container } from "@/components/ui/Section";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { RichText, richTextIsEmpty } from "@/components/ui/RichText";
-import { getCohort } from "@/lib/academy/courses";
+import { getEnrolledCohort } from "@/lib/academy/courses";
 import { requireVerifiedLearner } from "@/lib/academy/auth";
 import { getEnrolment } from "@/lib/academy/curriculum";
 import { getCompletedLessonIds } from "@/lib/academy/progress";
@@ -48,7 +48,7 @@ export default async function AssessmentPage({
   } = await params;
   const learner = await requireVerifiedLearner();
 
-  const found = await getCohort(courseSlug, cohortSlug);
+  const found = await getEnrolledCohort(courseSlug, cohortSlug);
   if (!found) notFound();
   const { course, cohort } = found;
 
@@ -90,21 +90,22 @@ export default async function AssessmentPage({
             ? "Answer the questions below. You will see your score straight away."
             : "Submit your work below. A marker will read it and write back."
         }
+        compact
       />
 
       <Section surface="paper">
         <Container>
           <div className="max-w-2xl">
-            <p className="mb-8">
+            {/* Back-link and the rules on one line: the questions should start
+                near the top, not below two stacked one-line paragraphs. */}
+            <div className="border-hairline mb-8 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b pb-4">
               <Link
                 href={basePath}
                 className="text-slate text-small underline underline-offset-2"
               >
                 Back to {course.title}
               </Link>
-            </p>
-
-            <p className="text-slate text-small mb-6">
+              <p className="text-slate text-small">
               Pass mark {assessment.pass_mark}%
               {remaining ? ` · ${remaining}` : " · unlimited attempts"}
               {showsDeadline(assessment, cohort.pacing) && assessment.due_at
@@ -117,7 +118,8 @@ export default async function AssessmentPage({
                     minute: "2-digit",
                   })}`
                 : ""}
-            </p>
+              </p>
+            </div>
 
             {!richTextIsEmpty(assessment.instructions_rich) ? (
               <div className="mb-8">

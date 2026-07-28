@@ -136,12 +136,38 @@ export async function checkEligibility(
 
   const outstanding = lessons.filter((id) => !completed.has(id));
   if (outstanding.length > 0) {
+    /* Distinguish work AVAILABLE now from work still locked behind drip.
+     *
+     * Found in 6.9 by looking at the rendered page: the sidebar read "3 of 6
+     * lessons done" while this panel read "11 lessons still to finish". Both
+     * were correct — six released, fourteen in total — and together they made
+     * the site look like it was contradicting itself. The count has to stay
+     * whole-course, so the SENTENCE is what changes. */
+    const released = new Set(
+      modules.filter((m) => m.released).flatMap((m) => m.lessons.map((l) => l.id)),
+    );
+    const availableNow = outstanding.filter((id) => released.has(id)).length;
+    const locked = outstanding.length - availableNow;
+
+    if (availableNow === 0 && locked > 0) {
+      return {
+        eligible: false,
+        reason:
+          "You have finished everything that is open so far. The rest of the course unlocks as you go.",
+      };
+    }
+
+    const head =
+      availableNow === 1
+        ? "There is one lesson left in the part of the course open to you"
+        : `There are ${availableNow} lessons left in the part of the course open to you`;
+
     return {
       eligible: false,
       reason:
-        outstanding.length === 1
-          ? "There is one lesson still to finish."
-          : `There are ${outstanding.length} lessons still to finish.`,
+        locked > 0
+          ? `${head}, and ${locked} more that unlock later.`
+          : `${head}.`,
     };
   }
 

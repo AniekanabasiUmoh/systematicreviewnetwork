@@ -86,27 +86,22 @@ export function CourseContents({
     0,
   );
 
-  return (
-    <details
-      className="border-hairline group border lg:border-0 [&[open]>summary_.chev]:rotate-180"
-      /* Open by default so desktop shows the full list; on a phone the learner
-         can fold it away. `lg:hidden` on the summary keeps the control off wide
-         screens where it has nothing to do. */
-      open
-    >
-      <summary className="text-ink flex cursor-pointer list-none items-center justify-between gap-3 p-4 font-semibold lg:hidden">
-        <span>
-          Course contents{" "}
-          <span className="text-slate font-normal">
-            ({done} of {total} done)
-          </span>
-        </span>
-        <Icon icon={ChevronDown} size="sm" className="chev transition-transform" />
-      </summary>
-
-      <nav className="p-4 pt-0 lg:p-0" aria-label="Course contents">
-        <ol className="space-y-5">
-          {modules.map((module, index) => (
+  /* The list is written once and placed twice: inside a <details> on a phone,
+     and as a plain nav from `lg` up.
+   *
+     Two CSS-only attempts failed before this. A closed <details> hides its
+     contents through the element's own `content-visibility`, and no rule on the
+     children — nor an override on the element — reliably beat it, which left
+     the desktop sidebar EMPTY both times. Duplicating the wrapper and sharing
+     the list is the honest fix: slightly more markup, and it actually works
+     with no JavaScript and no hydration dependency.
+   *
+     Closed by default matters: shipping it `open` meant a phone user scrolled
+     past the whole index on every visit to reach their next lesson, which is
+     the exact problem the disclosure exists to solve. */
+  const list = (
+    <ol className="space-y-5">
+      {modules.map((module, index) => (
             <li key={module.id}>
               <p className="text-slate text-small">Module {index + 1}</p>
               <p className="text-ink text-small font-semibold">{module.title}</p>
@@ -166,9 +161,36 @@ export function CourseContents({
               )}
             </li>
           ))}
-        </ol>
+    </ol>
+  );
+
+  return (
+    <>
+      {/* Phone: collapsed behind a one-line summary. */}
+      <details className="border-hairline group border [&[open]>summary_.chev]:rotate-180 lg:hidden">
+        <summary className="text-ink flex cursor-pointer list-none items-center justify-between gap-3 p-4 font-semibold">
+          <span>
+            Course contents{" "}
+            <span className="text-slate font-normal">
+              ({done} of {total} done)
+            </span>
+          </span>
+          <Icon
+            icon={ChevronDown}
+            size="sm"
+            className="chev transition-transform"
+          />
+        </summary>
+        <nav className="p-4 pt-0" aria-label="Course contents">
+          {list}
+        </nav>
+      </details>
+
+      {/* Desktop: always open, no disclosure control to operate. */}
+      <nav className="hidden lg:block" aria-label="Course contents">
+        {list}
       </nav>
-    </details>
+    </>
   );
 }
 

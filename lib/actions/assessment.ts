@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 
 import { idle, type ActionState } from "@/lib/actions/types";
 import { requireVerifiedLearnerAction } from "@/lib/academy/auth";
-import { getCohort } from "@/lib/academy/courses";
+import { getEnrolledCohort } from "@/lib/academy/courses";
 import { getEnrolment } from "@/lib/academy/curriculum";
 import { getCompletedLessonIds } from "@/lib/academy/progress";
 import {
@@ -51,7 +51,7 @@ export async function submitAssessment(
   const cohortSlug = String(form.get("cohort") ?? "");
   const assessmentId = String(form.get("assessment") ?? "");
 
-  const found = await getCohort(courseSlug, cohortSlug);
+  const found = await getEnrolledCohort(courseSlug, cohortSlug);
   if (!found)
     return { status: "error", formError: "That course is no longer available." };
   const { course, cohort } = found;

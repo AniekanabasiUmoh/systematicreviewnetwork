@@ -14,12 +14,17 @@ export function PageHeader({
   lede,
   imageUrl,
   imageAlt = "",
+  compact = false,
 }: {
   eyebrow?: string;
   title: string;
   lede?: string;
   imageUrl?: string | null;
   imageAlt?: string;
+  /* Sprint 6.9 — for pages a learner RETURNS to rather than arrives at.
+     The full header is right for a marketing page seen once; on the course
+     player it pushed the actual course below the fold every single visit. */
+  compact?: boolean;
 }) {
   return (
     <header className="relative overflow-hidden bg-ink">
@@ -43,10 +48,18 @@ export function PageHeader({
           />
         </>
       ) : null}
-      <Container className="relative py-20 md:py-28">
+      <Container
+        className={`relative ${compact ? "py-10 md:py-14" : "py-20 md:py-28"}`}
+      >
         <div className="max-w-[52ch]">
           {eyebrow ? <Eyebrow tone="paper">{eyebrow}</Eyebrow> : null}
-          <h1 className="text-display-tight text-paper mt-4 text-[clamp(2.2rem,5vw,3.5rem)] leading-[1.02]">
+          <h1
+            className={`text-display-tight text-paper mt-4 leading-[1.02] ${
+              compact
+                ? "text-[clamp(1.75rem,3.5vw,2.5rem)]"
+                : "text-[clamp(2.2rem,5vw,3.5rem)]"
+            }`}
+          >
             {title}
           </h1>
           {lede ? (

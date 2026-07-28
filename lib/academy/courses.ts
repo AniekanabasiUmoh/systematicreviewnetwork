@@ -118,6 +118,54 @@ export async function getCohort(
 }
 
 /**
+ * A cohort for someone who is ALREADY ENROLLED on it.
+ *
+ * getCohort() above reads the public catalogue and therefore requires the
+ * course to be published. That is right for a stranger and wrong for a learner:
+ * a course can be unpublished after a cohort has started — a draft demo cohort,
+ * a course withdrawn from sale, a run being reworked — and the people already
+ * inside it must keep their access. Phase 6 decision 3 says access outlives the
+ * cohort; it must also outlive the course leaving the catalogue.
+ *
+ * Found in 6.9 by enrolling a real learner on the draft demonstration cohort
+ * and watching them get bounced to /account.
+ *
+ * This reads on the SERVICE ROLE and applies no status filter, so it MUST only
+ * be called after an enrolment has been confirmed. Every caller does that first
+ * — see getEnrolment() in lib/academy/curriculum.ts.
+ */
+export async function getEnrolledCohort(
+  courseSlug: string,
+  cohortSlug: string,
+): Promise<{ course: CourseWithCohorts; cohort: Cohort } | null> {
+  const { supabaseAdmin } = await import("@/lib/supabase/server");
+
+  const { data: courseRow } = await supabaseAdmin
+    .from("courses")
+    .select(`${COURSE_FIELDS}, programmes (slug, title)`)
+    .eq("slug", courseSlug)
+    .maybeSingle();
+  if (!courseRow) return null;
+
+  const { programmes, ...rest } = courseRow as unknown as Course & {
+    programmes: { slug: string; title: string } | null;
+  };
+
+  const { data: cohortRow } = await supabaseAdmin
+    .from("cohorts")
+    .select("*")
+    .eq("course_id", rest.id)
+    .eq("slug", cohortSlug)
+    .maybeSingle();
+  if (!cohortRow) return null;
+
+  return {
+    course: { ...rest, programme: programmes ?? null, cohorts: [cohortRow as Cohort] },
+    cohort: cohortRow as Cohort,
+  };
+}
+
+/**
  * Seats held per cohort.
  *
  * The Academy's counterpart to `getSeatCounts` (§5.12), and deliberately the

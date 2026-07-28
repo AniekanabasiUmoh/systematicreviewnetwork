@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { getCohort } from "@/lib/academy/courses";
+import { getEnrolledCohort } from "@/lib/academy/courses";
 import { getLearner } from "@/lib/academy/auth";
 import { getEnrolment } from "@/lib/academy/curriculum";
 import { getSessionsForLearner, recordAttendance } from "@/lib/academy/sessions";
@@ -41,7 +41,7 @@ export async function GET(
   const learner = await getLearner();
   if (!learner?.verified_at) return NOT_FOUND();
 
-  const found = await getCohort(courseSlug, cohortSlug);
+  const found = await getEnrolledCohort(courseSlug, cohortSlug);
   if (!found) return NOT_FOUND();
   const { cohort } = found;
 

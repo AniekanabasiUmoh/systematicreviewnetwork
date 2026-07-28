@@ -209,6 +209,23 @@ describe("eligibility", () => {
     if (!result.eligible) expect(result.reason).toContain("2 lessons");
   });
 
+  it("counts only what the learner can actually see right now", async () => {
+    /* Found in 6.9 by looking at the rendered page: the sidebar read "3 of 6
+       lessons done" while this panel read "11 lessons still to finish". Both
+       were correct — six released, fourteen total — and together they made the
+       site look like it was contradicting itself.
+     *
+       The count stays whole-course, so the SENTENCE has to separate work that
+       is available now from work still locked behind drip. */
+    const { checkEligibility } = await import("@/lib/academy/certificates");
+    const result = await checkEligibility(ids.enrolment, cohortRef());
+    expect(result.eligible).toBe(false);
+    if (!result.eligible) {
+      expect(result.reason).toContain("open to you");
+      expect(result.reason).not.toMatch(/^There (is|are) \d+ lessons? still/);
+    }
+  });
+
   it("still refuses with lessons done but the assignment unpassed", async () => {
     const { markComplete } = await import("@/lib/academy/progress");
     await markComplete(ids.enrolment, ids.lessonOne);
@@ -313,8 +330,16 @@ describe("eligibility", () => {
       (idleEnrolment as { id: string }).id,
       cohortRef(),
     );
+    /* The guarantee is REFUSAL — a fully locked course must not hand out a
+       certificate to someone who has done nothing. The wording changed in 6.9
+       (this learner is told the rest unlocks as they go, rather than being
+       given a count of lessons they cannot yet see), so assert the decision and
+       the absence of a false promise rather than a particular sentence. */
     expect(result.eligible).toBe(false);
-    if (!result.eligible) expect(result.reason).toContain("lessons");
+    if (!result.eligible) {
+      expect(result.reason.length).toBeGreaterThan(0);
+      expect(result.reason.toLowerCase()).not.toContain("congratulation");
+    }
 
     await admin
       .from("modules")
