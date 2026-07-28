@@ -5,7 +5,11 @@ import { z } from "zod";
 
 import { fieldErrorsFrom } from "@/lib/actions/schemas";
 import { idle, type ActionState } from "@/lib/actions/types";
-import { requireStaffAction } from "@/lib/admin/auth";
+import {
+  requireStaffAction,
+  requireInstructorAction,
+  teachesCohort,
+} from "@/lib/admin/auth";
 import { recordAudit } from "@/lib/admin/audit";
 import { supabaseAdmin } from "@/lib/supabase/server";
 import { sendEmail } from "@/lib/email/client";
@@ -41,8 +45,14 @@ export async function markSubmission(
   _prev: ActionState = idle,
   form: FormData,
 ): Promise<ActionState> {
-  const auth = await requireStaffAction();
-  if (!auth.ok) return auth.state;
+  /* Sprint 6.8 — staff OR an instructor assigned to this submission's cohort.
+     The instructor branch is checked AFTER the submission is loaded, below,
+     because the permission depends on which cohort the work belongs to. */
+  const staff = await requireStaffAction();
+  const instructor = staff.ok ? null : await requireInstructorAction();
+  if (!staff.ok && (!instructor || !instructor.ok)) {
+    return staff.state;
+  }
 
   const parsed = markSchema.safeParse({
     id: formValue(form, "id"),
@@ -55,13 +65,56 @@ export async function markSubmission(
   const { data: submission } = await supabaseAdmin
     .from("submissions")
     .select(
-      "id, assessment_id, enrolment_id, attempt, assessments (title, pass_mark, kind)",
+      "id, assessment_id, enrolment_id, attempt, assessments (title, pass_mark, kind), enrolments (cohort_id)",
     )
     .eq("id", parsed.data.id)
     .maybeSingle();
 
   if (!submission)
     return { status: "error", formError: "That submission no longer exists." };
+
+  /* An instructor may mark only their own cohorts' work. The submission id in
+     the form is a claim about which work this is; this is what checks it, and
+     it runs before anything is written. */
+  if (!staff.ok) {
+    const cohortId = (
+      submission as unknown as { enrolments: { cohort_id: string } | null }
+    ).enrolments?.cohort_id;
+    const teaches =
+      instructor?.ok &&
+      cohortId &&
+      teachesCohort(instructor.instructor, cohortId);
+    if (!teaches) {
+      return {
+        status: "error",
+        formError: "You can only mark work from the cohorts you teach.",
+      };
+    }
+  }
+
+  /* One identity for both branches. `marked_by` is a denormalised email so a
+     mark stays attributable after an account is removed — the same reasoning as
+     the application notes in §5.6.
+   *
+   * recordAudit only reads id and email, so the `role` below is filler to
+   * satisfy StaffUser and is never stored. What IS stored is the summary, which
+   * says "by instructor" explicitly — an audit line that quietly recorded an
+   * instructor's mark as an editor's would be worse than none. */
+  let marker: { id: string; email: string; role: "admin" | "editor"; full_name: string | null; isInstructor: boolean };
+  if (staff.ok) {
+    marker = { ...staff.user, isInstructor: false };
+  } else if (instructor?.ok) {
+    marker = {
+      id: instructor.instructor.id,
+      email: instructor.instructor.email,
+      role: "editor", // filler; never stored, see above
+      full_name: instructor.instructor.full_name,
+      isInstructor: true,
+    };
+  } else {
+    // Unreachable: the guard at the top of this function already returned.
+    return { status: "error", formError: "You are not signed in." };
+  }
 
   const assessment = (
     submission as unknown as {
@@ -81,7 +134,7 @@ export async function markSubmission(
       passed,
       feedback: parsed.data.feedback,
       state: "returned",
-      marked_by: auth.user.email,
+      marked_by: marker.email,
       marked_at: new Date().toISOString(),
     } as never)
     .eq("id", parsed.data.id);
@@ -103,11 +156,11 @@ export async function markSubmission(
   revalidatePath("/admin/grading");
   revalidatePath("/academy/learn", "layout");
   void recordAudit(
-    auth.user,
+    marker,
     "update",
     "submissions",
     parsed.data.id,
-    `Marked ${assessment.title} — ${parsed.data.score}%${passed ? " (pass)" : " (not yet a pass)"}`,
+    `Marked ${assessment.title} — ${parsed.data.score}%${passed ? " (pass)" : " (not yet a pass)"}${marker.isInstructor ? " by instructor" : ""}`,
   );
 
   return {

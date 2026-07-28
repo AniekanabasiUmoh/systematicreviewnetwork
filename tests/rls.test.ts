@@ -63,6 +63,8 @@ const SUBMISSION_TABLES = [
   "enrolments",
   // Sprint 6.4 — the waiting list. Same posture as enrolments.
   "cohort_waitlist",
+  // Sprint 6.8 — instructor assignments.
+  "cohort_instructors",
   // Sprint 6.5 — progress, announcements and live sessions. join_url is the
   // most sensitive column in the Academy; anon must never see the table at all.
   "lesson_progress",
@@ -176,6 +178,12 @@ describe("security-definer RPCs are not callable by anon", () => {
     // Sprint 6.4 — expires abandoned checkouts. Called by the cron route on the
     // service role; anon reaching it could withdraw people mid-payment.
     ["expire_pending_enrolments", {}],
+    // Sprint 6.8 — the instructor boundary functions. Both were exposed to
+    // anon on first write: `revoke from public` is not enough, and
+    // cohort_report would have leaked enrolment and completion figures for
+    // any cohort to anyone who could guess a uuid.
+    ["is_instructor_for", { p_cohort_id: "00000000-0000-0000-0000-000000000000" }],
+    ["cohort_report", { p_cohort_id: "00000000-0000-0000-0000-000000000000" }],
     // The two mutual-exclusion trigger functions. Never called directly, but
     // PostgREST exposes any callable public-schema function, so they are
     // revoked from every API role rather than left reachable.

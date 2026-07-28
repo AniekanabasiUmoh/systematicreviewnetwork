@@ -67,13 +67,40 @@ function shape(row: QueueQueryRow): QueueRow {
   };
 }
 
-/** Waiting to be marked, oldest first — the person who waited longest is next. */
-export async function listGradingQueue(): Promise<QueueRow[]> {
-  const { data, error } = await supabaseAdmin
+/**
+ * Waiting to be marked, oldest first — the person who waited longest is next.
+ *
+ * Sprint 6.8: pass `cohortIds` to scope the queue to an instructor's own
+ * cohorts. Omitting it returns everything, which is the staff view. The filter
+ * runs in the QUERY rather than on the result, so an instructor's page never
+ * loads another cohort's learner names into memory in the first place.
+ */
+export async function listGradingQueue(
+  cohortIds?: ReadonlyArray<string>,
+): Promise<QueueRow[]> {
+  /* An instructor with no assignments must see nothing. Without this guard an
+     empty array would fall through to the unfiltered query and show them every
+     submission in the Academy. */
+  if (cohortIds && cohortIds.length === 0) return [];
+
+  let query = supabaseAdmin
     .from("submissions")
     .select(QUEUE_SELECT)
-    .eq("state", "submitted")
-    .order("submitted_at", { ascending: true });
+    .eq("state", "submitted");
+
+  if (cohortIds) {
+    const { data: enrolments } = await supabaseAdmin
+      .from("enrolments")
+      .select("id")
+      .in("cohort_id", cohortIds as string[]);
+    const ids = (enrolments ?? []).map((row) => row.id);
+    if (ids.length === 0) return [];
+    query = query.in("enrolment_id", ids);
+  }
+
+  const { data, error } = await query.order("submitted_at", {
+    ascending: true,
+  });
 
   if (error) {
     console.error("[grading] queue failed:", error.message);

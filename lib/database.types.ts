@@ -227,6 +227,33 @@ export type Database = {
         };
         Relationships: [];
       };
+      cohort_instructors: {
+        Row: {
+          id: string;
+          instructor_id: string;
+          cohort_id: string;
+          assigned_at: string;
+          assigned_by: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          instructor_id: string;
+          cohort_id: string;
+          assigned_at?: string;
+          assigned_by?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          instructor_id?: string;
+          cohort_id?: string;
+          assigned_at?: string;
+          assigned_by?: string | null;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
       cohort_waitlist: {
         Row: {
           id: string;
@@ -1557,6 +1584,7 @@ export type ApplicationsRow = Database["public"]["Tables"]["applications"]["Row"
 export type AssessmentsRow = Database["public"]["Tables"]["assessments"]["Row"];
 export type CertificatesRow = Database["public"]["Tables"]["certificates"]["Row"];
 export type CohortAnnouncementsRow = Database["public"]["Tables"]["cohort_announcements"]["Row"];
+export type CohortInstructorsRow = Database["public"]["Tables"]["cohort_instructors"]["Row"];
 export type CohortWaitlistRow = Database["public"]["Tables"]["cohort_waitlist"]["Row"];
 export type CohortsRow = Database["public"]["Tables"]["cohorts"]["Row"];
 export type ContactMessagesRow = Database["public"]["Tables"]["contact_messages"]["Row"];

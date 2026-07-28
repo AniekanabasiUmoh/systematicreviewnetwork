@@ -10,7 +10,9 @@ import {
   listWaitlist,
   listSessions,
   listAnnouncements,
+  listCohortInstructors,
 } from "@/lib/admin/academy";
+import { InstructorPanel } from "@/components/admin/InstructorPanel";
 import {
   SessionList,
   SessionForm,
@@ -54,6 +56,7 @@ export default async function AdminCohortPage({
       listSessions(cohort.id),
       listAnnouncements(cohort.id),
     ]);
+  const instructors = await listCohortInstructors(cohort.id);
   const seats = await getCohortSeatCounts([cohort.id]);
   const state = cohortState(cohort, seats[cohort.id] ?? 0);
 
@@ -132,6 +135,15 @@ export default async function AdminCohortPage({
         <div className="mt-5">
           <AnnouncementForm cohortId={cohort.id} />
         </div>
+      </section>
+
+      <section className="mt-10">
+        <h2 className="text-display text-ink text-h3">Teaching</h2>
+        <p className="text-slate text-small mt-2 mb-5 max-w-2xl">
+          Instructors assigned here see this cohort&rsquo;s learners and mark their
+          work. They reach nothing else in the admin.
+        </p>
+        <InstructorPanel cohortId={cohort.id} assigned={instructors} />
       </section>
 
       <section className="mt-10">

@@ -12,6 +12,29 @@ export type StaffUser = {
   full_name: string | null;
 };
 
+/* Sprint 6.8 — instructors.
+ *
+ * Deliberately a SEPARATE type from StaffUser, and getSessionUser() below still
+ * returns null for them. An instructor is not a weaker staff member; they are a
+ * different kind of user who signs in through the same door.
+ *
+ * Keeping them out of StaffUser is what makes the boundary hold by
+ * construction: every `requireStaff()` in the admin — dozens of pages, every
+ * content action — refuses an instructor without any of those call sites
+ * needing to know instructors exist. The alternative, a third role inside
+ * StaffUser, would mean each of those places had to remember to exclude it,
+ * and one forgotten check is a content-management leak.
+ *
+ * Their access comes only from being assigned to a cohort. See
+ * is_instructor_for() in 20260728000002. */
+export type InstructorUser = {
+  id: string;
+  email: string;
+  full_name: string | null;
+  /** Cohort ids they teach. Empty means they can reach nothing. */
+  cohortIds: string[];
+};
+
 export const SIGNED_OUT_MESSAGE =
   "Your session has expired. Sign in again and your work will be here.";
 export const NOT_PERMITTED_MESSAGE =
@@ -79,6 +102,74 @@ export async function requireStaffAction(): Promise<
     return { ok: false, state: { status: "error", formError: SIGNED_OUT_MESSAGE } };
   }
   return { ok: true, user };
+}
+
+/* -------------------------------------------------------------------------- */
+/* Instructors (Sprint 6.8)                                                    */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Who is signed in as an instructor, with the cohorts they teach — or null.
+ *
+ * Same posture as getSessionUser(): identity comes from the verified JWT, but
+ * the role and the assignments are read on the SERVICE ROLE client using that
+ * id. Never from a cookie or a token claim.
+ */
+export async function getInstructor(): Promise<InstructorUser | null> {
+  const db = await createSessionClient();
+  const { data: auth } = await db.auth.getUser();
+  if (!auth.user) return null;
+
+  const { data: profile } = await supabaseAdmin
+    .from("profiles")
+    .select("id, role, full_name, email")
+    .eq("id", auth.user.id)
+    .maybeSingle();
+
+  if (!profile || profile.role !== "instructor") return null;
+
+  const { data: assignments } = await supabaseAdmin
+    .from("cohort_instructors")
+    .select("cohort_id")
+    .eq("instructor_id", profile.id);
+
+  return {
+    id: profile.id,
+    email: profile.email ?? auth.user.email ?? "",
+    full_name: profile.full_name,
+    cohortIds: (assignments ?? []).map((row) => row.cohort_id),
+  };
+}
+
+/** Signed in as an instructor, or sent to the login page. */
+export async function requireInstructor(): Promise<InstructorUser> {
+  const instructor = await getInstructor();
+  if (!instructor) redirect("/admin/login");
+  return instructor;
+}
+
+/**
+ * The gate that matters: does this instructor teach THIS cohort?
+ *
+ * Called at the top of every instructor route that names a cohort in its URL.
+ * A cohort id in a path is a claim, not a permission — this is what checks it.
+ */
+export function teachesCohort(
+  instructor: InstructorUser,
+  cohortId: string,
+): boolean {
+  return instructor.cohortIds.includes(cohortId);
+}
+
+/** Action-side variant, returning an ActionState rather than redirecting. */
+export async function requireInstructorAction(): Promise<
+  { ok: true; instructor: InstructorUser } | { ok: false; state: ActionState }
+> {
+  const instructor = await getInstructor();
+  if (!instructor) {
+    return { ok: false, state: { status: "error", formError: SIGNED_OUT_MESSAGE } };
+  }
+  return { ok: true, instructor };
 }
 
 export async function requireAdminAction(): Promise<

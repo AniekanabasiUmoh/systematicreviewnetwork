@@ -653,6 +653,24 @@ export async function listAnnouncements(cohortId: string) {
   }>;
 }
 
+/** Sprint 6.8 — who teaches this cohort. */
+export async function listCohortInstructors(cohortId: string) {
+  const { data } = await supabaseAdmin
+    .from("cohort_instructors")
+    .select("id, profiles (email, full_name)")
+    .eq("cohort_id", cohortId)
+    .order("assigned_at", { ascending: true });
+
+  return ((data ?? []) as unknown as Array<{
+    id: string;
+    profiles: { email: string | null; full_name: string | null } | null;
+  }>).map((row) => ({
+    id: row.id,
+    email: row.profiles?.email ?? "",
+    full_name: row.profiles?.full_name ?? null,
+  }));
+}
+
 /**
  * A label for a duplicated cohort that does not collide.
  *
