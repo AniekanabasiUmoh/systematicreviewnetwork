@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 
 import { Section, Container } from "@/components/ui/Section";
 import { PageHeader } from "@/components/ui/PageHeader";
@@ -78,22 +79,59 @@ export default async function AccountPage() {
                 lists everything currently open.
               </p>
             ) : (
-              <ul className="max-w-2xl space-y-3">
+              <ul className="grid max-w-4xl gap-5 sm:grid-cols-2">
                 {courses.map((course) => (
                   <li
                     key={`${course.courseSlug}-${course.cohortSlug}`}
-                    className="border-hairline border p-5"
+                    className="border-hairline group flex flex-col overflow-hidden border"
                   >
                     <Link
                       href={`/academy/learn/${course.courseSlug}/${course.cohortSlug}`}
-                      className="text-ink font-semibold underline underline-offset-2"
+                      className="flex h-full flex-col"
                     >
-                      {course.courseTitle}
+                      {course.imageUrl ? (
+                        <div className="bg-mist relative aspect-[16/9] w-full overflow-hidden">
+                          <Image
+                            src={course.imageUrl}
+                            alt=""
+                            fill
+                            sizes="(min-width: 640px) 20rem, 100vw"
+                            className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                          />
+                        </div>
+                      ) : null}
+                      <div className="flex flex-1 flex-col p-5">
+                        <p className="text-ink font-semibold group-hover:underline">
+                          {course.courseTitle}
+                        </p>
+                        <p className="text-slate mt-1 text-[0.8125rem]">
+                          {course.cohortLabel}
+                          {course.state === "completed" ? " · completed" : ""}
+                        </p>
+
+                        <div className="mt-auto pt-5">
+                          <div className="flex items-baseline justify-between">
+                            <span className="text-slate text-[0.8125rem]">
+                              {course.totalCount === 0
+                                ? "Not started"
+                                : `${course.completedCount} of ${course.totalCount} done`}
+                            </span>
+                            <span className="text-ink text-[0.8125rem] font-semibold tabular-nums">
+                              {course.percent}%
+                            </span>
+                          </div>
+                          <div
+                            className="bg-mist mt-2 h-[3px] w-full"
+                            aria-hidden="true"
+                          >
+                            <div
+                              className="bg-evidence h-full"
+                              style={{ width: `${course.percent}%` }}
+                            />
+                          </div>
+                        </div>
+                      </div>
                     </Link>
-                    <p className="text-slate text-small mt-1">
-                      {course.cohortLabel}
-                      {course.state === "completed" ? " · completed" : ""}
-                    </p>
                   </li>
                 ))}
               </ul>

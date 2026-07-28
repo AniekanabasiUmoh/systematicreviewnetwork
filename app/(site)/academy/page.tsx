@@ -41,18 +41,50 @@ export default async function AcademyPage() {
       <Section surface="paper">
         <Container>
           {courses.length === 0 ? (
-            <div className="max-w-2xl">
-              <p className="text-slate leading-relaxed">
-                The first Academy courses are being finalised now. In the
-                meantime, our{" "}
-                <Link href="/programmes" className="text-ink underline underline-offset-2">
-                  programmes
-                </Link>{" "}
-                cover the same ground with mentorship, and{" "}
-                <Link href="/news/events" className="text-ink underline underline-offset-2">
-                  upcoming events
-                </Link>{" "}
-                are open to register for today.
+            /* Sprint 6.10 — this was one sentence adrift in an empty band. An
+               empty catalogue is the normal state until the first course is
+               reviewed and published, so it has to do some work: say what is
+               coming, and point at the two things that ARE open today. */
+            <div className="max-w-3xl">
+              <h2 className="text-display text-ink text-[clamp(1.5rem,3vw,2rem)] leading-tight">
+                The first courses are being finalised.
+              </h2>
+              <p className="text-slate mt-4 max-w-2xl text-sm/7">
+                SRN Academy courses are written and reviewed by the people who
+                run our workshops, so they take a while to get right. Two other
+                routes are open to you today.
+              </p>
+
+              <div className="mt-10 grid gap-px sm:grid-cols-2">
+                <Link
+                  href="/programmes"
+                  className="border-hairline group border p-6 sm:p-7"
+                >
+                  <h3 className="text-ink font-semibold group-hover:underline">
+                    Programmes
+                  </h3>
+                  <p className="text-slate mt-2 text-sm/7">
+                    The same ground as a course, taught with a mentor alongside
+                    you. Applications open at intervals through the year.
+                  </p>
+                </Link>
+                <Link
+                  href="/news/events"
+                  className="border-hairline group border p-6 sm:border-l-0 sm:p-7"
+                >
+                  <h3 className="text-ink font-semibold group-hover:underline">
+                    Workshops and webinars
+                  </h3>
+                  <p className="text-slate mt-2 text-sm/7">
+                    Shorter sessions on a single topic, most of them free.
+                    Anything with a date open for registration is listed here.
+                  </p>
+                </Link>
+              </div>
+
+              <p className="text-slate/80 mt-8 text-[0.8125rem]/6">
+                Want to hear when the first course opens? The newsletter at the
+                foot of this page is the only thing we use it for.
               </p>
             </div>
           ) : (

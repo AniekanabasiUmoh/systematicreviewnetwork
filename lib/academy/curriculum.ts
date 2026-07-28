@@ -2,6 +2,7 @@ import "server-only";
 
 import { supabaseAdmin } from "@/lib/supabase/server";
 import type { ModulesRow, LessonsRow, LessonMaterialsRow } from "@/lib/database.types";
+import { getCompletedLessonIds } from "@/lib/academy/progress";
 
 /* Sprint 6.3 — curriculum access and drip release.
  *
@@ -261,37 +262,77 @@ export async function listMyCourses(learnerId: string): Promise<
     cohortLabel: string;
     courseSlug: string;
     courseTitle: string;
+    courseSummary: string | null;
+    imageUrl: string | null;
     state: string;
     enrolledAt: string;
+    /** 0–100 across the lessons this learner can currently see. */
+    percent: number;
+    completedCount: number;
+    totalCount: number;
   }>
 > {
   const { data } = await supabaseAdmin
     .from("enrolments")
     .select(
-      "state, enrolled_at, cohorts (slug, label, courses (slug, title))",
+      "id, state, enrolled_at, cohort_id, cohorts (slug, label, pacing, course_id, courses (slug, title, summary, featured_image_url))",
     )
     .eq("learner_id", learnerId)
     .in("state", ACCESS_STATES)
     .order("enrolled_at", { ascending: false });
 
-  return ((data ?? []) as unknown as Array<{
+  const rows = ((data ?? []) as unknown as Array<{
+    id: string;
     state: string;
     enrolled_at: string;
+    cohort_id: string;
     cohorts: {
       slug: string;
       label: string;
-      courses: { slug: string; title: string } | null;
+      pacing: string;
+      course_id: string;
+      courses: {
+        slug: string;
+        title: string;
+        summary: string | null;
+        featured_image_url: string | null;
+      } | null;
     } | null;
-  }>)
-    .filter((row) => row.cohorts?.courses)
-    .map((row) => ({
-      cohortSlug: row.cohorts!.slug,
-      cohortLabel: row.cohorts!.label,
-      courseSlug: row.cohorts!.courses!.slug,
-      courseTitle: row.cohorts!.courses!.title,
-      state: row.state,
-      enrolledAt: row.enrolled_at,
-    }));
+  }>).filter((row) => row.cohorts?.courses);
+
+  /* Sprint 6.10 — the account card used to show a title and a cohort name and
+     nothing else, which made the first screen a returning learner sees the
+     least informative one in the Academy. Progress is computed per enrolment
+     here rather than in the page so both the card and the player agree. */
+  return Promise.all(
+    rows.map(async (row) => {
+      const completed = await getCompletedLessonIds(row.id);
+      const modules = await getCurriculum(
+        {
+          id: row.cohort_id,
+          course_id: row.cohorts!.course_id,
+          pacing: row.cohorts!.pacing,
+        },
+        completed,
+      );
+      const visible = modules.flatMap((m) => m.lessons.map((l) => l.id));
+      const done = visible.filter((id) => completed.has(id)).length;
+
+      return {
+        cohortSlug: row.cohorts!.slug,
+        cohortLabel: row.cohorts!.label,
+        courseSlug: row.cohorts!.courses!.slug,
+        courseTitle: row.cohorts!.courses!.title,
+        courseSummary: row.cohorts!.courses!.summary,
+        imageUrl: row.cohorts!.courses!.featured_image_url,
+        state: row.state,
+        enrolledAt: row.enrolled_at,
+        percent: visible.length === 0 ? 0 : Math.round((done / visible.length) * 100),
+        completedCount: done,
+        totalCount: visible.length,
+      };
+    }),
+  );
 }
 
 /**

@@ -96,10 +96,17 @@ export function CourseShell({
       <aside
         /* h-screen + its own scroll: the rail is as tall as the VIEWPORT, not
            the document, so a long syllabus scrolls inside the rail rather than
-           running off the bottom of a fixed element. */
-        className={`border-hairline bg-paper fixed top-0 left-0 z-40 h-screen w-[19rem] overflow-y-auto overscroll-contain border-r transition-transform duration-200 lg:translate-x-0 ${
-          open ? "translate-x-0" : "-translate-x-full"
-        }`}
+           running off the bottom of a fixed element.
+         *
+           `data-open` drives the slide rather than a conditional utility class.
+           Mixing `-translate-x-full` with `lg:translate-x-0` looked correct and
+           was not: Tailwind v4 orders utilities by specificity rather than by
+           the order they are written, so below `lg` the desktop variant could
+           still win — leaving the rail on screen, the content with no offset
+           sliding underneath it, and the close button unreachable. A data
+           attribute has no such collision. */
+        data-open={open ? "true" : undefined}
+        className="border-hairline bg-paper fixed top-0 left-0 z-40 h-screen w-[19rem] -translate-x-full overflow-y-auto overscroll-contain border-r transition-transform duration-200 data-[open]:translate-x-0 lg:!translate-x-0"
       >
         <div className="flex items-center justify-between px-6 pt-5 pb-3 lg:hidden">
           <MonoLabel className="text-slate">Contents</MonoLabel>

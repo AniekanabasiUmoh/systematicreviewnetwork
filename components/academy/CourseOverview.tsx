@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { BookOpen, Layers, Clock, Play, Lock, Check } from "lucide-react";
 
 import { Icon } from "@/components/ui/Icon";
@@ -17,6 +18,7 @@ import { MonoLabel, type ShellModule } from "./CourseShell";
 export function CourseOverview({
   courseTitle,
   summary,
+  imageUrl,
   bodyRich,
   cohortLine,
   modules,
@@ -27,6 +29,7 @@ export function CourseOverview({
 }: {
   courseTitle: string;
   summary: string | null;
+  imageUrl: string | null;
   bodyRich: unknown;
   cohortLine: string;
   modules: ShellModule[];
@@ -58,6 +61,22 @@ export function CourseOverview({
 
   return (
     <div className="mx-auto max-w-3xl">
+      {imageUrl ? (
+        /* The course's own photograph, above the title. Empty alt because the
+           heading directly beneath says the same thing — announcing it twice
+           to a screen reader is noise, not access. */
+        <div className="bg-mist relative mb-10 aspect-[21/9] w-full overflow-hidden">
+          <Image
+            src={imageUrl}
+            alt=""
+            fill
+            priority
+            sizes="(min-width: 1024px) 48rem, 100vw"
+            className="object-cover"
+          />
+        </div>
+      ) : null}
+
       <header>
         <h1 className="text-display-tight text-ink text-[clamp(1.875rem,4vw,2.75rem)] leading-[1.05] text-pretty">
           {courseTitle}

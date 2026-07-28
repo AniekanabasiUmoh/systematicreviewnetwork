@@ -168,6 +168,7 @@ export default async function LearnPage({
         <CourseOverview
           courseTitle={course.title}
           summary={course.summary}
+          imageUrl={course.featured_image_url}
           bodyRich={course.body_rich}
           cohortLine={`${cohort.label} — ${formatCohortDates(cohort.starts_on, cohort.ends_on, cohort.pacing)}.`}
           modules={shellModules}
