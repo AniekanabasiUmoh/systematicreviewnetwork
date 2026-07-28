@@ -16,12 +16,8 @@ import {
 } from "@/lib/academy/curriculum";
 import { getCompletedLessonIds, summarise } from "@/lib/academy/progress";
 import { validateStoredEmbed } from "@/lib/admin/embeds";
-import {
-  ProgressBar,
-  CourseContents,
-  MarkCompleteButton,
-  type PlayerModule,
-} from "@/components/academy/CoursePlayer";
+import { MarkCompleteButton } from "@/components/academy/CoursePlayer";
+import { CourseShell, MonoLabel } from "@/components/academy/CourseShell";
 
 /* Sprint 6.5 — one lesson, inside the player.
  *
@@ -116,19 +112,6 @@ export default async function LessonPage({
   const progress = summarise(completed, visible);
   const basePath = `/academy/learn/${course.slug}/${cohort.slug}`;
 
-  const playerModules: PlayerModule[] = (modules ?? []).map((module) => ({
-    id: module.id,
-    title: module.title,
-    released: module.released,
-    lockedReason: module.lockedReason,
-    lessons: module.lessons.map((row) => ({
-      id: row.id,
-      title: row.title,
-      estimated_minutes: row.estimated_minutes,
-      done: completed.has(row.id),
-    })),
-  }));
-
   /* "Next" is the following lesson in course order, not the next unfinished
      one: someone re-reading lesson 3 expects 4, not to be sent to the end. */
   const position = visible.indexOf(lesson.id);
@@ -141,101 +124,114 @@ export default async function LessonPage({
     ? validateStoredEmbed(lesson.video_embed as Record<string, unknown>)
     : null;
 
+  const shellModules = (modules ?? []).map((module) => ({
+    id: module.id,
+    title: module.title,
+    released: module.released,
+    lockedReason: module.lockedReason,
+    lessons: module.lessons.map((row) => ({
+      id: row.id,
+      title: row.title,
+      summary: row.summary,
+      minutes: row.estimated_minutes,
+      done: completed.has(row.id),
+    })),
+  }));
+
+  const moduleTitle =
+    (modules ?? []).find((m) => m.lessons.some((l) => l.id === lesson.id))
+      ?.title ?? "";
+
   return (
-    <>
-      <PageHeader
-        eyebrow={course.title}
-        title={lesson.title}
-        lede={lesson.summary ?? undefined}
-        compact
-      />
+    <CourseShell
+      courseTitle={course.title}
+      crumb={lesson.title}
+      basePath={basePath}
+      modules={shellModules}
+      currentLessonId={lesson.id}
+      percent={progress.percent}
+      completedCount={progress.completedCount}
+      totalCount={progress.totalCount}
+    >
+      <article className="mx-auto max-w-3xl">
+        <header className="border-hairline border-b pb-8">
+          {moduleTitle ? (
+            <MonoLabel className="text-slate/70">{moduleTitle}</MonoLabel>
+          ) : null}
+          <h1 className="text-display-tight text-ink mt-3 text-[clamp(1.75rem,3.5vw,2.5rem)] leading-[1.08] text-pretty">
+            {lesson.title}
+          </h1>
+          {lesson.summary ? (
+            <p className="text-slate mt-4 max-w-2xl text-sm/7 text-pretty">
+              {lesson.summary}
+            </p>
+          ) : null}
+          {lesson.estimated_minutes ? (
+            <p className="text-slate/80 mt-5 text-[0.8125rem]/6">
+              About {lesson.estimated_minutes} minutes
+            </p>
+          ) : null}
+        </header>
 
-      <Section surface="paper">
-        <Container>
-          <div className="grid gap-10 lg:grid-cols-[20rem_1fr] lg:gap-16">
-            <aside className="lg:sticky lg:top-24 lg:self-start">
-              <div className="mb-6">
-                <ProgressBar
-                  completed={progress.completedCount}
-                  total={progress.totalCount}
-                  percent={progress.percent}
-                />
-              </div>
-              <CourseContents
-                modules={playerModules}
-                basePath={basePath}
-                currentLessonId={lesson.id}
-              />
-            </aside>
-
-            <article className="min-w-0">
-              {lesson.estimated_minutes ? (
-                <p className="text-slate text-small mb-6">
-                  About {lesson.estimated_minutes} minutes
-                </p>
-              ) : null}
-
-              {embed?.ok ? (
-                <div className="mb-8 max-w-3xl">
-                  <Embed
-                    provider={embed.provider}
-                    id={embed.id}
-                    title={embed.title}
-                    url={embed.url}
-                  />
-                </div>
-              ) : null}
-
-              {!richTextIsEmpty(lesson.body_rich) ? (
-                <div className="max-w-2xl">
-                  <RichText body={lesson.body_rich} />
-                </div>
-              ) : null}
-
-              {materials.length > 0 ? (
-                <section className="mt-10 max-w-2xl">
-                  <h2 className="text-ink font-semibold">
-                    Files for this lesson
-                  </h2>
-                  <p className="text-slate mt-2 leading-relaxed">
-                    These are yours to keep. Each link is prepared for you when
-                    you click it, so bookmarking the download itself will not
-                    work — come back here instead.
-                  </p>
-                  <ul className="border-hairline mt-4 space-y-2 border-t pt-4">
-                    {materials.map((material) => (
-                      <li key={material.id}>
-                        <a
-                          href={`${basePath}/${lesson.id}/files/${material.id}`}
-                          className="text-ink underline underline-offset-2"
-                        >
-                          {material.title}
-                        </a>
-                        <span className="text-slate text-small">
-                          {" "}
-                          · {material.file_name}
-                          {material.size_bytes
-                            ? ` · ${formatSize(material.size_bytes)}`
-                            : ""}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </section>
-              ) : null}
-
-              <MarkCompleteButton
-                courseSlug={course.slug}
-                cohortSlug={cohort.slug}
-                lessonId={lesson.id}
-                done={completed.has(lesson.id)}
-                nextHref={nextId ? `${basePath}/${nextId}` : null}
-              />
-            </article>
+        {embed?.ok ? (
+          <div className="mt-10">
+            <Embed
+              provider={embed.provider}
+              id={embed.id}
+              title={embed.title}
+              url={embed.url}
+            />
           </div>
-        </Container>
-      </Section>
-    </>
+        ) : null}
+
+        {!richTextIsEmpty(lesson.body_rich) ? (
+          <div className="mt-10 max-w-2xl">
+            <RichText body={lesson.body_rich} />
+          </div>
+        ) : null}
+
+        {materials.length > 0 ? (
+          <section className="border-hairline mt-14 border-t pt-10">
+            <MonoLabel className="text-slate/70">
+              Files for this lesson
+            </MonoLabel>
+            <p className="text-slate mt-4 max-w-2xl text-sm/7">
+              These are yours to keep. Each link is prepared when you click it,
+              so bookmarking a download will not work — come back here instead.
+            </p>
+            <ul className="mt-6 space-y-3">
+              {materials.map((material) => (
+                <li key={material.id} className="text-sm/6">
+                  <a
+                    href={`${basePath}/${lesson.id}/files/${material.id}`}
+                    className="text-ink font-semibold hover:underline"
+                  >
+                    {material.title}
+                  </a>
+                  <span className="text-slate/70">
+                    {" · "}
+                    {material.file_name}
+                    {material.size_bytes
+                      ? ` · ${formatSize(material.size_bytes)}`
+                      : ""}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
+
+        <div className="border-hairline mt-14 border-t pt-8">
+          <MarkCompleteButton
+            courseSlug={course.slug}
+            cohortSlug={cohort.slug}
+            lessonId={lesson.id}
+            done={completed.has(lesson.id)}
+            nextHref={nextId ? `${basePath}/${nextId}` : null}
+          />
+        </div>
+      </article>
+    </CourseShell>
   );
 }
 

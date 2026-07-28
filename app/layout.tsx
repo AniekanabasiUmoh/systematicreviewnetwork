@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Archivo } from "next/font/google";
+import { Inter, Archivo, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 
 /* §3.2 (revised) — two families. Inter carries body copy; Archivo carries
@@ -20,6 +20,17 @@ const archivo = Archivo({
   subsets: ["latin"],
   display: "swap",
   axes: ["wdth"],
+});
+
+/* Sprint 6.10 — a third family, used ONLY for small uppercase labels in the
+   Academy ("PART 1", "MODULE 2", lesson durations). Two weights, nothing else.
+   A tracked monospace label reads as a considered detail where the same words
+   in sans read as a heading that lost an argument with its own hierarchy. */
+const plexMono = IBM_Plex_Mono({
+  variable: "--font-plex-mono",
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["400", "500"],
 });
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
@@ -50,7 +61,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${archivo.variable} h-full`}>
+    <html lang="en" className={`${inter.variable} ${archivo.variable} ${plexMono.variable} h-full`}>
       <body className="flex min-h-full flex-col">{children}</body>
     </html>
   );

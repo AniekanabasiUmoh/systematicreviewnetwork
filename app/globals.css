@@ -48,6 +48,8 @@
      thin→black hero move. `--font-display` now points at Archivo. */
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-archivo), "Arial Narrow", sans-serif;
+  /* Sprint 6.10 — Academy labels only. See app/layout.tsx. */
+  --font-mono: var(--font-plex-mono), ui-monospace, SFMono-Regular, monospace;
 
   /* Large Archivo headings still want negative tracking to read tight. */
   --tracking-display: -0.02em;
