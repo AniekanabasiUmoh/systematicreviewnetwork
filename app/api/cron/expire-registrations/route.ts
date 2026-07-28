@@ -5,17 +5,15 @@ import { supabaseAdmin } from "@/lib/supabase/server";
  * CRON_SECRET so it can't be triggered by the public: Vercel Cron sends it as a
  * Bearer token; a manual call must supply the same.
  *
- * SCHEDULE: daily at 06:00, not every 10 minutes as originally written.
- * Vercel's Hobby plan permits at most one run per day, and the sub-daily
- * expression silently failed EVERY deployment from 25 July onward — the site
- * was three days and thirty commits stale before anyone noticed, because a
- * rejected deploy still leaves the previous one serving happily.
+ * THIS ROUTE IS NO LONGER SCHEDULED. The every-10-minutes sweep runs in the
+ * database via pg_cron (20260728000001), which keeps the interval §13.2 wants
+ * on the Supabase free tier — Vercel's Hobby plan caps crons at one run per day
+ * and REJECTS the whole deployment rather than degrading, which is what left
+ * the site three days and thirty-one commits stale in July.
  *
- * The cost is real and worth stating: an abandoned checkout can now hold a seat
- * for up to 24 hours instead of 10 minutes. That only bites a cohort that is
- * genuinely full, where it could turn someone away from a seat nobody took.
- * Moving to Pro and restoring a short interval is the fix; until then this is
- * the honest trade, and it is better than a schedule that stops all deploys. */
+ * The route stays as a manual lever: send the Bearer token to force an
+ * immediate sweep without waiting for the next tick. Keeping it also means the
+ * job has a second way to run if pg_cron is ever disabled. */
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
