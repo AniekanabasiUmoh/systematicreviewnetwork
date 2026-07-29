@@ -29,7 +29,27 @@ has two programme applications. Delete these accounts before launch.
 | French site | Built and switched off. `FRENCH_ENABLED = false` — no translator committed (§7.4). |
 | Newsletter → Brevo sync | Built and switched off. No Brevo account. Signups still record normally. |
 | Emails may not arrive | Resend domain unverified until Sprint 8.3. |
-| `/academy` shows no courses | The only course is a draft, deliberately. §6.9 says it stays unpublished pending SRN review. |
+
+## The demonstration course is published — read this before it goes live
+
+`Systematic Review Methodology` is **published and enrollable** so the Academy
+demonstrates properly. §6.9 asked for it to stay a draft, and that instruction
+has been deliberately overridden for the review build.
+
+The reason §6.9 gave still stands: the content was drafted to exercise the
+platform, not reviewed by SRN's academics, and **a certificate from it carries
+SRN's name**. That is fine while the site is a preview nobody outside SRN can
+find — no domain is connected, and the deployment is not indexed.
+
+**Before the real domain is connected, one of these must happen:**
+
+- SRN reviews the content and adopts it, or
+- the course is unpublished, or
+- it is deleted (`supabase/seed-demo-course.mjs` recreates it in seconds).
+
+Leaving it published on a public domain would mean issuing SRN-branded
+credentials for material nobody at SRN has checked.
+
 
 ---
 
