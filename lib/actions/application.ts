@@ -2,6 +2,7 @@
 
 import { z } from "zod";
 import { supabaseAdmin } from "@/lib/supabase/server";
+import { getLearner } from "@/lib/academy/auth";
 import { sendEmail, SRN_INBOX } from "@/lib/email/client";
 import {
   ApplicationConfirmation,
@@ -116,6 +117,17 @@ export async function submitApplication(
   const { programme, full_name, email, institution, country, motivation } =
     parsed.data;
 
+  /* Sprint 7.1 — if the person applying happens to be signed in with a
+     VERIFIED account, link the application so it shows on their account page
+     straight away. Deliberately best-effort: the form stays open to anyone,
+     and being signed out must never block an application. */
+  const applicant = await getLearner();
+  const learnerId =
+    applicant?.verified_at &&
+    applicant.email.toLowerCase() === email.toLowerCase()
+      ? applicant.id
+      : null;
+
   const { error } = await supabaseAdmin.from("applications").insert({
     programme, // text snapshot — never rewritten, so a later rename cannot
     // relabel this application (§5.7 constraint 3).
@@ -126,6 +138,7 @@ export async function submitApplication(
     country,
     motivation,
     status: "received",
+    learner_id: learnerId,
   });
 
   if (error) {

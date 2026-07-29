@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { requireStaff } from "@/lib/admin/auth";
+import { supabaseAdmin } from "@/lib/supabase/server";
 import { getSubmission, getSubmissionRow } from "@/lib/admin/submissions";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import {
@@ -21,6 +22,18 @@ export default async function ApplicationDetailPage({
   const resource = getSubmission("applications")!;
   const row = await getSubmissionRow(resource, id);
   if (!row) notFound();
+
+  const { data: docs } = await supabaseAdmin
+    .from("application_documents")
+    .select("id, file_name, kind, uploaded_at")
+    .eq("application_id", id)
+    .order("uploaded_at", { ascending: false });
+  const documents = (docs ?? []) as Array<{
+    id: string;
+    file_name: string;
+    kind: string;
+    uploaded_at: string;
+  }>;
 
   const notes = Array.isArray(row.internal_notes)
     ? (row.internal_notes as Array<{ body: string; author_email: string; at: string }>)
@@ -83,6 +96,44 @@ export default async function ApplicationDetailPage({
               </div>
             ) : null}
           </div>
+
+          {/* Sprint 7.1 — anything the applicant attached themselves. Read
+              only: a reviewer opens a CV, they do not curate the applicant's
+              own submission. */}
+          {documents.length > 0 ? (
+            <section className="mt-8">
+              <h2 className="text-ink text-small mb-3 font-semibold">
+                Documents they sent
+              </h2>
+              <ul className="space-y-2">
+                {documents.map((doc) => (
+                  <li
+                    key={doc.id}
+                    className="border-hairline bg-paper flex flex-wrap items-center justify-between gap-3 border p-4"
+                  >
+                    <div className="min-w-0">
+                      <a
+                        href={`/api/admin/application-document/${doc.id}`}
+                        className="text-ink text-small font-semibold underline underline-offset-2"
+                      >
+                        {doc.file_name}
+                      </a>
+                      <p className="text-slate text-small mt-0.5 capitalize">
+                        {doc.kind === "cv" ? "CV" : doc.kind}
+                        {" · uploaded "}
+                        {new Date(doc.uploaded_at).toLocaleDateString("en-GB", {
+                          timeZone: "Africa/Lagos",
+                          day: "numeric",
+                          month: "long",
+                          year: "numeric",
+                        })}
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
 
           <ApplicationNotes id={id} notes={notes} />
         </div>

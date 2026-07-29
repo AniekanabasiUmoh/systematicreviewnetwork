@@ -152,7 +152,27 @@ export default async function AccountPage() {
             </div>
 
             <aside className="border-hairline border-t pt-6 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10">
+              {/* Sprint 7.1 — applications are self-service now, so the account
+                  page has to say so. Shown unconditionally rather than only
+                  when one exists: the page cannot know about an application
+                  made before the account, and an empty list explains that. */}
               <h2 className="text-ink text-small font-semibold">
+                Your applications
+              </h2>
+              <p className="text-slate text-small mt-2 leading-relaxed">
+                Track where a programme application has got to, and attach a CV
+                or protocol.
+              </p>
+              <p className="mt-3">
+                <Link
+                  href="/account/applications"
+                  className="text-ink text-small underline underline-offset-2"
+                >
+                  See your applications
+                </Link>
+              </p>
+
+              <h2 className="text-ink text-small mt-8 font-semibold">
                 Events you have registered for
               </h2>
               {registrations.length > 0 ? (

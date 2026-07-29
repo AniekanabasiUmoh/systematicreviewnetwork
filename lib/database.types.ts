@@ -47,6 +47,42 @@ export type Database = {
         };
         Relationships: [];
       };
+      application_documents: {
+        Row: {
+          id: string;
+          application_id: string;
+          storage_path: string;
+          file_name: string;
+          mime_type: string | null;
+          size_bytes: number | null;
+          kind: string;
+          uploaded_at: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          application_id: string;
+          storage_path: string;
+          file_name: string;
+          mime_type?: string | null;
+          size_bytes?: number | null;
+          kind?: string;
+          uploaded_at?: string;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          application_id?: string;
+          storage_path?: string;
+          file_name?: string;
+          mime_type?: string | null;
+          size_bytes?: number | null;
+          kind?: string;
+          uploaded_at?: string;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
       applications: {
         Row: {
           id: string;
@@ -61,6 +97,7 @@ export type Database = {
           created_at: string;
           updated_at: string;
           programme_id: string | null;
+          learner_id: string | null;
         };
         Insert: {
           id?: string;
@@ -75,6 +112,7 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
           programme_id?: string | null;
+          learner_id?: string | null;
         };
         Update: {
           id?: string;
@@ -89,6 +127,7 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
           programme_id?: string | null;
+          learner_id?: string | null;
         };
         Relationships: [];
       };
@@ -146,7 +185,7 @@ export type Database = {
       certificates: {
         Row: {
           id: string;
-          enrolment_id: string;
+          enrolment_id: string | null;
           code: string;
           learner_name: string;
           course_title: string;
@@ -159,10 +198,11 @@ export type Database = {
           issued_at: string;
           created_at: string;
           updated_at: string;
+          registration_id: string | null;
         };
         Insert: {
           id?: string;
-          enrolment_id: string;
+          enrolment_id?: string | null;
           code: string;
           learner_name: string;
           course_title: string;
@@ -175,10 +215,11 @@ export type Database = {
           issued_at?: string;
           created_at?: string;
           updated_at?: string;
+          registration_id?: string | null;
         };
         Update: {
           id?: string;
-          enrolment_id?: string;
+          enrolment_id?: string | null;
           code?: string;
           learner_name?: string;
           course_title?: string;
@@ -191,6 +232,7 @@ export type Database = {
           issued_at?: string;
           created_at?: string;
           updated_at?: string;
+          registration_id?: string | null;
         };
         Relationships: [];
       };
@@ -530,6 +572,48 @@ export type Database = {
           refunded_at?: string | null;
           learner_name_at_enrolment?: string | null;
           learner_email_at_enrolment?: string | null;
+        };
+        Relationships: [];
+      };
+      event_questions: {
+        Row: {
+          id: string;
+          event_id: string;
+          label: string;
+          help_text: string | null;
+          field_type: string;
+          options: Json;
+          required: boolean;
+          sort_order: number;
+          archived_at: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          event_id: string;
+          label: string;
+          help_text?: string | null;
+          field_type?: string;
+          options?: Json;
+          required?: boolean;
+          sort_order?: number;
+          archived_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          event_id?: string;
+          label?: string;
+          help_text?: string | null;
+          field_type?: string;
+          options?: Json;
+          required?: boolean;
+          sort_order?: number;
+          archived_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
         };
         Relationships: [];
       };
@@ -1310,6 +1394,7 @@ export type Database = {
           cancelled_at: string | null;
           reminder_sent_at: string | null;
           learner_id: string | null;
+          answers: Json;
         };
         Insert: {
           id?: string;
@@ -1328,6 +1413,7 @@ export type Database = {
           cancelled_at?: string | null;
           reminder_sent_at?: string | null;
           learner_id?: string | null;
+          answers?: Json;
         };
         Update: {
           id?: string;
@@ -1346,6 +1432,7 @@ export type Database = {
           cancelled_at?: string | null;
           reminder_sent_at?: string | null;
           learner_id?: string | null;
+          answers?: Json;
         };
         Relationships: [];
       };
@@ -1580,6 +1667,7 @@ export type Database = {
 
 /** Convenience row aliases. */
 export type AdminAuditRow = Database["public"]["Tables"]["admin_audit"]["Row"];
+export type ApplicationDocumentsRow = Database["public"]["Tables"]["application_documents"]["Row"];
 export type ApplicationsRow = Database["public"]["Tables"]["applications"]["Row"];
 export type AssessmentsRow = Database["public"]["Tables"]["assessments"]["Row"];
 export type CertificatesRow = Database["public"]["Tables"]["certificates"]["Row"];
@@ -1591,6 +1679,7 @@ export type ContactMessagesRow = Database["public"]["Tables"]["contact_messages"
 export type CoursesRow = Database["public"]["Tables"]["courses"]["Row"];
 export type DonationsRow = Database["public"]["Tables"]["donations"]["Row"];
 export type EnrolmentsRow = Database["public"]["Tables"]["enrolments"]["Row"];
+export type EventQuestionsRow = Database["public"]["Tables"]["event_questions"]["Row"];
 export type EventsRow = Database["public"]["Tables"]["events"]["Row"];
 export type HomepageRow = Database["public"]["Tables"]["homepage"]["Row"];
 export type ImpactStatsRow = Database["public"]["Tables"]["impact_stats"]["Row"];
