@@ -432,6 +432,7 @@ export type Database = {
           archived_at: string | null;
           created_at: string;
           updated_at: string;
+          translations: Json;
         };
         Insert: {
           id?: string;
@@ -451,6 +452,7 @@ export type Database = {
           archived_at?: string | null;
           created_at?: string;
           updated_at?: string;
+          translations?: Json;
         };
         Update: {
           id?: string;
@@ -470,6 +472,7 @@ export type Database = {
           archived_at?: string | null;
           created_at?: string;
           updated_at?: string;
+          translations?: Json;
         };
         Relationships: [];
       };
@@ -641,6 +644,7 @@ export type Database = {
           updated_at: string;
           programme_id: string | null;
           archived_at: string | null;
+          translations: Json;
         };
         Insert: {
           id?: string;
@@ -665,6 +669,7 @@ export type Database = {
           updated_at?: string;
           programme_id?: string | null;
           archived_at?: string | null;
+          translations?: Json;
         };
         Update: {
           id?: string;
@@ -689,6 +694,7 @@ export type Database = {
           updated_at?: string;
           programme_id?: string | null;
           archived_at?: string | null;
+          translations?: Json;
         };
         Relationships: [];
       };
@@ -1041,6 +1047,7 @@ export type Database = {
           status: Database["public"]["Enums"]["content_status"];
           created_at: string;
           updated_at: string;
+          translations: Json;
         };
         Insert: {
           id?: string;
@@ -1054,6 +1061,7 @@ export type Database = {
           status?: Database["public"]["Enums"]["content_status"];
           created_at?: string;
           updated_at?: string;
+          translations?: Json;
         };
         Update: {
           id?: string;
@@ -1067,6 +1075,7 @@ export type Database = {
           status?: Database["public"]["Enums"]["content_status"];
           created_at?: string;
           updated_at?: string;
+          translations?: Json;
         };
         Relationships: [];
       };
@@ -1102,6 +1111,7 @@ export type Database = {
           body_rich: Json | null;
           created_at: string;
           updated_at: string;
+          translations: Json;
         };
         Insert: {
           id?: string;
@@ -1110,6 +1120,7 @@ export type Database = {
           body_rich?: Json | null;
           created_at?: string;
           updated_at?: string;
+          translations?: Json;
         };
         Update: {
           id?: string;
@@ -1118,6 +1129,7 @@ export type Database = {
           body_rich?: Json | null;
           created_at?: string;
           updated_at?: string;
+          translations?: Json;
         };
         Relationships: [];
       };
@@ -1224,6 +1236,7 @@ export type Database = {
           archived_at: string | null;
           created_at: string;
           updated_at: string;
+          translations: Json;
         };
         Insert: {
           id?: string;
@@ -1246,6 +1259,7 @@ export type Database = {
           archived_at?: string | null;
           created_at?: string;
           updated_at?: string;
+          translations?: Json;
         };
         Update: {
           id?: string;
@@ -1268,6 +1282,7 @@ export type Database = {
           archived_at?: string | null;
           created_at?: string;
           updated_at?: string;
+          translations?: Json;
         };
         Relationships: [];
       };
@@ -1450,6 +1465,7 @@ export type Database = {
           status: Database["public"]["Enums"]["content_status"];
           created_at: string;
           updated_at: string;
+          translations: Json;
         };
         Insert: {
           id?: string;
@@ -1464,6 +1480,7 @@ export type Database = {
           status?: Database["public"]["Enums"]["content_status"];
           created_at?: string;
           updated_at?: string;
+          translations?: Json;
         };
         Update: {
           id?: string;
@@ -1478,6 +1495,7 @@ export type Database = {
           status?: Database["public"]["Enums"]["content_status"];
           created_at?: string;
           updated_at?: string;
+          translations?: Json;
         };
         Relationships: [];
       };

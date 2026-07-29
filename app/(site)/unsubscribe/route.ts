@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase/server";
+import { removeSubscriber } from "@/lib/email/campaign";
 
 export const dynamic = "force-dynamic";
 
@@ -18,7 +19,22 @@ export async function GET(request: Request) {
       fn: string,
       args?: Record<string, unknown>,
     ) => Promise<{ data: unknown; error: unknown }>;
+    /* Read the address BEFORE unsubscribing: the RPC returns only a boolean
+       by design (it must never become a way to enumerate addresses), so this
+       is the one moment we can know who to remove from the campaign tool. */
+    const { data: row } = await supabaseAdmin
+      .from("newsletter_signups")
+      .select("email")
+      .eq("unsubscribe_token", token)
+      .maybeSingle();
+
     await rpc("unsubscribe_newsletter", { p_token: token });
+
+    /* Sprint 7.5 — propagate outward. Without this the campaign tool keeps
+       mailing someone who has just told us to stop, which is the failure §7.5
+       calls mandatory to prevent. Fire-and-forget: their unsubscribe is
+       already recorded, and this page must not hang on a third party. */
+    if (row?.email) void removeSubscriber(row.email);
   }
 
   return new NextResponse(

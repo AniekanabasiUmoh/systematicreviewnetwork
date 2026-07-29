@@ -7,6 +7,8 @@ import { ResourceForm } from "@/components/admin/ResourceForm";
 import { QuestionList as EventQuestionsEditor } from "@/components/admin/EventQuestionsEditor";
 import { listEventQuestions } from "@/lib/admin/questions";
 import { listAttendees } from "@/lib/events/certificates";
+import { TranslationFields } from "@/components/admin/TranslationFields";
+import { TRANSLATABLE_FIELDS, frTranslation } from "@/lib/admin/translatable";
 import { AttendanceCertificates } from "@/components/admin/AttendanceCertificates";
 import { PublishControl } from "@/components/admin/PublishControl";
 import { DeleteButton } from "@/components/admin/DeleteButton";
@@ -70,6 +72,18 @@ export default async function EditAdminResourcePage({
             attendees={attendees}
           />
         </section>
+      ) : null}
+
+      {TRANSLATABLE_FIELDS[resource.key] ? (
+        <TranslationFields
+          table={resource.table}
+          id={id}
+          fields={TRANSLATABLE_FIELDS[resource.key]!.map((f) => ({
+            ...f,
+            english: String(row[f.name] ?? ""),
+          }))}
+          existing={frTranslation(row.translations)}
+        />
       ) : null}
 
       {resource.key === "programmes" ? (

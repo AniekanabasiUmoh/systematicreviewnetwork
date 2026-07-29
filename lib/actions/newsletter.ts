@@ -1,6 +1,7 @@
 "use server";
 
 import { supabaseAdmin } from "@/lib/supabase/server";
+import { syncSubscriber } from "@/lib/email/campaign";
 import { newsletterSchema, fieldErrorsFrom } from "./schemas";
 import {
   checkRateLimit,
@@ -47,6 +48,15 @@ export async function subscribeNewsletter(
       formError: "Something went wrong. Please try again in a moment.",
     };
   }
+
+  /* Sprint 7.5 — push to the campaign tool. Fire-and-forget: a sync failure
+     must never fail the signup the person just made, and syncAll() repairs
+     drift. No-ops entirely while no tool is connected. */
+  void syncSubscriber({
+    email: parsed.data.email,
+    consentedAt: new Date().toISOString(),
+    source: "website-footer",
+  });
 
   return { status: "success", message: SUCCESS };
 }
