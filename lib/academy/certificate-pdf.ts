@@ -161,7 +161,13 @@ export async function buildCertificatePdf(
 
   y -= 40;
 
-  const completed = "has completed";
+  /* Sprint 7.3 — one PDF, two kinds of thing being certified. You COMPLETE a
+     course; you ATTEND a workshop, and claiming otherwise on a document whose
+     whole value is accuracy would be a small lie in a conspicuous place.
+     `cohort_label` is "Attendance" only for event certificates, which is what
+     issueEventCertificate writes. */
+  const isAttendance = certificate.cohort_label === "Attendance";
+  const completed = isAttendance ? "attended" : "has completed";
   page.drawText(completed, {
     x: centre(face, completed, 14),
     y,
@@ -189,9 +195,13 @@ export async function buildCertificatePdf(
 
   y -= 26;
 
-  const cohortLine = certificate.cohort_dates
-    ? `${certificate.cohort_label} · ${certificate.cohort_dates}`
-    : certificate.cohort_label;
+  /* For an event the label is the literal word "Attendance", which adds
+     nothing beside a date — the line above already says "attended". */
+  const cohortLine = isAttendance
+    ? (certificate.cohort_dates ?? "")
+    : certificate.cohort_dates
+      ? `${certificate.cohort_label} · ${certificate.cohort_dates}`
+      : certificate.cohort_label;
   const cohortSize = fitted(face, cohortLine, 12, WIDTH - MARGIN * 3, 9);
   page.drawText(cohortLine, {
     x: centre(face, cohortLine, cohortSize),

@@ -6,6 +6,8 @@ import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { ResourceForm } from "@/components/admin/ResourceForm";
 import { QuestionList as EventQuestionsEditor } from "@/components/admin/EventQuestionsEditor";
 import { listEventQuestions } from "@/lib/admin/questions";
+import { listAttendees } from "@/lib/events/certificates";
+import { AttendanceCertificates } from "@/components/admin/AttendanceCertificates";
 import { PublishControl } from "@/components/admin/PublishControl";
 import { DeleteButton } from "@/components/admin/DeleteButton";
 import { RetireButton } from "@/components/admin/RetireButton";
@@ -27,6 +29,7 @@ export default async function EditAdminResourcePage({
   if (!row) notFound();
   const questions =
     resource.key === "events" ? await listEventQuestions(id) : [];
+  const attendees = resource.key === "events" ? await listAttendees(id) : [];
   const history = await auditForResource(resource.key, id);
   const status =
     row.status === "draft" || row.status === "published" ? row.status : null;
@@ -48,6 +51,24 @@ export default async function EditAdminResourcePage({
             the CSV export as their own columns.
           </p>
           <EventQuestionsEditor eventId={id} questions={questions} />
+        </section>
+      ) : null}
+
+      {resource.key === "events" ? (
+        <section className="mt-10">
+          <h2 className="text-display text-ink text-h3">
+            Attendance certificates
+          </h2>
+          <p className="text-slate text-small mt-2 mb-5 max-w-2xl">
+            Mark attendance on the registrations list first. Everyone who
+            attended can then be issued a certificate with a verifiable code,
+            the same one an Academy course uses.
+          </p>
+          <AttendanceCertificates
+            eventId={id}
+            eventTitle={String(row.title ?? "this event")}
+            attendees={attendees}
+          />
         </section>
       ) : null}
 

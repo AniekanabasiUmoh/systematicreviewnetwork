@@ -80,6 +80,10 @@ const SUBMISSION_TABLES = [
   // Sprint 6.7 — the certificate register. Verification is public, but only
   // one code at a time through a server route; anon must never list the table.
   "certificates",
+  // Phase 7 — supporting documents are personal data (a CV carries a home
+  // address as often as not). No anon policy at all; an applicant reads their
+  // own through a server route after an ownership check.
+  "application_documents",
 ] as const;
 
 const CONTENT_TABLES = [
@@ -100,6 +104,10 @@ const CONTENT_TABLES = [
   // only, so an unpublished course must never be visible to anon.
   "courses",
   "cohorts",
+  // Sprint 7.2 — questions are part of a PUBLIC registration form, so anon
+  // must read them; the policy limits that to non-archived questions on
+  // published events, which the questions suite asserts directly.
+  "event_questions",
 ] as const;
 
 let anon: SupabaseClient;

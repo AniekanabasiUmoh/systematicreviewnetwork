@@ -76,6 +76,10 @@ export default async function VerifyResultPage({
 
   const certificate = result.certificate;
   const revoked = result.status === "revoked";
+  /* Sprint 7.3 — one page verifies both kinds. An event certificate says
+     "Event" and "Attended" rather than "Course" and "Completed", because a
+     verification page that misdescribes what was earned is a poor witness. */
+  const isAttendance = certificate.cohort_label === "Attendance";
 
   return (
     <>
@@ -111,17 +115,26 @@ export default async function VerifyResultPage({
 
               <dl className="mt-5 space-y-4">
                 <Row label="Awarded to" value={certificate.learner_name} />
-                <Row label="Course" value={certificate.course_title} />
                 <Row
-                  label="Cohort"
-                  value={
-                    certificate.cohort_dates
-                      ? `${certificate.cohort_label} · ${certificate.cohort_dates}`
-                      : certificate.cohort_label
-                  }
+                  label={isAttendance ? "Event" : "Course"}
+                  value={certificate.course_title}
                 />
+                {isAttendance ? (
+                  certificate.cohort_dates ? (
+                    <Row label="Held" value={certificate.cohort_dates} />
+                  ) : null
+                ) : (
+                  <Row
+                    label="Cohort"
+                    value={
+                      certificate.cohort_dates
+                        ? `${certificate.cohort_label} · ${certificate.cohort_dates}`
+                        : certificate.cohort_label
+                    }
+                  />
+                )}
                 <Row
-                  label="Completed"
+                  label={isAttendance ? "Attended" : "Completed"}
                   value={formatDate(certificate.completed_on)}
                 />
                 <Row label="Code" value={certificate.code} />
