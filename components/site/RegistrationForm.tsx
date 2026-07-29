@@ -34,9 +34,14 @@ function SubmitButton({ paid }: { paid: boolean }) {
 export function RegistrationForm({
   eventId,
   paid,
+  questions,
 }: {
   eventId: string;
   paid: boolean;
+  /* Sprint 7.2 — rendered on the server and passed through, because the
+     questions never change while the form is open and this component is
+     already a client boundary. */
+  questions?: React.ReactNode;
 }) {
   const [state, formAction] = useActionState(submitRegistration, idle);
 
@@ -103,6 +108,8 @@ export function RegistrationForm({
           ))}
         </datalist>
       </div>
+
+      {questions}
 
       <div className="pt-1">
         <SubmitButton paid={paid} />

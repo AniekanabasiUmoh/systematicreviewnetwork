@@ -18,6 +18,9 @@ import { Tag, StatusBadge, eventTypeHue } from "@/components/ui/Tag";
 import { CTABand } from "@/components/ui/Cards";
 import { Icon } from "@/components/ui/Icon";
 import { RegistrationForm } from "@/components/site/RegistrationForm";
+import { EventQuestions } from "@/components/site/EventQuestions";
+import { getEventQuestions } from "@/lib/events/questions-server";
+import type { EventQuestion } from "@/lib/events/questions";
 import { getAllEvents, getEventBySlug, getSeatCounts } from "@/lib/queries";
 import {
   registrationState,
@@ -67,6 +70,7 @@ export default async function EventDetailPage({
   const event = await getEventBySlug(slug);
   if (!event) notFound();
 
+  const questions = await getEventQuestions(event.id);
   const now = new Date();
   const seatCounts = await getSeatCounts([event.id]);
   const seatsTaken = seatCounts[event.id] ?? 0;
@@ -150,7 +154,7 @@ export default async function EventDetailPage({
                 </dl>
 
                 <div className="border-hairline border-t p-5">
-                  <RegistrationPanel state={state} event={event} />
+                  <RegistrationPanel state={state} event={event} questions={questions} />
                 </div>
               </div>
             </aside>
@@ -216,9 +220,11 @@ function DetailRow({
 function RegistrationPanel({
   state,
   event,
+  questions,
 }: {
   state: RegistrationState;
   event: Awaited<ReturnType<typeof getEventBySlug>>;
+  questions: EventQuestion[];
 }) {
   if (!event) return null;
 
@@ -234,7 +240,11 @@ function RegistrationPanel({
             ? "This event is free to attend. Fill in your details and we'll send your confirmation."
             : `A place costs ${formatPrice(event.price_kobo, event.currency)}. You'll be taken to secure payment; your place is held once payment completes.`}
         </p>
-        <RegistrationForm eventId={event.id} paid={!free} />
+        <RegistrationForm
+          eventId={event.id}
+          paid={!free}
+          questions={<EventQuestions questions={questions} />}
+        />
       </div>
     );
   }

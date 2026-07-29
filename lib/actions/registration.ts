@@ -1,6 +1,11 @@
 "use server";
 
 import { supabaseAdmin } from "@/lib/supabase/server";
+import {
+  collectAnswers,
+  missingMessage,
+  type EventQuestion,
+} from "@/lib/events/questions";
 import { sendEmail, SRN_INBOX } from "@/lib/email/client";
 import {
   RegistrationConfirmation,
@@ -126,6 +131,26 @@ export async function submitRegistration(
     return { status: "error", formError: STATE_MESSAGE[state] };
   }
 
+  /* Sprint 7.2 — staff-defined questions. Loaded from the DATABASE rather than
+     trusted from the form, so a crafted post cannot invent a question, and
+     required ones are enforced here rather than only by the browser. */
+  const { data: questionRows } = await supabaseAdmin
+    .from("event_questions")
+    .select("*")
+    .eq("event_id", event.id)
+    .is("archived_at", null)
+    .order("sort_order", { ascending: true });
+  const questions = (questionRows ?? []) as EventQuestion[];
+
+  const { answers, missing } = collectAnswers(questions, (name) => {
+    const v = form.get(name);
+    return typeof v === "string" ? v : null;
+  });
+
+  if (missing.length > 0) {
+    return { status: "error", formError: missingMessage(missing) };
+  }
+
   const free = isFree(event.price_kobo);
   const reference = free ? null : newReference();
 
@@ -140,6 +165,7 @@ export async function submitRegistration(
     paystack_reference: reference,
     amount_kobo: free ? null : event.price_kobo,
     currency: free ? null : event.currency,
+    answers,
   });
 
   if (insertError) {

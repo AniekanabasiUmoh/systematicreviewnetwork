@@ -94,6 +94,13 @@ const SUBMISSION_DEFINITIONS = {
       // Shown in the actions column instead of the list, per §5.11 — kept
       // in the export as a plain yes/no so finance/attendance reporting has it.
       { name: "attended_at", label: "Attended", kind: "text", inList: false },
+      /* Sprint 7.2 — neither of these is shown anywhere. They are selected so
+         the export route can flatten per-event answers into real columns:
+         `answers` holds them, `event_id` says which questions to look up.
+         `inExport: false` keeps the raw jsonb out of the CSV — a column of
+         JSON is not an export, it is a puzzle. */
+      { name: "event_id", label: "Event", kind: "text", inList: false, inExport: false },
+      { name: "answers", label: "Answers", kind: "text", inList: false, inExport: false },
     ],
   },
   applications: {

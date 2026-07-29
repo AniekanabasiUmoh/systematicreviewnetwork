@@ -4,6 +4,8 @@ import { formResource, getResource } from "@/lib/admin/resources";
 import { getRow, auditForResource } from "@/lib/admin/queries";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { ResourceForm } from "@/components/admin/ResourceForm";
+import { QuestionList as EventQuestionsEditor } from "@/components/admin/EventQuestionsEditor";
+import { listEventQuestions } from "@/lib/admin/questions";
 import { PublishControl } from "@/components/admin/PublishControl";
 import { DeleteButton } from "@/components/admin/DeleteButton";
 import { RetireButton } from "@/components/admin/RetireButton";
@@ -23,6 +25,8 @@ export default async function EditAdminResourcePage({
   if (!resource || resource.singleton) notFound();
   const row = await getRow(resource, id);
   if (!row) notFound();
+  const questions =
+    resource.key === "events" ? await listEventQuestions(id) : [];
   const history = await auditForResource(resource.key, id);
   const status =
     row.status === "draft" || row.status === "published" ? row.status : null;
@@ -36,6 +40,17 @@ export default async function EditAdminResourcePage({
         <PublishControl resource={resource.key} id={id} status={status} />
       ) : null}
       <ResourceForm resource={formResource(resource)} initial={row} />
+      {resource.key === "events" ? (
+        <section className="mt-10">
+          <h2 className="text-display text-ink text-h3">Registration questions</h2>
+          <p className="text-slate text-small mt-2 mb-5 max-w-2xl">
+            Extra questions on this event&rsquo;s registration form. Answers appear in
+            the CSV export as their own columns.
+          </p>
+          <EventQuestionsEditor eventId={id} questions={questions} />
+        </section>
+      ) : null}
+
       {resource.key === "programmes" ? (
         <RetireButton
           id={id}

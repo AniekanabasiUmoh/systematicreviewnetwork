@@ -59,9 +59,64 @@ export async function GET(
 
   const rows = (data ?? []) as unknown as Array<Record<string, unknown>>;
   const exportColumns = resource.columns.filter((c) => c.inExport !== false);
+
+  /* Sprint 7.2 — flatten per-event answers into real columns.
+   *
+   * §7.2: "CSV export must flatten the jsonb into columns — otherwise the
+   * export is unusable, which is the whole point of Sprint 5.3." A column of
+   * raw JSON is not an export, it is a puzzle.
+   *
+   * ARCHIVED questions are included. Someone answered them; dropping the
+   * column would silently misrepresent the data, and archiving exists
+   * precisely so those answers survive. */
+  const extra: Array<{ id: string; label: string }> = [];
+  if (resource.table === "registrations") {
+    const eventIds = [
+      ...new Set(
+        rows
+          .map((r) => r.event_id)
+          .filter((id): id is string => typeof id === "string"),
+      ),
+    ];
+    if (eventIds.length > 0) {
+      const { data: questionRows } = await supabaseAdmin
+        .from("event_questions")
+        .select("id, label, sort_order")
+        .in("event_id", eventIds)
+        .order("sort_order", { ascending: true });
+
+      for (const q of (questionRows ?? []) as Array<{
+        id: string;
+        label: string;
+      }>) {
+        // Two events can ask the same question; one column, not two.
+        if (!extra.some((e) => e.label === q.label)) extra.push(q);
+        else {
+          const existing = extra.find((e) => e.label === q.label)!;
+          // Remember both ids so either event's answer lands in the column.
+          existing.id = `${existing.id},${q.id}`;
+        }
+      }
+    }
+  }
+
+  const answerFor = (row: Record<string, unknown>, ids: string) => {
+    const answers = row.answers;
+    if (!answers || typeof answers !== "object") return "";
+    const map = answers as Record<string, unknown>;
+    for (const id of ids.split(",")) {
+      const value = map[id];
+      if (typeof value === "string" && value !== "") return value;
+    }
+    return "";
+  };
+
   const csv = toCsv(
-    exportColumns.map((c) => c.label),
-    rows.map((row) => exportColumns.map((c) => row[c.name])),
+    [...exportColumns.map((c) => c.label), ...extra.map((e) => e.label)],
+    rows.map((row) => [
+      ...exportColumns.map((c) => row[c.name]),
+      ...extra.map((e) => answerFor(row, e.id)),
+    ]),
   );
 
   void recordAudit(
