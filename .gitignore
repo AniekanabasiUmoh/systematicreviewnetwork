@@ -57,3 +57,6 @@ output/
 *.code-workspace
 
 .vercel
+
+# Database dumps — contain real registrant/learner PII, never commit
+supabase/_backup/
