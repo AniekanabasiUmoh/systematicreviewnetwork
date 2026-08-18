@@ -197,7 +197,7 @@ export default async function AccountPage() {
               ) : (
                 <p className="text-slate text-small mt-4 leading-relaxed">
                   {learner.verified_at
-                    ? "You haven't registered for any events yet. When you do, they'll appear here — including any you registered for with this address before you created an account."
+                    ? "You haven't registered for any events yet. When you do, they'll appear here, including any you registered for with this address before you created an account."
                     : "Confirm your email address and any events you have already registered for with it will appear here."}
                 </p>
               )}

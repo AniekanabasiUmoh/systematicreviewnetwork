@@ -100,7 +100,7 @@ export default async function ResourcePage({
                   <p className="text-slate mt-4 leading-relaxed">
                     We&apos;re preparing {r.title.toLowerCase()} for the library.
                     Join the newsletter and we&apos;ll let you know the moment
-                    it&apos;s ready — or browse what&apos;s already here.
+                    it&apos;s ready, or browse what&apos;s already here.
                   </p>
                   <Link
                     href="/resources"

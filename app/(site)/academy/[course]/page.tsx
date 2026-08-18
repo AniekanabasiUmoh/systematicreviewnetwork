@@ -151,7 +151,7 @@ export default async function CoursePage({
                 <p className="text-slate text-small mt-4 leading-relaxed">
                   No cohort of this course is open right now. Tell us
                   you&rsquo;re interested and we&rsquo;ll let you know when the
-                  next one opens — we run this course regularly.
+                  next one opens. We run this course regularly.
                 </p>
               ) : (
                 <ul className="mt-4 space-y-6">
@@ -169,7 +169,7 @@ export default async function CoursePage({
                       </p>
                       <p className="text-slate text-small mt-1">
                         {isFree(cohort.price_kobo)
-                          ? "Free — you'll still need an SRN account"
+                          ? "Free, though you'll still need an SRN account"
                           : formatPrice(
                               cohort.price_kobo,
                               cohort.currency as "NGN" | "USD",

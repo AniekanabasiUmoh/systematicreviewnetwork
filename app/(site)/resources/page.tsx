@@ -22,7 +22,7 @@ export const revalidate = 60;
 export const metadata: Metadata = {
   title: "Resources",
   description:
-    "Free guides, templates, recorded webinars, and tool walkthroughs for systematic reviews — open to anyone.",
+    "Free guides, templates, recorded webinars, and tool walkthroughs for systematic reviews, open to anyone.",
 };
 
 export default async function ResourcesPage({
@@ -44,7 +44,7 @@ export default async function ResourcesPage({
       <PageHeader
         eyebrow="Resources"
         title="Open method, freely shared."
-        lede="Guides, templates, recorded sessions, and tool walkthroughs — everything here is free to use. Good method shouldn't sit behind a paywall."
+        lede="Guides, templates, recorded sessions, and tool walkthroughs. Everything here is free to use because good method shouldn't sit behind a paywall."
         imageUrl={headerPhoto?.url}
         imageAlt={headerPhoto?.alt ?? ""}
       />

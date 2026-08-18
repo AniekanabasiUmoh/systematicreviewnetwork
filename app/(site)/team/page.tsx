@@ -17,7 +17,7 @@ export const revalidate = 60;
 export const metadata: Metadata = {
   title: "Team",
   description:
-    "The people behind the Systematic Reviews Network — executive, scientific committee, country leads, and mentors.",
+    "The people behind the Systematic Reviews Network: executive, scientific committee, country leads, and mentors.",
 };
 
 type Group = Database["public"]["Enums"]["team_group"];
@@ -47,6 +47,24 @@ const GROUPS: { key: Group; label: string; blurb: string }[] = [
   },
 ];
 
+/* Every team member currently carries a generated placeholder bio of the form
+   "<Name> is part of the Systematic Reviews Network team, contributing to
+   SRN's training, mentorship, and research programmes." It is filler, and
+   showing it behind a "Read more" would promise a biography and deliver
+   nothing. Real bios have been requested from the team.
+
+   So: recognise the template and treat it as absent. Cards fall back to name,
+   role and affiliation, exactly as before. As each real bio is written through
+   the admin, that person's disclosure appears on its own — no code change and
+   no all-or-nothing switch. Delete this once every bio is real. */
+const PLACEHOLDER_BIO =
+  /is part of the Systematic Reviews Network team, contributing to SRN's training, mentorship, and research programmes\.?$/;
+
+function realBio(bio: string | null): string | null {
+  if (!bio) return null;
+  return PLACEHOLDER_BIO.test(bio.trim()) ? null : bio;
+}
+
 export default async function TeamPage() {
   const team = await getTeamMembers();
 
@@ -57,7 +75,7 @@ export default async function TeamPage() {
       <PageHeader
         eyebrow="Our team"
         title="A network of reviewers, across many countries."
-        lede="SRN is run by researchers who do this work themselves — the people who teach the courses, guide the reviews, and hold the standards."
+        lede="SRN is run by researchers who do this work themselves. The people who teach the courses, guide the reviews, and hold the standards."
       />
 
       {GROUPS.map(({ key, label, blurb }, i) => {
@@ -78,6 +96,7 @@ export default async function TeamPage() {
                     photoUrl={m.photo_url}
                     linkedinUrl={m.linkedin_url}
                     orcidUrl={m.orcid_url}
+                    bio={realBio(m.bio)}
                   />
                 ))}
               </div>

@@ -19,7 +19,7 @@ export const revalidate = 60;
 export const metadata: Metadata = {
   title: "Programmes",
   description:
-    "From a first course to a completed meta-analysis — SRN's training, mentorship, and institutional programmes for systematic reviews.",
+    "From introductory training to completed meta-analyses. SRN's training, mentorship, and institutional programmes for systematic reviews.",
 };
 
 const href = (slug: string) =>
@@ -36,7 +36,7 @@ export default async function ProgrammesPage() {
       <PageHeader
         eyebrow="Programmes"
         title="Find the right starting point."
-        lede="Whether you're framing a first question or finishing a meta-analysis, there's a programme built for your stage — and a person to guide you through it."
+        lede="Whether you are framing your first review question, completing a meta-analysis, or adapting evidence for policy decisions, SRN has a programme built for your stage, and a person to guide you through it."
         imageUrl={headerPhoto?.url}
         imageAlt={headerPhoto?.alt ?? ""}
       />
@@ -86,14 +86,23 @@ export default async function ProgrammesPage() {
                 Most people begin with the Beginner Academy or a webinar.
               </h2>
             </div>
-            <p className="text-slate leading-relaxed">
-              If you&apos;re new to systematic reviews, start with a programme
-              that builds the foundations — or sit in on a free webinar to see
-              how we teach before committing. Already running a review? The
-              hands-on courses and one-to-one mentorship meet you where the work
-              actually is. Building capacity across a whole department is a
-              different conversation, and we scope that with you.
-            </p>
+            <div className="text-slate space-y-4 leading-relaxed">
+              <p>
+                If you are new to systematic reviews, you can start with a
+                foundational programme or join a free webinar to understand how
+                we teach before committing. If you are already running a review,
+                our hands-on courses and one-to-one mentorship meet you at the
+                point where the work is happening.
+              </p>
+              <p>
+                For policymakers and decision-makers, SRN supports evidence
+                interpretation, contextual adaptation, and practical use of
+                review findings for policy, programming, and implementation. For
+                departments, institutions, and teams seeking wider
+                capacity-building, we scope the need with you and design a
+                programme that fits your context.
+              </p>
+            </div>
           </div>
         </Container>
       </Section>

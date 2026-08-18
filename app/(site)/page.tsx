@@ -16,7 +16,7 @@ import {
   TestimonialBlock,
   CTABand,
 } from "@/components/ui/Cards";
-import { formatEventDate, formatPrice } from "@/lib/events";
+import { formatEventDate, formatPrice, registrationState } from "@/lib/events";
 import { categoryLabel, resourceHref, resourceKind } from "@/lib/resources";
 import {
   getHomepage,
@@ -67,14 +67,25 @@ export default async function HomePage() {
     getTestimonials(1),
     getUpcomingEvents(3),
     getLatestResources(3),
-    getMedia("workshop-full-room.jpg"),
-    getMedia("award-of-honour.jpg"),
-    getMedia("award-of-honour.jpg"),
-    getMedia("workshop-full-room.jpg"),
+    /* Four distinct photographs, one per band. These four slots previously
+       drew on only two files, so the same picture appeared twice on a single
+       scroll — which is what the client meant by "we could use many of the
+       other photos in our collection, rather than one photo". Keep them
+       distinct if you reorder or add a band. */
+    getMedia("workshop-participants.jpg"), // ctaImage
+    getMedia("award-of-honour.jpg"), // impactPhoto
+    getMedia("hero-facilitator-presenting.jpg"), // mentorPhoto
+    getMedia("workshop-full-room.jpg"), // aboutPhoto
     getProgrammes(),
   ]);
 
   const testimonial = testimonials[0];
+  // A future event that is already closed is useful on the events archive, not
+  // as a homepage conversion opportunity. Capacity is irrelevant to this
+  // decision; manual/window closure always wins in the state machine.
+  const openUpcomingEvents = events.filter(
+    (event) => registrationState(event) !== "closed",
+  );
 
   /* Image and alt must describe the SAME picture: resolve the hero's alt from
      the URL actually rendered, not a fixed fallback record. */
@@ -119,19 +130,32 @@ export default async function HomePage() {
         <Container className="relative pt-32 pb-[clamp(48px,7vw,96px)]">
           <div className="max-w-[46ch]">
             <Eyebrow tone="paper">
-              {homepage?.hero_eyebrow ?? "Systematic Reviews Network"}
+              {homepage?.hero_eyebrow ?? "Systematic Reviews Network (SRN)"}
             </Eyebrow>
+            {/* Two weights on two lines is the deliberate device. The comma
+                closes the first line rather than sitting between the spans,
+                which is what the client asked for without collapsing the
+                treatment into a single run-on line. */}
             <h1 className="text-paper mt-5 text-[clamp(2.8rem,7vw,5.5rem)]">
-              <span className="hero-thin">Better evidence.</span>
+              <span className="hero-thin">Better evidence,</span>
               <span className="hero-black">Smarter decisions.</span>
             </h1>
             <p className="text-paper/85 mt-6 max-w-[52ch] text-[1.15rem] leading-relaxed">
               {homepage?.hero_subheading ??
-                "We build capacity for systematic reviews and meta-analyses across low- and middle-income countries — training researchers to produce evidence that stands up to scrutiny."}
+                "We build capacity for systematic reviews and meta-analyses across low- and middle-income countries, training researchers and supporting policymakers to generate, interpret, and apply evidence that stands up to scrutiny and informs real decisions."}
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <ButtonLink href="/programmes" prefetch={false} size="lg">
                 Explore programmes
+              </ButtonLink>
+              <ButtonLink
+                href="/academy"
+                prefetch={false}
+                variant="secondary"
+                size="lg"
+                className="border-paper/50 text-paper hover:border-paper hover:bg-paper/10"
+              >
+                Explore the Academy
               </ButtonLink>
               <ButtonLink
                 href="/resources?category=guide"
@@ -220,12 +244,15 @@ export default async function HomePage() {
             <div>
               <Eyebrow>What we do</Eyebrow>
               <h2 className="text-display text-ink mt-4 text-[clamp(1.6rem,3.4vw,2.6rem)] leading-[1.1]">
-                Training, mentorship, and the tools to do a review well.
+                Training, mentorship, and the tools to conduct and use evidence
+                synthesis.
               </h2>
               <p className="text-slate mt-5 leading-relaxed">
-                From a first course to a completed meta-analysis, SRN supports
-                researchers at every stage — with hands-on training, one-to-one
-                mentorship, and open resources anyone can use.
+                From introductory training to completed meta-analyses, SRN
+                supports researchers and policymakers at every stage, providing
+                hands-on training, one-to-one mentorship, and open resources to
+                help evidence move from research questions to real-world
+                decisions.
               </p>
               <ButtonLink
                 href="/programmes"
@@ -306,8 +333,9 @@ export default async function HomePage() {
             </h2>
             <p className="text-paper/85 mt-5 leading-relaxed">
               The Mentorship Programme pairs researchers with experienced
-              reviewers through the whole of a live review — so you stop
-              second-guessing every methodological choice.
+              reviewers throughout a live review process, helping them make
+              confident methodological decisions from protocol development to
+              final synthesis.
             </p>
             <ButtonLink
               href="/programmes/mentorship"
@@ -327,10 +355,10 @@ export default async function HomePage() {
           <h2 className="text-display text-ink mt-3 text-[clamp(1.6rem,3.4vw,2.4rem)] leading-[1.1]">
             Upcoming events
           </h2>
-          {events.length > 0 ? (
+          {openUpcomingEvents.length > 0 ? (
             <>
               <ul className="index-list mt-8">
-                {events.map((e, i) => (
+                {openUpcomingEvents.map((e, i) => (
                   <li key={e.id}>
                     <Link
                       href={`/news/events/${e.slug}`}

@@ -13,8 +13,6 @@
     "db:migrate": "node supabase/migrate.mjs",
     "db:status": "node supabase/migrate.mjs --status",
     "gen:types": "node supabase/gen-types.mjs",
-    "db:seed": "node supabase/seed.mjs",
-    "db:seed:reset": "node supabase/seed.mjs --reset",
     "wp:export": "node supabase/import-wordpress.mjs",
     "admin:invite": "node supabase/invite-admin.mjs",
     "test": "vitest run",

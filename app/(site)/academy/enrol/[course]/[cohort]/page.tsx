@@ -61,7 +61,7 @@ export default async function EnrolPage({
                 </h2>
                 <p className="text-slate mt-2 leading-relaxed">
                   {state === "full"
-                    ? "Every seat on this cohort is taken. Join the waiting list and we will offer you a place if one frees up — you will not be charged unless you take it."
+                    ? "Every seat on this cohort is taken. Join the waiting list and we will offer you a place if one frees up. You will not be charged unless you take it."
                     : "This cohort is not taking enrolments. Other cohorts of this course may be open."}
                 </p>
                 {state === "full" && learner?.verified_at ? (
@@ -115,7 +115,7 @@ export default async function EnrolPage({
                 <p className="text-slate mt-2 mb-6 leading-relaxed">
                   {isFree(cohort.price_kobo)
                     ? "This cohort is free. You will still get your own course page, and your access does not expire when the cohort finishes."
-                    : `This cohort costs ${formatPrice(cohort.price_kobo, cohort.currency as "NGN" | "USD")}. Payment is taken by Paystack — we never see your card details — and your place is confirmed the moment it clears.`}
+                    : `This cohort costs ${formatPrice(cohort.price_kobo, cohort.currency as "NGN" | "USD")}. Payment is taken by Paystack, so we never see your card details, and your place is confirmed the moment it clears.`}
                 </p>
                 <EnrolButton
                   courseSlug={course.slug}

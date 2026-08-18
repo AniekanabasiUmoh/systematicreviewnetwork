@@ -27,7 +27,7 @@ export const revalidate = 60;
 export const metadata: Metadata = {
   title: "Partner with SRN",
   description:
-    "Host a training, sponsor researchers, fund a cohort, or co-create an evidence-synthesis project — and help evidence skills take root where they're needed most.",
+    "Host a training, sponsor researchers, fund a cohort, or co-create an evidence-synthesis project, and help evidence skills take root where they're needed most.",
 };
 
 const OPTIONS: {
@@ -39,7 +39,7 @@ const OPTIONS: {
   {
     icon: GraduationCap,
     title: "Host a training",
-    body: "Bring an SRN course or workshop to your institution — online or in person. We handle the teaching; you open it to your researchers.",
+    body: "Bring an SRN course or workshop to your institution, online or in person. We handle the teaching; you open it to your researchers.",
     who: "Universities · research institutes · hospitals",
   },
   {
@@ -51,7 +51,7 @@ const OPTIONS: {
   {
     icon: Layers,
     title: "Fund a cohort",
-    body: "Underwrite a full cohort end to end — a group of researchers taken from first principles to a registered, reproducible review together.",
+    body: "Sponsor a full cohort from start to finish, supporting a group of researchers as they move from first principles to a published, reproducible review.",
     who: "Foundations · corporate partners",
   },
   {
@@ -73,7 +73,7 @@ export default async function PartnerPage() {
       <PageHeader
         eyebrow="Partner with SRN"
         title="Help evidence skills take root where they're needed most."
-        lede="Every partnership, sponsored place, and hosted workshop extends where researchers can learn to produce trustworthy reviews — and keep producing them long after the training ends."
+        lede="Every partnership, sponsored place, and hosted workshop extends where researchers can learn to produce trustworthy reviews, and keep producing them long after the training ends."
         imageUrl={headerPhoto?.url}
         imageAlt={headerPhoto?.alt ?? ""}
       />
@@ -146,7 +146,7 @@ export default async function PartnerPage() {
                 </span>
                 <Eyebrow>Donate</Eyebrow>
                 <h2 className="text-display text-ink mt-3 text-[clamp(1.5rem,3vw,2.1rem)] leading-[1.1]">
-                  Give what you can — every amount trains someone.
+                  Give what you can. Every amount trains someone.
                 </h2>
                 <p className="text-slate mt-4 max-w-[54ch] leading-relaxed">
                   A donation of any size goes directly to running courses,
@@ -155,7 +155,7 @@ export default async function PartnerPage() {
                   receipt by email straight away.
                 </p>
                 <p className="text-slate text-small mt-4 max-w-[54ch] leading-relaxed">
-                  Payments are handled by Paystack — your card details never
+                  Payments are handled by Paystack, so your card details never
                   touch our servers.
                 </p>
               </div>

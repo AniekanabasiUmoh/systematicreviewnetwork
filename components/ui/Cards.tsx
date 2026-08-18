@@ -98,7 +98,7 @@ export function EventCard({
           >
             {formatPrice(price_kobo ?? null, currency)}
           </span>
-          {capacity != null && seatsTaken != null && state !== "past" ? (
+          {capacity != null && seatsTaken != null && state === "open" ? (
             <span className="text-slate text-small">
               {Math.max(capacity - seatsTaken, 0)} of {capacity} places left
             </span>
@@ -232,6 +232,7 @@ export function PersonCard({
   photoUrl,
   linkedinUrl,
   orcidUrl,
+  bio,
 }: {
   name: string;
   role?: string | null;
@@ -239,6 +240,9 @@ export function PersonCard({
   photoUrl?: string | null;
   linkedinUrl?: string | null;
   orcidUrl?: string | null;
+  /** Shown behind a "Read more" disclosure. Omit to render no disclosure at
+      all — a card with no bio must not grow an empty toggle. */
+  bio?: string | null;
 }) {
   return (
     <article className="group">
@@ -285,6 +289,19 @@ export function PersonCard({
           ) : null}
         </div>
       )}
+      {/* Native <details>: the old site put bios behind a "Read More" modal,
+          and a disclosure gives the same affordance with no client JS and no
+          focus trap to get wrong. Twenty bios open at once would bury the
+          grid. */}
+      {bio ? (
+        <details className="group/bio mt-3">
+          <summary className="text-slate hover:text-evidence marker:content-none cursor-pointer text-[0.8125rem] font-medium">
+            <span className="group-open/bio:hidden">Read more</span>
+            <span className="hidden group-open/bio:inline">Close</span>
+          </summary>
+          <p className="text-slate text-small mt-2 leading-relaxed">{bio}</p>
+        </details>
+      ) : null}
     </article>
   );
 }

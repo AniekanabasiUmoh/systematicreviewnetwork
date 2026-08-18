@@ -126,8 +126,8 @@ export default async function EnrolCompletePage({
                   >
                     tell us
                   </Link>
-                  . We can see the payment on our side and will put it right —
-                  you will not be charged twice.
+                  . We can see the payment on our side and will put it right.
+                  You will not be charged twice.
                 </p>
               </>
             ) : (

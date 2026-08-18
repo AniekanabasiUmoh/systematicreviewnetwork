@@ -109,7 +109,14 @@ const SUBMISSION_DEFINITIONS = {
     labelSingular: "Application",
     labelPlural: "Applications",
     orderBy: { column: "created_at", ascending: false },
-    searchColumns: ["full_name", "email", "programme", "institution", "country"],
+    searchColumns: [
+      "full_name",
+      "email",
+      "programme",
+      "applicant_role",
+      "institution",
+      "country",
+    ],
     statusColumn: "status",
     statusOptions: [
       { value: "received", label: "Received" },
@@ -122,6 +129,9 @@ const SUBMISSION_DEFINITIONS = {
       { name: "full_name", label: "Name", kind: "text" },
       { name: "email", label: "Email", kind: "email" },
       { name: "programme", label: "Programme", kind: "text" },
+      // Mentorship only; null everywhere else, which renders as an em-dash
+      // placeholder in the list and an empty cell in the export.
+      { name: "applicant_role", label: "Applying as", kind: "text" },
       { name: "institution", label: "Institution", kind: "text" },
       { name: "country", label: "Country", kind: "text" },
       { name: "status", label: "Status", kind: "status" },

@@ -57,7 +57,7 @@ export default async function SignUpPage() {
                   course finishes.
                 </li>
                 <li>
-                  Resume a lesson on any device — your progress follows your
+                  Resume a lesson on any device. Your progress follows your
                   account, not your browser.
                 </li>
                 <li>

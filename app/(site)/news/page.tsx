@@ -60,9 +60,10 @@ export default async function NewsPage({
 
   /* Split first, then filter by type, so the type chips only ever show types
      that exist within the current upcoming/past view. */
-  const inView = allEvents.filter((e) =>
-    view === "past" ? isPast(e) : !isPast(e),
-  );
+  const inView = allEvents.filter((e) => {
+    if (view === "past") return isPast(e);
+    return !isPast(e) && registrationState(e, 0, now) !== "closed";
+  });
   const events = type ? inView.filter((e) => e.type === type) : inView;
 
   /* Past events are ordered soonest-first from the query; a "past" list reads
@@ -87,7 +88,7 @@ export default async function NewsPage({
       <PageHeader
         eyebrow="News & Events"
         title="What's on, and what's happening."
-        lede="Courses, workshops, webinars and mentorship intakes you can join — and news from across the network."
+        lede="Courses, workshops, webinars and mentorship intakes you can join, plus news from across the network."
         imageUrl={headerPhoto?.url}
         imageAlt={headerPhoto?.alt ?? ""}
       />

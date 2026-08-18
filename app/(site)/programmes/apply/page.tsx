@@ -15,7 +15,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Apply to a programme",
   description:
-    "Apply to an SRN programme — tell us about your background and the review you have in mind, and we'll match you to the right course or mentor.",
+    "Apply to an SRN programme. Tell us about your background and the review you have in mind, and we'll match you to the right course or mentor.",
   robots: { index: false, follow: false },
 };
 
@@ -28,6 +28,14 @@ export default async function ApplyPage({
   const programmes = await getProgrammes();
   const titles = programmes.map((row) => row.title);
   const programme = p ? programmes.find((row) => row.slug === p) : undefined;
+
+  /* Which programmes ask "applying as mentee, mentor or librarian?". Resolved
+     from the slug here rather than by matching a title in the client, so
+     renaming the programme in the admin cannot silently stop the question
+     being asked. Today that is Mentorship alone. */
+  const roleProgrammes = programmes
+    .filter((row) => row.slug === "mentorship")
+    .map((row) => row.title);
 
   return (
     <>
@@ -43,6 +51,7 @@ export default async function ApplyPage({
             <ApplicationForm
               programmes={titles}
               defaultProgramme={programme?.title}
+              roleProgrammes={roleProgrammes}
             />
           </div>
         </Container>

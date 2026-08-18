@@ -25,7 +25,7 @@ export const revalidate = 60;
 export const metadata: Metadata = {
   title: "About",
   description:
-    "From ACSRM to the Systematic Reviews Network — building capacity for systematic reviews and meta-analyses across low- and middle-income countries.",
+    "From ACSRM to the Systematic Reviews Network. Building capacity for systematic reviews and meta-analyses across low- and middle-income countries.",
 };
 
 export default async function AboutPage() {
@@ -45,7 +45,7 @@ export default async function AboutPage() {
       <PageHeader
         eyebrow="About SRN"
         title="Better evidence, built where it's needed most."
-        lede="Formerly ACSRM. Launched in 2022. A network training researchers to produce systematic reviews that stand up to scrutiny — across Africa and beyond."
+        lede="Formerly ACSRM, SRN launched in 2022 as a network strengthening the capacity of researchers and policymakers across Africa and beyond to produce, interpret, and apply systematic reviews and meta-analyses that stand up to scrutiny and inform real-world decisions."
         imageUrl={headerPhoto?.url}
         imageAlt={headerPhoto?.alt ?? ""}
       />

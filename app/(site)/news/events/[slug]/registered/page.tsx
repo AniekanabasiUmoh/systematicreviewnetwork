@@ -78,7 +78,7 @@ export default async function RegisteredPage({
                   <Icon icon={Clock} size="lg" className="text-slate" />
                 </span>
                 <p className="text-ink text-[1.15rem] leading-relaxed">
-                  We&apos;re confirming your payment. This can take a moment — if
+                  We&apos;re confirming your payment. This can take a moment. If
                   it went through, you&apos;ll get a confirmation email shortly
                   and your place will be held automatically. There&apos;s nothing
                   more you need to do.

@@ -30,7 +30,7 @@ export const revalidate = 60;
 export const metadata: Metadata = {
   title: "Impact",
   description:
-    "Where SRN works and the change our training and mentorship set in motion — across Africa, South Asia, and Latin America.",
+    "Where SRN works and the change our training and mentorship set in motion, across Africa, South Asia, and Latin America.",
 };
 
 export default async function ImpactPage() {
@@ -49,7 +49,7 @@ export default async function ImpactPage() {
       <PageHeader
         eyebrow="Our impact"
         title="Evidence skills that stay where they're built."
-        lede="SRN measures success not by a single review, but by researchers who can produce trustworthy reviews again and again — in the places the evidence is needed most."
+        lede="SRN measures success not only by completed reviews, but by researchers, institutions, and policymakers who can produce, interpret, adapt, and use trustworthy evidence again and again, especially in the places where that evidence is needed most."
         imageUrl={headerPhoto?.url}
         imageAlt={headerPhoto?.alt ?? ""}
       />
@@ -158,7 +158,7 @@ export default async function ImpactPage() {
                 Our activities, in full
               </h2>
               <p className="text-slate mt-4 leading-relaxed">
-                The detail behind the numbers — what we ran, where, and what came
+                The detail behind the numbers. What we ran, where, and what came
                 of it.
               </p>
             </div>

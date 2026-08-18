@@ -135,15 +135,11 @@ export default async function EventDetailPage({
                     plain
                   />
                   <DetailRow icon={Wallet} label="Cost" value={priceLabel} />
-                  {event.capacity != null ? (
+                  {event.capacity != null && state === "open" ? (
                     <DetailRow
                       icon={Users}
                       label="Places"
-                      value={
-                        state === "past"
-                          ? `${event.capacity} places`
-                          : `${seatsLeft} of ${event.capacity} left`
-                      }
+                      value={`${seatsLeft} of ${event.capacity} left`}
                     />
                   ) : null}
                   <DetailRow
@@ -175,7 +171,7 @@ export default async function EventDetailPage({
           </p>
           <CTABand
             heading="Build the skill, not just attend the session."
-            body="Our courses and mentorship are designed so you leave able to run a review on your own — again and again."
+            body="Our courses and mentorship are designed so you leave able to run a review on your own, again and again."
             buttonLabel="Explore programmes"
             buttonHref="/programmes"
           />
@@ -233,7 +229,7 @@ function RegistrationPanel({
     return (
       <div>
         <p className="text-ink font-semibold">
-          {free ? "Register — it's free" : "Register for this event"}
+          {free ? "Register free" : "Register for this event"}
         </p>
         <p className="text-slate text-small mt-2 mb-4 leading-relaxed">
           {free
@@ -271,7 +267,7 @@ function RegistrationPanel({
       <div>
         <p className="text-ink font-semibold">This event is fully booked</p>
         <p className="text-slate text-small mt-2 leading-relaxed">
-          Every place has been taken. Contact us to join the waiting list — if a
+          Every place has been taken. Contact us to join the waiting list. If a
           place frees up, we&apos;ll offer it in order.
         </p>
         <Link

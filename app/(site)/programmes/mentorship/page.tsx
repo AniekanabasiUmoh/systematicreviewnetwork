@@ -30,8 +30,8 @@ export const metadata: Metadata = {
 const STEPS = [
   {
     n: "01",
-    title: "Tell us about your review",
-    body: "You apply with your question and where you've got to. We match you with a mentor whose topic and method fit your work.",
+    title: "Apply, and tell us which side you're on",
+    body: "Mentees apply with a question and where they've got to. Mentors and librarians apply with the expertise they can offer. We match on topic and method once an intake closes.",
   },
   {
     n: "02",
@@ -41,12 +41,12 @@ const STEPS = [
   {
     n: "03",
     title: "Work through the method",
-    body: "Protocol, search, screening, appraisal, synthesis — reviewed as you go, not graded at the end. Meta-analysis where your data supports it.",
+    body: "Protocol, search, screening, appraisal, synthesis, reviewed as you go rather than graded at the end. Meta-analysis where your data supports it.",
   },
   {
     n: "04",
     title: "Finish, and submit",
-    body: "Support preparing the manuscript, so the review doesn't stall at the last step — the one where most first reviews quietly die.",
+    body: "Support preparing the manuscript, so the review doesn't stall at the last step, the one where most first reviews quietly die.",
   },
 ];
 
@@ -68,14 +68,14 @@ export default async function MentorshipPage() {
   const covers = programmeList(programme?.covers);
   const intro =
     programme?.intro ??
-    "The Mentorship Programme pairs you with an experienced reviewer for the length of a live review — so the methodological choices that usually cause second-guessing are made with someone who has made them before.";
+    "The Mentorship Programme pairs researchers with experienced reviewers throughout a live review process, helping them make confident methodological decisions from protocol development to final synthesis.";
 
   return (
     <>
       <PageHeader
         eyebrow="Mentorship Programme"
         title="Guidance from someone who has done it before."
-        lede="The Mentorship Programme pairs you with an experienced reviewer for the length of a live review — so you stop second-guessing every methodological choice."
+        lede="The Mentorship Programme pairs researchers with experienced reviewers throughout a live review process, helping them make confident methodological decisions from protocol development to final synthesis."
         imageUrl={feature?.url}
         imageAlt={feature?.alt ?? ""}
       />
@@ -209,11 +209,12 @@ export default async function MentorshipPage() {
           <div className="border-hairline bg-mist flex flex-col items-start gap-6 border p-8 md:flex-row md:items-center md:justify-between md:p-10">
             <div>
               <h2 className="text-display text-ink text-[1.5rem] leading-tight md:text-[1.75rem]">
-                Ready to start your review with a mentor?
+                Apply as a mentee, a mentor, or a librarian
               </h2>
-              <p className="text-slate mt-2">
-                Applications are reviewed on a rolling basis. Tell us about your
-                work and we&apos;ll match you.
+              <p className="text-slate mt-2 max-w-[52ch]">
+                Applications are reviewed on a rolling basis. Tell us which of
+                the three you are and a little about your work, and we&apos;ll
+                match you when the next intake closes.
               </p>
             </div>
             <ButtonLink

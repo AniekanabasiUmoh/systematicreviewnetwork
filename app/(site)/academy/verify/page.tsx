@@ -100,7 +100,7 @@ export default async function VerifyPage() {
           <div className="max-w-xl">
             <p className="text-slate leading-relaxed">
               You need to confirm your address before you can enrol in a course.
-              If the email has not arrived, check your spam folder — or send it
+              If the email has not arrived, check your spam folder, or send it
               again below.
             </p>
             <div className="mt-6">

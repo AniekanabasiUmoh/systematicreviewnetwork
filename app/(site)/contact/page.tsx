@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Mail, Clock } from "lucide-react";
+import { Mail, Clock, MessageCircle } from "lucide-react";
 
 import { Section, Container } from "@/components/ui/Section";
 import { PageHeader } from "@/components/ui/PageHeader";
@@ -15,10 +15,13 @@ import { ContactForm } from "@/components/site/ContactForm";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Get in touch with the Systematic Reviews Network — about training, partnerships, or anything else. We read every message.",
+    "Get in touch with the Systematic Reviews Network about training, partnerships, or anything else. We read every message.",
 };
 
 const EMAIL = "info@systematicreviewsnetwork.org";
+/* Display form and wa.me form of the same number. wa.me wants digits only. */
+const WHATSAPP = "+234 909 701 5368";
+const WHATSAPP_HREF = "https://wa.me/2349097015368";
 
 export default function ContactPage() {
   return (
@@ -26,7 +29,7 @@ export default function ContactPage() {
       <PageHeader
         eyebrow="Contact"
         title="Get in touch."
-        lede="A question about a course, a partnership idea, or something else entirely — send it over and the right person will reply. We read every message."
+        lede="Have a question about a course, a partnership idea, or something else? Send it to us, and the right person will respond. We read every message."
       />
 
       <Section surface="paper">
@@ -70,6 +73,23 @@ export default function ContactPage() {
                       className="text-slate hover:text-evidence text-small break-words underline"
                     >
                       {EMAIL}
+                    </a>
+                  </dd>
+                </div>
+
+                <div>
+                  <dt className="flex items-center gap-2">
+                    <span className="bg-evidence-tint flex h-9 w-9 items-center justify-center">
+                      <Icon icon={MessageCircle} size="sm" color="evidence" />
+                    </span>
+                    <span className="text-ink font-semibold">WhatsApp</span>
+                  </dt>
+                  <dd className="mt-3">
+                    <a
+                      href={WHATSAPP_HREF}
+                      className="text-slate hover:text-evidence text-small break-words underline"
+                    >
+                      {WHATSAPP}
                     </a>
                   </dd>
                 </div>

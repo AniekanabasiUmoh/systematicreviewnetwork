@@ -4,123 +4,103 @@ import Link from "next/link";
 import { Section, Container } from "@/components/ui/Section";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { CTABand } from "@/components/ui/Cards";
-import { getCourses } from "@/lib/academy/courses";
+import { NewsletterForm } from "@/components/site/NewsletterForm";
 import { getMedia } from "@/lib/queries";
-import { LEVEL_LABELS, DELIVERY_LABELS } from "@/lib/academy/cohorts";
 
-/* Sprint 6.2 — the Academy catalogue.
+/* The Academy catalogue.
  *
  * Built as a typographic index in the same idiom as /programmes, so the Academy
  * reads as part of the site rather than a bolted-on LMS (Design.md's phase-wide
- * constraint: "indistinguishable in styling from the public pages"). */
+ * constraint: "indistinguishable in styling from the public pages").
+ *
+ * 2026-08 — held at "coming soon" at the client's request: course content is
+ * being written by the facilitation team over the coming months. The catalogue
+ * listing is deliberately NOT rendered from `getCourses()` any more. Reading
+ * the table would mean that publishing any course silently reopens the Academy
+ * and undoes this decision; holding it closed has to be an explicit edit here.
+ *
+ * Everything behind this page still works — sign-in, enrolment, the LMS — so it
+ * can be demonstrated to facilitators. Those routes simply are not linked from
+ * anywhere public. When the first course is ready, restore the `getCourses()`
+ * index from git history and delete the block below. */
 
 export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "SRN Academy",
   description:
-    "Structured courses in systematic review and meta-analysis methods, taught by the Systematic Review Network.",
+    "Structured courses in systematic reviews and meta-analysis, taught in full, assessed transparently, and certified by SRN. Coming soon.",
 };
 
 export default async function AcademyPage() {
-  const [headerPhoto, courses] = await Promise.all([
-    getMedia("workshop-session.jpg"),
-    getCourses(),
-  ]);
+  const headerPhoto = await getMedia("workshop-session.jpg");
 
   return (
     <>
       <PageHeader
         eyebrow="SRN Academy"
         title="Learn the method properly."
-        lede="Structured courses in systematic review and meta-analysis — taught in full, assessed honestly, and certified by SRN."
+        lede="Structured courses in systematic reviews and meta-analysis, taught in full, assessed transparently, and certified by SRN."
         imageUrl={headerPhoto?.url}
         imageAlt={headerPhoto?.alt ?? ""}
       />
 
       <Section surface="paper">
         <Container>
-          {courses.length === 0 ? (
-            /* Sprint 6.10 — this was one sentence adrift in an empty band. An
-               empty catalogue is the normal state until the first course is
-               reviewed and published, so it has to do some work: say what is
-               coming, and point at the two things that ARE open today. */
-            <div className="max-w-3xl">
-              <h2 className="text-display text-ink text-[clamp(1.5rem,3vw,2rem)] leading-tight">
-                The first courses are being finalised.
-              </h2>
-              <p className="text-slate mt-4 max-w-2xl text-sm/7">
-                SRN Academy courses are written and reviewed by the people who
-                run our workshops, so they take a while to get right. Two other
-                routes are open to you today.
-              </p>
+          <div className="max-w-3xl">
+            <h2 className="text-display text-ink text-[clamp(1.5rem,3vw,2rem)] leading-tight">
+              Coming soon.
+            </h2>
+            <p className="text-slate mt-4 max-w-2xl text-sm/7">
+              The Academy is being built. Our facilitation team is developing
+              the course content over the coming months, and we would rather
+              open it late than open it half-written. Two other routes are open
+              to you today.
+            </p>
 
-              <div className="mt-10 grid gap-px sm:grid-cols-2">
-                <Link
-                  href="/programmes"
-                  className="border-hairline group border p-6 sm:p-7"
-                >
-                  <h3 className="text-ink font-semibold group-hover:underline">
-                    Programmes
-                  </h3>
-                  <p className="text-slate mt-2 text-sm/7">
-                    The same ground as a course, taught with a mentor alongside
-                    you. Applications open at intervals through the year.
-                  </p>
-                </Link>
-                <Link
-                  href="/news/events"
-                  className="border-hairline group border p-6 sm:border-l-0 sm:p-7"
-                >
-                  <h3 className="text-ink font-semibold group-hover:underline">
-                    Workshops and webinars
-                  </h3>
-                  <p className="text-slate mt-2 text-sm/7">
-                    Shorter sessions on a single topic, most of them free.
-                    Anything with a date open for registration is listed here.
-                  </p>
-                </Link>
-              </div>
-
-              <p className="text-slate/80 mt-8 text-[0.8125rem]/6">
-                Want to hear when the first course opens? The newsletter at the
-                foot of this page is the only thing we use it for.
-              </p>
+            <div className="mt-10 grid gap-px sm:grid-cols-2">
+              <Link
+                href="/programmes"
+                className="border-hairline group border p-6 sm:p-7"
+              >
+                <h3 className="text-ink font-semibold group-hover:underline">
+                  Programmes
+                </h3>
+                <p className="text-slate mt-2 text-sm/7">
+                  The same ground as a course, taught with a mentor alongside
+                  you. Applications open at intervals through the year.
+                </p>
+              </Link>
+              <Link
+                href="/news"
+                className="border-hairline group border p-6 sm:border-l-0 sm:p-7"
+              >
+                <h3 className="text-ink font-semibold group-hover:underline">
+                  Workshops and webinars
+                </h3>
+                <p className="text-slate mt-2 text-sm/7">
+                  Shorter sessions on a single topic, most of them free.
+                  Anything with a date open for registration is listed here.
+                </p>
+              </Link>
             </div>
-          ) : (
-            <ul className="index-list">
-              {courses.map((course, i) => (
-                <li key={course.slug}>
-                  <Link href={`/academy/${course.slug}`} className="index-row">
-                    <span className="text-display text-slate text-[1.1rem] font-light tabular-nums">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span>
-                      <span className="text-display text-ink block text-[clamp(1.3rem,2.6vw,1.9rem)] leading-tight font-bold">
-                        {course.title}
-                      </span>
-                      {course.summary ? (
-                        <span className="text-slate text-small mt-1 block max-w-[48ch]">
-                          {course.summary}
-                        </span>
-                      ) : null}
-                    </span>
-                    <span className="index-meta-end text-small">
-                      <span className="block">
-                        {LEVEL_LABELS[course.level] ?? course.level}
-                      </span>
-                      <span className="block">
-                        {DELIVERY_LABELS[course.delivery] ?? course.delivery}
-                      </span>
-                      {course.duration_label ? (
-                        <span className="block">{course.duration_label}</span>
-                      ) : null}
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          )}
+
+            {/* Notify-me. Reuses the newsletter signup rather than adding a
+                separate waiting list: one list, one unsubscribe path. */}
+            <div className="border-hairline mt-12 border-t pt-8">
+              <h3 className="text-ink font-semibold">
+                Hear when the first course opens
+              </h3>
+              <p className="text-slate mt-2 max-w-[52ch] text-sm/7">
+                Leave your email and we will tell you when enrolment opens. It
+                is the same list we use for the newsletter, and you can
+                unsubscribe from any message.
+              </p>
+              <div className="mt-5 max-w-md">
+                <NewsletterForm surface="light" />
+              </div>
+            </div>
+          </div>
         </Container>
       </Section>
 
@@ -128,7 +108,7 @@ export default async function AcademyPage() {
         <Container>
           <CTABand
             heading="Not sure which course fits?"
-            body="Tell us where you are in your review and we'll point you to the right starting point — a course, a programme, or a mentor."
+            body="Tell us where you are in your review and we'll point you to the right starting point, whether that is a course, a programme, or a mentor."
             buttonLabel="Ask us"
             buttonHref="/contact"
           />

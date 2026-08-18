@@ -98,6 +98,7 @@ export type Database = {
           updated_at: string;
           programme_id: string | null;
           learner_id: string | null;
+          applicant_role: Database["public"]["Enums"]["applicant_role"] | null;
         };
         Insert: {
           id?: string;
@@ -113,6 +114,7 @@ export type Database = {
           updated_at?: string;
           programme_id?: string | null;
           learner_id?: string | null;
+          applicant_role?: Database["public"]["Enums"]["applicant_role"] | null;
         };
         Update: {
           id?: string;
@@ -128,6 +130,7 @@ export type Database = {
           updated_at?: string;
           programme_id?: string | null;
           learner_id?: string | null;
+          applicant_role?: Database["public"]["Enums"]["applicant_role"] | null;
         };
         Relationships: [];
       };
@@ -1666,6 +1669,7 @@ export type Database = {
     Functions: { [_ in never]: never };
     CompositeTypes: { [_ in never]: never };
     Enums: {
+      applicant_role: "mentee" | "mentor" | "librarian";
       application_status: "received" | "under_review" | "accepted" | "waitlisted" | "rejected";
       assessment_kind: "quiz" | "assignment";
       contact_type: "general" | "partnership";
@@ -1725,6 +1729,7 @@ export type SessionAttendanceRow = Database["public"]["Tables"]["session_attenda
 export type SubmissionsRow = Database["public"]["Tables"]["submissions"]["Row"];
 export type TeamMembersRow = Database["public"]["Tables"]["team_members"]["Row"];
 export type TestimonialsRow = Database["public"]["Tables"]["testimonials"]["Row"];
+export type ApplicantRole = Database["public"]["Enums"]["applicant_role"];
 export type ApplicationStatus = Database["public"]["Enums"]["application_status"];
 export type AssessmentKind = Database["public"]["Enums"]["assessment_kind"];
 export type ContactType = Database["public"]["Enums"]["contact_type"];

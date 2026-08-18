@@ -59,7 +59,7 @@ export default async function VerifyResultPage({
           <Container>
             <div className="border-hairline max-w-2xl border p-6">
               <p className="text-slate leading-relaxed">
-                Check the code against the certificate — the letters O and I are
+                Check the code against the certificate. The letters O and I are
                 never used, so a character that looks like one is a zero or a
                 one being misread. If it still does not check out, the document
                 did not come from us.

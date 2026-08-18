@@ -61,14 +61,14 @@ export default async function DonationThankYouPage({
             </span>
             {confirmed ? (
               <p className="text-ink text-[1.15rem] leading-relaxed">
-                Your donation is confirmed — thank you for helping evidence
+                Your donation is confirmed. Thank you for helping evidence
                 skills take root where they&apos;re needed most. A receipt is on
                 its way to your email.
               </p>
             ) : (
               <p className="text-ink text-[1.15rem] leading-relaxed">
                 We&apos;re confirming your payment. If it went through,
-                you&apos;ll receive a receipt by email shortly — there&apos;s
+                you&apos;ll receive a receipt by email shortly. There&apos;s
                 nothing more you need to do.
               </p>
             )}

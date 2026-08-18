@@ -8,6 +8,7 @@ import {
   ApplicationConfirmation,
   InternalSubmissionNotification,
 } from "@/lib/email/templates";
+import { ROLE_LABELS_SHORT } from "@/lib/admin/applications";
 import { fieldErrorsFrom } from "./schemas";
 import {
   checkRateLimit,
@@ -53,6 +54,11 @@ const schema = z.object({
     .trim()
     .min(1, "Tell us briefly why you'd like to join.")
     .max(2000, "Please keep this under 2,000 characters."),
+  /* Only the Mentorship programme renders this selector, so it has to be
+     optional at the schema level — an application to any other programme
+     legitimately carries no role. The form decides when to ask; this decides
+     only that the answer, when given, is one of the three we recognise. */
+  applicant_role: z.enum(["mentee", "mentor", "librarian"]).optional(),
 });
 
 /**
@@ -95,6 +101,7 @@ export async function submitApplication(
     institution: form.get("institution") ?? undefined,
     country: form.get("country"),
     motivation: form.get("motivation"),
+    applicant_role: form.get("applicant_role") || undefined,
   });
   if (!parsed.success) {
     return { status: "error", fieldErrors: fieldErrorsFrom(parsed.error) };
@@ -114,8 +121,15 @@ export async function submitApplication(
   const limit = await checkRateLimit("application", await clientIp());
   if (!limit.ok) return { status: "error", formError: RATE_LIMITED_MESSAGE };
 
-  const { programme, full_name, email, institution, country, motivation } =
-    parsed.data;
+  const {
+    programme,
+    full_name,
+    email,
+    institution,
+    country,
+    motivation,
+    applicant_role,
+  } = parsed.data;
 
   /* Sprint 7.1 — if the person applying happens to be signed in with a
      VERIFIED account, link the application so it shows on their account page
@@ -137,6 +151,7 @@ export async function submitApplication(
     institution: institution ?? null,
     country,
     motivation,
+    applicant_role: applicant_role ?? null,
     status: "received",
     learner_id: learnerId,
   });
@@ -165,6 +180,10 @@ export async function submitApplication(
       heading: "New application",
       rows: [
         { label: "Programme", value: programme },
+        // Only present for Mentorship; omitted rather than shown blank.
+        ...(applicant_role
+          ? [{ label: "Applying as", value: ROLE_LABELS_SHORT[applicant_role] }]
+          : []),
         { label: "Name", value: full_name },
         { label: "Email", value: email },
         { label: "Country", value: country },

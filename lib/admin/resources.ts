@@ -98,7 +98,10 @@ const resourceDefinitions = {
     publishable: true,
     slugColumn: "slug",
     schema: adminSchemas.events,
-    revalidate: ["/", "/news", "/news/events"],
+    /* No "/news/events" — there is no index route at that path; /news is the
+       combined events-and-news hub. Revalidating a non-existent path is a
+       silent no-op, which is why the stale entry survived this long. */
+    revalidate: ["/", "/news"],
     fields: [
       {
         name: "title",
@@ -412,7 +415,9 @@ const resourceDefinitions = {
     orderBy: { column: "sort_order" },
     sortColumn: "sort_order",
     schema: adminSchemas.team,
-    revalidate: ["/team", "/"],
+    /* /about renders the leadership preview, so it has to be revalidated too;
+       without it an edited team member stayed stale there indefinitely. */
+    revalidate: ["/team", "/about", "/"],
     fields: [
       {
         name: "name",
@@ -465,7 +470,10 @@ const resourceDefinitions = {
     /* No sortColumn: §8 keeps drag-reorder to team_members and partners only.
        The sort_order column still orders the list, it just isn't draggable. */
     schema: adminSchemas.testimonials,
-    revalidate: ["/"],
+    /* Testimonials render on three surfaces, not just the homepage. Listing
+       only "/" meant replacing a quote left the old one live on /impact and
+       the mentorship page until their 60s ISR window happened to lapse. */
+    revalidate: ["/", "/impact", "/programmes/mentorship"],
     fields: [
       {
         name: "name",

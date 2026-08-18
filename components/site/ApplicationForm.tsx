@@ -14,12 +14,19 @@ import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { submitApplication } from "@/lib/actions/application";
 import { COUNTRIES } from "@/lib/countries";
+import { APPLICANT_ROLES, ROLE_LABELS } from "@/lib/admin/applications";
 import { idle } from "@/lib/actions/types";
 
 /* §4.2 application form. Programme select (prefilled from the ?p= slug when the
  * user arrives from a programme page), §6 fields, motivation with a live counter
  * capped at 2,000. On a validation error the fields keep their values — the
- * form recovers without losing input. */
+ * form recovers without losing input.
+ *
+ * 2026-08: the Mentorship Programme matches three groups (mentees, mentors,
+ * librarians), so it asks which one you are. Which programmes ask is decided by
+ * the server and passed in as `roleProgrammes` — the client never matches on a
+ * programme title itself, so renaming the programme in the admin cannot quietly
+ * stop the question being asked. */
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -34,12 +41,22 @@ function SubmitButton() {
 export function ApplicationForm({
   programmes,
   defaultProgramme,
+  roleProgrammes = [],
 }: {
   programmes: string[];
   defaultProgramme?: string;
+  /** Programme titles that ask which role the applicant is applying for. */
+  roleProgrammes?: string[];
 }) {
   const [state, formAction] = useActionState(submitApplication, idle);
   const [motivation, setMotivation] = useState("");
+
+  const initialProgramme =
+    defaultProgramme && programmes.includes(defaultProgramme)
+      ? defaultProgramme
+      : "";
+  const [programme, setProgramme] = useState(initialProgramme);
+  const asksRole = roleProgrammes.includes(programme);
 
   const fieldErrors = state.status === "error" ? (state.fieldErrors ?? {}) : {};
 
@@ -60,11 +77,8 @@ export function ApplicationForm({
         name="programme"
         label="Programme"
         required
-        defaultValue={
-          defaultProgramme && programmes.includes(defaultProgramme)
-            ? defaultProgramme
-            : ""
-        }
+        value={programme}
+        onChange={(e) => setProgramme(e.target.value)}
         error={fieldErrors.programme}
       >
         <option value="" disabled>
@@ -76,6 +90,31 @@ export function ApplicationForm({
           </option>
         ))}
       </SelectField>
+
+      {/* Mentorship only. Unmounting the field means no `applicant_role` is
+          submitted for the other programmes, which is what the nullable column
+          expects — rather than sending an empty string the server has to
+          special-case. */}
+      {asksRole ? (
+        <SelectField
+          id="app-role"
+          name="applicant_role"
+          label="Applying as"
+          required
+          defaultValue=""
+          error={fieldErrors.applicant_role}
+          hint="We match mentees with mentors after each intake closes. Librarians support search strategy across several reviews."
+        >
+          <option value="" disabled>
+            Choose one…
+          </option>
+          {APPLICANT_ROLES.map((role) => (
+            <option key={role} value={role}>
+              {ROLE_LABELS[role]}
+            </option>
+          ))}
+        </SelectField>
+      ) : null}
 
       <div className="grid gap-5 sm:grid-cols-2">
         <TextField
