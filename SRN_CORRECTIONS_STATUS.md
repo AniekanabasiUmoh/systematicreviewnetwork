@@ -54,6 +54,12 @@ course is unpublished.
 
 **Partner** — your "Sponsor a full cohort" wording.
 
+**Team** — nine of the twelve people now show their real institution, recovered
+from the old site's archive and checked against their published work. The
+placeholder bios ("[Name] is part of the Systematic Reviews Network team…") are
+cleared, and each card gains a "Read more" link only once a real bio is written.
+See item 2 below.
+
 **Also fixed while we were in there** (you hadn't flagged these):
 
 - The "Workshops and webinars" link on the Academy page led to a page that did
@@ -81,15 +87,31 @@ currently show nothing.
 
 **2. Team bios**
 
-Every bio on the site is a placeholder: *"[Name] is part of the Systematic
+Every bio on the site was placeholder text: *"[Name] is part of the Systematic
 Reviews Network team, contributing to SRN's training, mentorship, and research
-programmes."* The old site's bios were behind "Read More" pop-ups that our
-archive did not capture, so they could not be recovered.
+programmes."* Twelve variations on one sentence.
 
-The page is now built to show a bio behind a "Read more" link, and it stays
-hidden until a real one is written — so you can add them **one at a time through
-the admin** and each appears as it is written. Julia's needs writing from
-scratch, as you mentioned.
+We went looking for the real ones. The old site's "Read More" toggles are **not
+recoverable** — the April 2025 archive of that page captured only names and
+institutions, and the original is now gone. So we have done the honest half:
+**nine of the twelve now show their real institution** (University of Calabar,
+University of Rwanda, Health Services Academy, Makerere, UNC Charlotte and so
+on), taken from the archived page and checked against published work.
+
+We have deliberately **not written biographies from web searches**. Composing
+career histories for twelve named researchers out of search results would put
+claims about real people's qualifications and employers on your site on our
+authority, and getting someone's employer or degree wrong is a real harm to a
+real person.
+
+The page is built to show a bio behind a "Read more" link and stays hidden until
+a real one exists — so bios can be added **one at a time through the admin**, and
+each appears as it is written. Nothing needs to be collected all at once.
+
+Still needed: bios for everyone, and affiliations for **Dr Adekunle Adeleke**,
+**Kingsley Achi** and **Julia Ribeiro**. The archive listed Julia at the
+University of the West Indies, but you said her details were out of date, so we
+left it blank rather than publish something stale.
 
 **3. Team list — a decision**
 
