@@ -116,18 +116,17 @@ export function Header() {
     >
       <div className="mx-auto flex h-16 max-w-[var(--container-content)] items-center justify-between gap-6 px-6 md:h-20">
         {/* Wordmark. SRN's real logo (recovered via the Wayback Machine — see
-            git history for how). The source file is a lockup meant for a much
-            bigger canvas: pinwheel + "SRN" + a three-line tagline in tiny
-            type. At header height the tagline just blurs, so this crop keeps
-            the pinwheel and "SRN" and drops it — the full lockup belongs
-            somewhere it can actually be read, not squeezed into a nav bar. */}
+            git history for how): the full lockup — pinwheel, "SRN", and the
+            "Systematic Reviews Network" tagline — kept at its own aspect
+            ratio (width auto from a fixed height) rather than stretched to
+            fit a box, so the tagline stays sharp instead of distorting. */}
         <Link href="/" className="flex shrink-0 items-center" prefetch={false}>
           <Image
-            src="/srn-logo-mark.png"
+            src="/srn-logo-full.png"
             alt="SRN — Systematic Reviews Network, home"
-            width={202}
+            width={314}
             height={82}
-            className="h-9 w-auto md:h-10"
+            className="h-9 w-auto md:h-11"
             priority
           />
         </Link>
@@ -188,9 +187,9 @@ export function Header() {
         >
           <div className="flex h-16 items-center justify-between px-6">
             <Image
-              src="/srn-logo-mark.png"
+              src="/srn-logo-full.png"
               alt="SRN — Systematic Reviews Network"
-              width={202}
+              width={314}
               height={82}
               className="h-9 w-auto"
             />
