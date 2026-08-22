@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
@@ -13,6 +14,7 @@ import { Icon } from "@/components/ui/Icon";
 const NAV = [
   { href: "/about", label: "About" },
   { href: "/programmes", label: "Programmes" },
+  { href: "/academy", label: "Academy" },
   { href: "/resources", label: "Resources" },
   { href: "/impact", label: "Impact" },
   { href: "/team", label: "Team" },
@@ -113,11 +115,21 @@ export function Header() {
       }`}
     >
       <div className="mx-auto flex h-16 max-w-[var(--container-content)] items-center justify-between gap-6 px-6 md:h-20">
-        {/* Wordmark. Replaced with the logo vector once Fortune sends it (§12.1). */}
+        {/* Wordmark. The mark is SRN's own PNG (recoloured from a white-on-
+            transparent export to --color-brand so it reads on the paper
+            header), sourced from the old WordPress site's media library. */}
         <Link
           href="/"
-          className="text-display-tight text-brand shrink-0 text-[1.375rem] tracking-[-0.02em]"
+          className="text-display-tight text-brand flex shrink-0 items-center gap-2 text-[1.375rem] tracking-[-0.02em]"
         >
+          <Image
+            src="/logo-mark.png"
+            alt=""
+            width={32}
+            height={32}
+            className="h-8 w-8"
+            priority
+          />
           {/* The accessible name must contain the visible text ("SRN"), so the
               expansion is visually-hidden text rather than an aria-label that
               replaces it — otherwise voice-control users saying "click SRN"
@@ -181,7 +193,14 @@ export function Header() {
           className="bg-paper fixed inset-0 z-50 flex flex-col lg:hidden"
         >
           <div className="flex h-16 items-center justify-between px-6">
-            <span className="text-display-tight text-brand text-[1.375rem]">
+            <span className="text-display-tight text-brand flex items-center gap-2 text-[1.375rem]">
+              <Image
+                src="/logo-mark.png"
+                alt=""
+                width={32}
+                height={32}
+                className="h-8 w-8"
+              />
               SRN
             </span>
             <button

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Mail } from "lucide-react";
 import { Icon } from "@/components/ui/Icon";
@@ -13,6 +14,7 @@ const COLUMNS = [
     links: [
       { href: "/about", label: "About SRN" },
       { href: "/programmes", label: "Programmes" },
+      { href: "/academy", label: "Academy" },
       { href: "/resources", label: "Resources" },
       { href: "/impact", label: "Impact" },
     ],
@@ -48,7 +50,16 @@ export function Footer() {
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           {/* Identity + contact */}
           <div>
-            <p className="text-display-tight text-paper text-[1.5rem]">SRN</p>
+            <p className="text-display-tight text-paper flex items-center gap-2 text-[1.5rem]">
+              <Image
+                src="/logo-mark-white.png"
+                alt=""
+                width={28}
+                height={28}
+                className="h-7 w-7"
+              />
+              SRN
+            </p>
             <p className="text-paper/70 text-small mt-3 max-w-[32ch] leading-relaxed">
               Building capacity for systematic reviews and meta-analyses across
               low- and middle-income countries.
