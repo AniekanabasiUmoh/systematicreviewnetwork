@@ -23,7 +23,6 @@ const COLUMNS = [
     heading: "Get involved",
     links: [
       { href: "/news", label: "News & events" },
-      { href: "/team", label: "Our team" },
       { href: "/partner", label: "Partner with SRN" },
       { href: "/contact", label: "Contact us" },
     ],

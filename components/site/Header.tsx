@@ -17,7 +17,6 @@ const NAV = [
   { href: "/academy", label: "Academy" },
   { href: "/resources", label: "Resources" },
   { href: "/impact", label: "Impact" },
-  { href: "/team", label: "Team" },
   { href: "/news", label: "News & Events" },
   { href: "/contact", label: "Contact" },
 ];

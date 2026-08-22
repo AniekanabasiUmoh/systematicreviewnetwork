@@ -1,24 +1,17 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowRight } from "lucide-react";
 
 import { Section, Container, Prose } from "@/components/ui/Section";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { RichText } from "@/components/ui/RichText";
 import { Thread } from "@/components/ui/Thread";
-import { PersonCard, CTABand } from "@/components/ui/Cards";
-import { Icon } from "@/components/ui/Icon";
-import { Eyebrow } from "@/components/ui/SectionHeader";
-import {
-  getPageBySlug,
-  getTeamMembers,
-  getMedia,
-} from "@/lib/queries";
+import { CTABand } from "@/components/ui/Cards";
+import { getPageBySlug, getMedia } from "@/lib/queries";
 
 /* Sprint 2.2 — About. Story/mission/values from the editable `pages.about`
-   row (rendered through <RichText>), a short leadership preview drawn from
-   team_members, and a partner CTA. ISR 60s. */
+   row (rendered through <RichText>), and a partner CTA. ISR 60s.
+   The leadership preview that used to sit here is hidden — see the comment
+   further down — so this no longer needs team_members at all. */
 
 export const revalidate = 60;
 
@@ -29,16 +22,12 @@ export const metadata: Metadata = {
 };
 
 export default async function AboutPage() {
-  const [page, team, headerPhoto] = await Promise.all([
+  const [page, headerPhoto] = await Promise.all([
     getPageBySlug("about"),
-    getTeamMembers(),
     getMedia("team-at-workshop-banner.jpg"),
   ]);
 
   if (!page) notFound();
-
-  /* Leadership preview: the executive group, in sort order. */
-  const leaders = team.filter((m) => m.group === "executive").slice(0, 4);
 
   return (
     <>
@@ -61,41 +50,10 @@ export default async function AboutPage() {
         <Thread />
       </Container>
 
-      {/* Leadership preview → full team. */}
-      {leaders.length > 0 ? (
-        <Section surface="mist">
-          <Container>
-            <div className="flex flex-wrap items-end justify-between gap-4">
-              <div>
-                <Eyebrow>Leadership</Eyebrow>
-                <h2 className="text-display text-ink mt-3 text-[clamp(1.6rem,3.4vw,2.4rem)] leading-[1.1]">
-                  The people behind the network
-                </h2>
-              </div>
-              <Link
-                href="/team"
-                className="text-ink hover:text-evidence inline-flex items-center gap-1.5 font-semibold"
-              >
-                Meet the full team
-                <Icon icon={ArrowRight} size="sm" />
-              </Link>
-            </div>
-            <div className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
-              {leaders.map((m) => (
-                <PersonCard
-                  key={m.id}
-                  name={m.name}
-                  role={m.role}
-                  affiliation={m.affiliation}
-                  photoUrl={m.photo_url}
-                  linkedinUrl={m.linkedin_url}
-                  orcidUrl={m.orcid_url}
-                />
-              ))}
-            </div>
-          </Container>
-        </Section>
-      ) : null}
+      {/* Leadership preview → full team is hidden while Team is unlinked
+          from nav (bios are still placeholders and the roster structure is
+          unresolved with Fortune). Restore alongside re-adding /team to nav —
+          both were done in the same change and should come back together. */}
 
       {/* Partner CTA. */}
       <Section surface="paper">
