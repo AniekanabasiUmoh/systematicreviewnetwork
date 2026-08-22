@@ -115,27 +115,21 @@ export function Header() {
       }`}
     >
       <div className="mx-auto flex h-16 max-w-[var(--container-content)] items-center justify-between gap-6 px-6 md:h-20">
-        {/* Wordmark. The mark is SRN's own PNG (recoloured from a white-on-
-            transparent export to --color-brand so it reads on the paper
-            header), sourced from the old WordPress site's media library. */}
-        <Link
-          href="/"
-          className="text-display-tight text-brand flex shrink-0 items-center gap-2 text-[1.375rem] tracking-[-0.02em]"
-        >
+        {/* Wordmark. SRN's real logo — the colour pinwheel mark plus "SRN /
+            Systematic Reviews Network" wordmark, exactly as used on the old
+            site (its favicon file, the only untouched copy once the old
+            WordPress site went dark; recovered via the Wayback Machine, not
+            the export's mis-matched ribbon mark). One image, since the "SRN"
+            text is baked into the artwork rather than set separately. */}
+        <Link href="/" className="flex shrink-0 items-center" prefetch={false}>
           <Image
-            src="/logo-mark.png"
-            alt=""
-            width={32}
-            height={32}
-            className="h-8 w-8"
+            src="/srn-logo-full.png"
+            alt="SRN — Systematic Reviews Network, home"
+            width={326}
+            height={94}
+            className="h-8 w-auto md:h-9"
             priority
           />
-          {/* The accessible name must contain the visible text ("SRN"), so the
-              expansion is visually-hidden text rather than an aria-label that
-              replaces it — otherwise voice-control users saying "click SRN"
-              cannot match the element. */}
-          SRN
-          <span className="sr-only"> — Systematic Reviews Network, home</span>
         </Link>
 
         <nav aria-label="Main" className="hidden lg:block">
@@ -193,16 +187,13 @@ export function Header() {
           className="bg-paper fixed inset-0 z-50 flex flex-col lg:hidden"
         >
           <div className="flex h-16 items-center justify-between px-6">
-            <span className="text-display-tight text-brand flex items-center gap-2 text-[1.375rem]">
-              <Image
-                src="/logo-mark.png"
-                alt=""
-                width={32}
-                height={32}
-                className="h-8 w-8"
-              />
-              SRN
-            </span>
+            <Image
+              src="/srn-logo-full.png"
+              alt="SRN — Systematic Reviews Network"
+              width={326}
+              height={94}
+              className="h-8 w-auto"
+            />
             <button
               type="button"
               onClick={() => setOpen(false)}

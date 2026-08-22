@@ -50,13 +50,16 @@ export function Footer() {
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           {/* Identity + contact */}
           <div>
+            {/* The full lockup's "SRN" wordmark is navy and disappears on this
+                navy background, so only the colour pinwheel mark is used here,
+                next to the existing white "SRN" text set separately. */}
             <p className="text-display-tight text-paper flex items-center gap-2 text-[1.5rem]">
               <Image
-                src="/logo-mark-white.png"
+                src="/srn-logo-icon.png"
                 alt=""
-                width={28}
-                height={28}
-                className="h-7 w-7"
+                width={59}
+                height={82}
+                className="h-7 w-auto"
               />
               SRN
             </p>
