@@ -115,19 +115,19 @@ export function Header() {
       }`}
     >
       <div className="mx-auto flex h-16 max-w-[var(--container-content)] items-center justify-between gap-6 px-6 md:h-20">
-        {/* Wordmark. SRN's real logo — the colour pinwheel mark plus "SRN /
-            Systematic Reviews Network" wordmark, exactly as used on the old
-            site (its favicon file, the only untouched copy once the old
-            WordPress site went dark; recovered via the Wayback Machine, not
-            the export's mis-matched ribbon mark). One image, since the "SRN"
-            text is baked into the artwork rather than set separately. */}
+        {/* Wordmark. SRN's real logo (recovered via the Wayback Machine — see
+            git history for how). The source file is a lockup meant for a much
+            bigger canvas: pinwheel + "SRN" + a three-line tagline in tiny
+            type. At header height the tagline just blurs, so this crop keeps
+            the pinwheel and "SRN" and drops it — the full lockup belongs
+            somewhere it can actually be read, not squeezed into a nav bar. */}
         <Link href="/" className="flex shrink-0 items-center" prefetch={false}>
           <Image
-            src="/srn-logo-full.png"
+            src="/srn-logo-mark.png"
             alt="SRN — Systematic Reviews Network, home"
-            width={326}
-            height={94}
-            className="h-8 w-auto md:h-9"
+            width={202}
+            height={82}
+            className="h-9 w-auto md:h-10"
             priority
           />
         </Link>
@@ -188,11 +188,11 @@ export function Header() {
         >
           <div className="flex h-16 items-center justify-between px-6">
             <Image
-              src="/srn-logo-full.png"
+              src="/srn-logo-mark.png"
               alt="SRN — Systematic Reviews Network"
-              width={326}
-              height={94}
-              className="h-8 w-auto"
+              width={202}
+              height={82}
+              className="h-9 w-auto"
             />
             <button
               type="button"
