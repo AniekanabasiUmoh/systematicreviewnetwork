@@ -14,6 +14,7 @@ import { Eyebrow } from "@/components/ui/SectionHeader";
 import { Icon } from "@/components/ui/Icon";
 import { PartnerForm } from "@/components/site/PartnerForm";
 import { DonationForm } from "@/components/site/DonationForm";
+import { BankTransferDetails } from "@/components/site/BankTransferDetails";
 import { getImpactStats, getMedia } from "@/lib/queries";
 import { StatCounter } from "@/components/ui/StatCounter";
 
@@ -161,6 +162,9 @@ export default async function PartnerPage() {
               </div>
               <div className="lg:border-hairline lg:border-l lg:pl-12">
                 <DonationForm />
+                <div className="mt-6">
+                  <BankTransferDetails />
+                </div>
               </div>
             </div>
           </div>

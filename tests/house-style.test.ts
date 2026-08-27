@@ -32,8 +32,6 @@ const ALLOWED: RegExp[] = [
   /`Certificate verified — \$\{result\.certificate\.course_title\}`/,
   // Page <title> in a route handler's inline HTML.
   /<title>Unsubscribed — Systematic Reviews Network<\/title>/,
-  // Screen-reader-only suffix on the masthead link.
-  /<span className="sr-only"> — Systematic Reviews Network, home<\/span>/,
 ];
 
 const EM_DASH = "—";

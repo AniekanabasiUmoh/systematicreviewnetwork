@@ -50,9 +50,6 @@ export const metadata: Metadata = {
     url: siteUrl,
   },
   twitter: { card: "summary_large_image" },
-  /* Kept out of search until launch (Sprint 6.2 turns this on deliberately).
-     A half-built site indexed early is hard to undo. */
-  robots: { index: false, follow: false },
 };
 
 export default function RootLayout({

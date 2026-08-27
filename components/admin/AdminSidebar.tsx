@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -17,10 +18,12 @@ import {
   Image as ImageIcon,
   LayoutDashboard,
   LogOut,
+  Menu,
   Newspaper,
   Quote,
   UserCog,
   Users,
+  X,
 } from "lucide-react";
 import { Icon } from "@/components/ui/Icon";
 import { signOut } from "@/lib/actions/admin-auth";
@@ -84,19 +87,20 @@ function isActivePath(pathname: string, href: string, exact?: boolean) {
 
 function NavLink({
   item,
-  compact = false,
+  onNavigate,
 }: {
   item: NavItem;
-  compact?: boolean;
+  onNavigate?: () => void;
 }) {
   const pathname = usePathname();
   const active = isActivePath(pathname, item.href, item.exact);
   return (
     <Link
       href={item.href}
+      onClick={onNavigate}
       aria-current={active ? "page" : undefined}
       className={`text-small flex items-center gap-3 border-l-2 font-medium transition-colors ${
-        compact ? "px-3 py-2 whitespace-nowrap" : "px-3 py-2.5"
+        "px-3 py-2.5"
       } ${
         active
           ? "border-evidence bg-paper/10 text-paper"
@@ -109,16 +113,19 @@ function NavLink({
   );
 }
 
-function UserNav({ user }: { user: StaffUser }) {
+function UserNav({ user, onNavigate }: { user: StaffUser; onNavigate?: () => void }) {
   if (user.role !== "admin") return null;
   return (
     <NavLink
       item={{ href: "/admin/users", label: "Staff access", icon: UserCog }}
+      onNavigate={onNavigate}
     />
   );
 }
 
 export function AdminSidebar({ user }: { user: StaffUser }) {
+  const [mobileOpen, setMobileOpen] = useState(false);
+
   return (
     <>
       <aside className="bg-ink hidden h-full w-64 shrink-0 flex-col lg:flex">
@@ -200,31 +207,83 @@ export function AdminSidebar({ user }: { user: StaffUser }) {
           <Link href="/admin" className="text-display-tight text-paper text-lg">
             SRN Admin
           </Link>
-          <form action={signOut}>
-            <button type="submit" className="text-small text-paper/70">
-              Sign out
-            </button>
-          </form>
+          <button
+            type="button"
+            aria-expanded={mobileOpen}
+            aria-controls="admin-mobile-menu"
+            onClick={() => setMobileOpen(true)}
+            className="text-paper hover:bg-paper/10 inline-flex h-11 w-11 items-center justify-center"
+          >
+            <Icon icon={Menu} size="lg" label="Open admin menu" />
+          </button>
         </div>
-        <nav
-          aria-label="Admin"
-          className="border-paper/10 flex overflow-x-auto border-t px-2 pb-2"
-        >
-          <NavLink
-            compact
-            item={{
-              href: "/admin",
-              label: "Overview",
-              icon: LayoutDashboard,
-              exact: true,
-            }}
-          />
-          {NAV_GROUPS.flatMap((group) => group.items).map((item) => (
-            <NavLink compact item={item} key={item.href} />
-          ))}
-          <UserNav user={user} />
-        </nav>
       </header>
+
+      {mobileOpen ? (
+        <div
+          id="admin-mobile-menu"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Admin menu"
+          className="bg-ink fixed inset-0 z-[60] flex flex-col lg:hidden"
+        >
+          <div className="border-paper/10 flex items-center justify-between border-b px-5 py-4">
+            <span className="text-display-tight text-paper text-lg">SRN Admin</span>
+            <button
+              type="button"
+              onClick={() => setMobileOpen(false)}
+              className="text-paper hover:bg-paper/10 inline-flex h-11 w-11 items-center justify-center"
+            >
+              <Icon icon={X} size="lg" label="Close admin menu" />
+            </button>
+          </div>
+          <nav aria-label="Admin" className="flex-1 overflow-y-auto px-3 py-5">
+            <div className="mb-3">
+              <NavLink
+                onNavigate={() => setMobileOpen(false)}
+                item={{ href: "/admin", label: "Overview", icon: LayoutDashboard, exact: true }}
+              />
+            </div>
+            {NAV_GROUPS.map((group) => (
+              <section key={group.label} className="mb-5" aria-label={group.label}>
+                <h2 className="text-paper/40 px-3 pb-1 text-[0.6875rem] font-semibold tracking-[0.12em] uppercase">
+                  {group.label}
+                </h2>
+                <ul className="space-y-0.5">
+                  {group.items.map((item) => (
+                    <li key={item.href}>
+                      <NavLink item={item} onNavigate={() => setMobileOpen(false)} />
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ))}
+            {user.role === "admin" ? (
+              <section aria-label="Administration">
+                <h2 className="text-paper/40 px-3 pb-1 text-[0.6875rem] font-semibold tracking-[0.12em] uppercase">
+                  Administration
+                </h2>
+                <UserNav user={user} onNavigate={() => setMobileOpen(false)} />
+              </section>
+            ) : null}
+          </nav>
+          <div className="border-paper/10 border-t p-4">
+            <Link
+              href="/admin/account"
+              onClick={() => setMobileOpen(false)}
+              className="text-paper hover:bg-paper/5 block px-3 py-2 text-small"
+            >
+              Account settings
+            </Link>
+            <form action={signOut}>
+              <button type="submit" className="text-paper/70 hover:bg-paper/5 mt-1 flex w-full items-center gap-3 px-3 py-2 text-small font-medium">
+                <Icon icon={LogOut} size="sm" color="current" />
+                Sign out
+              </button>
+            </form>
+          </div>
+        </div>
+      ) : null}
     </>
   );
 }

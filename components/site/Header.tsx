@@ -122,7 +122,7 @@ export function Header() {
         <Link href="/" className="flex shrink-0 items-center" prefetch={false}>
           <Image
             src="/srn-logo-full.png"
-            alt="SRN — Systematic Reviews Network, home"
+            alt="SRN, Systematic Reviews Network, home"
             width={314}
             height={82}
             className="h-9 w-auto md:h-11"
@@ -187,7 +187,7 @@ export function Header() {
           <div className="flex h-16 items-center justify-between px-6">
             <Image
               src="/srn-logo-full.png"
-              alt="SRN — Systematic Reviews Network"
+              alt="SRN, Systematic Reviews Network"
               width={314}
               height={82}
               className="h-9 w-auto"

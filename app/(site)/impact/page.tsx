@@ -76,14 +76,15 @@ export default async function ImpactPage() {
       <Section surface="paper">
         <Container>
           <div className="max-w-[56ch]">
-            <Eyebrow>Where we work</Eyebrow>
+            <Eyebrow>Where we've run in-person workshops</Eyebrow>
             <h2 className="text-display text-ink mt-3 text-[clamp(1.6rem,3.4vw,2.4rem)] leading-[1.1]">
-              A network across {countries.length} countries, and growing
+              Training delivered on the ground, in {countries.length} countries
             </h2>
             <p className="text-slate mt-5 text-[1.1rem] leading-relaxed">
-              What began between two universities in 2022 now reaches
-              researchers across three continents. Each point is a place where
-              SRN training or mentorship has taken root.
+              What began between two universities in 2022 has taken root in
+              person across Nigeria, Ghana, Rwanda, and Uganda. SRN&apos;s wider
+              network, through online training and mentorship, reaches further
+              still: see the numbers above.
             </p>
           </div>
           <div className="mt-10">

@@ -25,6 +25,14 @@ const eslintConfig = defineConfig([
   {
     files: ["**/*.{ts,tsx}"],
     rules: {
+      /* React server-action signatures intentionally receive the previous
+         state even when a particular action does not need it. Underscored
+         parameters are the project's explicit convention for that contract;
+         keep lint focused on genuinely accidental unused values. */
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+      ],
       /* Flags any client component ("use client") that imports the
          service-role client. Server components, server actions, and route
          handlers are unaffected — they are the legitimate consumers. */

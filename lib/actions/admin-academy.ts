@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { fieldErrorsFrom } from "@/lib/actions/schemas";
 import { courseSchema, cohortSchema } from "@/lib/actions/admin-schemas";
 import { idle, type ActionState } from "@/lib/actions/types";
@@ -248,7 +249,7 @@ export async function deleteCourse(
     id,
     `Deleted ${previous?.title ?? "course"}`,
   );
-  return { status: "success", message: "Course deleted." };
+  redirect("/admin/courses");
 }
 
 /* -------------------------------------------------------------------------- */
