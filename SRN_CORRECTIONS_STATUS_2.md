@@ -129,12 +129,51 @@ Still needs a few real paragraphs from you before it can go up — we're not
 writing content about a specific programme's outcomes without you supplying
 it.
 
-**12. Academy 2026 course content**
+---
 
-`new/SRNAcademy2026Draft.docx.md` looks like the real curriculum for the
-Beginner Academy, once it's ready to launch. This is a separate system from
-the marketing pages this document covers — let us know when you'd like it
-imported into the course editor, or if that's still being finalised.
+## Academy curriculum imported
+
+You asked for the real Beginner Academy content (`new/SRNAcademy2026Draft.docx.md`)
+to be brought into the course editor. Done — all seven modules are now live in
+the `systematic-review-methodology` course: 78 lessons, 7 module quizzes, 7
+project-task assignments, and the two diagrams from your document.
+
+**Something worth flagging.** While doing this we found the course itself was
+already live and public, with two people enrolled in the September 2026
+cohort — not a hidden draft, as we'd assumed from earlier notes. The progress
+recorded against those two enrolments looked like an automated test pass (a
+burst of lessons all marked complete within a fraction of a second, no quiz or
+assignment submissions), so we treated it as test data, cleared it, and
+replaced the old placeholder curriculum with your real one. Their enrolment
+itself was left untouched — they'll now see the real course content, not the
+demo prose, the next time they sign in.
+
+**Please check:**
+- Whether those two enrolments are genuine test accounts (in which case,
+  nothing further needed) or belong to real people who should be told the
+  course content changed.
+- Whether the course being live and public was intentional. If Academy is
+  still meant to read "Coming soon" everywhere else on the site, this one
+  course being reachable and enrollable is a live discrepancy worth deciding
+  on — keep it live now that the real content is in, or set it back to draft
+  until you're ready.
+
+**A structural note for later.** Your document has small "Check Your
+Understanding" questions woven through almost every lesson page, plus a
+bigger quiz and a multi-part "Project Task" at the end of each module. The
+course system only supports one graded quiz and one assignment per module
+(not per lesson), so:
+- The in-lesson questions became plain read-along content — the question,
+  then the answer underneath — rather than something a learner clicks through
+  and gets marked on.
+- Each module's real quiz (the lettered multiple-choice questions) became the
+  one graded quiz per module.
+- Each "Project Task" became one assignment per module, with all its fields
+  written out as instructions — a learner submits one written response
+  covering everything, rather than filling in separate boxes.
+
+If any of those trade-offs don't sit right once you've looked at the course,
+say so and we'll revisit.
 
 ---
 
