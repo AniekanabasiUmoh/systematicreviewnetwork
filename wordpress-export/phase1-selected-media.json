@@ -1,0 +1,65 @@
+{
+  "generatedAt": "2026-09-02",
+  "source": "cgi-bin.zip",
+  "note": "Phase 1 reviewed selections. Source originals remain outside the repository; these records describe the optimized public Media objects.",
+  "teamPortraits": [
+    {
+      "source": "wp-content/uploads/2025/10/dr.-nafisa.jpeg",
+      "member": "Nafisa Elehamer",
+      "storagePath": "headshot-nafisa-elehamer.jpg",
+      "status": "imported-and-linked",
+      "reason": "Clear, well-lit portrait suitable for a team card."
+    },
+    {
+      "source": "wp-content/uploads/2025/10/dr-moses-asori.jpeg",
+      "member": "Moses Asori",
+      "storagePath": "headshot-moses-asori.jpg",
+      "status": "imported-and-linked",
+      "reason": "Clean professional portrait on a neutral background."
+    },
+    {
+      "source": "wp-content/uploads/2025/10/kingsley-achi.jpeg",
+      "member": "Kingsley Achi",
+      "status": "held-for-review",
+      "reason": "Illustrated avatar rather than a conventional portrait; not published as a headshot."
+    },
+    {
+      "source": "wp-content/uploads/2025/10/dr.edward.jpeg",
+      "member": "Dr Edward Mawejje",
+      "status": "held-for-review",
+      "reason": "Low-angle in-car selfie; not suitable for the consistent professional team grid."
+    },
+    {
+      "source": "none-found-in-archive",
+      "member": "Dr Leonard Uzairue",
+      "status": "awaiting-source",
+      "reason": "No matching portrait found among named archive uploads."
+    },
+    {
+      "source": "none-found-in-archive",
+      "member": "Dr Uzma Kazmi",
+      "status": "awaiting-source",
+      "reason": "No matching portrait found among named archive uploads."
+    }
+  ],
+  "workshopMedia": [
+    {
+      "source": "wp-content/uploads/2026/02/Workshop-153.jpg",
+      "storagePath": "workshop-group-historical.jpg",
+      "status": "imported-unassigned",
+      "reason": "Strong group photograph; historic partner marks retained and described."
+    },
+    {
+      "source": "wp-content/uploads/2026/02/Workshop184-1.jpg",
+      "storagePath": "workshop-classroom-historical.jpg",
+      "status": "imported-unassigned",
+      "reason": "Clear classroom participation scene; historic partner marks retained and described."
+    },
+    {
+      "source": "wp-content/uploads/2026/02/Workshop063-1.jpg",
+      "storagePath": "workshop-discussion-historical.jpg",
+      "status": "imported-unassigned",
+      "reason": "Useful small-group discussion scene; historic partner marks retained and described."
+    }
+  ]
+}

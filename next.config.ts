@@ -14,14 +14,23 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/academy/enrol/demo-systematic-review-methodology/demo-cohort",
-        destination: "/academy/enrol/systematic-review-methodology/september-2026",
+        destination:
+          "/academy/enrol/systematic-review-methodology/september-2026",
         permanent: true,
       },
       {
-        source: "/academy/learn/demo-systematic-review-methodology/demo-cohort/:path*",
-        destination: "/academy/learn/systematic-review-methodology/september-2026/:path*",
+        source:
+          "/academy/learn/demo-systematic-review-methodology/demo-cohort/:path*",
+        destination:
+          "/academy/learn/systematic-review-methodology/september-2026/:path*",
         permanent: true,
       },
+      { source: "/events", destination: "/news", permanent: true },
+      { source: "/event/:path*", destination: "/news", permanent: true },
+      { source: "/wps-members", destination: "/team", permanent: true },
+      { source: "/wps-members/:path*", destination: "/team", permanent: true },
+      { source: "/qsm_quiz/:path*", destination: "/academy", permanent: true },
+      { source: "/category/:path*", destination: "/news", permanent: true },
     ];
   },
   images: {
@@ -36,8 +45,19 @@ const nextConfig: NextConfig = {
             hostname: supabaseHost,
             pathname: "/storage/v1/object/public/**",
           },
+          {
+            protocol: "https",
+            hostname: "risingscholars.net",
+            pathname: "/static/img/**",
+          },
         ]
-      : [],
+      : [
+          {
+            protocol: "https",
+            hostname: "risingscholars.net",
+            pathname: "/static/img/**",
+          },
+        ],
     formats: ["image/avif", "image/webp"],
   },
 

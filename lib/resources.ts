@@ -14,9 +14,7 @@ export const RESOURCE_CATEGORIES = [
 export type ResourceCategory = (typeof RESOURCE_CATEGORIES)[number]["value"];
 
 export function categoryLabel(value: string): string {
-  return (
-    RESOURCE_CATEGORIES.find((c) => c.value === value)?.label ?? value
-  );
+  return RESOURCE_CATEGORIES.find((c) => c.value === value)?.label ?? value;
 }
 
 export function isResourceCategory(value: string): value is ResourceCategory {
@@ -34,7 +32,7 @@ export function resourceHref(r: {
   file_url: string | null;
   external_url: string | null;
 }): string {
-  if (r.body_rich) return `/resources/${r.slug}`;
+  if (hasBody(r.body_rich)) return `/resources/${r.slug}`;
   if (r.file_url) return r.file_url;
   if (r.external_url) return r.external_url;
   return `/resources/${r.slug}`;
@@ -45,8 +43,17 @@ export function resourceKind(r: {
   file_url: string | null;
   external_url: string | null;
 }): "article" | "download" | "external" | "pending" {
-  if (r.body_rich) return "article";
+  if (hasBody(r.body_rich)) return "article";
   if (r.file_url) return "download";
   if (r.external_url) return "external";
   return "pending";
+}
+
+/** Tiptap stores an empty document as `{ type: "doc", content: [] }`. Treat
+ * that as no article body, otherwise a recorded webinar with a URL is sent to
+ * an empty detail page instead of its working recording. */
+function hasBody(body: unknown): boolean {
+  if (!body || typeof body !== "object") return false;
+  const content = (body as { content?: unknown }).content;
+  return Array.isArray(content) && content.length > 0;
 }

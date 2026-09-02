@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { ArrowRight, Check } from "lucide-react";
 
 import { Section, Container } from "@/components/ui/Section";
@@ -49,6 +49,13 @@ export default async function ProgrammePage({
   const { slug } = await params;
   const p = await getProgrammeBySlug(slug);
   if (!p || p.slug === "mentorship") notFound();
+
+  // Beginner Academy now has a full, enrolment-aware course catalogue page.
+  // Keep this historic programme URL working for bookmarks and search results,
+  // but do not maintain a second, inevitably drifting version of its content.
+  if (p.slug === "beginner-academy") {
+    permanentRedirect("/academy/systematic-review-methodology");
+  }
 
   const covers = programmeList(p.covers);
   const forWho = programmeList(p.for_who);

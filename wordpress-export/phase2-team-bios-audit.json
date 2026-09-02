@@ -1,0 +1,220 @@
+{
+  "generatedAt": "2026-09-02T06:08:29.122Z",
+  "source": "localhost.sql",
+  "sourceType": "wps-team-members",
+  "policy": "Seven current bios were imported first. Twelve additional records were then published because the WordPress export explicitly assigns them to Programme Committee or Communications Team; they remain editable for Fortune's live corrections. No source record outside this explicit set was published.",
+  "sourcePublishedRows": 19,
+  "matched": [],
+  "skippedExisting": [
+    {
+      "sourcePostId": 1851,
+      "sourceName": "Prof Ejaz  Ahmad Khan",
+      "memberId": "53cf7424-2f11-455e-ac6c-a2c5d9453c73",
+      "memberName": "Prof Ejaz Ahmad Khan",
+      "reason": "current bio already populated"
+    },
+    {
+      "sourcePostId": 1869,
+      "sourceName": "Kingsley Achi",
+      "memberId": "43267682-308a-4f3e-9a24-2fe297b12fee",
+      "memberName": "Kingsley Achi",
+      "reason": "current bio already populated"
+    },
+    {
+      "sourcePostId": 1875,
+      "sourceName": "Dr Adekunle Adeleke",
+      "memberId": "1eff5a15-b475-4aa6-bbd0-a4476711b8e9",
+      "memberName": "Dr Adekunle Adeleke",
+      "reason": "current bio already populated"
+    },
+    {
+      "sourcePostId": 1876,
+      "sourceName": "Nafisa Elehamer",
+      "memberId": "b019ecaf-f9ad-4e5e-a2db-6a7e83a818f1",
+      "memberName": "Nafisa Elehamer",
+      "reason": "current bio already populated"
+    },
+    {
+      "sourcePostId": 1881,
+      "sourceName": "Dr Leonard Uzairue",
+      "memberId": "df0b0916-aaf6-4024-8284-cf42ff56c052",
+      "memberName": "Dr Leonard Uzairue",
+      "reason": "current bio already populated"
+    },
+    {
+      "sourcePostId": 1886,
+      "sourceName": "Dr Uzma Kazmi",
+      "memberId": "6c45479f-3eec-4e5a-8e0e-6d99bb7f7aa4",
+      "memberName": "Dr Uzma Kazmi",
+      "reason": "current bio already populated"
+    },
+    {
+      "sourcePostId": 1888,
+      "sourceName": "Fortune Effiong",
+      "memberId": "b461a63d-3667-4244-a3c3-4cede05501e0",
+      "memberName": "Fortune Effiong",
+      "reason": "current bio already populated"
+    }
+  ],
+  "unmatched": [],
+  "publishedHeld": [
+    {
+      "sourcePostId": 1852,
+      "sourceName": "Emmanuella Ben",
+      "memberId": "cbe31b82-b963-4550-9e14-c91528b93dd2",
+      "group": "programmes",
+      "photo": true,
+      "bioChars": 940
+    },
+    {
+      "sourcePostId": 1859,
+      "sourceName": "Sagir Tambuwal Muhammad",
+      "memberId": "23194cd6-43eb-4011-b34b-91911d238102",
+      "group": "programmes",
+      "photo": true,
+      "bioChars": 455
+    },
+    {
+      "sourcePostId": 1861,
+      "sourceName": "Wambui Njonge",
+      "memberId": "4205d1da-6e95-4bc5-807c-b67c3d3c6cd6",
+      "group": "programmes",
+      "photo": true,
+      "bioChars": 82
+    },
+    {
+      "sourcePostId": 1863,
+      "sourceName": "Msughaondo Check Isho",
+      "memberId": "48a26e01-da8f-4308-af91-4264b0097e85",
+      "group": "programmes",
+      "photo": true,
+      "bioChars": 1620
+    },
+    {
+      "sourcePostId": 1866,
+      "sourceName": "Uzoma Emmanuella Adebayo",
+      "memberId": "263a4a2c-7cc4-44d7-a254-5bab75c9d497",
+      "group": "programmes",
+      "photo": true,
+      "bioChars": 1461
+    },
+    {
+      "sourcePostId": 1873,
+      "sourceName": "Prof. Ngozi Eunice Osadebe",
+      "memberId": "e17a87a2-4335-4f10-a03b-c8eb4f63ad79",
+      "group": "programmes",
+      "photo": true,
+      "bioChars": 400
+    },
+    {
+      "sourcePostId": 1890,
+      "sourceName": "Precious Nengak",
+      "memberId": "f6828659-6933-4347-a1b4-6e68cca469e2",
+      "group": "communications",
+      "photo": true,
+      "bioChars": 1283
+    },
+    {
+      "sourcePostId": 1892,
+      "sourceName": "Wazhi Godsave Binlak",
+      "memberId": "ed48d63b-ce27-4fc2-95de-4cf7b9a41da4",
+      "group": "communications",
+      "photo": true,
+      "bioChars": 849
+    },
+    {
+      "sourcePostId": 1894,
+      "sourceName": "Dr Ify Obim",
+      "memberId": "6418245c-27fc-494e-b3a6-f19b57bef235",
+      "group": "communications",
+      "photo": true,
+      "bioChars": 1370
+    },
+    {
+      "sourcePostId": 1895,
+      "sourceName": "Chukwuagoziem Iloanusi",
+      "memberId": "14acc7b9-35ae-4fc9-b842-bf38bdb13a82",
+      "group": "communications",
+      "photo": false,
+      "bioChars": 529
+    },
+    {
+      "sourcePostId": 1897,
+      "sourceName": "Godswill Imole",
+      "memberId": "957455b6-9938-492f-919a-141c90c2162a",
+      "group": "communications",
+      "photo": true,
+      "bioChars": 1320
+    },
+    {
+      "sourcePostId": 1898,
+      "sourceName": "Aladejana Abdulrahman",
+      "memberId": "72978c5d-a7d8-46b1-8c85-4f27d32bf494",
+      "group": "communications",
+      "photo": true,
+      "bioChars": 452
+    }
+  ],
+  "skippedHeld": [
+    {
+      "sourcePostId": 1852,
+      "name": "Emmanuella Ben",
+      "reason": "name already exists"
+    },
+    {
+      "sourcePostId": 1859,
+      "name": "Sagir Tambuwal Muhammad",
+      "reason": "name already exists"
+    },
+    {
+      "sourcePostId": 1861,
+      "name": "Wambui Njonge",
+      "reason": "name already exists"
+    },
+    {
+      "sourcePostId": 1863,
+      "name": "Msughaondo Check Isho",
+      "reason": "name already exists"
+    },
+    {
+      "sourcePostId": 1866,
+      "name": "Uzoma Emmanuella Adebayo",
+      "reason": "name already exists"
+    },
+    {
+      "sourcePostId": 1873,
+      "name": "Prof. Ngozi Eunice Osadebe",
+      "reason": "name already exists"
+    },
+    {
+      "sourcePostId": 1890,
+      "name": "Precious Nengak",
+      "reason": "name already exists"
+    },
+    {
+      "sourcePostId": 1892,
+      "name": "Wazhi Godsave Binlak",
+      "reason": "name already exists"
+    },
+    {
+      "sourcePostId": 1894,
+      "name": "Dr Ify Obim",
+      "reason": "name already exists"
+    },
+    {
+      "sourcePostId": 1895,
+      "name": "Chukwuagoziem Iloanusi",
+      "reason": "name already exists"
+    },
+    {
+      "sourcePostId": 1897,
+      "name": "Godswill Imole",
+      "reason": "name already exists"
+    },
+    {
+      "sourcePostId": 1898,
+      "name": "Aladejana Abdulrahman",
+      "reason": "name already exists"
+    }
+  ]
+}

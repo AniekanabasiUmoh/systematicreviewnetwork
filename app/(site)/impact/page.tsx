@@ -27,6 +27,12 @@ import {
 
 export const revalidate = 60;
 
+const UPCOMING_IMPACT_STORIES = [
+  "A review that changed local practice",
+  "Improving evidence-informed malaria policy-making in Nigeria and Ghana",
+  "Building research capacity in Africa",
+];
+
 export const metadata: Metadata = {
   title: "Impact",
   description:
@@ -48,7 +54,7 @@ export default async function ImpactPage() {
     <>
       <PageHeader
         eyebrow="Our impact"
-        title="Evidence skills that stay where they're built."
+        title="Capacity that stays, long after training ends."
         lede="SRN measures success not only by completed reviews, but by researchers, institutions, and policymakers who can produce, interpret, adapt, and use trustworthy evidence again and again, especially in the places where that evidence is needed most."
         imageUrl={headerPhoto?.url}
         imageAlt={headerPhoto?.alt ?? ""}
@@ -61,7 +67,7 @@ export default async function ImpactPage() {
             <h2 id="impact-numbers" className="sr-only">
               Impact in numbers
             </h2>
-            <div className="grid grid-cols-2 gap-px bg-paper/10 md:grid-cols-3">
+            <div className="bg-paper/10 grid grid-cols-2 gap-px md:grid-cols-3">
               {stats.map((s) => (
                 <div key={s.id} className="bg-ink px-7 py-10">
                   <StatCounter value={s.value} label={s.label} tone="paper" />
@@ -76,7 +82,7 @@ export default async function ImpactPage() {
       <Section surface="paper">
         <Container>
           <div className="max-w-[56ch]">
-            <Eyebrow>Where we've run in-person workshops</Eyebrow>
+            <Eyebrow>Where we&apos;ve run in-person workshops</Eyebrow>
             <h2 className="text-display text-ink mt-3 text-[clamp(1.6rem,3.4vw,2.4rem)] leading-[1.1]">
               Training delivered on the ground, in {countries.length} countries
             </h2>
@@ -94,39 +100,39 @@ export default async function ImpactPage() {
       </Section>
 
       {/* Stories of change. */}
-      {stories.length > 0 ? (
-        <Section surface="mist">
-          <Container>
-            <Eyebrow>Stories of change</Eyebrow>
-            <h2 className="text-display text-ink mt-3 max-w-[20ch] text-[clamp(1.6rem,3.4vw,2.4rem)] leading-[1.1]">
-              What the work looks like up close
-            </h2>
-            <div className="border-hairline mt-10 border-t">
-              {stories.map((s, i) => (
-                <Link
-                  key={s.slug}
-                  href={`/impact/${s.slug}`}
-                  className="border-hairline group flex items-center justify-between gap-6 border-b py-7 transition-colors hover:bg-paper"
-                >
-                  <div className="flex items-baseline gap-5">
-                    <span className="text-slate text-small tabular-nums">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span className="text-display text-ink group-hover:text-evidence text-[1.35rem] leading-tight transition-colors">
-                      {s.title}
-                    </span>
-                  </div>
-                  <Icon
-                    icon={ArrowRight}
-                    size="sm"
-                    className="text-slate group-hover:text-evidence shrink-0 transition-colors"
-                  />
-                </Link>
-              ))}
-            </div>
-          </Container>
-        </Section>
-      ) : null}
+      <Section surface="mist">
+        <Container>
+          <Eyebrow>Stories of change</Eyebrow>
+          <h2 className="text-display text-ink mt-3 max-w-[20ch] text-[clamp(1.6rem,3.4vw,2.4rem)] leading-[1.1]">
+            What the work looks like up close
+          </h2>
+          <div className="border-hairline mt-10 border-t">
+            {[
+              ...stories.map((s) => s.title),
+              ...UPCOMING_IMPACT_STORIES.filter(
+                (title) => !stories.some((story) => story.title === title),
+              ),
+            ].map((title, i) => (
+              <div
+                key={title}
+                className="border-hairline flex items-center justify-between gap-6 border-b py-7"
+              >
+                <div className="flex items-baseline gap-5">
+                  <span className="text-slate text-small tabular-nums">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="text-display text-ink text-[1.35rem] leading-tight">
+                    {title}
+                  </span>
+                </div>
+                <span className="text-slate text-small shrink-0">
+                  Coming soon
+                </span>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </Section>
 
       {/* Voices. */}
       {testimonials.length > 0 ? (

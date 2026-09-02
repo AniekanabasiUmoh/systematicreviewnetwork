@@ -24,6 +24,8 @@ type Group = Database["public"]["Enums"]["team_group"];
 
 /* Group display order + headings. The map fixes the on-page order; the DB only
    controls order within each group. */
+/* The six organisation groups are intentionally ordered here so the public
+   page remains stable while admins control order within each group. */
 const GROUPS: { key: Group; label: string; blurb: string }[] = [
   {
     key: "executive",
@@ -44,6 +46,16 @@ const GROUPS: { key: Group; label: string; blurb: string }[] = [
     key: "mentor",
     label: "Mentors & facilitators",
     blurb: "The reviewers who teach the courses and guide live reviews.",
+  },
+  {
+    key: "programmes",
+    label: "Programmes committee",
+    blurb: "Designing the learning pathways, cohorts, and support that make SRN's programmes useful.",
+  },
+  {
+    key: "communications",
+    label: "Communications team",
+    blurb: "Sharing SRN's work, opportunities, and evidence with the wider community.",
   },
 ];
 

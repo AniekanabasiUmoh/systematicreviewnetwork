@@ -304,7 +304,14 @@ export const teamSchema = z.object({
   affiliation: optionalText(240),
   linkedin_url: optionalUrl,
   orcid_url: optionalUrl,
-  group: z.enum(["executive", "scientific", "country_lead", "mentor"]),
+  group: z.enum([
+    "executive",
+    "scientific",
+    "country_lead",
+    "mentor",
+    "programmes",
+    "communications",
+  ]),
 });
 
 export const testimonialSchema = z.object({

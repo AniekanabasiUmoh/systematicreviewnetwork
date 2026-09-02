@@ -226,12 +226,19 @@ export async function getPageBySlug(slug: string) {
  * surfaces as a broken card.
  */
 export async function getImpactStories() {
+  /* Phase 6.2 gate: the recovered story copy is editorially useful for the
+     admin archive, but Fortune requested both current leads remain Coming
+     soon until their evidence and approvals are attached. Keeping the public
+     allow-list explicit prevents a draft page from leaking through a direct
+     URL or the sitemap. */
+  const PUBLIC_IMPACT_STORY_SLUGS = new Set<string>();
   const { data } = await db
     .from("pages")
     .select("slug, title, body_rich")
     .like("slug", "impact-story-%")
     .order("slug", { ascending: true });
   return (data ?? []).filter((row) => {
+    if (!PUBLIC_IMPACT_STORY_SLUGS.has(row.slug)) return false;
     const body = row.body_rich as { content?: unknown[] } | null;
     return Array.isArray(body?.content) && body.content.length > 0;
   });
@@ -265,8 +272,7 @@ export async function getLatestNews(limit = 3) {
  * to published, non-archived rows; the explicit filters here keep the intent
  * legible at the call site and hold if a policy is ever loosened. */
 
-export type ProgrammeRow =
-  Database["public"]["Tables"]["programmes"]["Row"];
+export type ProgrammeRow = Database["public"]["Tables"]["programmes"]["Row"];
 
 /** `covers` and `for_who` are jsonb arrays; normalise to string[] for render. */
 export function programmeList(value: unknown): string[] {
@@ -301,6 +307,18 @@ export function programmeCtaHref(programme: {
   slug: string;
   cta_kind: string;
 }): string {
+  // Beginner Academy has a real, cohort-aware enrolment journey in the
+  // Academy. Never send people back to the generic application form, even if
+  // an older programme row still carries `cta_kind = 'apply'`.
+  if (programme.slug === "beginner-academy") {
+    return "/academy/systematic-review-methodology";
+  }
+  if (programme.slug === "webinar-series") {
+    // The Events hub is the source of truth for dates and registration state.
+    // A type-filtered link keeps every upcoming webinar visible as new events
+    // are published, without copying event data into the programme page.
+    return "/news?type=webinar";
+  }
   return programme.cta_kind === "partner"
     ? "/partner"
     : `/programmes/apply?p=${programme.slug}`;

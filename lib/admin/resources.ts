@@ -437,6 +437,8 @@ const resourceDefinitions = {
           { value: "scientific", label: "Scientific" },
           { value: "country_lead", label: "Country lead" },
           { value: "mentor", label: "Mentor" },
+          { value: "programmes", label: "Programmes committee" },
+          { value: "communications", label: "Communications team" },
         ],
       },
       { name: "photo_url", label: "Photo", kind: "image", wide: true },

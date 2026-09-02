@@ -1,0 +1,17 @@
+{
+  "generatedAt": "2026-09-02T06:18:07.690Z",
+  "source": "localhost.sql",
+  "policy": "Published WordPress posts/events were imported as unpublished drafts with legacy-prefixed slugs. Original text and dates were retained; media and registration details remain editorial review fields.",
+  "sourceCounts": {
+    "publishedPosts": 13,
+    "publishedEvents": 14
+  },
+  "imported": {
+    "news": [],
+    "events": []
+  },
+  "skippedExisting": {
+    "news": 13,
+    "events": 14
+  }
+}

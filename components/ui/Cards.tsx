@@ -295,7 +295,7 @@ export function PersonCard({
           grid. */}
       {bio ? (
         <details className="group/bio mt-3">
-          <summary className="text-slate hover:text-evidence marker:content-none cursor-pointer text-[0.8125rem] font-medium">
+          <summary className="text-slate hover:text-evidence cursor-pointer text-[0.8125rem] font-medium marker:content-none">
             <span className="group-open/bio:hidden">Read more</span>
             <span className="hidden group-open/bio:inline">Close</span>
           </summary>
@@ -379,17 +379,19 @@ export function TestimonialBlock({
   const light = tone === "paper";
   return (
     <figure className="flex flex-col items-start gap-6 md:flex-row md:gap-8">
-      <div className="w-24 shrink-0 md:w-32">
-        <Figure
-          src={photoUrl}
-          alt={photoUrl ? name : ""}
-          width={400}
-          height={400}
-          label="portrait"
-          className="w-full"
-          sizes="128px"
-        />
-      </div>
+      {photoUrl ? (
+        <div className="w-24 shrink-0 md:w-32">
+          <Figure
+            src={photoUrl}
+            alt={name}
+            width={400}
+            height={400}
+            label="portrait"
+            className="w-full"
+            sizes="128px"
+          />
+        </div>
+      ) : null}
       <div>
         <blockquote
           className={`text-display text-[1.25rem] leading-[1.45] md:text-[1.5rem] ${

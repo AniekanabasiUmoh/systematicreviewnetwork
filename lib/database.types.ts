@@ -1190,6 +1190,84 @@ export type Database = {
         };
         Relationships: [];
       };
+      private_document_access_log: {
+        Row: {
+          id: number;
+          document_id: string;
+          actor_id: string | null;
+          action: string;
+          metadata: Json;
+          created_at: string;
+        };
+        Insert: {
+          id?: number;
+          document_id: string;
+          actor_id?: string | null;
+          action: string;
+          metadata?: Json;
+          created_at?: string;
+        };
+        Update: {
+          id?: number;
+          document_id?: string;
+          actor_id?: string | null;
+          action?: string;
+          metadata?: Json;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
+      private_documents: {
+        Row: {
+          id: string;
+          source_wp_id: number | null;
+          source_path: string;
+          file_name: string;
+          mime_type: string;
+          size_bytes: number | null;
+          source_sha256: string | null;
+          classification: string;
+          storage_path: string | null;
+          matched_record_id: string | null;
+          metadata: Json;
+          status: string;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          source_wp_id?: number | null;
+          source_path: string;
+          file_name: string;
+          mime_type?: string;
+          size_bytes?: number | null;
+          source_sha256?: string | null;
+          classification?: string;
+          storage_path?: string | null;
+          matched_record_id?: string | null;
+          metadata?: Json;
+          status?: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          source_wp_id?: number | null;
+          source_path?: string;
+          file_name?: string;
+          mime_type?: string;
+          size_bytes?: number | null;
+          source_sha256?: string | null;
+          classification?: string;
+          storage_path?: string | null;
+          matched_record_id?: string | null;
+          metadata?: Json;
+          status?: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       profiles: {
         Row: {
           id: string;
@@ -1682,7 +1760,7 @@ export type Database = {
       payment_status: "not_required" | "pending" | "paid" | "failed" | "expired" | "refunded";
       resource_category: "guide" | "template" | "webinar" | "tool" | "publication";
       submission_state: "submitted" | "marked" | "returned";
-      team_group: "executive" | "scientific" | "country_lead" | "mentor";
+      team_group: "executive" | "scientific" | "country_lead" | "mentor" | "programmes" | "communications";
     };
   };
 };
@@ -1717,6 +1795,8 @@ export type NewsletterSignupsRow = Database["public"]["Tables"]["newsletter_sign
 export type PagesRow = Database["public"]["Tables"]["pages"]["Row"];
 export type PartnersRow = Database["public"]["Tables"]["partners"]["Row"];
 export type PaystackEventsRow = Database["public"]["Tables"]["paystack_events"]["Row"];
+export type PrivateDocumentAccessLogRow = Database["public"]["Tables"]["private_document_access_log"]["Row"];
+export type PrivateDocumentsRow = Database["public"]["Tables"]["private_documents"]["Row"];
 export type ProfilesRow = Database["public"]["Tables"]["profiles"]["Row"];
 export type ProgrammesRow = Database["public"]["Tables"]["programmes"]["Row"];
 export type QuizOptionsRow = Database["public"]["Tables"]["quiz_options"]["Row"];

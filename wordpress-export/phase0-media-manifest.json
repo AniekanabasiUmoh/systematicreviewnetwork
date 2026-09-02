@@ -1,0 +1,137 @@
+﻿{
+    "generatedAt":  "2026-09-02T05:03:01.7502578Z",
+    "source":  "cgi-bin.zip",
+    "scope":  "wp-content/uploads media and PDF entries only",
+    "entryCount":  565,
+    "totalBytes":  173110473,
+    "generatedVariantCount":  36,
+    "originalCandidateCount":  529,
+    "extensionCounts":  {
+                            "jpeg":  77,
+                            "jpg":  250,
+                            "pdf":  183,
+                            "png":  55
+                        },
+    "yearCounts":  {
+                       "2023":  155,
+                       "2024":  111,
+                       "2025":  69,
+                       "2026":  26,
+                       "unknown":  204
+                   },
+    "exactDuplicateGroupCount":  12,
+    "exactDuplicateEntryCount":  36,
+    "duplicateGroups":  [
+                            {
+                                "sha256":  "8523244ab87155a0762035124138d48fe5f69ead445b7e1300ab9f32b1be4e45",
+                                "count":  2,
+                                "bytes":  1022215,
+                                "samplePaths":  [
+                                                    "wp-content/uploads/2026/02/Workshop184-2.jpg",
+                                                    "wp-content/uploads/2026/02/Workshop184-1.jpg"
+                                                ]
+                            },
+                            {
+                                "sha256":  "bdbd06dd1cb40ef86a41c7f2323cb48b89c77400668f20b243fd0d9381c0f798",
+                                "count":  2,
+                                "bytes":  137078,
+                                "samplePaths":  [
+                                                    "wp-content/uploads/2026/01/srn-4.jpeg",
+                                                    "wp-content/uploads/2026/01/systematicreviewsforbeginnersefeb19.jpeg"
+                                                ]
+                            },
+                            {
+                                "sha256":  "1a8352b9372452ab024b5dfd3c74cd8fac2c84e7ff152879f83949c4707fd87e",
+                                "count":  14,
+                                "bytes":  6146,
+                                "samplePaths":  [
+                                                    "wp-content/uploads/2023/12/placeholder-9.png",
+                                                    "wp-content/uploads/2023/12/placeholder-4.png",
+                                                    "wp-content/uploads/2023/12/placeholder-8.png",
+                                                    "wp-content/uploads/2023/12/placeholder-7.png",
+                                                    "wp-content/uploads/2023/12/placeholder-10.png"
+                                                ]
+                            },
+                            {
+                                "sha256":  "7af6ff40a5e2cd062ae57d0dce11ffacfc9ca895804ddebca0377975e71d91ae",
+                                "count":  2,
+                                "bytes":  89553,
+                                "samplePaths":  [
+                                                    "wp-content/uploads/2023/12/IMG-20221215-WA0004.jpg",
+                                                    "wp-content/uploads/2023/12/IMG-20221215-WA0004-1.jpg"
+                                                ]
+                            },
+                            {
+                                "sha256":  "5f96f2dba98014936e9b1b20d20cd2bdcf1f2ccda5671195c5743f1b5946888b",
+                                "count":  2,
+                                "bytes":  60390,
+                                "samplePaths":  [
+                                                    "wp-content/uploads/2023/12/Donation-for-PSF-research-V1-1-1-1.png",
+                                                    "wp-content/uploads/2023/12/Donation-for-PSF-research-V1-1-1.png"
+                                                ]
+                            },
+                            {
+                                "sha256":  "b26eb01fde285d7f4068f577ee7449321aa4278e69ee48c29a54d1a542f1427c",
+                                "count":  2,
+                                "bytes":  302219,
+                                "samplePaths":  [
+                                                    "wp-content/uploads/2025/01/Join-the-SRN-teammmm-1.jpg",
+                                                    "wp-content/uploads/2025/01/Join-the-SRN-teammmm.jpg"
+                                                ]
+                            },
+                            {
+                                "sha256":  "8b5039d5fa9c8d20eeb2120b1a07086bbbf43c2c01d576e1310ac01d4899500d",
+                                "count":  2,
+                                "bytes":  354207,
+                                "samplePaths":  [
+                                                    "wp-content/uploads/2025/09/PROFILE-PIC-3-OBIM-.jpg",
+                                                    "wp-content/uploads/2025/10/PROFILE-PIC-3-OBIM-.jpg"
+                                                ]
+                            },
+                            {
+                                "sha256":  "1377ccd91fe248ff3a58a028f19816d1ae4ad5b105a672d25e65433b6f4d62c3",
+                                "count":  2,
+                                "bytes":  233561,
+                                "samplePaths":  [
+                                                    "wp-content/uploads/2025/10/fortune-effiong-1.jpg",
+                                                    "wp-content/uploads/2025/10/fortune-effiong.jpg"
+                                                ]
+                            },
+                            {
+                                "sha256":  "dc9d59a336db6a3ebd282a1e627380f66f420eac20b0f7ea016290c26140d75f",
+                                "count":  2,
+                                "bytes":  76290,
+                                "samplePaths":  [
+                                                    "wp-content/uploads/2025/10/fortune-boo.jpeg",
+                                                    "wp-content/uploads/2025/10/fortune-boo-1.jpeg"
+                                                ]
+                            },
+                            {
+                                "sha256":  "bf32c942e3aecef116380dba57140183b39753aa78dc2c72c17d9054cfd0f317",
+                                "count":  2,
+                                "bytes":  135992,
+                                "samplePaths":  [
+                                                    "wp-content/uploads/2025/10/roseline.jpeg",
+                                                    "wp-content/uploads/2025/10/roseline-1.jpeg"
+                                                ]
+                            },
+                            {
+                                "sha256":  "50a6d871379a461b272b8ef96c0fa855356b62ac9ba90ad027e772fd1c243c92",
+                                "count":  2,
+                                "bytes":  934058,
+                                "samplePaths":  [
+                                                    "wp-content/uploads/2024/02/acsrm_mentorship_programme_flyer.jpg",
+                                                    "wp-content/uploads/2024/02/acsrm_mentorship_programme_flyer-1.jpg"
+                                                ]
+                            },
+                            {
+                                "sha256":  "c0f741160e0f74d034d04651cf683ee39275c4777e12ae5b04cc721083a40afb",
+                                "count":  2,
+                                "bytes":  1028472,
+                                "samplePaths":  [
+                                                    "wp-content/uploads/2024/05/WWORKSHOP000024578NEWWEWEZZZ-1.jpg",
+                                                    "wp-content/uploads/2024/05/WWORKSHOP000024578NEWWEWEZZZ.jpg"
+                                                ]
+                            }
+                        ]
+}

@@ -42,10 +42,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     ...staticPages,
-    ...programmes.map((item) => ({
-      url: url(`/programmes/${item.slug}`),
-      lastModified: item.updated_at,
-    })),
+    ...programmes
+      .filter((item) => item.slug !== "beginner-academy")
+      .map((item) => ({
+        url: url(`/programmes/${item.slug}`),
+        lastModified: item.updated_at,
+      })),
     ...resources.map((item) => ({
       url: url(`/resources/${item.slug}`),
       lastModified: item.updated_at,

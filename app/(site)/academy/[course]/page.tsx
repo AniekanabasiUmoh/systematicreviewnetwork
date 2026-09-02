@@ -130,12 +130,12 @@ export default async function CoursePage({
 
               {course.programme ? (
                 <p className="text-slate text-small mt-10">
-                  Part of{" "}
+                  Listed in the{" "}
                   <Link
-                    href={`/programmes/${course.programme.slug}`}
+                    href="/programmes"
                     className="text-ink underline underline-offset-2"
                   >
-                    {course.programme.title}
+                    {course.programme.title} programme listing
                   </Link>
                   .
                 </p>

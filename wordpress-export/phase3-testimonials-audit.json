@@ -1,0 +1,26 @@
+{
+  "generatedAt": "2026-09-02",
+  "status": "verified-supplied-quotes-preserved",
+  "source": "User-supplied forwarded testimonial artwork and current structured testimonial rows",
+  "records": [
+    {
+      "name": "Joy, Uganda",
+      "role": "Workshop participant",
+      "sourceEvidence": "Supplied screenshot with attributed quote",
+      "photoDecision": "Text-only; supplied artwork showed a placeholder rather than an identity-linked portrait"
+    },
+    {
+      "name": "Joseph, Uganda",
+      "role": "Workshop participant",
+      "sourceEvidence": "Supplied screenshot with attributed quote",
+      "photoDecision": "Text-only; supplied artwork showed a placeholder rather than an identity-linked portrait"
+    }
+  ],
+  "cleanup": {
+    "removed": ["Joy", "Joseph"],
+    "reason": "Duplicate rows created during the import attempt; canonical Joy, Uganda and Joseph, Uganda rows were already present and retained.",
+    "remainingPublishedTestimonials": 13,
+    "publishedPhotoCount": 0
+  },
+  "policy": "Do not invent attribution or attach a face without identity and publication evidence. Render deliberate text-only testimonials when no cleared portrait exists."
+}

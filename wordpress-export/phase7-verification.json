@@ -1,0 +1,34 @@
+{
+  "generatedAt": "2026-09-02T06:35:00.000Z",
+  "baseUrl": "http://localhost:3000",
+  "publicRoutes": {
+    "/": 200,
+    "/about": 200,
+    "/programmes": 200,
+    "/academy": 200,
+    "/resources": 200,
+    "/resources/systematicreviewsforbeginners": 200,
+    "/impact": 200,
+    "/impact/impact-story-1": 404,
+    "/news": 200,
+    "/team": 200,
+    "/contact": 200,
+    "/partner": 200,
+    "/privacy": 200,
+    "/terms": 200,
+    "/faq": 200
+  },
+  "redirects": {
+    "/events": 308,
+    "/wps-members": 308,
+    "/qsm_quiz/example": 308
+  },
+  "checks": {
+    "webinarUrlPresent": true,
+    "comingSoonStories": true,
+    "draftNewsHidden": true,
+    "homepageImagesHaveAlt": true,
+    "responsiveWidths": [360, 390, 768, 1024, 1280, 1440]
+  },
+  "note": "Playwright/homepage smoke check passes after the copy correction; npm test still contains unrelated legacy fixture failures documented in the handover."
+}

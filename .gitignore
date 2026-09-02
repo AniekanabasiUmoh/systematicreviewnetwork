@@ -60,3 +60,8 @@ output/
 
 # Database dumps — contain real registrant/learner PII, never commit
 supabase/_backup/
+
+# Full legacy WordPress filesystem backup. Contains credentials, salts,
+# participant certificates, logs, and other private data; keep local only.
+/cgi-bin.zip
+/localhost.sql

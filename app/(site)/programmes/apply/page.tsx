@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { permanentRedirect } from "next/navigation";
 
 import { Section, Container } from "@/components/ui/Section";
 import { PageHeader } from "@/components/ui/PageHeader";
@@ -25,6 +26,12 @@ export default async function ApplyPage({
   searchParams: Promise<{ p?: string }>;
 }) {
   const { p } = await searchParams;
+  // This was the old Beginner Academy action. The course now has a real
+  // enrolment flow with visible cohorts, so old bookmarks and stale CTAs join
+  // the same journey as the Academy catalogue.
+  if (p === "beginner-academy") {
+    permanentRedirect("/academy/systematic-review-methodology");
+  }
   const programmes = await getProgrammes();
   const titles = programmes.map((row) => row.title);
   const programme = p ? programmes.find((row) => row.slug === p) : undefined;

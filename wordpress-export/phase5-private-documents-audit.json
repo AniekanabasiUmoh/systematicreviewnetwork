@@ -1,0 +1,14 @@
+{
+  "generatedAt": "2026-09-02T06:27:26.978Z",
+  "source": "cgi-bin.zip",
+  "totalPdfs": 183,
+  "certificatePdfs": 181,
+  "restrictedOtherPdfs": 2,
+  "storedCatalogRows": 183,
+  "uploadedBytes": 0,
+  "extracted": false,
+  "publicBucket": false,
+  "doiPublicationsReconciled": 4,
+  "recordedWebinarsWithExternalUrl": 1,
+  "note": "All PDF bytes remain in the source ZIP; catalog rows are private and contain no public download URL."
+}

@@ -23,7 +23,11 @@ export const metadata: Metadata = {
 };
 
 const href = (slug: string) =>
-  slug === "mentorship" ? "/programmes/mentorship" : `/programmes/${slug}`;
+  slug === "mentorship"
+    ? "/programmes/mentorship"
+    : slug === "beginner-academy"
+      ? "/academy/systematic-review-methodology"
+      : `/programmes/${slug}`;
 
 export default async function ProgrammesPage() {
   const [headerPhoto, programmes] = await Promise.all([

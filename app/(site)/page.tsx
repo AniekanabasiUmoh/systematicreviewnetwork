@@ -244,8 +244,7 @@ export default async function HomePage() {
             <div>
               <Eyebrow>What we do</Eyebrow>
               <h2 className="text-display text-ink mt-4 text-[clamp(1.6rem,3.4vw,2.6rem)] leading-[1.1]">
-                Training, mentorship, and the tools to conduct and use evidence
-                synthesis.
+                Training, mentorship, and the tools to do a review well.
               </h2>
               <p className="text-slate mt-5 leading-relaxed">
                 From introductory training to completed meta-analyses, SRN
