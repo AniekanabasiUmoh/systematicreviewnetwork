@@ -36,7 +36,7 @@ export default async function ResourcesPage({
 
   const [resources, headerPhoto] = await Promise.all([
     getResources(active),
-    getMedia("workshop-participants.jpg"),
+    getMedia("drive-selected/2026-09/ghana8.jpg"),
   ]);
 
   return (

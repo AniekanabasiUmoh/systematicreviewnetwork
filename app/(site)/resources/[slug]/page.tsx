@@ -9,6 +9,8 @@ import { RichText } from "@/components/ui/RichText";
 import { CTABand } from "@/components/ui/Cards";
 import { Tag } from "@/components/ui/Tag";
 import { Icon } from "@/components/ui/Icon";
+import { Embed } from "@/components/ui/Embed";
+import { parseEmbedUrl } from "@/lib/admin/embeds";
 import { getResourceBySlug } from "@/lib/queries";
 import { categoryLabel, resourceKind } from "@/lib/resources";
 
@@ -41,10 +43,18 @@ export default async function ResourcePage({
   if (!r) notFound();
 
   const kind = resourceKind(r);
+  const video =
+    kind === "external" && r.external_url
+      ? parseEmbedUrl(r.external_url, r.title)
+      : null;
 
   return (
     <>
-      <PageHeader eyebrow={categoryLabel(r.category)} title={r.title} lede={r.description ?? undefined} />
+      <PageHeader
+        eyebrow={categoryLabel(r.category)}
+        title={r.title}
+        lede={r.description ?? undefined}
+      />
 
       {kind === "article" ? (
         <Section surface="paper">
@@ -78,18 +88,43 @@ export default async function ResourcePage({
                   <p className="text-eyebrow-style text-slate">
                     {categoryLabel(r.category)}
                   </p>
-                  <h2 className="text-display text-ink mt-3 text-[1.5rem] leading-tight">
-                    This resource is hosted elsewhere.
-                  </h2>
-                  <a
-                    href={r.external_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-evidence text-paper hover:bg-evidence-ink mt-6 inline-flex items-center gap-2 px-6 py-3 font-semibold transition-colors"
-                  >
-                    <Icon icon={ExternalLink} size="sm" />
-                    Open the resource
-                  </a>
+                  {video?.ok && video.inline ? (
+                    <>
+                      <h2 className="text-display text-ink mt-3 text-[1.5rem] leading-tight">
+                        Watch the recording
+                      </h2>
+                      <Embed
+                        provider={video.provider}
+                        id={video.id}
+                        title={video.title}
+                        url={video.url}
+                      />
+                      <a
+                        href={r.external_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-ink hover:text-evidence mt-5 inline-flex items-center gap-2 font-semibold underline underline-offset-2"
+                      >
+                        <Icon icon={ExternalLink} size="sm" />
+                        Open on YouTube
+                      </a>
+                    </>
+                  ) : (
+                    <>
+                      <h2 className="text-display text-ink mt-3 text-[1.5rem] leading-tight">
+                        This resource is hosted elsewhere.
+                      </h2>
+                      <a
+                        href={r.external_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bg-evidence text-paper hover:bg-evidence-ink mt-6 inline-flex items-center gap-2 px-6 py-3 font-semibold transition-colors"
+                      >
+                        <Icon icon={ExternalLink} size="sm" />
+                        Open the resource
+                      </a>
+                    </>
+                  )}
                 </>
               ) : (
                 <>
@@ -98,9 +133,9 @@ export default async function ResourcePage({
                     This one isn&apos;t available to download just yet.
                   </h2>
                   <p className="text-slate mt-4 leading-relaxed">
-                    We&apos;re preparing {r.title.toLowerCase()} for the library.
-                    Join the newsletter and we&apos;ll let you know the moment
-                    it&apos;s ready, or browse what&apos;s already here.
+                    We&apos;re preparing {r.title.toLowerCase()} for the
+                    library. Join the newsletter and we&apos;ll let you know the
+                    moment it&apos;s ready, or browse what&apos;s already here.
                   </p>
                   <Link
                     href="/resources"

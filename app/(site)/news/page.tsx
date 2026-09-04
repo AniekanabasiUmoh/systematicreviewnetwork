@@ -51,7 +51,7 @@ export default async function NewsPage({
   const [allEvents, news, headerPhoto] = await Promise.all([
     getAllEvents(),
     getAllNews(),
-    getMedia("workshop-participants.jpg"),
+    getMedia("drive-selected/2026-09/ghana3.jpg"),
   ]);
 
   const now = new Date();

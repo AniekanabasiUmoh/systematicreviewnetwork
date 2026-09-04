@@ -125,7 +125,11 @@ export function Header() {
             alt="SRN, Systematic Reviews Network, home"
             width={314}
             height={82}
-            className="h-9 w-auto md:h-11"
+            /* Width controls the lock-up; height is always derived from the
+               intrinsic 314:82 ratio. This prevents a global image rule or a
+               narrow header from stretching the wordmark. */
+            className="block h-auto w-[138px] md:w-[174px]"
+            sizes="(max-width: 767px) 138px, 174px"
             priority
           />
         </Link>
@@ -190,7 +194,8 @@ export function Header() {
               alt="SRN, Systematic Reviews Network"
               width={314}
               height={82}
-              className="h-9 w-auto"
+              className="block h-auto w-[138px]"
+              sizes="138px"
             />
             <button
               type="button"

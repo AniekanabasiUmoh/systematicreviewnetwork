@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 
 export default async function AcademyPage() {
   const [headerPhoto, courses] = await Promise.all([
-    getMedia("workshop-session.jpg"),
+    getMedia("drive-selected/2026-09/ghanavirtual2.jpg"),
     getCourses(),
   ]);
 

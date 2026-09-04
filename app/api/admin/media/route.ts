@@ -14,6 +14,8 @@ export async function GET() {
     .order("created_at", { ascending: false })
     .limit(100);
   if (error)
+    console.error("[api/admin/media] media list failed:", error.message);
+  if (error)
     return NextResponse.json(
       { error: "Could not load media." },
       { status: 500 },

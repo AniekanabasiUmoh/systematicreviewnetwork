@@ -50,6 +50,17 @@ export const metadata: Metadata = {
     url: siteUrl,
   },
   twitter: { card: "summary_large_image" },
+  icons: {
+    icon: [
+      {
+        url: "/favicon.ico?v=2",
+        sizes: "16x16 32x32 48x48",
+        type: "image/x-icon",
+      },
+      { url: "/icon.png?v=2", sizes: "512x512", type: "image/png" },
+    ],
+    apple: { url: "/apple-icon.png?v=2", sizes: "180x180", type: "image/png" },
+  },
 };
 
 export default function RootLayout({
@@ -58,7 +69,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${archivo.variable} ${plexMono.variable} h-full`}>
+    <html
+      lang="en"
+      className={`${inter.variable} ${archivo.variable} ${plexMono.variable} h-full`}
+    >
       <body className="flex min-h-full flex-col">{children}</body>
     </html>
   );

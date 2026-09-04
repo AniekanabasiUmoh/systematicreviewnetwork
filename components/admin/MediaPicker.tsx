@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
 
 export type MediaItem = {
@@ -24,13 +24,35 @@ export function MediaPicker({
 }) {
   const [items, setItems] = useState<MediaItem[]>([]);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const load = useCallback(async (signal?: AbortSignal) => {
+    setLoading(true);
+    setError("");
+    try {
+      const response = await fetch("/api/admin/media", { signal });
+      const body = await response.json().catch(() => null);
+      if (!response.ok) {
+        throw new Error(body?.error ?? "Media could not be loaded.");
+      }
+      setItems(Array.isArray(body?.media) ? body.media : []);
+    } catch (cause) {
+      if (cause instanceof DOMException && cause.name === "AbortError") return;
+      setError(
+        cause instanceof Error ? cause.message : "Media could not be loaded.",
+      );
+    } finally {
+      if (!signal?.aborted) setLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
     if (!open) return;
-    fetch("/api/admin/media")
-      .then(async (r) => (r.ok ? r.json() : Promise.reject()))
-      .then((data) => setItems(data.media))
-      .catch(() => setError("Media could not be loaded."));
-  }, [open]);
+    const controller = new AbortController();
+    /* Defer the request one microtask so opening the dialog itself stays a
+       render-only transition; the network callback owns all state updates. */
+    void Promise.resolve().then(() => load(controller.signal));
+    return () => controller.abort();
+  }, [load, open]);
   if (!open) return null;
   return (
     <div
@@ -46,8 +68,25 @@ export function MediaPicker({
             Close
           </Button>
         </div>
-        {error ? (
-          <p className="text-tag-orange text-small mt-4">{error}</p>
+        {loading ? (
+          <p className="text-slate text-small mt-6">Loading images…</p>
+        ) : error ? (
+          <div role="alert" className="mt-6">
+            <p className="text-tag-orange text-small">{error}</p>
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={() => void load()}
+              className="mt-3"
+            >
+              Try again
+            </Button>
+          </div>
+        ) : items.length === 0 ? (
+          <p className="text-slate text-small mt-6">
+            No images are available yet. Upload one in Media, then open this
+            picker again.
+          </p>
         ) : (
           <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3">
             {items.map((item) => (

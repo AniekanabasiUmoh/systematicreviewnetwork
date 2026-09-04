@@ -53,7 +53,7 @@ const STEPS = [
 export default async function MentorshipPage() {
   const [programme, feature, testimonials] = await Promise.all([
     getProgrammeBySlug("mentorship"),
-    getMedia("workshop-full-room.jpg"),
+    getMedia("drive-selected/2026-09/ug3.jpg"),
     getTestimonials(1),
   ]);
   const testimonial = testimonials[0];

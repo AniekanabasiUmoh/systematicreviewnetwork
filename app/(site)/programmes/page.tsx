@@ -31,7 +31,7 @@ const href = (slug: string) =>
 
 export default async function ProgrammesPage() {
   const [headerPhoto, programmes] = await Promise.all([
-    getMedia("workshop-session.jpg"),
+    getMedia("drive-selected/2026-09/nigeriaphoto.jpg"),
     getProgrammes(),
   ]);
 

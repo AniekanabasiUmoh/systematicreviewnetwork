@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 export default async function AboutPage() {
   const [page, headerPhoto] = await Promise.all([
     getPageBySlug("about"),
-    getMedia("team-at-workshop-banner.jpg"),
+    getMedia("drive-selected/2026-09/ghana1.jpg"),
   ]);
 
   if (!page) notFound();

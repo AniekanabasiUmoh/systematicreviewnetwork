@@ -113,15 +113,11 @@ describe("application status transitions", () => {
 
 describe("submission date-range boundary (Lagos, UTC+01:00, no DST)", () => {
   it("computes an inclusive lower bound at Lagos midnight", () => {
-    expect(inclusiveLowerBound("2026-07-25")).toBe(
-      "2026-07-24T23:00:00.000Z",
-    );
+    expect(inclusiveLowerBound("2026-07-25")).toBe("2026-07-24T23:00:00.000Z");
   });
 
   it("computes an exclusive upper bound at the NEXT day's Lagos midnight", () => {
-    expect(exclusiveUpperBound("2026-07-25")).toBe(
-      "2026-07-25T23:00:00.000Z",
-    );
+    expect(exclusiveUpperBound("2026-07-25")).toBe("2026-07-25T23:00:00.000Z");
   });
 
   it("includes a timestamp late in the Lagos day (22:30 Lagos = 21:30Z)", () => {
@@ -208,7 +204,24 @@ describe("parseEmbedUrl", () => {
 
   it("accepts a youtu.be short link", () => {
     const result = parseEmbedUrl("https://youtu.be/dQw4w9WgXcQ", "A talk");
-    expect(result).toMatchObject({ ok: true, provider: "youtube", id: "dQw4w9WgXcQ" });
+    expect(result).toMatchObject({
+      ok: true,
+      provider: "youtube",
+      id: "dQw4w9WgXcQ",
+    });
+  });
+
+  it("accepts the supplied recorded webinar link with tracking parameters", () => {
+    const result = parseEmbedUrl(
+      "https://youtu.be/_InxC5t8KMk?si=4djtYpB5Ax0ePBvz",
+      "Systematic Review for Beginners: Understanding What, Why and How",
+    );
+    expect(result).toMatchObject({
+      ok: true,
+      provider: "youtube",
+      id: "_InxC5t8KMk",
+      inline: true,
+    });
   });
 
   it("rejects a lookalike host (never a substring match)", () => {
@@ -265,7 +278,11 @@ describe("parseEmbedUrl", () => {
 
   it("accepts a Vimeo link", () => {
     const result = parseEmbedUrl("https://vimeo.com/76979871", "A talk");
-    expect(result).toMatchObject({ ok: true, provider: "vimeo", id: "76979871" });
+    expect(result).toMatchObject({
+      ok: true,
+      provider: "vimeo",
+      id: "76979871",
+    });
   });
 
   it("rejects an unrecognised provider", () => {

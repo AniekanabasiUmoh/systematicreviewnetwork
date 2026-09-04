@@ -36,7 +36,16 @@ export async function getImpactStats() {
     .from("impact_stats")
     .select("*")
     .order("sort_order", { ascending: true });
-  return data ?? [];
+  /* The launch year belongs in the About narrative, not in a metric grid. The
+     migration removes the legacy row; this narrow defence keeps an old preview
+     or a partially migrated environment from re-publishing it. */
+  return (data ?? []).filter(
+    (stat) =>
+      !(
+        stat.label.trim().toLowerCase() === "launched" &&
+        stat.value.trim() === "2022"
+      ),
+  );
 }
 
 export async function getPartners() {

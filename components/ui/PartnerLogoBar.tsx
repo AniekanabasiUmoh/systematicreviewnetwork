@@ -1,4 +1,4 @@
-import { Figure } from "./Media";
+import { PartnerLogo } from "./PartnerLogo";
 
 /* §2.1 / §4 — the credibility bar directly under the hero (the ESI pattern).
    Greyscale by default, colour on hover, so a row of mismatched logos reads as
@@ -25,13 +25,11 @@ export function PartnerLogoBar({
       <ul className="mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-8">
         {partners.map((p) => {
           const logo = (
-            <Figure
+            <PartnerLogo
+              name={p.name}
               src={p.logo_url}
-              alt={p.logo_url ? p.name : ""}
               width={200}
               height={80}
-              label={p.name}
-              rounded={false}
               className="w-[140px]"
               imgClassName="object-contain grayscale opacity-70 transition-all duration-200 hover:grayscale-0 hover:opacity-100"
               sizes="140px"

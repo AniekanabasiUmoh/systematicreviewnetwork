@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Download } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 import { Section, Container } from "@/components/ui/Section";
 import { PageHeader } from "@/components/ui/PageHeader";
@@ -15,13 +15,12 @@ import {
   getReachCountries,
   getTestimonials,
   getImpactStories,
-  getResources,
   getMedia,
 } from "@/lib/queries";
 
 /* Sprint 2.5 — Impact. The reach map is the page's memorable device; the rest
    stays disciplined. Everything is data-driven (impact_stats, reach_countries,
-   testimonials, the impact-story-* pages, the publications resource category)
+   testimonials, and the impact-story-* pages)
    and the page reads correctly with zero JavaScript: the map has a list
    fallback, the counters server-render their real values. */
 
@@ -40,14 +39,13 @@ export const metadata: Metadata = {
 };
 
 export default async function ImpactPage() {
-  const [stats, countries, testimonials, stories, publications, headerPhoto] =
+  const [stats, countries, testimonials, stories, headerPhoto] =
     await Promise.all([
       getImpactStats(),
       getReachCountries(),
       getTestimonials(),
       getImpactStories(),
-      getResources("publication"),
-      getMedia("award-of-honour.jpg"),
+      getMedia("drive-selected/2026-09/srnrwanda.jpg"),
     ]);
 
   return (
@@ -154,62 +152,29 @@ export default async function ImpactPage() {
         </Section>
       ) : null}
 
-      {/* Reports / publications download. */}
-      {publications.length > 0 ? (
-        <Section surface="mist">
-          <Container>
-            <Thread />
-            <div className="mt-8 max-w-[56ch]">
-              <Eyebrow>Read the record</Eyebrow>
-              <h2 className="text-display text-ink mt-3 text-[clamp(1.5rem,3vw,2.1rem)] leading-[1.1]">
-                Our activities, in full
-              </h2>
-              <p className="text-slate mt-4 leading-relaxed">
-                The detail behind the numbers. What we ran, where, and what came
-                of it.
-              </p>
-            </div>
-            <ul className="mt-8 space-y-3">
-              {publications.map((pub) => {
-                const href = pub.file_url ?? pub.external_url;
-                return (
-                  <li key={pub.slug}>
-                    {href ? (
-                      <a
-                        href={href}
-                        className="border-hairline bg-paper hover:border-ink flex items-center justify-between gap-6 border p-5 transition-colors"
-                      >
-                        <span className="text-ink font-semibold">
-                          {pub.title}
-                        </span>
-                        <Icon
-                          icon={Download}
-                          size="sm"
-                          className="text-slate shrink-0"
-                        />
-                      </a>
-                    ) : (
-                      <Link
-                        href={`/resources/${pub.slug}`}
-                        className="border-hairline bg-paper hover:border-ink flex items-center justify-between gap-6 border p-5 transition-colors"
-                      >
-                        <span className="text-ink font-semibold">
-                          {pub.title}
-                        </span>
-                        <Icon
-                          icon={ArrowRight}
-                          size="sm"
-                          className="text-slate shrink-0"
-                        />
-                      </Link>
-                    )}
-                  </li>
-                );
-              })}
-            </ul>
-          </Container>
-        </Section>
-      ) : null}
+      {/* Publications belong in Resources, not in the impact-story index. */}
+      <Section surface="mist">
+        <Container>
+          <Thread />
+          <div className="mt-8 max-w-[56ch]">
+            <Eyebrow>Research publications</Eyebrow>
+            <h2 className="text-display text-ink mt-3 text-[clamp(1.5rem,3vw,2.1rem)] leading-[1.1]">
+              Read the evidence SRN has contributed to.
+            </h2>
+            <p className="text-slate mt-4 leading-relaxed">
+              Peer-reviewed publications and verified DOI links are kept in the
+              Resources library, separate from stories about SRN&apos;s work.
+            </p>
+            <Link
+              href="/resources?category=publication"
+              className="text-ink hover:text-evidence mt-6 inline-flex items-center gap-1.5 font-semibold"
+            >
+              Browse research publications
+              <Icon icon={ArrowRight} size="sm" />
+            </Link>
+          </div>
+        </Container>
+      </Section>
 
       <Section surface="paper">
         <Container>

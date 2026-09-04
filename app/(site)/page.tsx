@@ -72,10 +72,10 @@ export default async function HomePage() {
        scroll — which is what the client meant by "we could use many of the
        other photos in our collection, rather than one photo". Keep them
        distinct if you reorder or add a band. */
-    getMedia("workshop-participants.jpg"), // ctaImage
-    getMedia("award-of-honour.jpg"), // impactPhoto
-    getMedia("hero-facilitator-presenting.jpg"), // mentorPhoto
-    getMedia("workshop-full-room.jpg"), // aboutPhoto
+    getMedia("drive-selected/2026-09/ghana6.jpg"), // ctaImage
+    getMedia("drive-selected/2026-09/ghana7.jpg"), // impactPhoto
+    getMedia("drive-selected/2026-09/nigeriaph3.jpg"), // mentorPhoto
+    getMedia("drive-selected/2026-09/nigeriaph2.jpg"), // aboutPhoto
     getProgrammes(),
   ]);
 
