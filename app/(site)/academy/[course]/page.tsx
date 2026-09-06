@@ -39,13 +39,18 @@ export async function generateMetadata({
   params: Promise<{ course: string }>;
 }): Promise<Metadata> {
   const staff = await getSessionUser();
-  if (!staff) return { title: "SRN Academy — Coming soon" };
+  if (!staff)
+    return {
+      title: "SRN Academy — Coming soon",
+      robots: { index: false, follow: false },
+    };
   const { course: slug } = await params;
   const course = await getCourse(slug);
   if (!course) return { title: "Course not found" };
   return {
     title: course.title,
     description: course.summary ?? undefined,
+    robots: { index: false, follow: false },
   };
 }
 

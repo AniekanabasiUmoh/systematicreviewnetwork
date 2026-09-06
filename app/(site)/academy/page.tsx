@@ -28,6 +28,7 @@ export const metadata: Metadata = {
   title: "SRN Academy",
   description:
     "Structured courses in systematic reviews and meta-analysis, taught in full, assessed transparently, and certified by SRN.",
+  robots: { index: false, follow: false },
 };
 
 export default async function AcademyPage() {

@@ -6,23 +6,21 @@ import {
   getProgrammes,
   getResources,
 } from "@/lib/queries";
-import { getCourseSlugs } from "@/lib/academy/courses";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 const url = (path: string) => new URL(path, siteUrl).toString();
 
 /**
  * Keep public content discoverable without exposing admin, account, enrolment,
- * verification, or course-player routes to search engines.
+ * verification, Academy course, or course-player routes to search engines.
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [programmes, resources, events, news, stories, courses] = await Promise.all([
+  const [programmes, resources, events, news, stories] = await Promise.all([
     getProgrammes(),
     getResources(),
     getAllEvents(),
     getAllNews(),
     getImpactStories(),
-    getCourseSlugs(),
   ]);
 
   const staticPages: MetadataRoute.Sitemap = [
@@ -63,6 +61,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...stories.map((item) => ({
       url: url(`/impact/${item.slug}`),
     })),
-    ...courses.map((slug) => ({ url: url(`/academy/${slug}`) })),
   ];
 }
