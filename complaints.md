@@ -241,3 +241,23 @@ The empty report still needs clarification. The photo archive and test-course
 changes were intentionally narrow; no other Drive files, private PDFs, or
 unrelated content were modified. Items marked deployment-pending should be
 closed after the production deployment and cache/device checks pass.
+
+## 6 September 2026 follow-up
+
+### Academy temporarily hidden from public visitors
+
+The public `/academy` catalogue and direct `/academy/[course]` pages now show a
+clear “coming soon” message and do not fetch or render course details for
+anonymous visitors. Staff signed in through `/admin` retain a request-scoped
+preview of the catalogue and course pages, while `/admin/courses` remains the
+workspace for creating and editing Academy content. The pages are rendered per
+request so a staff response cannot be cached and served to the public.
+
+### Admin media upload failure
+
+The production `/admin/media` page was tested with the demo editor account. A
+real PNG upload completed successfully, appeared in the Recent images list with
+its alt text and public URL, and the temporary verification asset was then
+deleted. Existing media picker and server-error states remain in place for
+future storage/API failures. This confirms the urgent upload path needed for
+adding event banners is operational.

@@ -8,7 +8,7 @@ import { Eyebrow } from "@/components/ui/SectionHeader";
 import { ButtonLink } from "@/components/ui/Button";
 import { RichText } from "@/components/ui/RichText";
 import { Tag } from "@/components/ui/Tag";
-import { getCourse, getCourseSlugs, getCohortSeatCounts } from "@/lib/academy/courses";
+import { getCourse, getCohortSeatCounts } from "@/lib/academy/courses";
 import {
   cohortState,
   cohortLabel,
@@ -18,6 +18,7 @@ import {
   DELIVERY_LABELS,
 } from "@/lib/academy/cohorts";
 import { formatPrice, isFree } from "@/lib/events";
+import { getSessionUser } from "@/lib/admin/auth";
 
 /* Sprint 6.2 — a public course page showing the open cohort.
  *
@@ -27,17 +28,18 @@ import { formatPrice, isFree } from "@/lib/events";
  * they are, rather than silently vanishing. */
 
 export const revalidate = 60;
-
-export async function generateStaticParams() {
-  const slugs = await getCourseSlugs();
-  return slugs.map((course) => ({ course }));
-}
+/* Course pages are staff-previewable while the public Academy is closed. A
+ * request-specific staff check means a cached course response can never leak
+ * to an anonymous visitor. */
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ course: string }>;
 }): Promise<Metadata> {
+  const staff = await getSessionUser();
+  if (!staff) return { title: "SRN Academy — Coming soon" };
   const { course: slug } = await params;
   const course = await getCourse(slug);
   if (!course) return { title: "Course not found" };
@@ -58,6 +60,38 @@ export default async function CoursePage({
 }: {
   params: Promise<{ course: string }>;
 }) {
+  const staff = await getSessionUser();
+  if (!staff) {
+    return (
+      <>
+        <PageHeader
+          eyebrow="SRN Academy"
+          title="The Academy is coming soon."
+          lede="We are preparing our structured courses in systematic reviews and meta-analysis. Public enrolment will open here when the first intake is ready."
+        />
+        <Section surface="paper">
+          <Container>
+            <div className="max-w-2xl">
+              <h2 className="text-display text-ink text-[clamp(1.5rem,3vw,2rem)] leading-tight">
+                Check back soon.
+              </h2>
+              <p className="text-slate mt-4 leading-relaxed">
+                In the meantime, explore our programmes, resources, and events
+                or contact the team if you would like to hear about the first
+                Academy intake.
+              </p>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <ButtonLink href="/programmes">Explore programmes</ButtonLink>
+                <ButtonLink href="/contact" variant="secondary">
+                  Contact SRN
+                </ButtonLink>
+              </div>
+            </div>
+          </Container>
+        </Section>
+      </>
+    );
+  }
   const { course: slug } = await params;
   const course = await getCourse(slug);
   if (!course) notFound();
@@ -90,7 +124,9 @@ export default async function CoursePage({
               <div className="flex flex-wrap gap-2">
                 <Tag>{LEVEL_LABELS[course.level] ?? course.level}</Tag>
                 <Tag>{DELIVERY_LABELS[course.delivery] ?? course.delivery}</Tag>
-                {course.duration_label ? <Tag>{course.duration_label}</Tag> : null}
+                {course.duration_label ? (
+                  <Tag>{course.duration_label}</Tag>
+                ) : null}
               </div>
 
               {course.body_rich ? (
@@ -156,7 +192,10 @@ export default async function CoursePage({
               ) : (
                 <ul className="mt-4 space-y-6">
                   {current.map(({ cohort, state }) => (
-                    <li key={cohort.id} className="border-hairline border-b pb-6 last:border-b-0">
+                    <li
+                      key={cohort.id}
+                      className="border-hairline border-b pb-6 last:border-b-0"
+                    >
                       <p className="text-ink text-small font-semibold">
                         {cohort.label}
                       </p>
@@ -220,7 +259,10 @@ export default async function CoursePage({
               <div className="border-hairline mt-8 border-t pt-6">
                 <p className="text-slate text-small leading-relaxed">
                   Questions about whether this course is right for you?{" "}
-                  <Link href="/contact" className="text-ink underline underline-offset-2">
+                  <Link
+                    href="/contact"
+                    className="text-ink underline underline-offset-2"
+                  >
                     Ask us
                   </Link>
                   .
