@@ -5,6 +5,15 @@ const supabaseHost = process.env.NEXT_PUBLIC_SUPABASE_URL
   : undefined;
 
 const nextConfig: NextConfig = {
+  /* The media workflow accepts images up to 8 MB. Next's default Server Action
+     request limit is 1 MB, which made ordinary event photos fail before the
+     upload action could validate them. Keep this aligned with MAX_BYTES in
+     lib/actions/admin-media.ts. */
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "8mb",
+    },
+  },
   async redirects() {
     return [
       {

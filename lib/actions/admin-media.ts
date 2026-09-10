@@ -124,7 +124,17 @@ export async function uploadMedia(
   revalidatePath("/admin/media");
   return {
     status: "success",
-    message: `Image uploaded: ${publicData.publicUrl}`,
+    message: "Image uploaded and ready to use.",
+    data: {
+      media: {
+        id: data.id,
+        url: publicData.publicUrl,
+        file_name: file.name.slice(0, 255),
+        alt_text: parsed.data.alt_text,
+        width: parsed.data.width ?? null,
+        height: parsed.data.height ?? null,
+      },
+    },
   };
 }
 

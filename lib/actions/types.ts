@@ -10,7 +10,12 @@
 
 export type ActionState =
   | { status: "idle" }
-  | { status: "success"; message: string }
+  | {
+      status: "success";
+      message: string;
+      /** Optional action-specific payload (for example, a newly uploaded media row). */
+      data?: Record<string, unknown>;
+    }
   | {
       status: "error";
       formError?: string;

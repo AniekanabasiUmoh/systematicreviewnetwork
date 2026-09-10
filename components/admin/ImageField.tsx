@@ -30,6 +30,7 @@ export function ImageField({
             alt=""
             width={160}
             height={96}
+            unoptimized
             className="border-hairline h-20 w-32 border object-cover"
           />
         ) : null}

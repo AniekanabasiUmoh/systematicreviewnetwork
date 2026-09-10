@@ -261,3 +261,33 @@ its alt text and public URL, and the temporary verification asset was then
 deleted. Existing media picker and server-error states remain in place for
 future storage/API failures. This confirms the urgent upload path needed for
 adding event banners is operational.
+
+## 10 September 2026 follow-up
+
+### Event creation no longer requires a separate Media-library trip
+
+The previous event workflow forced staff to upload an image in `/admin/media`
+before opening `/admin/events/new`. That made the event form feel broken when
+the Media page returned an error and created an unnecessary two-step task.
+
+The image picker used by event banners (and other image fields) now includes an
+**Upload new** mode. Staff can choose a JPEG, PNG, GIF, or WebP, add alternative
+text, upload it from inside the event form, and have the new image selected
+automatically. The picker remains able to choose an existing library image,
+and failed previews now show a contained fallback instead of breaking the page.
+The server action limit is aligned with the documented 8 MB image limit so
+normal event photos are not rejected by Next.js before validation.
+
+### Verification
+
+- Real Playwright click-through on `http://localhost:3013/admin/events/new`
+  while signed in as the demo editor opened the picker, switched to **Upload
+  new**, uploaded a real PNG, and confirmed the form changed to **Replace
+  image** / **Remove** without navigating away.
+- The temporary Supabase storage object and media row were removed after the
+  test; no test event was saved.
+- Anonymous `/academy` shows **The Academy is coming soon** and does not render
+  course rows; the same browser session signed in as staff sees the course
+  catalogue preview.
+- Focused tests: 59/59 passed (`admin-content` and `academy-catalogue`).
+- TypeScript, changed-file ESLint, and `git diff --check` passed.
