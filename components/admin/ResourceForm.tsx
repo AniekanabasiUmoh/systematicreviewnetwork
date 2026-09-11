@@ -1,6 +1,7 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { FormMessage } from "@/components/ui/FormField";
 import { idle } from "@/lib/actions/types";
@@ -22,7 +23,15 @@ export function ResourceForm({
   resource: FormResource;
   initial?: Values | null;
 }) {
+  const router = useRouter();
   const [state, action, pending] = useActionState(saveResource, idle);
+
+  useEffect(() => {
+    if (initial?.id || state.status !== "success") return;
+    const id = state.data?.id;
+    if (typeof id === "string" && id) router.replace(`/admin/${resource.key}/${id}`);
+  }, [initial?.id, resource.key, router, state]);
+
   return (
     <form action={action} className="border-hairline bg-paper border p-6">
       <input type="hidden" name="resource" value={resource.key} />

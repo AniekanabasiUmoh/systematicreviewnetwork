@@ -135,7 +135,11 @@ export async function saveResource(
     String(result.data.id),
     String(payload.title ?? payload.name ?? resource.labelSingular),
   );
-  return { status: "success", message: `${resource.labelSingular} saved.` };
+  return {
+    status: "success",
+    message: `${resource.labelSingular} saved.`,
+    data: { id: String(result.data.id) },
+  };
 }
 
 export async function deleteResource(
