@@ -8,7 +8,11 @@ export type AdminRow = Record<string, unknown> & { id: string };
 export function escapePostgrestSearch(value: string) {
   return value
     .replace(/[\\%_]/g, "\\$&")
-    .replace(/[,().]/g, "")
+    // Commas and parentheses delimit the PostgREST `or` expression. A dot,
+    // however, is valid data in values such as email addresses and DOIs; the
+    // filter grammar only treats the dots before the operator specially.
+    // Removing it made otherwise valid admin searches silently miss results.
+    .replace(/[,()]/g, "")
     .trim();
 }
 

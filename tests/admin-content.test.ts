@@ -81,7 +81,8 @@ describe("admin content helpers", () => {
   });
 
   it("escapes PostgREST search grammar characters", () => {
-    expect(escapePostgrestSearch("alpha, beta.(%_)")).toBe("alpha beta\\%\\_");
+    expect(escapePostgrestSearch("alpha, beta.(%_)")).toBe("alpha beta.\\%\\_");
+    expect(escapePostgrestSearch("person@example.org")).toBe("person@example.org");
   });
 });
 
