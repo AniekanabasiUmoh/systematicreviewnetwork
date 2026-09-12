@@ -8,7 +8,7 @@ import { getPageBySlug } from "@/lib/queries";
 
 /* Sprint 2.7 — Terms of use, rendered from the editable `pages` row. */
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Terms of use",

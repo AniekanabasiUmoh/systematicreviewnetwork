@@ -35,12 +35,13 @@ import {
    The direction is editorial, not a card catalogue: a full-bleed two-weight
    hero, an ink photo-backed impact band, and programmes/events as typographic
    indexes rather than grids. Near-monochrome — plain white, ink, one green used
-   only on button fills. Every read is a server component; ISR revalidates 60s.
+   only on button fills. Every read is a server component; ISR revalidates hourly
+   and admin content saves trigger immediate path revalidation.
 
    Order leads a NEW visitor: hero → proof → what we do → where to start →
    what a review is → mentorship → events → voice → resources → partner. */
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 /* The homepage programme index reads the same published rows as the Programmes
    hub (Sprint 5.7), so the two can never drift apart. */

@@ -20,7 +20,7 @@ import {
    own bespoke, permanent page at /programmes/mentorship.
    Sprint 5.7 — reads from the database rather than a hard-coded array. */
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 /* Pre-render every published programme subpage except mentorship. */
 export async function generateStaticParams() {

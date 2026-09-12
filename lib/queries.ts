@@ -23,8 +23,9 @@ const db = createClient<Database>(url, anonKey, {
   auth: { persistSession: false },
 });
 
-/** ISR: content pages revalidate every 60s (§9 Phase 2). */
-export const REVALIDATE = 60;
+/** ISR: public content pages use a one-hour fallback; admin saves revalidate
+ * affected paths immediately through the server actions. */
+export const REVALIDATE = 3600;
 
 export async function getHomepage() {
   const { data } = await db.from("homepage").select("*").limit(1).maybeSingle();

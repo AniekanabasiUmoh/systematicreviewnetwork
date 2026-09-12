@@ -12,7 +12,7 @@ import type { Database } from "@/lib/database.types";
    greyscale, returning to colour on hover (PersonCard); where a photo is not
    yet uploaded, a labelled placeholder shows rather than a stock face. */
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Team",

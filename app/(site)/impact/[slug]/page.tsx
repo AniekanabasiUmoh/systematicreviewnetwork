@@ -7,7 +7,7 @@ import { getImpactStories, getPageBySlug } from "@/lib/queries";
    <RichText>. Only slugs that both match the convention and have a non-empty
    body resolve — anything else 404s, so a half-written draft never leaks. */
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export async function generateStaticParams() {
   const stories = await getImpactStories();

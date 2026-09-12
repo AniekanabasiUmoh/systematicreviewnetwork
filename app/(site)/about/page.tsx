@@ -9,11 +9,11 @@ import { CTABand } from "@/components/ui/Cards";
 import { getPageBySlug, getMedia } from "@/lib/queries";
 
 /* Sprint 2.2 — About. Story/mission/values from the editable `pages.about`
-   row (rendered through <RichText>), and a partner CTA. ISR 60s.
+   row (rendered through <RichText>), and a partner CTA. ISR 3600s.
    The leadership preview that used to sit here is hidden — see the comment
    further down — so this no longer needs team_members at all. */
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "About",

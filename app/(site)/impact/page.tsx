@@ -24,7 +24,7 @@ import {
    and the page reads correctly with zero JavaScript: the map has a list
    fallback, the counters server-render their real values. */
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 const UPCOMING_IMPACT_STORIES = [
   "A review that changed local practice",

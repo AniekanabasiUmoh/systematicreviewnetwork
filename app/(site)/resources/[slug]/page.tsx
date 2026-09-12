@@ -20,7 +20,7 @@ import { categoryLabel, resourceKind } from "@/lib/resources";
    - pending  → an honest "coming soon" state (never a dead link),
                 because several seeded resources don't have a file yet. */
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export async function generateMetadata({
   params,

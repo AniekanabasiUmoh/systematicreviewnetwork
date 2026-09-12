@@ -17,7 +17,7 @@ import { getAllNews, getNewsBySlug } from "@/lib/queries";
    Next resolves the more specific `events` segment first, so an event slug
    never falls through to here. */
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export async function generateStaticParams() {
   const news = await getAllNews();

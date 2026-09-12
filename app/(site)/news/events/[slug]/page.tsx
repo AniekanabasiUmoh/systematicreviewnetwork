@@ -38,7 +38,7 @@ import {
    state renders fully now — a past event shows its recording link when one
    exists, and nothing else pretends to be actionable. */
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export async function generateStaticParams() {
   const events = await getAllEvents();

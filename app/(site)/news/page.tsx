@@ -21,7 +21,7 @@ import type { EventType } from "@/lib/database.types";
    registration state machine, so "past" here and "This event has passed" on the
    detail page can never disagree. */
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "News & Events",

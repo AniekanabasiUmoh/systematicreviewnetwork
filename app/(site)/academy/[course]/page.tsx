@@ -27,7 +27,7 @@ import { getSessionUser } from "@/lib/admin/auth";
  * live enrol link, and past ones stay listed under a heading that says what
  * they are, rather than silently vanishing. */
 
-export const revalidate = 60;
+export const revalidate = 3600;
 /* Course pages are staff-previewable while the public Academy is closed. A
  * request-specific staff check means a cached course response can never leak
  * to an anonymous visitor. */

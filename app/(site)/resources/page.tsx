@@ -17,7 +17,7 @@ import {
    filtered views are shareable and the back button works. Server-rendered:
    the whole page reads correctly with zero JS. */
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Resources",

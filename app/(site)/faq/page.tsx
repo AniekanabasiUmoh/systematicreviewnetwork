@@ -14,7 +14,7 @@ import { getPageBySlug } from "@/lib/queries";
    Staff edit questions and answers as ordinary headings and paragraphs; the
    accordion structure is derived here, so the page stays fully data-driven. */
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Frequently asked questions",

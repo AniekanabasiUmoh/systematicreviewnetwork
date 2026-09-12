@@ -14,7 +14,7 @@ import { programmeIcon } from "@/lib/admin/programme-icons";
    from a hard-coded array into the database, so adding one is a row rather
    than a deploy; order comes from sort_order. */
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Programmes",

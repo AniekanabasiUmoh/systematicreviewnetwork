@@ -23,7 +23,7 @@ import { StatCounter } from "@/components/ui/StatCounter";
    but the checkout itself is Phase 4 — so the Donate section makes the case and
    routes to the enquiry for now, never showing a dead payment control. */
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Partner with SRN",

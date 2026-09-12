@@ -19,7 +19,7 @@ import {
 /* Sprint 2.3 — the flagship Mentorship page. Permanent and linkable; richer
    than a generic programme subpage because it's the offering SRN is known for. */
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Mentorship Programme",

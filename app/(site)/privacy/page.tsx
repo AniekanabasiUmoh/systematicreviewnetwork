@@ -9,7 +9,7 @@ import { getPageBySlug } from "@/lib/queries";
 /* Sprint 2.7 — Privacy policy, rendered from the editable `pages` row so staff
    can revise it without a deploy. */
 
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Privacy policy",
