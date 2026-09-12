@@ -41,13 +41,32 @@ export const NOT_PERMITTED_MESSAGE =
   "You don't have permission to do that. Ask an administrator if you need access.";
 
 /**
+ * Resolve the signed-in user, retrying once with the refresh token when the
+ * access token has expired between page load and a form submission. Middleware
+ * refreshes cookies for normal navigations, but a server action sees the
+ * request cookies that arrived with the form. Without this retry, a staffer
+ * who leaves a long event form open can get a misleading "session expired"
+ * response even though their refresh session is still valid.
+ */
+async function getAuthenticatedUser(
+  db: Awaited<ReturnType<typeof createSessionClient>>,
+) {
+  const { data: auth, error } = await db.auth.getUser();
+  if (auth.user) return auth.user;
+  if (!error) return null;
+
+  const { data: refreshed } = await db.auth.refreshSession();
+  return refreshed.user ?? null;
+}
+
+/**
  * Who is signed in, with their role — or null. Never throws, never
  * redirects. Use in layouts/nav where "signed out" is a renderable state.
  */
 export async function getSessionUser(): Promise<StaffUser | null> {
   const db = await createSessionClient();
-  const { data: auth } = await db.auth.getUser();
-  if (!auth.user) return null;
+  const authUser = await getAuthenticatedUser(db);
+  if (!authUser) return null;
 
   // Role is read on the SERVICE ROLE client, from the id the verified JWT
   // gave us. Never trust a role from the client, a cookie, or JWT metadata:
@@ -55,7 +74,7 @@ export async function getSessionUser(): Promise<StaffUser | null> {
   const { data } = await supabaseAdmin
     .from("profiles")
     .select("id, role, full_name, email")
-    .eq("id", auth.user.id)
+    .eq("id", authUser.id)
     .maybeSingle();
 
   if (!data) return null; // authenticated but not staff — treat as signed out
@@ -63,7 +82,7 @@ export async function getSessionUser(): Promise<StaffUser | null> {
 
   return {
     id: data.id,
-    email: data.email ?? auth.user.email ?? "",
+    email: data.email ?? authUser.email ?? "",
     role: data.role,
     full_name: data.full_name,
   };
@@ -117,13 +136,13 @@ export async function requireStaffAction(): Promise<
  */
 export async function getInstructor(): Promise<InstructorUser | null> {
   const db = await createSessionClient();
-  const { data: auth } = await db.auth.getUser();
-  if (!auth.user) return null;
+  const authUser = await getAuthenticatedUser(db);
+  if (!authUser) return null;
 
   const { data: profile } = await supabaseAdmin
     .from("profiles")
     .select("id, role, full_name, email")
-    .eq("id", auth.user.id)
+    .eq("id", authUser.id)
     .maybeSingle();
 
   if (!profile || profile.role !== "instructor") return null;
@@ -135,7 +154,7 @@ export async function getInstructor(): Promise<InstructorUser | null> {
 
   return {
     id: profile.id,
-    email: profile.email ?? auth.user.email ?? "",
+    email: profile.email ?? authUser.email ?? "",
     full_name: profile.full_name,
     cohortIds: (assignments ?? []).map((row) => row.cohort_id),
   };
