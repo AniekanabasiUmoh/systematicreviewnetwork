@@ -10,7 +10,6 @@ import { listAttendees } from "@/lib/events/certificates";
 import { TranslationFields } from "@/components/admin/TranslationFields";
 import { TRANSLATABLE_FIELDS, frTranslation } from "@/lib/admin/translatable";
 import { AttendanceCertificates } from "@/components/admin/AttendanceCertificates";
-import { PublishControl } from "@/components/admin/PublishControl";
 import { DeleteButton } from "@/components/admin/DeleteButton";
 import { RetireButton } from "@/components/admin/RetireButton";
 import { ArchiveButton } from "@/components/admin/ArchiveButton";
@@ -41,10 +40,11 @@ export default async function EditAdminResourcePage({
         title={`Edit ${resource.labelSingular}`}
         description="Changes are saved immediately to the draft copy. Publish only when the content is ready for the public site."
       />
-      {resource.publishable && status ? (
-        <PublishControl resource={resource.key} id={id} status={status} />
-      ) : null}
-      <ResourceForm resource={formResource(resource)} initial={row} />
+      <ResourceForm
+        resource={formResource(resource)}
+        initial={row}
+        publish={resource.publishable && status ? { id, status } : undefined}
+      />
       {resource.key === "events" ? (
         <section className="mt-10">
           <h2 className="text-display text-ink text-h3">Registration questions</h2>
