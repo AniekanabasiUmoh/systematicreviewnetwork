@@ -38,19 +38,25 @@ export default async function EditAdminResourcePage({
     <>
       <AdminPageHeader
         title={`Edit ${resource.labelSingular}`}
-        description="Changes are saved immediately to the draft copy. Publish only when the content is ready for the public site."
+        description={
+          resource.key === "events"
+            ? "Changes are saved automatically as you type. Publish when the event is ready for the public site."
+            : "Changes are saved to the draft copy when you submit the form. Publish only when the content is ready for the public site."
+        }
       />
       <ResourceForm
         resource={formResource(resource)}
         initial={row}
         publish={resource.publishable && status ? { id, status } : undefined}
+        autosave={resource.key === "events"}
       />
       {resource.key === "events" ? (
         <section className="mt-10">
           <h2 className="text-display text-ink text-h3">Registration questions</h2>
           <p className="text-slate text-small mt-2 mb-5 max-w-2xl">
-            Extra questions on this event&rsquo;s registration form. Answers appear in
-            the CSV export as their own columns.
+            Extra questions on the SRN registration form. Events with an
+            external registration link send visitors to that provider instead.
+            Answers appear in the CSV export as their own columns.
           </p>
           <EventQuestionsEditor eventId={id} questions={questions} />
         </section>

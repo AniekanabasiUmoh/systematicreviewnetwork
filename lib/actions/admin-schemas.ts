@@ -97,6 +97,7 @@ export const eventSchema = z
     ends_at: optionalLagosDateTime,
     location_type: z.enum(["online", "in_person"]),
     location_or_link: optionalText(500),
+    registration_url: optionalUrl,
     registration_opens: optionalLagosDateTime,
     registration_closes: optionalLagosDateTime,
     capacity: optionalNumber.refine(

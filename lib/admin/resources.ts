@@ -146,6 +146,14 @@ const resourceDefinitions = {
       {
         name: "location_or_link",
         label: "Location or joining link",
+        hint: "For online events, you can use the Zoom registration link here or in the dedicated field below.",
+        kind: "url",
+        wide: true,
+      },
+      {
+        name: "registration_url",
+        label: "External registration link",
+        hint: "Optional. Add a Zoom (or other provider) registration page to send visitors there instead of using the SRN form.",
         kind: "url",
         wide: true,
       },

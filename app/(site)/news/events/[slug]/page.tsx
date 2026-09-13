@@ -78,6 +78,7 @@ export default async function EventDetailPage({
 
   const dateLabel = formatEventDate(event.starts_at, event.ends_at);
   const priceLabel = formatPrice(event.price_kobo, event.currency);
+  const externalRegistrationUrl = getExternalRegistrationUrl(event);
   const seatsLeft =
     event.capacity != null ? Math.max(event.capacity - seatsTaken, 0) : null;
 
@@ -125,12 +126,16 @@ export default async function EventDetailPage({
                   <DetailRow icon={Calendar} label="When" value={dateLabel} />
                   <DetailRow
                     icon={MapPin}
-                    label={event.location_type === "online" ? "Online" : "Where"}
+                    label={
+                      event.location_type === "online" ? "Online" : "Where"
+                    }
                     value={
-                      event.location_or_link ??
-                      (event.location_type === "online"
+                      externalRegistrationUrl === event.location_or_link
                         ? "Delivered online"
-                        : "In person")
+                        : (event.location_or_link ??
+                          (event.location_type === "online"
+                            ? "Delivered online"
+                            : "In person"))
                     }
                     plain
                   />
@@ -150,7 +155,11 @@ export default async function EventDetailPage({
                 </dl>
 
                 <div className="border-hairline border-t p-5">
-                  <RegistrationPanel state={state} event={event} questions={questions} />
+                  <RegistrationPanel
+                    state={state}
+                    event={event}
+                    questions={questions}
+                  />
                 </div>
               </div>
             </aside>
@@ -202,7 +211,7 @@ function DetailRow({
           {label}
         </dt>
         <dd
-          className={`text-ink mt-1 text-small leading-snug ${plain ? "" : "capitalize"}`}
+          className={`text-ink text-small mt-1 leading-snug ${plain ? "" : "capitalize"}`}
         >
           {value}
         </dd>
@@ -225,6 +234,31 @@ function RegistrationPanel({
   if (!event) return null;
 
   if (state === "open") {
+    const externalRegistrationUrl = getExternalRegistrationUrl(event);
+
+    if (externalRegistrationUrl) {
+      return (
+        <div>
+          <p className="text-ink font-semibold">Register for this event</p>
+          <p className="text-slate text-small mt-2 leading-relaxed">
+            Registration is handled through our event provider. You&rsquo;ll
+            receive your confirmation and joining details directly from them.
+          </p>
+          <a
+            href={externalRegistrationUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-evidence text-paper hover:bg-evidence-ink mt-4 inline-flex w-full items-center justify-center gap-2 px-5 py-3 font-semibold transition-colors"
+          >
+            {externalRegistrationUrl.includes("zoom.us")
+              ? "Register on Zoom"
+              : "Register externally"}
+            <Icon icon={ArrowRight} size="sm" />
+          </a>
+        </div>
+      );
+    }
+
     const free = isFree(event.price_kobo);
     return (
       <div>
@@ -324,5 +358,17 @@ function RegistrationPanel({
         </p>
       )}
     </div>
+  );
+}
+
+function getExternalRegistrationUrl(
+  event: NonNullable<Awaited<ReturnType<typeof getEventBySlug>>>,
+) {
+  return (
+    event.registration_url ??
+    (event.location_type === "online" &&
+    /^https?:\/\//i.test(event.location_or_link ?? "")
+      ? event.location_or_link
+      : null)
   );
 }

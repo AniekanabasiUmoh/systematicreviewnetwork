@@ -19,9 +19,16 @@ export default async function NewAdminResourcePage({
     <>
       <AdminPageHeader
         title={`New ${resource.labelSingular}`}
-        description={`Create a new ${resource.labelSingular.toLowerCase()} and save it as a draft when it is ready for review.`}
+        description={
+          resource.key === "events"
+            ? "Complete the event details and a draft will be saved automatically as you type. Publish when it is ready for the public site."
+            : `Create a new ${resource.labelSingular.toLowerCase()} and save it as a draft when it is ready for review.`
+        }
       />
-      <ResourceForm resource={formResource(resource)} />
+      <ResourceForm
+        resource={formResource(resource)}
+        autosave={resource.key === "events"}
+      />
     </>
   );
 }

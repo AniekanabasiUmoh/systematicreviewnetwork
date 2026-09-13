@@ -3,7 +3,7 @@
 import { useActionState } from "react";
 import { Button } from "@/components/ui/Button";
 import { FormMessage } from "@/components/ui/FormField";
-import { setPublishStatus } from "@/lib/actions/admin-content";
+import { publishResource } from "@/lib/actions/admin-content";
 import { idle } from "@/lib/actions/types";
 import type { AdminResourceKey } from "@/lib/admin/resources";
 
@@ -16,7 +16,7 @@ export function PublishControl({
   id: string;
   status: "draft" | "published";
 }) {
-  const [state, action, pending] = useActionState(setPublishStatus, idle);
+  const [state, action, pending] = useActionState(publishResource, idle);
   const next = status === "published" ? "draft" : "published";
   return (
     <form

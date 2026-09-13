@@ -61,6 +61,7 @@ export async function saveResource(
     return { status: "error", fieldErrors: fieldErrorsFrom(parsed.error) };
 
   const id = formValue(form, "id") || undefined;
+  const isAutosave = formValue(form, "autosave") === "1";
   if (resource.slugColumn) {
     const value = parsed.data as Record<string, unknown>;
     const candidate = value[resource.slugColumn];
@@ -128,16 +129,20 @@ export async function saveResource(
     ? String(payload[resource.slugColumn] ?? "")
     : undefined;
   revalidate(resource, oldSlug, newSlug);
-  void recordAudit(
-    auth.user,
-    id ? "update" : "create",
-    resource.key,
-    String(result.data.id),
-    String(payload.title ?? payload.name ?? resource.labelSingular),
-  );
+  if (!isAutosave) {
+    void recordAudit(
+      auth.user,
+      id ? "update" : "create",
+      resource.key,
+      String(result.data.id),
+      String(payload.title ?? payload.name ?? resource.labelSingular),
+    );
+  }
   return {
     status: "success",
-    message: `${resource.labelSingular} saved.`,
+    message: isAutosave
+      ? `${resource.labelSingular} draft saved automatically.`
+      : `${resource.labelSingular} saved.`,
     data: { id: String(result.data.id) },
   };
 }
@@ -350,6 +355,37 @@ export async function setPublishStatus(
     status: "success",
     message: status === "published" ? "Published." : "Moved back to draft.",
   };
+}
+
+/**
+ * Publish the latest form values in one action. This is deliberately separate
+ * from the status-only toggle: when Publish sits beside an autosaving form,
+ * the click must include the final keystrokes even if the debounce timer has
+ * not fired yet.
+ */
+export async function publishResource(
+  _prev: ActionState,
+  form: FormData,
+): Promise<ActionState> {
+  const resource = getResource(formValue(form, "resource"));
+  if (!resource?.publishable) {
+    return { status: "error", formError: "That item cannot be published." };
+  }
+
+  const saveForm = new FormData();
+  for (const [name, value] of form.entries()) saveForm.append(name, value);
+  saveForm.delete("autosave");
+  const saved = await saveResource(idle, saveForm);
+  if (saved.status !== "success") return saved;
+
+  const id = String(saved.data?.id ?? "");
+  if (!id) return { status: "error", formError: "We could not publish this item." };
+
+  const publishForm = new FormData();
+  publishForm.set("resource", resource.key);
+  publishForm.set("id", id);
+  publishForm.set("status", "published");
+  return setPublishStatus(idle, publishForm);
 }
 
 export async function reorderResource(

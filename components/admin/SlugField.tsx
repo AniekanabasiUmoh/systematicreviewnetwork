@@ -9,12 +9,14 @@ export function SlugField({
   defaultValue,
   sourceId,
   error,
+  required,
 }: {
   name: string;
   label: string;
   defaultValue?: string;
   sourceId?: string;
   error?: string;
+  required?: boolean;
 }) {
   const [value, setValue] = useState(defaultValue ?? "");
   const [edited, setEdited] = useState(Boolean(defaultValue));
@@ -35,6 +37,7 @@ export function SlugField({
         id={name}
         name={name}
         value={value}
+        required={required}
         onChange={(event) => {
           setEdited(true);
           setValue(slugify(event.target.value));

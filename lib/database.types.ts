@@ -648,6 +648,7 @@ export type Database = {
           programme_id: string | null;
           archived_at: string | null;
           translations: Json;
+          registration_url: string | null;
         };
         Insert: {
           id?: string;
@@ -673,6 +674,7 @@ export type Database = {
           programme_id?: string | null;
           archived_at?: string | null;
           translations?: Json;
+          registration_url?: string | null;
         };
         Update: {
           id?: string;
@@ -698,6 +700,7 @@ export type Database = {
           programme_id?: string | null;
           archived_at?: string | null;
           translations?: Json;
+          registration_url?: string | null;
         };
         Relationships: [];
       };

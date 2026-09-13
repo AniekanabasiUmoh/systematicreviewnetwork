@@ -63,6 +63,7 @@ export function AdminFormField({
         defaultValue={textValue(value)}
         sourceId={field.slugFrom ?? "title"}
         error={error}
+        required={field.required}
       />
     );
 
@@ -107,6 +108,7 @@ export function AdminFormField({
           id={field.name}
           name={field.name}
           defaultValue={textValue(value) || field.defaultValue || ""}
+          required={field.required}
           className={cls}
         >
           <option value="">
