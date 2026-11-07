@@ -126,6 +126,7 @@ function FilterChip({
 }) {
   return (
     <Link
+      prefetch={false}
       href={href}
       aria-current={active ? "true" : undefined}
       className={`inline-flex items-center px-4 py-2 text-small font-semibold transition-colors ${

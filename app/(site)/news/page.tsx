@@ -226,6 +226,7 @@ function Toggle({
 }) {
   return (
     <Link
+      prefetch={false}
       href={href}
       aria-current={active ? "true" : undefined}
       className={`text-small px-5 py-2.5 font-semibold transition-colors ${
@@ -248,6 +249,7 @@ function FilterChip({
 }) {
   return (
     <Link
+      prefetch={false}
       href={href}
       aria-current={active ? "true" : undefined}
       className={`text-small inline-flex items-center px-4 py-2 font-semibold transition-colors ${
