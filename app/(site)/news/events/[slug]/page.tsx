@@ -38,7 +38,8 @@ import {
    state renders fully now — a past event shows its recording link when one
    exists, and nothing else pretends to be actionable. */
 
-export const revalidate = 3600;
+// Registration badges and seat displays have a short cache; submission checks stay live.
+export const revalidate = 30;
 
 export async function generateStaticParams() {
   const events = await getAllEvents();

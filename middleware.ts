@@ -1,3 +1,4 @@
+import { encodeFilterKey } from "@/lib/public-filters";
 import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware-client";
 
@@ -30,10 +31,14 @@ const PUBLIC_ADMIN_PATHS = new Set([
 const LEARNER_PATHS = ["/account", "/academy/enrol", "/academy/learn"];
 
 export async function middleware(request: NextRequest) {
+  const filtered = publicFilterResponse(request);
+  if (filtered) return filtered;
   const { response, user } = await updateSession(request);
   const { pathname, search } = request.nextUrl;
 
-  if (LEARNER_PATHS.some((p) => pathname === p || pathname.startsWith(p + "/"))) {
+  if (
+    LEARNER_PATHS.some((p) => pathname === p || pathname.startsWith(p + "/"))
+  ) {
     if (!user) {
       const url = request.nextUrl.clone();
       url.pathname = "/academy/sign-in";
@@ -73,8 +78,27 @@ export async function middleware(request: NextRequest) {
   return response;
 }
 
+const PUBLIC_FILTERS: Record<string, readonly string[]> = {
+  "/news": ["view", "type"],
+  "/resources": ["category"],
+};
+
+function publicFilterResponse(request: NextRequest) {
+  const allowed = PUBLIC_FILTERS[request.nextUrl.pathname];
+  if (!allowed) return null;
+  const key = encodeFilterKey(request.nextUrl.searchParams, allowed);
+  if (!key) return NextResponse.next();
+  const url = request.nextUrl.clone();
+  url.pathname += "/filtered/" + key;
+  url.search = "";
+  return NextResponse.rewrite(url);
+}
+
 export const config = {
   matcher: [
+    { source: "/news", has: [{ type: "query", key: "view" }] },
+    { source: "/news", has: [{ type: "query", key: "type" }] },
+    { source: "/resources", has: [{ type: "query", key: "category" }] },
     "/admin/:path*",
     "/account/:path*",
     "/account",

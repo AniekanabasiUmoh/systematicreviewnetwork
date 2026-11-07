@@ -20,7 +20,15 @@ if (!url || !anonKey) {
 }
 
 const db = createClient<Database>(url, anonKey, {
-  auth: { persistSession: false },
+  auth: { persistSession: false, autoRefreshToken: false },
+  global: {
+    fetch: (input, init) =>
+      fetch(input, {
+        ...init,
+        cache: "force-cache",
+        next: { revalidate: 300, tags: ["srn-public"] },
+      }),
+  },
 });
 
 /** ISR: public content pages use a one-hour fallback; admin saves revalidate

@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import { idle, type ActionState } from "@/lib/actions/types";
 import { requireStaffAction } from "@/lib/admin/auth";
 import { recordAudit } from "@/lib/admin/audit";
@@ -50,6 +50,8 @@ export async function setRegistrationClosed(
       formError: "We could not update registration for that event.",
     };
 
+  updateTag("srn-public");
+  revalidatePath("/news", "layout");
   revalidatePath("/admin/operations/registrations");
   void recordAudit(
     auth.user,
@@ -92,7 +94,10 @@ export async function setApplicationStatus(
     .eq("id", id)
     .maybeSingle();
   if (fetchError || !current)
-    return { status: "error", formError: "That application could not be found." };
+    return {
+      status: "error",
+      formError: "That application could not be found.",
+    };
 
   const from = current.status as ApplicationStatus;
   const to = nextRaw;
@@ -184,7 +189,10 @@ export async function sendApplicationOutcomeEmail(
   const subject = formValue(form, "subject").trim();
   const body = formValue(form, "body").trim();
   if (!id || !subject || !body)
-    return { status: "error", formError: "Write a subject and message before sending." };
+    return {
+      status: "error",
+      formError: "Write a subject and message before sending.",
+    };
 
   const { data: application } = await supabaseAdmin
     .from("applications")
@@ -192,15 +200,25 @@ export async function sendApplicationOutcomeEmail(
     .eq("id", id)
     .maybeSingle();
   if (!application)
-    return { status: "error", formError: "That application could not be found." };
+    return {
+      status: "error",
+      formError: "That application could not be found.",
+    };
 
   const result = await sendEmail({
     to: application.email,
     subject,
-    react: StaffMessage({ fullName: application.full_name, heading: subject, body }),
+    react: StaffMessage({
+      fullName: application.full_name,
+      heading: subject,
+      body,
+    }),
   });
   if (!result.ok)
-    return { status: "error", formError: "We could not send that email. Please try again." };
+    return {
+      status: "error",
+      formError: "We could not send that email. Please try again.",
+    };
 
   void recordAudit(
     auth.user,
@@ -229,7 +247,10 @@ export async function sendRegistrantMessage(
   const body = formValue(form, "body").trim();
   const recipientsRaw = formValue(form, "recipients");
   if (!subject || !body)
-    return { status: "error", formError: "Write a subject and message before sending." };
+    return {
+      status: "error",
+      formError: "Write a subject and message before sending.",
+    };
 
   let recipients: Array<{ full_name: string; email: string }>;
   try {
@@ -249,7 +270,11 @@ export async function sendRegistrantMessage(
         sendEmail({
           to: r.email,
           subject,
-          react: StaffMessage({ fullName: r.full_name, heading: subject, body }),
+          react: StaffMessage({
+            fullName: r.full_name,
+            heading: subject,
+            body,
+          }),
         }),
       ),
     );
@@ -287,7 +312,10 @@ export async function cancelRegistration(
   const id = formValue(form, "id");
   const refunded = formValue(form, "refunded") === "true";
   if (!id)
-    return { status: "error", formError: "That registration could not be found." };
+    return {
+      status: "error",
+      formError: "That registration could not be found.",
+    };
 
   const { error } = await supabaseAdmin
     .from("registrations")
@@ -297,7 +325,10 @@ export async function cancelRegistration(
     })
     .eq("id", id);
   if (error)
-    return { status: "error", formError: "We could not cancel this registration." };
+    return {
+      status: "error",
+      formError: "We could not cancel this registration.",
+    };
 
   revalidatePath("/admin/operations/registrations");
   void recordAudit(
@@ -323,7 +354,10 @@ export async function setAttendance(
   const id = formValue(form, "id");
   const attended = formValue(form, "attended") === "true";
   if (!id)
-    return { status: "error", formError: "That registration could not be found." };
+    return {
+      status: "error",
+      formError: "That registration could not be found.",
+    };
 
   const { error } = await supabaseAdmin
     .from("registrations")

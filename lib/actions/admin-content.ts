@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import { fieldErrorsFrom } from "@/lib/actions/schemas";
 import { idle, type ActionState } from "@/lib/actions/types";
 import { requireAdminAction, requireStaffAction } from "@/lib/admin/auth";
@@ -28,7 +28,12 @@ function revalidate(
   oldSlug?: string,
   newSlug?: string,
 ) {
-  for (const path of resource.revalidate) revalidatePath(path);
+  updateTag("srn-public");
+  for (const path of resource.revalidate) {
+    if (path === "/news" || path === "/resources")
+      revalidatePath(path, "layout");
+    else revalidatePath(path);
+  }
   for (const slug of [oldSlug, newSlug]) {
     if (!slug) continue;
     const path = publicPath((resource as { key?: string }).key ?? "", slug);
@@ -246,7 +251,10 @@ export async function retireProgramme(
 
   const resource = getResource("programmes");
   if (!resource)
-    return { status: "error", formError: "That content type is not available." };
+    return {
+      status: "error",
+      formError: "That content type is not available.",
+    };
 
   const previous = await getRow(resource, id);
   const { error } = await supabaseAdmin
@@ -254,7 +262,10 @@ export async function retireProgramme(
     .update({ archived_at: new Date().toISOString(), status: "draft" })
     .eq("id", id);
   if (error)
-    return { status: "error", formError: "We could not retire this programme." };
+    return {
+      status: "error",
+      formError: "We could not retire this programme.",
+    };
 
   const slug = String(previous?.slug ?? "");
   revalidate(resource, slug, slug);
@@ -307,7 +318,8 @@ export async function archiveResource(
   );
   return {
     status: "success",
-    message: "Event archived. It is no longer on the public site; registrations are kept.",
+    message:
+      "Event archived. It is no longer on the public site; registrations are kept.",
   };
 }
 
@@ -379,7 +391,8 @@ export async function publishResource(
   if (saved.status !== "success") return saved;
 
   const id = String(saved.data?.id ?? "");
-  if (!id) return { status: "error", formError: "We could not publish this item." };
+  if (!id)
+    return { status: "error", formError: "We could not publish this item." };
 
   const publishForm = new FormData();
   publishForm.set("resource", resource.key);
