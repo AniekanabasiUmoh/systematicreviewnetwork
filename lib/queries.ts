@@ -26,7 +26,7 @@ const db = createClient<Database>(url, anonKey, {
       fetch(input, {
         ...init,
         cache: "force-cache",
-        next: { revalidate: 300, tags: ["srn-public"] },
+        next: { revalidate: 3600, tags: ["srn-public"] },
       }),
   },
 });

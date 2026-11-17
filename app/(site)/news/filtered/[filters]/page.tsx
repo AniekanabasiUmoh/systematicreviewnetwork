@@ -4,7 +4,7 @@ import { parseFilterKey } from "@/lib/public-filters";
 export { metadata } from "@/components/public/NewsPage";
 
 export const dynamic = "force-static";
-export const revalidate = 30;
+export const revalidate = 300;
 export function generateStaticParams() {
   return [];
 }

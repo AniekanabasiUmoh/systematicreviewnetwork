@@ -76,7 +76,7 @@ export function EventCard({
         </div>
 
         <h3 className="text-ink mt-3 text-[1.0625rem] leading-snug font-semibold">
-          <Link
+          <Link prefetch={false}
             href={href}
             className="hover:text-evidence after:absolute after:inset-0 focus-visible:outline-none"
           >
@@ -158,7 +158,7 @@ export function NewsCard({
       )}
 
       <h3 className="text-ink mt-2 text-[1.1875rem] leading-snug font-semibold">
-        <Link
+        <Link prefetch={false}
           href={href}
           className="hover:text-evidence after:absolute after:inset-0 focus-visible:outline-none"
         >

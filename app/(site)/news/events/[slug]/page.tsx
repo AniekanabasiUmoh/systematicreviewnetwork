@@ -39,7 +39,7 @@ import {
    exists, and nothing else pretends to be actionable. */
 
 // Registration badges and seat displays have a short cache; submission checks stay live.
-export const revalidate = 30;
+export const revalidate = 300;
 
 export async function generateStaticParams() {
   const events = await getAllEvents();

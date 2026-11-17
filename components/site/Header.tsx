@@ -23,14 +23,7 @@ const NAV = [
 
 const HIGHLIGHT = { href: "/partner", label: "Partner with SRN" };
 
-/* Routes still to be built (Sprints 2.2–2.7). Next prefetches every visible
-   <Link> on load, so linking to a route that does not exist yet fires a 404 per
-   item and fills the console. Prefetch is disabled for these until the pages
-   land; delete this set as each sprint completes. */
-const NOT_BUILT_YET = new Set<string>([]);
-
-const prefetchFor = (href: string) =>
-  NOT_BUILT_YET.has(href) ? false : undefined;
+// Navigate on intent instead of warming every header destination.
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -140,7 +133,7 @@ export function Header() {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  prefetch={prefetchFor(item.href)}
+                  prefetch={false}
                   aria-current={isActive(item.href) ? "page" : undefined}
                   className={`text-small font-medium transition-colors ${
                     isActive(item.href)
@@ -158,7 +151,7 @@ export function Header() {
         <div className="flex items-center gap-3">
           <Link
             href={HIGHLIGHT.href}
-            prefetch={prefetchFor(HIGHLIGHT.href)}
+            prefetch={false}
             className="bg-evidence text-paper hover:bg-evidence-ink text-small hidden px-4 py-2 font-semibold transition-colors lg:inline-flex"
           >
             {HIGHLIGHT.label}
@@ -214,6 +207,7 @@ export function Header() {
               {NAV.map((item) => (
                 <li key={item.href}>
                   <Link
+                    prefetch={false}
                     href={item.href}
                     aria-current={isActive(item.href) ? "page" : undefined}
                     className={`block rounded-lg py-3 text-[1.125rem] font-medium ${
@@ -227,7 +221,7 @@ export function Header() {
             </ul>
             <Link
               href={HIGHLIGHT.href}
-              prefetch={prefetchFor(HIGHLIGHT.href)}
+              prefetch={false}
               className="bg-evidence text-paper mt-6 flex items-center justify-center px-5 py-3 font-semibold"
             >
               {HIGHLIGHT.label}

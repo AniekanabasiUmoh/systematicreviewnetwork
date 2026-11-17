@@ -15,7 +15,7 @@ test('anonymous content is shared; service-role seat counts never use that cache
     const queries = await import('../lib/queries.ts');
     assert.deepEqual(await queries.getAllEvents(), []);
     assert.equal(requests[0].cache, 'force-cache');
-    assert.equal(requests[0].next.revalidate, 300);
+    assert.equal(requests[0].next.revalidate, 3600);
     assert.deepEqual(requests[0].next.tags, ['srn-public']);
     assert.deepEqual(await queries.getSeatCounts(['event-id']), {});
     assert.equal(requests[1].next, undefined);
